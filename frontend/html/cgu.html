@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>Conditions Générales d'Utilisation • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /*=========================================================
+        RESET & BASE – FOND BLEU CLAIR AVEC CIEL ÉTOILÉ
+        =========================================================*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Outfit", sans-serif;
+            background: #f0f8ff;
+            color: #1a2a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+            touch-action: manipulation;
+        }
+
+        /* Ciel étoilé */
+        .sky {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, #87CEEB 0%, #b8dff0 40%, #d6ecf5 70%, #f0f8ff 100%);
+        }
+        .sky::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.3) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .stars-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 6px rgba(255,255,255,0.5);
+        }
+        .star:nth-child(odd) { animation-duration: 2.5s; }
+        .star:nth-child(3n) { animation-duration: 4s; }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        .shooting-star {
+            position: fixed;
+            top: -80px;
+            left: -200px;
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(255,255,255,0.3));
+            border-radius: 100px;
+            transform: rotate(-25deg);
+            z-index: 0;
+            opacity: 0;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
+            animation: shootingStar 8s linear infinite;
+        }
+        @keyframes shootingStar {
+            0% { opacity: 0; transform: translate(-200px, -80px) rotate(-25deg); }
+            5% { opacity: 1; }
+            20% { opacity: 1; }
+            25% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); }
+            100% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); }
+        }
+
+        /*=========================================================
+        HEADER – CENTRÉ (sans bouton retour)
+        =========================================================*/
+        .cgu-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(135,206,235,0.15);
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0a2a44;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(255,255,255,0.3);
+        }
+        .header-brand span {
+            color: #1a5276;
+        }
+
+        /*=========================================================
+        CONTENU – CARTES CLAIRES
+        =========================================================*/
+        .cgu-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            width: 100%;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .cgu-container h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: #0a2a44;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .cgu-container .subtitle {
+            color: #4a6a8a;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding-bottom: 20px;
+        }
+        .cgu-container .last-update {
+            color: #6a8aaa;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .cgu-section {
+            margin-bottom: 32px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .cgu-section:hover {
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+        }
+        .cgu-section h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a3a5a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cgu-section h2 .icon {
+            color: #2d73ff;
+            font-size: 1.1rem;
+        }
+        .cgu-section p {
+            color: #1a2a3a;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .cgu-section ul {
+            margin-top: 10px;
+            padding-left: 8px;
+        }
+        .cgu-section ul li {
+            color: #1a2a3a;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            padding: 4px 0 4px 24px;
+            position: relative;
+        }
+        .cgu-section ul li::before {
+            content: "•";
+            color: #2d73ff;
+            position: absolute;
+            left: 4px;
+            font-weight: 700;
+        }
+
+        .cgu-section .highlight-box {
+            background: rgba(45,115,255,0.06);
+            border-left: 3px solid #2d73ff;
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 12px;
+        }
+        .cgu-section .highlight-box p {
+            color: #1a2a3a;
+            font-size: 0.9rem;
+        }
+
+        /*=========================================================
+        DERNIÈRE MISE À JOUR
+        =========================================================*/
+        .update-note {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+        }
+        .update-note .last-update {
+            color: #4a6a8a;
+            font-size: 0.9rem;
+        }
+
+        /*=========================================================
+        NOTIFICATION
+        =========================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Indicateur de swipe */
+        .swipe-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(10,42,68,0.4);
+            font-size: 0.7rem;
+            background: rgba(255,255,255,0.5);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            pointer-events: none;
+            animation: pulseHint 2s ease-in-out infinite;
+        }
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+
+        /*=========================================================
+        RESPONSIVE
+        =========================================================*/
+        @media (max-width: 768px) {
+            .cgu-header {
+                padding: 12px 16px;
+            }
+            .cgu-container {
+                padding: 20px 16px 60px;
+            }
+            .cgu-section {
+                padding: 18px;
+            }
+            .swipe-hint {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-brand {
+                font-size: 1.3rem;
+            }
+            .cgu-section h2 {
+                font-size: 1rem;
+            }
+            .cgu-section p,
+            .cgu-section ul li {
+                font-size: 0.88rem;
+            }
+        }
+
+        /* =========================================================
+           MODE SOMBRE — n'existait pas du tout sur cette page (ni sur
+           cgv.html/privacy.html/cookies.html) alors que 20+ autres pages
+           du site le supportent déjà. Suit automatiquement la préférence
+           déjà choisie ailleurs sur le site (localStorage 'sineTheme'),
+           sans nécessiter de sélecteur propre à cette page.
+           ========================================================= */
+        [data-theme="dark"] body { background: linear-gradient(180deg, #0a1420 0%, #0f1c2e 100%); color: #dbe6f2; }
+        [data-theme="dark"] .cgu-container h1 { color: #e8f0fa; }
+        [data-theme="dark"] .cgu-container .subtitle { color: #8ba5c4; border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .cgu-container .last-update,
+        [data-theme="dark"] .update-note .last-update { color: #7893b3; }
+        [data-theme="dark"] .cgu-section { background: rgba(15,28,46,0.85); border-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .cgu-section h2 { color: #cfe0f5; }
+        [data-theme="dark"] .cgu-section p, [data-theme="dark"] .cgu-section li { color: #b7c8dc; }
+        [data-theme="dark"] .cgu-section .highlight-box { background: rgba(45,115,255,0.12); }
+        [data-theme="dark"] .cgu-section .highlight-box p { color: #dbe6f2; }
+        [data-theme="dark"] .update-note { color: #7893b3; }
+        /* =========================================================
+   MODE SOMBRE — CORRECTION COMPLÈTE
+   ========================================================= */
+[data-theme="dark"] body { 
+    background: linear-gradient(180deg, #0a1420 0%, #0f1c2e 100%); 
+    color: #dbe6f2; 
+}
+[data-theme="dark"] .cgu-container h1 { 
+    color: #e8f0fa; 
+}
+[data-theme="dark"] .cgu-container .subtitle { 
+    color: #8ba5c4; 
+    border-bottom-color: rgba(255,255,255,0.08); 
+}
+[data-theme="dark"] .cgu-container .last-update,
+[data-theme="dark"] .update-note .last-update { 
+    color: #7893b3; 
+}
+[data-theme="dark"] .cgu-section { 
+    background: rgba(15,28,46,0.85); 
+    border-color: rgba(255,255,255,0.06); 
+}
+[data-theme="dark"] .cgu-section h2 { 
+    color: #cfe0f5; 
+}
+[data-theme="dark"] .cgu-section p, 
+[data-theme="dark"] .cgu-section ul li { 
+    color: #b7c8dc; 
+}
+[data-theme="dark"] .cgu-section .highlight-box { 
+    background: rgba(45,115,255,0.12); 
+}
+[data-theme="dark"] .cgu-section .highlight-box p { 
+    color: #dbe6f2; 
+}
+[data-theme="dark"] .update-note { 
+    color: #7893b3; 
+}
+[data-theme="dark"] .sine-header {
+    background: rgba(10,20,40,0.95) !important;
+    border-bottom-color: rgba(255,255,255,0.06) !important;
+}
+[data-theme="dark"] .sine-header .sine-word-1,
+[data-theme="dark"] .sine-header .sine-word-3 {
+    color: #e8f0fa !important;
+}
+[data-theme="dark"] .swipe-hint {
+    color: rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.2);
+}
+[data-theme="dark"] #notification {
+    background: rgba(10,20,40,0.95);
+    color: #e8f0fa;
+    border-color: rgba(255,255,255,0.08);
+}
+    </style>
+    <script>
+        // Applique la préférence de thème déjà choisie ailleurs sur le
+        // site (Paramètres, dans client.html/vendeur.html/etc.) — pas de
+        // sélecteur propre à cette page, elle suit simplement ce qui a
+        // déjà été choisi, système par défaut si rien n'est enregistré.
+        (function() {
+            const saved = localStorage.getItem('sineTheme') || 'system';
+            const effective = saved === 'system'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : saved;
+            document.documentElement.setAttribute('data-theme', effective);
+        })();
+    </script>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- CIEL ÉTOILÉ -->
+    <!-- ===================================================== -->
+    <div class="sky"></div>
+    <div class="stars-container" id="starsContainer"></div>
+    <div class="shooting-star"></div>
+
+    <!-- ===================================================== -->
+    <!-- HEADER (sans bouton retour) -->
+    <!-- ===================================================== -->
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- CONTENU -->
+    <!-- ===================================================== -->
+    <main class="cgu-container">
+
+        <h1>Conditions Générales d'Utilisation</h1>
+        <p class="subtitle">En accédant et en utilisant cette plateforme, vous acceptez les présentes Conditions Générales d'Utilisation.</p>
+
+        <!-- Section 1 -->
+        <div class="cgu-section">
+            <h2><span class="icon">1.</span> Accès au site</h2>
+            <p>Le site est accessible à tout utilisateur disposant d’un accès à Internet. Certaines fonctionnalités nécessitent la création d’un compte utilisateur.</p>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="cgu-section">
+            <h2><span class="icon">2.</span> Comptes utilisateurs</h2>
+            <p>L’utilisateur est responsable de la confidentialité de ses identifiants. Toute activité réalisée depuis son compte reste sous sa responsabilité.</p>
+            <div class="highlight-box">
+                <p><i class="fa-solid fa-shield-halved" style="color:#2d73ff;margin-right:8px;"></i> <strong>Recommandation :</strong> Utilisez un mot de passe unique et fort pour protéger votre compte.</p>
+            </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="cgu-section">
+            <h2><span class="icon">3.</span> Comportement des utilisateurs</h2>
+            <p>Il est interdit de :</p>
+            <ul>
+                <li>Usurper l’identité d’une autre personne</li>
+                <li>Publier des articles compromettants ou susceptibles de nuire à autrui</li>
+                <li>Publier des contenus illégaux ou offensants</li>
+                <li>Tenter de pirater ou perturber la plateforme</li>
+            </ul>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="cgu-section">
+            <h2><span class="icon">4.</span> Suspension de compte</h2>
+            <p>Nous nous réservons le droit de suspendre ou supprimer tout compte ne respectant pas les présentes règles.</p>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="cgu-section">
+            <h2><span class="icon">5.</span> Modification des conditions</h2>
+            <p>Les présentes conditions peuvent être modifiées à tout moment. Les utilisateurs seront informés des mises à jour importantes.</p>
+        </div>
+
+        <!-- Section 6 - Règles sur les produits -->
+        <div class="cgu-section">
+            <h2><span class="icon">6.</span> Règles sur les Produits</h2>
+            <ul>
+                <li><strong>1.1</strong> Authenticité des produits — Tous les vendeurs doivent garantir que les produits sont authentiques et conformes à leur description.</li>
+                <li><strong>1.2</strong> Description obligatoire — Chaque produit doit contenir des informations claires : prix, état, caractéristiques et photos réelles.</li>
+                <li><strong>1.3</strong> Produits interdits — Il est interdit de vendre des produits illégaux, dangereux ou non autorisés par la loi.</li>
+                <li><strong>1.4</strong> Qualité minimale — Les produits doivent respecter un niveau de qualité correspondant à leur description.</li>
+                <li><strong>1.5</strong> Disponibilité réelle — Un produit affiché comme disponible doit réellement être en stock.</li>
+                <li><strong>1.6</strong> Mise à jour des annonces — Les vendeurs doivent mettre à jour ou supprimer les produits indisponibles.</li>
+                <li><strong>1.7</strong> Fausse publicité — Les images et descriptions ne doivent pas être trompeuses.</li>
+                <li><strong>1.8</strong> Contrôle de la plateforme — La plateforme peut supprimer tout produit non conforme sans préavis.</li>
+                <li><strong>1.9</strong> Catégorisation correcte — Chaque produit doit être placé dans la bonne catégorie.</li>
+                <li><strong>1.10</strong> Responsabilité du contenu — Le vendeur est responsable de tout contenu publié sur ses produits.</li>
+                <li><strong>1.11</strong> Informations obligatoires — Le vendeur doit fournir des informations précises concernant les tailles, matières, poids ou éventuels allergènes pour les produits de consommation.</li>
+            </ul>
+        </div>
+
+        <!-- Section 7 - Propriété intellectuelle -->
+        <div class="cgu-section">
+            <h2><span class="icon">7.</span> Propriété intellectuelle</h2>
+            <p>Le nom SINE.SHOP, son logo, sa charte visuelle, ses interfaces et l'ensemble des contenus édités par la plateforme (textes, illustrations, éléments graphiques) sont protégés par le droit de la propriété intellectuelle et demeurent la propriété exclusive de SINE.SHOP.</p>
+            <p>Les vendeurs conservent l'entière propriété des photos, descriptions et contenus qu'ils publient pour leurs produits, mais accordent à SINE.SHOP le droit de les afficher, reproduire et diffuser sur la plateforme et ses supports de communication (réseaux sociaux, publicités) dans le cadre normal de son activité.</p>
+            <p>Toute reproduction, représentation ou exploitation non autorisée de tout ou partie du site ou de son contenu, par quelque procédé que ce soit, est interdite et constitue une contrefaçon sanctionnée par la loi.</p>
+        </div>
+
+        <!-- Section 8 - Limitation de responsabilité -->
+        <div class="cgu-section">
+            <h2><span class="icon">8.</span> Limitation de responsabilité</h2>
+            <p>SINE.SHOP agit en tant qu'intermédiaire technique mettant en relation acheteurs, vendeurs, livreurs et affiliés. La plateforme ne fabrique, ne stocke et ne contrôle pas physiquement les produits vendus par les vendeurs tiers, et ne saurait être tenue responsable de leur qualité, conformité ou légalité, cette responsabilité incombant au vendeur.</p>
+            <p>SINE.SHOP met en œuvre des moyens raisonnables pour assurer la disponibilité et la sécurité du service, sans garantir une disponibilité continue et sans interruption, notamment en cas de maintenance, de panne technique ou de force majeure.</p>
+            <p>La responsabilité de SINE.SHOP ne saurait être engagée pour tout dommage indirect résultant de l'utilisation ou de l'impossibilité d'utiliser le service.</p>
+        </div>
+
+        <!-- Section 9 - Résiliation -->
+        <div class="cgu-section">
+            <h2><span class="icon">9.</span> Résiliation</h2>
+            <p>Tout utilisateur peut demander la fermeture temporaire ou la suppression définitive de son compte à tout moment depuis les paramètres de son espace personnel. La suppression définitive entraîne la perte de l'accès à l'historique des commandes, messages et données associées, sous réserve des durées de conservation légales.</p>
+            <p>SINE.SHOP se réserve le droit de suspendre ou résilier l'accès d'un utilisateur en cas de violation des présentes conditions, de comportement frauduleux ou de non-respect des règles de la plateforme, après notification lorsque les circonstances le permettent.</p>
+        </div>
+
+        <!-- Section 10 - Droit applicable et juridiction -->
+        <div class="cgu-section">
+            <h2><span class="icon">10.</span> Droit applicable et règlement des litiges</h2>
+            <p>Les présentes Conditions Générales d'Utilisation sont soumises au droit ivoirien. En cas de litige, une solution amiable sera recherchée en priorité entre les parties, notamment via le centre d'aide de la plateforme.</p>
+            <p>À défaut d'accord amiable, tout litige relatif à l'interprétation ou à l'exécution des présentes conditions relève de la compétence exclusive des tribunaux d'Abidjan, sous réserve des règles de compétence impératives applicables aux consommateurs.</p>
+        </div>
+
+        <!-- Dernière mise à jour -->
+        <div class="update-note">
+            <p class="last-update"><strong>Dernière mise à jour :</strong> Juin 2026</p>
+        </div>
+
+    </main>
+
+    <!-- Indicateur de swipe -->
+    <div class="swipe-hint"><i class="fa-solid fa-arrow-left"></i> Balayez pour revenir</div>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS -->
+    <!-- ===================================================== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================================================
+            // ÉTOILES
+            // =====================================================
+            (function createStars() {
+                const container = document.getElementById('starsContainer');
+                if (!container) return;
+                const count = Math.min(80, Math.floor(window.innerWidth / 10));
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animationDelay = (Math.random() * 5) + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(star);
+                }
+            })();
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' : '4px solid #f59e0b';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(function() {
+                    notif.classList.remove('show');
+                }, 4000);
+            }
+
+            // =====================================================
+            // ACCEPTER
+            // =====================================================
+            // =====================================================
+            // SWIPE NAVIGATION
+            // =====================================================
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isSwiping = false;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+                isSwiping = true;
+            }, { passive: true });
+
+            document.addEventListener('touchmove', function(e) {
+                // Pas d'action pendant le déplacement
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                if (!isSwiping) return;
+                isSwiping = false;
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+
+                // Swipe de gauche à droite → retour arrière
+                if (diff < -60) {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+                // Swipe de droite à gauche → accueil
+                else if (diff > 60) {
+                    window.location.href = '../html/index.html';
+                }
+            }, { passive: true });
+
+            // =====================================================
+            // KEYBOARD (Échap pour retour)
+            // =====================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+            });
+
+            console.log('✅ CGU SINE.SHOP chargées – navigation par swipe activée');
+        })();
+    </script>
+
+</body>
+</html>

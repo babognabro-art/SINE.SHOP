@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a2a44">
+    <title>SINE.PAY • Paiement sécurisé</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f8ff;
+            color: #1a2a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* ===== HEADER ===== */
+        .sinepay-header {
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            padding: 14px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 2px;
+        }
+        .header-brand span { color: #72b6ff; }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-actions .btn-back {
+            padding: 6px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.04);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.15); color: white; }
+        .header-actions .btn-logout {
+            padding: 6px 16px;
+            border-radius: 30px;
+            background: rgba(239,68,68,0.15);
+            color: #f87171;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid rgba(239,68,68,0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-actions .btn-logout:hover { background: rgba(239,68,68,0.25); }
+        .header-actions .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .header-actions .lang-select option { background: #1a1a2e; color: white; }
+
+        /* ===== CONTENEUR ===== */
+        .sinepay-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 24px 60px;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* ===== BANNIÈRE SÉCURITÉ ===== */
+        .security-banner {
+            background: linear-gradient(135deg, #0a2a44, #1a4a6a);
+            border-radius: 28px;
+            padding: 24px 32px;
+            color: white;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .security-banner .icon-big { font-size: 2.5rem; color: #72b6ff; }
+        .security-banner .title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .security-banner .subtitle { font-size: 0.9rem; opacity: 0.8; }
+        .security-banner .badge {
+            background: rgba(114,182,255,0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(114,182,255,0.2);
+        }
+
+        /* ===== GRILLE ===== */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 900px) { .payment-grid { grid-template-columns: 1fr; } }
+
+        /* ===== RÉSUMÉ COMMANDE ===== */
+        .summary-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            height: fit-content;
+        }
+        .summary-card h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.4rem;
+            color: #0a2a44;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .summary-card .produit-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            align-items: center;
+        }
+        .summary-card .produit-item:last-child { border-bottom: none; }
+        .summary-card .produit-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: #f1f5f9;
+            padding: 4px;
+        }
+        .summary-card .produit-item .info { flex: 1; }
+        .summary-card .produit-item .info .nom { font-weight: 600; font-size: 0.9rem; }
+        .summary-card .produit-item .info .vendeur { font-size: 0.75rem; color: #6a8aaa; }
+        .summary-card .produit-item .prix { font-weight: 700; color: #e51f53; font-size: 0.9rem; }
+
+        /* ===== DÉTAILS PRIX ===== */
+        .price-details {
+            margin: 16px 0;
+            padding: 16px 0;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .price-details .ligne {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .price-details .ligne.total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a2a44;
+            padding-top: 8px;
+            border-top: 2px solid rgba(0,0,0,0.06);
+            margin-top: 4px;
+        }
+        .price-details .ligne .valeur { font-weight: 600; }
+        .price-details .ligne.total .valeur { color: #e51f53; }
+
+        /* ===== MÉTHODES PAIEMENT ===== */
+        .payment-methods { margin: 16px 0; }
+        .payment-methods .method {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+            background: white;
+        }
+        .payment-methods .method:hover { border-color: #94a3b8; }
+        .payment-methods .method.selected {
+            border-color: #2d73ff;
+            background: rgba(45,115,255,0.05);
+            box-shadow: 0 0 0 4px rgba(45,115,255,0.08);
+        }
+        .payment-methods .method .icon { font-size: 1.8rem; width: 48px; text-align: center; }
+        .payment-methods .method .info { flex: 1; }
+        .payment-methods .method .info .name { font-weight: 600; font-size: 0.95rem; }
+        .payment-methods .method .info .desc { font-size: 0.8rem; color: #6a8aaa; }
+        .payment-methods .method .check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .payment-methods .method.selected .check {
+            background: #2d73ff;
+            border-color: #2d73ff;
+            color: white;
+        }
+
+        /* ===== FORMULAIRE ===== */
+        .payment-form {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+        }
+        .payment-form h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.4rem;
+            color: #0a2a44;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .payment-form .form-group { margin-bottom: 16px; }
+        .payment-form .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #0a2a44;
+            margin-bottom: 4px;
+        }
+        .payment-form .form-group input,
+        .payment-form .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #d1d9e6;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+            transition: 0.3s;
+        }
+        .payment-form .form-group input:focus,
+        .payment-form .form-group select:focus {
+            outline: none;
+            border-color: #2d73ff;
+            box-shadow: 0 0 0 4px rgba(45,115,255,0.08);
+        }
+        .payment-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 500px) { .payment-form .form-row { grid-template-columns: 1fr; } }
+
+        .payment-form .security-info {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.8rem;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .payment-form .security-info i { color: #22c55e; font-size: 1.2rem; }
+
+        /* ===== BOUTON PAIEMENT ===== */
+        .btn-pay {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            background: linear-gradient(135deg, #2d73ff, #4da7ff);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45,115,255,0.3);
+        }
+        .btn-pay:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-pay .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-pay.loading .loading { display: block; }
+        .btn-pay.loading .text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== ESCROW INFO ===== */
+        .escrow-info {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .escrow-info .item { text-align: center; padding: 12px; }
+        .escrow-info .item .icon { font-size: 2rem; color: #2d73ff; margin-bottom: 6px; }
+        .escrow-info .item .title { font-weight: 700; font-size: 0.85rem; color: #0a2a44; }
+        .escrow-info .item .desc { font-size: 0.75rem; color: #6a8aaa; }
+
+        /* ===== NOTIFICATION ===== */
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+        }
+        .modal-content .icon { font-size: 4rem; margin-bottom: 12px; }
+        .modal-content h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            color: #0a2a44;
+            margin-bottom: 8px;
+        }
+        .modal-content p { color: #475569; margin-bottom: 20px; line-height: 1.6; }
+        .modal-content .btn-modal {
+            padding: 12px 32px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            background: linear-gradient(135deg, #2d73ff, #4da7ff);
+            transition: 0.3s;
+        }
+        .modal-content .btn-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45,115,255,0.3);
+        }
+        .modal-content .btn-modal.secondary {
+            background: #e2e8f0;
+            color: #1a2a3a;
+        }
+        .modal-content .btn-modal.secondary:hover {
+            background: #cbd5e1;
+            box-shadow: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .sinepay-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; }
+            .sinepay-container { padding: 16px 12px 40px; margin: 16px auto; }
+            .security-banner { padding: 16px 20px; flex-direction: column; text-align: center; }
+            .security-banner .icon-big { font-size: 2rem; }
+            .security-banner .title { font-size: 1.4rem; }
+            .summary-card { padding: 16px; }
+            .payment-form { padding: 16px; }
+            .escrow-info { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 400px) { .escrow-info { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="header-actions">
+            <a href="../html/panier.html" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Retour au panier
+            </a>
+            <button id="btnLogout" class="btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTENU -->
+    <main class="sinepay-container">
+
+        <!-- BANNIÈRE SÉCURITÉ -->
+        <div class="security-banner">
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                <span class="icon-big"><i class="fa-solid fa-shield-halved"></i></span>
+                <div>
+                    <div class="title" id="bannerTitle">Paiement sécurisé</div>
+                    <div class="subtitle" id="bannerSubtitle">Votre argent est bloqué jusqu'à confirmation de réception</div>
+                </div>
+            </div>
+            <span class="badge"><i class="fa-solid fa-lock"></i> <span id="bannerBadge">Séquestre SINE.SHOP</span></span>
+        </div>
+
+        <!-- GRILLE PRINCIPALE -->
+        <div class="payment-grid">
+
+            <!-- RÉSUMÉ COMMANDE -->
+            <div class="summary-card">
+                <h2><i class="fa-solid fa-receipt" style="color:#2d73ff;"></i> <span id="summaryTitle">Résumé de la commande</span></h2>
+                <div id="produitsList">
+                    <div class="loading-spinner" style="text-align:center;padding:20px;color:#6a8aaa;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Chargement...
+                    </div>
+                </div>
+
+                <div class="price-details" id="priceDetails">
+                    <div class="ligne">
+                        <span id="subtotalLabel">Sous-total</span>
+                        <span class="valeur" id="sousTotal">0 FCFA</span>
+                    </div>
+                    <div class="ligne">
+                        <span id="deliveryLabel">Livraison</span>
+                        <span class="valeur" id="fraisLivraison">0 FCFA</span>
+                    </div>
+                    <div class="ligne">
+                        <span id="commissionLabel">Commission SINE.SHOP (3%)</span>
+                        <span class="valeur" id="fraisSequestre">0 FCFA</span>
+                    </div>
+                    <div class="ligne total">
+                        <span id="totalLabel">Total à payer</span>
+                        <span class="valeur" id="totalAPayer">0 FCFA</span>
+                    </div>
+                </div>
+
+                <div style="font-size:0.75rem;color:#6a8aaa;text-align:center;margin-top:8px;">
+                    <i class="fa-solid fa-info-circle"></i> <span id="escrowInfo">L'argent est bloqué jusqu'à confirmation de réception</span>
+                </div>
+            </div>
+
+            <!-- FORMULAIRE PAIEMENT -->
+            <div class="payment-form">
+                <h2><i class="fa-solid fa-credit-card" style="color:#2d73ff;"></i> <span id="paymentTitle">Moyen de paiement</span></h2>
+
+                <!-- Méthodes de paiement — désormais chargées dynamiquement
+                     depuis /api/payment-methods (jamais codées en dur) :
+                     un prestataire verrouillé (Orange/MTN/Carte tant que
+                     leurs vraies clés ne sont pas configurées) s'affiche
+                     "🔒 Indisponible" et n'est pas sélectionnable. -->
+                <div class="payment-methods" id="paymentMethods">
+                    <div class="method" style="opacity:0.6;"><span>Chargement des moyens de paiement…</span></div>
+                </div>
+
+                <!-- Champs du formulaire -->
+                <div id="formFields">
+                    <div class="form-group" id="phoneGroup" style="display:none;">
+                        <label id="phoneLabel" for="phoneNumber">Numéro de téléphone</label>
+                        <input type="tel" id="phoneNumber" placeholder="Ex: 07 00 00 00 00" value="">
+                    </div>
+                    <!-- Le champ numéro de carte a été RETIRÉ : SINE.SHOP ne
+                         doit jamais collecter d'informations de carte
+                         bancaire directement (voir CGU/sécurité) — une
+                         vraie intégration carte redirigera vers le
+                         formulaire hébergé et sécurisé du prestataire
+                         choisi, jamais un champ local. -->
+                    <div id="walletInfoBlock" style="display:none;padding:14px;border-radius:14px;background:#f1f5fb;font-size:0.85rem;color:#1a3a5a;">
+                        Solde disponible : <strong id="walletBalanceInline">—</strong>
+                    </div>
+                    <div id="waveDirectInfoBlock" style="display:none;padding:14px;border-radius:14px;background:#fff7ed;font-size:0.82rem;color:#9a3412;">
+                        ⚠️ Vous serez redirigé vers Wave pour effectuer le paiement. Votre commande sera confirmée dès que le paiement sera vérifié (vérification manuelle en attendant l'intégration automatique complète).
+                    </div>
+                    <div id="codInfoBlock" style="display:none;padding:14px;border-radius:14px;background:#f0fdf4;font-size:0.82rem;color:#166534;">
+                        💵 Vous payez en espèces directement au livreur à la réception de votre commande.
+                    </div>
+                </div>
+
+                <!-- Sécurité -->
+                <div class="security-info">
+                    <i class="fa-solid fa-lock"></i>
+                    <span id="securityInfo">Transactions sécurisées par SINE.SHOP. Vos données sont cryptées.</span>
+                </div>
+
+                <!-- Bouton paiement -->
+                <button class="btn-pay" id="btnPay">
+                    <span class="loading"></span>
+                    <span class="text"><i class="fa-solid fa-shield-halved"></i> <span id="payBtnText">Payer maintenant</span></span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- INFORMATION ESCROW -->
+        <div class="escrow-info">
+            <div class="item">
+                <div class="icon"><i class="fa-solid fa-hand-holding-hand"></i></div>
+                <div class="title" id="escrow1">Séquestre SINE.SHOP</div>
+                <div class="desc" id="escrow1desc">Votre argent est bloqué jusqu'à réception</div>
+            </div>
+            <div class="item">
+                <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="title" id="escrow2">Confirmation réception</div>
+                <div class="desc" id="escrow2desc">Déblocage automatique après votre confirmation</div>
+            </div>
+            <div class="item">
+                <div class="icon"><i class="fa-solid fa-percent"></i></div>
+                <div class="title" id="escrow3">Commission 3%</div>
+                <div class="desc" id="escrow3desc">SINE.SHOP prélève 3% sur chaque transaction</div>
+            </div>
+            <div class="item">
+                <div class="icon"><i class="fa-solid fa-truck"></i></div>
+                <div class="title" id="escrow4">Livraison incluse</div>
+                <div class="desc" id="escrow4desc">Frais de livraison reversés au livreur</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- NOTIFICATION -->
+    <div id="notification"></div>
+
+    <!-- MODAL SUCCÈS -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="icon">✅</div>
+            <h2 id="successTitle">Paiement confirmé !</h2>
+            <p id="successDesc">Votre paiement a été effectué avec succès. L'argent est bloqué en toute sécurité jusqu'à la livraison.</p>
+            <p style="font-size:0.9rem;color:#6a8aaa;" id="successNotif">
+                <i class="fa-regular fa-clock"></i> Vous recevrez une notification dès que le vendeur aura expédié votre colis.
+            </p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <button class="btn-modal" onclick="window.location.href='../html/client.html'">
+                    <i class="fa-solid fa-house"></i> <span id="successHome">Retour à l'accueil</span>
+                </button>
+                <button class="btn-modal secondary" id="btnSuivreCommande">
+                    <i class="fa-solid fa-truck"></i> <span id="successTrack">Suivre ma commande</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ERREUR -->
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="icon">❌</div>
+            <h2 id="errorTitle">Erreur de paiement</h2>
+            <p id="errorMessage">Une erreur est survenue lors du paiement. Veuillez réessayer.</p>
+            <button class="btn-modal" onclick="closeModal('errorModal')">
+                <i class="fa-solid fa-rotate"></i> <span id="errorRetry">Réessayer</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS - INTÉGRATION COMPLÈTE -->
+    <!-- ===================================================== -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/produits.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================================================
+            // CONFIGURATION
+            // =====================================================
+            const COMMISSION_RATE = 0.03;
+
+            let userData = JSON.parse(localStorage.getItem('sineUser') || 'null');
+
+            // =====================================================
+            // DEVISE ET LANGUE
+            // =====================================================
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+
+            function getDeviseSymbole(dev) {
+                const symboles = { 'FCFA': 'FCFA', 'XOF': 'FCFA', 'EUR': '€', 'USD': '$', 'GBP': '£', 'CAD': 'CA$', 'MAD': 'MAD' };
+                return symboles[dev] || dev;
+            }
+
+            function formatPrix(montant) {
+                const devise = getDevise();
+                const symbole = getDeviseSymbole(devise);
+                return montant.toLocaleString('fr-FR') + ' ' + symbole;
+            }
+
+            function convertirDevise(montant, deviseSource, deviseCible) {
+                const taux = {
+                    'FCFA': 1,
+                    'XOF': 1,
+                    'EUR': 0.00152,
+                    'USD': 0.00165,
+                    'GBP': 0.00132,
+                    'CAD': 0.00225,
+                    'MAD': 0.0106
+                };
+                const source = taux[deviseSource] || 1;
+                const cible = taux[deviseCible] || 1;
+                return montant * (cible / source);
+            }
+
+            function getLangue() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+            }
+
+            // =====================================================
+            // TRADUCTIONS
+            // =====================================================
+            const TRADUCTIONS = {
+                fr: {
+                    banner_title: 'Paiement sécurisé',
+                    banner_subtitle: 'Votre argent est bloqué jusqu\'à confirmation de réception',
+                    banner_badge: 'Séquestre SINE.SHOP',
+                    summary_title: 'Résumé de la commande',
+                    subtotal: 'Sous-total',
+                    delivery: 'Livraison',
+                    commission: 'Commission SINE.SHOP (3%)',
+                    total: 'Total à payer',
+                    escrow_info: 'L\'argent est bloqué jusqu\'à confirmation de réception',
+                    payment_title: 'Moyen de paiement',
+                    phone_label: 'Numéro de téléphone',
+                    operator_label: 'Opérateur',
+                    card_label: 'Numéro de carte',
+                    expiry_label: 'Date d\'expiration',
+                    cvv_label: 'CVV',
+                    card_name_label: 'Nom sur la carte',
+                    security_info: 'Transactions sécurisées par SINE.SHOP. Vos données sont cryptées.',
+                    pay_btn: 'Payer maintenant',
+                    escrow1: 'Séquestre SINE.SHOP',
+                    escrow1desc: 'Votre argent est bloqué jusqu\'à réception',
+                    escrow2: 'Confirmation réception',
+                    escrow2desc: 'Déblocage automatique après votre confirmation',
+                    escrow3: 'Commission 3%',
+                    escrow3desc: 'SINE.SHOP prélève 3% sur chaque transaction',
+                    escrow4: 'Livraison incluse',
+                    escrow4desc: 'Frais de livraison reversés au livreur',
+                    success_title: 'Paiement confirmé !',
+                    success_desc: 'Votre paiement a été effectué avec succès. L\'argent est bloqué en toute sécurité jusqu\'à la livraison.',
+                    success_notif: 'Vous recevrez une notification dès que le vendeur aura expédié votre colis.',
+                    success_home: 'Retour à l\'accueil',
+                    success_track: 'Suivre ma commande',
+                    error_title: 'Erreur de paiement',
+                    error_retry: 'Réessayer',
+                    error_empty: '❌ Aucune commande à payer',
+                    error_phone: '❌ Veuillez entrer un numéro de téléphone',
+                    error_email: '⚠️ Veuillez entrer une adresse email valide',
+                    success_payment: '✅ Paiement effectué avec succès !',
+                    redirect: '🔄 Redirection vers SINE.PAY...',
+                    login_required: 'Veuillez vous connecter pour effectuer un paiement'
+                },
+                en: {
+                    banner_title: 'Secure payment',
+                    banner_subtitle: 'Your money is blocked until receipt confirmation',
+                    banner_badge: 'SINE.SHOP Escrow',
+                    summary_title: 'Order summary',
+                    subtotal: 'Subtotal',
+                    delivery: 'Delivery',
+                    commission: 'SINE.SHOP Commission (3%)',
+                    total: 'Total to pay',
+                    escrow_info: 'Money is blocked until receipt confirmation',
+                    payment_title: 'Payment method',
+                    phone_label: 'Phone number',
+                    operator_label: 'Operator',
+                    card_label: 'Card number',
+                    expiry_label: 'Expiry date',
+                    cvv_label: 'CVV',
+                    card_name_label: 'Name on card',
+                    security_info: 'Secure transactions by SINE.SHOP. Your data is encrypted.',
+                    pay_btn: 'Pay now',
+                    escrow1: 'SINE.SHOP Escrow',
+                    escrow1desc: 'Your money is blocked until receipt',
+                    escrow2: 'Receipt confirmation',
+                    escrow2desc: 'Automatic release after your confirmation',
+                    escrow3: 'Commission 3%',
+                    escrow3desc: 'SINE.SHOP takes 3% on each transaction',
+                    escrow4: 'Delivery included',
+                    escrow4desc: 'Delivery fees are transferred to the courier',
+                    success_title: 'Payment confirmed!',
+                    success_desc: 'Your payment was successful. The money is securely blocked until delivery.',
+                    success_notif: 'You will receive a notification as soon as the seller ships your package.',
+                    success_home: 'Back to home',
+                    success_track: 'Track my order',
+                    error_title: 'Payment error',
+                    error_retry: 'Try again',
+                    error_empty: '❌ No order to pay',
+                    error_phone: '❌ Please enter a phone number',
+                    error_email: '⚠️ Please enter a valid email address',
+                    success_payment: '✅ Payment successful!',
+                    redirect: '🔄 Redirecting to SINE.PAY...',
+                    login_required: 'Please log in to make a payment'
+                },
+                es: {
+                    banner_title: 'Pago seguro',
+                    banner_subtitle: 'Tu dinero está bloqueado hasta la confirmación de recepción',
+                    banner_badge: 'Depósito SINE.SHOP',
+                    summary_title: 'Resumen del pedido',
+                    subtotal: 'Subtotal',
+                    delivery: 'Entrega',
+                    commission: 'Comisión SINE.SHOP (3%)',
+                    total: 'Total a pagar',
+                    escrow_info: 'El dinero está bloqueado hasta la confirmación de recepción',
+                    payment_title: 'Método de pago',
+                    phone_label: 'Número de teléfono',
+                    operator_label: 'Operador',
+                    card_label: 'Número de tarjeta',
+                    expiry_label: 'Fecha de expiración',
+                    cvv_label: 'CVV',
+                    card_name_label: 'Nombre en la tarjeta',
+                    security_info: 'Transacciones seguras por SINE.SHOP. Tus datos están encriptados.',
+                    pay_btn: 'Pagar ahora',
+                    escrow1: 'Depósito SINE.SHOP',
+                    escrow1desc: 'Tu dinero está bloqueado hasta la recepción',
+                    escrow2: 'Confirmación de recepción',
+                    escrow2desc: 'Liberación automática después de tu confirmación',
+                    escrow3: 'Comisión 3%',
+                    escrow3desc: 'SINE.SHOP cobra 3% en cada transacción',
+                    escrow4: 'Entrega incluida',
+                    escrow4desc: 'Los gastos de envío se transfieren al repartidor',
+                    success_title: '¡Pago confirmado!',
+                    success_desc: 'Tu pago fue exitoso. El dinero está bloqueado de forma segura hasta la entrega.',
+                    success_notif: 'Recibirás una notificación cuando el vendedor envíe tu paquete.',
+                    success_home: 'Volver al inicio',
+                    success_track: 'Seguir mi pedido',
+                    error_title: 'Error de pago',
+                    error_retry: 'Reintentar',
+                    error_empty: '❌ No hay pedido para pagar',
+                    error_phone: '❌ Por favor ingresa un número de teléfono',
+                    error_email: '⚠️ Por favor ingresa un correo electrónico válido',
+                    success_payment: '✅ ¡Pago exitoso!',
+                    redirect: '🔄 Redirigiendo a SINE.PAY...',
+                    login_required: 'Por favor inicia sesión para realizar un pago'
+                },
+                ar: {
+                    banner_title: 'دفع آمن',
+                    banner_subtitle: 'أموالك محجوزة حتى تأكيد الاستلام',
+                    banner_badge: 'ضمان SINE.SHOP',
+                    summary_title: 'ملخص الطلب',
+                    subtotal: 'المجموع الفرعي',
+                    delivery: 'التوصيل',
+                    commission: 'عمولة SINE.SHOP (3%)',
+                    total: 'المجموع المطلوب دفعه',
+                    escrow_info: 'الأموال محجوزة حتى تأكيد الاستلام',
+                    payment_title: 'طريقة الدفع',
+                    phone_label: 'رقم الهاتف',
+                    operator_label: 'المشغّل',
+                    card_label: 'رقم البطاقة',
+                    expiry_label: 'تاريخ الانتهاء',
+                    cvv_label: 'رمز CVV',
+                    card_name_label: 'الاسم على البطاقة',
+                    security_info: 'معاملات آمنة عبر SINE.SHOP. بياناتك مشفّرة.',
+                    pay_btn: 'ادفع الآن',
+                    escrow1: 'ضمان SINE.SHOP',
+                    escrow1desc: 'أموالك محجوزة حتى الاستلام',
+                    escrow2: 'تأكيد الاستلام',
+                    escrow2desc: 'إطلاق تلقائي بعد تأكيدك',
+                    escrow3: 'عمولة 3%',
+                    escrow3desc: 'يخصم SINE.SHOP 3% من كل معاملة',
+                    escrow4: 'التوصيل مشمول',
+                    escrow4desc: 'رسوم التوصيل تُحوَّل إلى الموصّل',
+                    success_title: 'تم تأكيد الدفع!',
+                    success_desc: 'تم الدفع بنجاح. الأموال محجوزة بأمان حتى التوصيل.',
+                    success_notif: 'ستتلقى إشعاراً بمجرد شحن البائع لطردك.',
+                    success_home: 'العودة إلى الرئيسية',
+                    success_track: 'تتبع طلبي',
+                    error_title: 'خطأ في الدفع',
+                    error_retry: 'إعادة المحاولة',
+                    error_empty: '❌ لا يوجد طلب للدفع',
+                    error_phone: '❌ يرجى إدخال رقم هاتف',
+                    error_email: '⚠️ يرجى إدخال بريد إلكتروني صالح',
+                    success_payment: '✅ تم الدفع بنجاح!',
+                    redirect: '🔄 جارٍ التوجيه إلى SINE.PAY...',
+                    login_required: 'يرجى تسجيل الدخول لإجراء الدفع'
+                }
+            };
+
+            function t(key) {
+                const lang = getLangue();
+                return TRADUCTIONS[lang]?.[key] || TRADUCTIONS.fr[key] || key;
+            }
+
+            // =====================================================
+            // APPLIQUER LANGUE
+            // =====================================================
+            function appliquerLangue() {
+                const lang = getLangue();
+                document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+
+                document.getElementById('bannerTitle').textContent = t('banner_title');
+                document.getElementById('bannerSubtitle').textContent = t('banner_subtitle');
+                document.getElementById('bannerBadge').textContent = t('banner_badge');
+                document.getElementById('summaryTitle').textContent = t('summary_title');
+                document.getElementById('subtotalLabel').textContent = t('subtotal');
+                document.getElementById('deliveryLabel').textContent = t('delivery');
+                document.getElementById('commissionLabel').textContent = t('commission');
+                document.getElementById('totalLabel').textContent = t('total');
+                document.getElementById('escrowInfo').textContent = t('escrow_info');
+                document.getElementById('paymentTitle').textContent = t('payment_title');
+                document.getElementById('phoneLabel').textContent = t('phone_label');
+                document.getElementById('operatorLabel').textContent = t('operator_label');
+                document.getElementById('cardLabel').textContent = t('card_label');
+                document.getElementById('expiryLabel').textContent = t('expiry_label');
+                document.getElementById('cvvLabel').textContent = t('cvv_label');
+                document.getElementById('cardNameLabel').textContent = t('card_name_label');
+                document.getElementById('securityInfo').textContent = t('security_info');
+                document.getElementById('payBtnText').textContent = t('pay_btn');
+
+                document.getElementById('escrow1').textContent = t('escrow1');
+                document.getElementById('escrow1desc').textContent = t('escrow1desc');
+                document.getElementById('escrow2').textContent = t('escrow2');
+                document.getElementById('escrow2desc').textContent = t('escrow2desc');
+                document.getElementById('escrow3').textContent = t('escrow3');
+                document.getElementById('escrow3desc').textContent = t('escrow3desc');
+                document.getElementById('escrow4').textContent = t('escrow4');
+                document.getElementById('escrow4desc').textContent = t('escrow4desc');
+
+                document.getElementById('successTitle').textContent = t('success_title');
+                document.getElementById('successDesc').textContent = t('success_desc');
+                document.getElementById('successNotif').textContent = t('success_notif');
+                document.getElementById('successHome').textContent = t('success_home');
+                document.getElementById('successTrack').textContent = t('success_track');
+
+                document.getElementById('errorTitle').textContent = t('error_title');
+                document.getElementById('errorRetry').textContent = t('error_retry');
+            }
+
+            // =====================================================
+            // LANGUE - ÉVÉNEMENT
+            // =====================================================
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            // =====================================================
+            // MODAL
+            // =====================================================
+            window.closeModal = function(id) {
+                document.getElementById(id).classList.remove('active');
+            };
+
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) this.classList.remove('active');
+                });
+            });
+
+            // =====================================================
+            // VÉRIFICATION AUTHENTIFICATION
+            // =====================================================
+            function checkAuth() {
+                const token = localStorage.getItem('sineToken');
+                if (!token || !userData) {
+                    window.location.href = '../html/login.html?redirect=sinepay';
+                    return false;
+                }
+
+                if (userData.role !== 'client') {
+                    const pages = {
+                        'seller': '../html/vendeur.html',
+                        'livreur': '../html/livreur.html',
+                        'affiliate': '../html/sineshopaffiliation.html',
+                        'admin': '../html/administrateur.html',
+                        'superadmin': '../html/superadministrateur.html',
+                        'moderator': '../html/moderateur.html',
+                        'support': '../html/support.html'
+                    };
+                    if (pages[userData.role]) {
+                        window.location.href = pages[userData.role];
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // =====================================================
+            // UTILITAIRES
+            // =====================================================
+            function getOrderIdFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('commande') || params.get('orderId') || params.get('id') || null;
+            }
+
+            // =====================================================
+            // CHARGEMENT DES DONNÉES
+            // =====================================================
+            let orderData = null;
+            let selectedMethod = null;
+
+            async function chargerDonnees() {
+                if (!checkAuth()) return;
+                appliquerLangue();
+
+                const orderId = getOrderIdFromUrl();
+
+                if (!orderId) {
+                    showNotification('⚠️ Aucune commande à payer. Redirection...', 'warning');
+                    setTimeout(() => { window.location.href = '../html/commande.html'; }, 1500);
+                    return;
+                }
+
+                await chargerCommandeDepuisAPI(orderId);
+            }
+
+            async function chargerCommandeDepuisAPI(orderId) {
+                try {
+                    const result = await window.SineAPI.getOrderDetails(orderId);
+                    orderData = result.order || result;
+
+                    // Le paiement est partagé entre toutes les commandes du même
+                    // passage en caisse (voir orderGroup) — si cette commande fait
+                    // partie d'un groupe de plusieurs vendeurs, le montant réellement
+                    // à payer est le total du GROUPE, pas seulement cette commande.
+                    if (orderData.orderGroup) {
+                        try {
+                            const group = await window.SineAPI.getOrderGroup(orderData.orderGroup);
+                            if (group.orders && group.orders.length > 1) {
+                                orderData.groupOrders = group.orders;
+                                orderData.total = group.total;
+                            }
+                        } catch (e) { /* repli silencieux sur le total de cette seule commande */ }
+                    }
+
+                    afficherResume(orderData);
+                } catch (error) {
+                    console.error('Impossible de récupérer la commande:', error);
+                    showNotification('❌ Commande non trouvée', 'error');
+                    document.getElementById('produitsList').innerHTML = `
+                        <div style="text-align:center;padding:30px;color:#6a8aaa;">
+                            <i class="fa-solid fa-exclamation-circle" style="font-size:2rem;"></i>
+                            <p>Commande non trouvée</p>
+                        </div>
+                    `;
+                }
+            }
+
+            // =====================================================
+            // AFFICHAGE RÉSUMÉ
+            // =====================================================
+            async function afficherResume(data) {
+                const container = document.getElementById('produitsList');
+                const items = data.groupOrders
+                    ? data.groupOrders.flatMap(o => o.items || [])
+                    : (data.items || []);
+                if (items.length > 0) {
+                    container.innerHTML = items.map(item => {
+                        const p = item.product || {};
+                        const vendeur = p.seller?.storeName || `${p.seller?.firstName || ''} ${p.seller?.lastName || ''}`.trim() || 'Vendeur';
+                        return `
+                        <div class="produit-item">
+                            <img src="${p.images?.[0]?.url || '../images/produit.png'}" alt="${p.name || 'Produit'}" onerror="this.src='../images/produit.png'">
+                            <div class="info">
+                                <div class="nom">${p.name || 'Produit'}</div>
+                                <div class="vendeur">${vendeur} · Qté: ${item.quantity || 1}</div>
+                            </div>
+                            <div class="prix">${formatPrix((item.price || 0) * (item.quantity || 1))}</div>
+                        </div>
+                    `;
+                    }).join('');
+                }
+
+                // NB: la commission plateforme n'est pas stockée comme champ séparé sur
+                // la commande — calculée ici pour l'affichage à partir du même taux
+                // que CONFIG.COMMISSION_RATE (produits.js), appliqué au sous-total réel.
+                const sousTotal = data.groupOrders
+                    ? data.groupOrders.reduce((s, o) => s + (o.subtotal || 0), 0)
+                    : (data.subtotal || 0);
+                const fraisLivraison = data.groupOrders
+                    ? data.groupOrders.reduce((s, o) => s + (o.shippingCost || 0), 0)
+                    : (data.shippingCost || 0);
+                const commission = sousTotal * COMMISSION_RATE;
+
+                document.getElementById('sousTotal').textContent = formatPrix(sousTotal);
+                document.getElementById('fraisLivraison').textContent = formatPrix(fraisLivraison);
+                document.getElementById('fraisSequestre').textContent = formatPrix(commission);
+                document.getElementById('totalAPayer').textContent = formatPrix(data.total || 0);
+
+                if (userData && userData.phone) {
+                    document.getElementById('phoneNumber').value = userData.phone;
+                }
+
+                await loadPaymentMethods();
+            }
+
+            // =====================================================
+            // MÉTHODES DE PAIEMENT — chargées dynamiquement, jamais codées
+            // en dur. Wallet et paiement à la livraison sont réellement
+            // fonctionnels dès aujourd'hui ; Wave utilise le lien de
+            // paiement direct (confirmation manuelle en attendant
+            // l'intégration API complète) ; Orange/MTN/Carte restent
+            // verrouillés tant que leurs vraies clés ne sont pas fournies.
+            // =====================================================
+            let paymentMethodsData = [];
+            let myWalletBalance = 0;
+
+            const METHOD_META = {
+                sine_wallet: { icon: 'fa-solid fa-wallet', color: '#2d73ff', name: 'Portefeuille SINE.SHOP', desc: 'Paiement instantané depuis votre solde' },
+                wave: { icon: 'fa-solid fa-wifi', color: '#4da7ff', name: 'Wave', desc: 'Paiement via votre compte Wave' },
+                orange_money: { icon: 'fa-solid fa-mobile-screen-button', color: '#ea580c', name: 'Orange Money', desc: 'Paiement par Orange Money' },
+                mtn_money: { icon: 'fa-solid fa-mobile-screen', color: '#f59e0b', name: 'MTN MoMo', desc: 'Paiement par Mobile Money' },
+                card: { icon: 'fa-regular fa-credit-card', color: '#22c55e', name: 'Carte bancaire', desc: 'Visa, Mastercard' },
+                cash_on_delivery: { icon: 'fa-solid fa-money-bill-wave', color: '#16a34a', name: 'Paiement à la livraison', desc: 'Payez en espèces à la réception' },
+            };
+
+            async function loadPaymentMethods() {
+                try {
+                    const [methods, wallet] = await Promise.all([
+                        window.SineAPI.getPaymentMethods(),
+                        window.SineAPI.getMyWallet().catch(() => ({ balance: 0 })),
+                    ]);
+                    paymentMethodsData = methods;
+                    myWalletBalance = wallet.balance || 0;
+
+                    const container = document.getElementById('paymentMethods');
+                    container.innerHTML = methods.map(m => {
+                        const meta = METHOD_META[m.provider] || { icon: 'fa-solid fa-circle-question', color: '#94a3b8', name: m.label, desc: '' };
+                        return `
+                            <div class="method ${m.enabled ? '' : 'locked'}" data-method="${m.provider}" style="${m.enabled ? '' : 'opacity:0.5;cursor:not-allowed;'}">
+                                <div class="icon"><i class="${meta.icon}" style="color:${meta.color};"></i></div>
+                                <div class="info">
+                                    <div class="name">${meta.name}</div>
+                                    <div class="desc">${m.enabled ? meta.desc : '🔒 Indisponible'}</div>
+                                </div>
+                                <div class="check"><i class="fa-solid fa-check"></i></div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    document.querySelectorAll('.payment-methods .method').forEach(el => {
+                        if (el.classList.contains('locked')) return;
+                        el.addEventListener('click', function() {
+                            document.querySelectorAll('.payment-methods .method').forEach(m => m.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedMethod = this.dataset.method;
+                            updateFormFields(selectedMethod);
+                        });
+                    });
+
+                    // Sélectionne automatiquement le premier moyen disponible.
+                    const firstEnabled = methods.find(m => m.enabled);
+                    if (firstEnabled) {
+                        selectedMethod = firstEnabled.provider;
+                        document.querySelector(`.method[data-method="${selectedMethod}"]`)?.classList.add('selected');
+                        updateFormFields(selectedMethod);
+                    }
+                } catch (e) {
+                    document.getElementById('paymentMethods').innerHTML = '<div class="method">❌ Erreur de chargement des moyens de paiement.</div>';
+                }
+            }
+
+            function updateFormFields(method) {
+                document.getElementById('phoneGroup').style.display = (method === 'orange_money' || method === 'mtn_money') ? 'block' : 'none';
+                document.getElementById('walletInfoBlock').style.display = method === 'sine_wallet' ? 'block' : 'none';
+                document.getElementById('waveDirectInfoBlock').style.display = method === 'wave' ? 'block' : 'none';
+                document.getElementById('codInfoBlock').style.display = method === 'cash_on_delivery' ? 'block' : 'none';
+
+                if (method === 'sine_wallet') {
+                    document.getElementById('walletBalanceInline').textContent = formatPrix(myWalletBalance);
+                }
+            }
+
+            // =====================================================
+            // TRAITEMENT PAIEMENT
+            // =====================================================
+            document.getElementById('btnPay').addEventListener('click', async function() {
+                if (!orderData || !orderData.items || orderData.items.length === 0) {
+                    showNotification(t('error_empty'), 'error');
+                    return;
+                }
+                if (!selectedMethod) {
+                    showNotification('Veuillez choisir un moyen de paiement.', 'error');
+                    return;
+                }
+
+                if ((selectedMethod === 'orange_money' || selectedMethod === 'mtn_money')) {
+                    const phone = document.getElementById('phoneNumber')?.value.trim();
+                    if (!phone) {
+                        showNotification(t('error_phone'), 'error');
+                        return;
+                    }
+                }
+
+                if (selectedMethod === 'sine_wallet' && myWalletBalance < (orderData.total || 0)) {
+                    showNotification('Solde insuffisant sur votre portefeuille SINE.SHOP.', 'error');
+                    return;
+                }
+
+                const btn = this;
+                btn.classList.add('loading');
+                btn.disabled = true;
+
+                try {
+                    if (selectedMethod === 'sine_wallet') {
+                        // Paiement Wallet — RÉEL, instantané, débit atomique
+                        // côté serveur (voir wallet.service.js).
+                        await window.SineAPI.payWithWallet(orderData._id, orderData.orderGroup);
+                        showNotification(t('success_payment'), 'success');
+                        document.getElementById('successModal').classList.add('active');
+                    } else if (selectedMethod === 'wave') {
+                        // Lien de paiement direct Wave Business — la commande
+                        // est enregistrée en attente, puis le client est
+                        // redirigé vers Wave. Confirmation automatique via
+                        // webhook dès que l'intégration API complète sera
+                        // branchée ; en attendant, vérification manuelle.
+                        await window.SineAPI.createPayment(orderData._id, 'wave', getDevise());
+                        const methods = await window.SineAPI.getPaymentMethods();
+                        const waveMethod = methods.find(m => m.provider === 'wave');
+                        if (waveMethod?.waveLink) window.open(waveMethod.waveLink, '_blank');
+                        showNotification('Commande enregistrée — finalisez le paiement sur Wave.', 'success');
+                        document.getElementById('successModal').classList.add('active');
+                    } else if (selectedMethod === 'cash_on_delivery') {
+                        await window.SineAPI.createPayment(orderData._id, 'cash_on_delivery', getDevise());
+                        showNotification('Commande enregistrée — vous paierez à la livraison.', 'success');
+                        document.getElementById('successModal').classList.add('active');
+                    } else {
+                        await window.SineAPI.createPayment(orderData._id, selectedMethod, getDevise());
+                        showNotification(t('success_payment'), 'success');
+                        document.getElementById('successModal').classList.add('active');
+                    }
+                } catch (error) {
+                    console.error('Erreur paiement:', error);
+                    document.getElementById('errorMessage').textContent = error.message || 'Erreur lors du paiement';
+                    document.getElementById('errorModal').classList.add('active');
+                } finally {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                }
+            });
+
+
+            // =====================================================
+            // DÉCONNEXION
+            // =====================================================
+            document.getElementById('btnLogout').addEventListener('click', function() {
+                if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                    window.SineAPI.logout();
+                }
+            });
+
+            document.getElementById('btnSuivreCommande').addEventListener('click', function() {
+                window.location.href = '../html/suivi.html' + (orderData?._id ? '?commande=' + orderData._id : '');
+            });
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!checkAuth()) return;
+
+                if (window.SINE && window.SINE.initialiserMoteur) {
+                    window.SINE.initialiserMoteur().then(() => {
+                        chargerDonnees();
+                    });
+                } else {
+                    setTimeout(chargerDonnees, 500);
+                }
+
+                updateFormFields('wave');
+
+                console.log('✅ SINE.PAY initialisé avec succès');
+                console.log('📊 Commission SINE.SHOP:', (COMMISSION_RATE * 100) + '%');
+                console.log('👤 Utilisateur:', userData?.email);
+                console.log('💱 Devise:', getDevise());
+                console.log('🌐 Langue:', getLangue());
+            });
+
+        })();
+    </script>
+
+</body>
+</html>

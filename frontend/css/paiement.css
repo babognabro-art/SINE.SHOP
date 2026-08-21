@@ -1,0 +1,1501 @@
+
+
+/*====================================================
+                    RESET
+====================================================*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:"Poppins",sans-serif;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        135deg,
+        #07162d,
+        #0b2746,
+        #123f73
+    );
+
+    color:#1f2937;
+
+    padding:40px;
+
+}
+
+
+/*====================================================
+                CONTENEUR PRINCIPAL
+====================================================*/
+
+.payment-page{
+
+    width:100%;
+
+    max-width:1450px;
+
+    margin:auto;
+
+}
+
+.payment-container{
+
+    background:#ffffff;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    box-shadow:
+
+    0 20px 60px rgba(0,0,0,.22);
+
+}
+
+
+/*====================================================
+                    HEADER
+====================================================*/
+
+.payment-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:30px;
+
+    padding:35px 45px;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #111827,
+
+        #1f2937
+
+    );
+
+    color:white;
+
+}
+
+.header-title h1{
+
+    font-size:34px;
+
+    margin-bottom:8px;
+
+}
+
+.header-title p{
+
+    color:#d1d5db;
+
+    font-size:15px;
+
+}
+
+.back-button{
+
+    color:white;
+
+    text-decoration:none;
+
+    background:rgba(255,255,255,.10);
+
+    padding:13px 22px;
+
+    border-radius:12px;
+
+    transition:.30s;
+
+}
+
+.back-button:hover{
+
+    background:#7c3aed;
+
+}
+
+
+/*====================================================
+                    CONTENU
+====================================================*/
+
+.payment-content{
+
+    display:grid;
+
+    grid-template-columns:1.7fr .9fr;
+
+    gap:35px;
+
+    padding:40px;
+
+}
+
+
+/*====================================================
+                COLONNE GAUCHE
+====================================================*/
+
+.payment-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+
+/*====================================================
+                COLONNE DROITE
+====================================================*/
+
+.payment-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+
+/*====================================================
+                    CARTES
+====================================================*/
+
+.payment-card{
+
+    background:#ffffff;
+
+    border:1px solid #edf2f7;
+
+    border-radius:20px;
+
+    padding:28px;
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.05);
+
+    transition:.30s;
+
+}
+
+.payment-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 15px 40px rgba(0,0,0,.10);
+
+}
+
+.payment-card h2{
+
+    font-size:21px;
+
+    color:#111827;
+
+    margin-bottom:22px;
+
+}
+
+
+/*====================================================
+                BOUTON PRINCIPAL
+====================================================*/
+
+.primary-button{
+
+    width:100%;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #7c3aed,
+
+        #5b21b6
+
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.30s;
+
+}
+
+.primary-button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+
+    0 15px 35px rgba(124,58,237,.35);
+
+}
+
+
+/*====================================================
+                RESPONSIVE
+====================================================*/
+
+@media(max-width:1100px){
+
+    .payment-content{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    body{
+
+        padding:18px;
+
+    }
+
+    .payment-header{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .payment-content{
+
+        padding:25px;
+
+    }
+
+}
+
+@media(max-width:550px){
+
+    .payment-header{
+
+        padding:28px;
+
+    }
+
+    .payment-content{
+
+        padding:18px;
+
+    }
+
+    .header-title h1{
+
+        font-size:28px;
+
+    }
+
+}
+
+
+
+/*====================================================
+                PRODUITS COMMANDE
+====================================================*/
+
+.order-item{
+
+    display:flex;
+
+    gap:18px;
+
+    padding:18px 0;
+
+    border-bottom:1px solid #ececec;
+
+    align-items:center;
+
+}
+
+.order-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.order-image{
+
+    width:95px;
+
+    height:95px;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    background:#f3f4f6;
+
+    flex-shrink:0;
+
+}
+
+.order-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.order-details{
+
+    flex:1;
+
+}
+
+.order-title{
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    margin-bottom:8px;
+
+}
+
+.order-meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    font-size:13px;
+
+    color:#6b7280;
+
+    margin-bottom:10px;
+
+}
+
+.order-price{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+.current-price{
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+.old-price{
+
+    text-decoration:line-through;
+
+    color:#9ca3af;
+
+}
+
+.discount{
+
+    background:#dc2626;
+
+    color:white;
+
+    padding:3px 9px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.stock{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:4px 10px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.order-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:10px;
+
+}
+
+.quantity{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.quantity button{
+
+    width:30px;
+
+    height:30px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#f3f4f6;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+}
+
+.quantity span{
+
+    min-width:25px;
+
+    text-align:center;
+
+}
+
+.remove-item{
+
+    border:none;
+
+    background:none;
+
+    color:#dc2626;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+
+
+
+/*====================================================
+            MODE DE PAIEMENT
+====================================================*/
+
+.payment-card{
+
+    background:#ffffff;
+
+    border-radius:22px;
+
+    padding:28px;
+
+    margin-top:30px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.08);
+
+}
+
+.payment-card h2{
+
+    font-size:24px;
+
+    color:#111827;
+
+    margin-bottom:8px;
+
+}
+
+.payment-description{
+
+    color:#6b7280;
+
+    margin-bottom:22px;
+
+    line-height:1.6;
+
+}
+
+
+/*====================================================
+            LISTE DES MOYENS
+====================================================*/
+
+.payment-method{
+
+    display:flex;
+
+    align-items:center;
+
+    border:2px solid #e5e7eb;
+
+    border-radius:16px;
+
+    margin-bottom:16px;
+
+    transition:.30s;
+
+    overflow:hidden;
+
+    background:#fff;
+
+}
+
+.payment-method:hover{
+
+    border-color:#7c3aed;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 8px 22px rgba(124,58,237,.15);
+
+}
+
+.payment-method input{
+
+    display:none;
+
+}
+
+.payment-method label{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    cursor:pointer;
+
+}
+
+
+/*====================================================
+            ICÔNES
+====================================================*/
+
+.payment-icon{
+
+    width:64px;
+
+    height:44px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#ffffff;
+
+    border-radius:10px;
+
+    border:1px solid #ececec;
+
+    overflow:hidden;
+
+}
+
+
+
+.payment-icon img{
+
+    max-width:75%;
+
+    max-height:75%;
+
+    object-fit:contain;
+
+    display:block;
+
+}
+
+
+
+/*====================================================
+            TEXTE
+====================================================*/
+
+.payment-method strong{
+
+    display:block;
+
+    color:#111827;
+
+    font-size:16px;
+
+    margin-bottom:4px;
+
+}
+
+.payment-method small{
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+
+/*====================================================
+            ETAT SELECTIONNÉ
+====================================================*/
+
+.payment-method.active{
+
+    border-color:#7c3aed;
+
+    background:#f8f5ff;
+
+    box-shadow:
+        0 10px 30px rgba(124,58,237,.15);
+
+}
+
+.payment-method.active .payment-icon{
+
+    background:#7c3aed;
+
+    color:#fff;
+
+}
+
+
+/*====================================================
+            BIENTÔT DISPONIBLE
+====================================================*/
+
+.payment-method.disabled{
+
+    opacity:.65;
+
+}
+
+.payment-method.disabled:hover{
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+
+
+/*====================================================
+            MESSAGE INFORMATION
+====================================================*/
+
+.payment-info{
+
+    margin-top:25px;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    background:#fff7ed;
+
+    border-left:5px solid #f59e0b;
+
+    color:#92400e;
+
+    font-size:14px;
+
+    line-height:1.7;
+
+}
+
+
+/*====================================================
+            RESPONSIVE
+====================================================*/
+
+@media(max-width:768px){
+
+    .payment-method label{
+
+        gap:14px;
+
+        padding:15px;
+
+    }
+
+    .payment-icon{
+
+        width:50px;
+
+        height:50px;
+
+        font-size:24px;
+
+    }
+
+    .payment-card{
+
+        padding:22px;
+
+    }
+
+}
+
+
+
+
+/*====================================================
+            FORMULAIRE CARTE BANCAIRE
+====================================================*/
+
+.bank-card-form{
+
+    margin-top:30px;
+
+    padding:28px;
+
+    border-radius:22px;
+
+    background:#ffffff;
+
+    border:1px solid #e5e7eb;
+
+    animation:fadeUp .45s ease;
+
+}
+
+.bank-card-form.hidden{
+
+    display:none;
+
+}
+
+.bank-card-form h3{
+
+    font-size:24px;
+
+    color:#111827;
+
+    margin-bottom:10px;
+
+}
+
+.bank-card-form>p{
+
+    color:#6b7280;
+
+    margin-bottom:25px;
+
+    line-height:1.7;
+
+}
+
+
+/*====================================================
+            CARTE BANCAIRE
+====================================================*/
+
+.credit-card{
+
+    position:relative;
+
+    width:100%;
+
+    max-width:430px;
+
+    height:250px;
+
+    margin:0 auto 30px;
+
+    border-radius:22px;
+
+    padding:28px;
+
+    color:#fff;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #111827,
+
+            #312e81,
+
+            #7c3aed
+
+        );
+
+    box-shadow:
+
+        0 25px 55px rgba(0,0,0,.30);
+
+    overflow:hidden;
+
+}
+
+.credit-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+
+    height:220px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    top:-70px;
+
+    right:-70px;
+
+}
+
+.credit-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:170px;
+
+    height:170px;
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:50%;
+
+    bottom:-70px;
+
+    left:-50px;
+
+}
+
+
+/*====================================================
+            PUCE
+====================================================*/
+
+.card-chip{
+
+    font-size:42px;
+
+    margin-bottom:28px;
+
+}
+
+
+/*====================================================
+            LOGO CARTE
+====================================================*/
+
+.card-brand{
+
+    position:absolute;
+
+    top:25px;
+
+    right:25px;
+
+    width:72px;
+
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+.card-brand img{
+
+    max-width:100%;
+
+    max-height:100%;
+
+    object-fit:contain;
+
+}
+
+
+/*====================================================
+            NUMERO
+====================================================*/
+
+.card-number{
+
+    font-size:28px;
+
+    letter-spacing:4px;
+
+    margin-bottom:34px;
+
+    font-weight:600;
+
+}
+
+
+/*====================================================
+            BAS DE CARTE
+====================================================*/
+
+.card-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+}
+
+.card-bottom small{
+
+    display:block;
+
+    opacity:.75;
+
+    font-size:12px;
+
+    margin-bottom:6px;
+
+    text-transform:uppercase;
+
+}
+
+.card-bottom span{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+
+/*====================================================
+            FORMULAIRE
+====================================================*/
+
+.card-fields{
+
+    margin-top:20px;
+
+}
+
+.card-row{
+
+    display:grid;
+
+    grid-template-columns:1fr 140px;
+
+    gap:18px;
+
+}
+
+
+/*====================================================
+            INPUTS
+====================================================*/
+
+.card-fields input{
+
+    width:100%;
+
+}
+
+
+/*====================================================
+            MESSAGE
+====================================================*/
+
+.payment-info{
+
+    margin-top:25px;
+
+}
+
+
+/*====================================================
+            RESPONSIVE
+====================================================*/
+
+@media(max-width:650px){
+
+    .credit-card{
+
+        height:220px;
+
+        padding:22px;
+
+    }
+
+    .card-number{
+
+        font-size:22px;
+
+        letter-spacing:2px;
+
+    }
+
+    .card-bottom span{
+
+        font-size:15px;
+
+    }
+
+    .card-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+
+
+.payment-logo{
+
+    width:42px;
+
+    height:28px;
+
+    object-fit:contain;
+
+    flex-shrink:0;
+
+    margin-right:14px;
+
+}
+
+.payment-method label{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.available{
+
+    color:#16a34a;
+
+    font-weight:600;
+
+}
+
+.soon{
+
+    color:#f59e0b;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+/*====================================================
+                BLOC 5.5
+        FORMULAIRES DE PAIEMENT
+====================================================*/
+
+.payment-message,
+.mobile-money-form,
+.iban-form,
+.bank-card-form{
+
+    margin-top:25px;
+
+    padding:25px;
+
+    background:#ffffff;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.05);
+
+    animation:fadePayment .35s ease;
+
+}
+
+.payment-message h3,
+.mobile-money-form h3,
+.iban-form h3,
+.bank-card-form h3{
+
+    color:#111827;
+
+    font-size:20px;
+
+    margin-bottom:10px;
+
+    font-weight:700;
+
+}
+
+.payment-message p,
+.mobile-money-form p,
+.iban-form p,
+.bank-card-form p{
+
+    color:#6b7280;
+
+    line-height:1.7;
+
+    margin-bottom:18px;
+
+}
+
+.payment-status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 18px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    margin-bottom:18px;
+
+}
+
+.payment-status.success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.payment-status.warning{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+}
+
+.payment-list{
+
+    margin-top:15px;
+
+    padding-left:20px;
+
+}
+
+.payment-list li{
+
+    margin-bottom:10px;
+
+    color:#4b5563;
+
+    line-height:1.6;
+
+}
+
+.mobile-money-form .input-box,
+.iban-form .input-box,
+.bank-card-form .input-box{
+
+    margin-bottom:18px;
+
+}
+
+.mobile-money-form label,
+.iban-form label,
+.bank-card-form label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+.mobile-money-form input,
+.iban-form input,
+.bank-card-form input{
+
+    width:100%;
+
+    height:54px;
+
+    padding:0 18px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    transition:.30s;
+
+    background:#ffffff;
+
+}
+
+.mobile-money-form input:focus,
+.iban-form input:focus,
+.bank-card-form input:focus{
+
+    outline:none;
+
+    border-color:#7c3aed;
+
+    box-shadow:
+        0 0 0 4px rgba(124,58,237,.15);
+
+}
+
+.payment-info{
+
+    margin-top:20px;
+
+    padding:16px 18px;
+
+    border-radius:12px;
+
+    background:#fff8e7;
+
+    border-left:5px solid #f59e0b;
+
+    color:#92400e;
+
+    line-height:1.7;
+
+    font-size:14px;
+
+}
+
+.hidden{
+
+    display:none !important;
+
+}
+
+@keyframes fadePayment{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*====================================================
+            RESPONSIVE
+====================================================*/
+
+@media(max-width:768px){
+
+    .payment-message,
+    .mobile-money-form,
+    .iban-form,
+    .bank-card-form{
+
+        padding:18px;
+
+    }
+
+    .payment-message h3,
+    .mobile-money-form h3,
+    .iban-form h3,
+    .bank-card-form h3{
+
+        font-size:18px;
+
+    }
+
+}
+
+
+
+.brand-logo{
+
+    width:65px;
+
+    height:auto;
+
+    object-fit:contain;
+
+}
+
+.mobile-logo{
+
+    width:85px;
+
+    display:block;
+
+    margin:15px auto 25px;
+
+}
+
+
+
+/*====================================================
+        VALIDATION CARTE
+====================================================*/
+
+.card-validation{
+
+    margin-top:10px;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    transition:.30s;
+
+    background:#f3f4f6;
+
+    color:#6b7280;
+
+}
+
+.card-validation.success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    border:1px solid #22c55e;
+
+}
+
+.card-validation.error{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+    border:1px solid #ef4444;
+
+}
+
+.card-validation.info{
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    border:1px solid #60a5fa;
+
+}

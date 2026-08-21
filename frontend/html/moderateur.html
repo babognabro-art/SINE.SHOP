@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a2a44">
+    <title>Modérateur • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Outfit", sans-serif; background: #f0f8ff; color: #1a2a3a; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        .admin-header { background: rgba(10,42,68,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 14px 30px; border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header-brand { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 700; color: white; letter-spacing: 2px; }
+        .header-brand span { color: #72b6ff; }
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .header-actions .btn-back { padding: 6px 16px; border-radius: 30px; background: rgba(255,255,255,0.08); color: #94a3b8; font-weight: 500; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(255,255,255,0.04); display: inline-flex; align-items: center; gap: 6px; }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.15); color: white; }
+        .header-actions .btn-logout { padding: 6px 16px; border-radius: 30px; background: rgba(239,68,68,0.15); color: #f87171; font-weight: 500; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(239,68,68,0.1); display: inline-flex; align-items: center; gap: 6px; }
+        .header-actions .btn-logout:hover { background: rgba(239,68,68,0.25); }
+
+        .admin-container { max-width: 1400px; margin: 30px auto; padding: 0 24px 60px; width: 100%; flex: 1; }
+
+        .profile-header { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 28px; padding: 30px 32px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 30px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
+        .profile-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 3px solid #8b5cf6; flex-shrink: 0; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-avatar .avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 600; color: #0a2a44; background: #d6ecf5; }
+        .profile-info h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: #0a2a44; }
+        .profile-info .badge { display: inline-block; padding: 2px 12px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; background: #fce7f3; color: #9d174d; margin-left: 8px; }
+        .profile-info .email { color: #4a6a8a; font-size: 0.95rem; margin-top: 2px; }
+        .profile-stats { display: flex; gap: 30px; margin-left: auto; flex-wrap: wrap; }
+        .profile-stats .stat { text-align: center; }
+        .profile-stats .stat .number { font-size: 1.8rem; font-weight: 700; color: #0a2a44; }
+        .profile-stats .stat .label { font-size: 0.75rem; color: #6a8aaa; font-weight: 500; }
+        @media (max-width: 768px) {
+            .profile-header { flex-direction: column; text-align: center; padding: 24px 20px; }
+            .profile-stats { margin-left: 0; justify-content: center; width: 100%; }
+            .profile-avatar { width: 80px; height: 80px; }
+            .profile-info h1 { font-size: 1.6rem; }
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 16px; text-align: center; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); transition: 0.3s; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .stat-card .icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+        .stat-card .number { font-size: 1.6rem; font-weight: 700; color: #0a2a44; }
+        .stat-card .label { font-size: 0.8rem; color: #6a8aaa; font-weight: 500; }
+
+        .section-title { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; color: #0a2a44; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title .sub { font-size: 0.85rem; color: #6a8aaa; font-family: "Outfit", sans-serif; font-weight: 400; }
+        .admin-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 24px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); margin-bottom: 24px; }
+        .admin-card h3 { font-size: 1.1rem; font-weight: 600; color: #0a2a44; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+        .empty-state { text-align: center; padding: 40px 20px; color: #8a9aad; font-size: 0.95rem; }
+        .empty-state .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; opacity: 0.6; }
+
+        .badge-status { display: inline-block; padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .badge-active { background: #dcfce7; color: #16a34a; }
+        .badge-inactive { background: #fee2e2; color: #991b1b; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+
+        .demande-compte-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 14px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .demande-compte-item:last-child { border-bottom: none; }
+        .demande-compte-item .infos { flex: 1; min-width: 200px; }
+        .demande-compte-item .infos .nom { font-weight: 600; color: #0a2a44; }
+        .demande-compte-item .infos .detail { font-size: 0.8rem; color: #6a8aaa; margin-top: 2px; }
+        .demande-compte-item .infos .motif { font-size: 0.78rem; color: #92400e; margin-top: 4px; font-style: italic; }
+        .demande-compte-item .actions-demande { display: flex; gap: 8px; }
+        .actions-demande button {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .btn-approuver { background: #dcfce7; color: #16a34a; }
+        .btn-approuver:hover { background: #bbf7d0; }
+        .btn-refuser { background: #fee2e2; color: #991b1b; }
+        .btn-refuser:hover { background: #fecaca; }
+
+        .quick-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+        .quick-actions button { padding: 12px 24px; border-radius: 16px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); }
+        .quick-actions button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .quick-actions .btn-primary { background: linear-gradient(135deg, #ec4899, #be185d); color: white; border: none; }
+        .quick-actions .btn-primary:hover { box-shadow: 0 8px 25px rgba(236,72,153,0.3); }
+        .quick-actions .btn-success { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; }
+        .quick-actions .btn-success:hover { box-shadow: 0 8px 25px rgba(34,197,94,0.3); }
+
+        #notification { position: fixed; top: 25px; right: 25px; background: rgba(10,42,68,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: white; padding: 16px 24px; border-radius: 14px; font-weight: 600; font-size: clamp(0.9rem, 1vw, 1rem); box-shadow: 0 12px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: translateY(-20px) scale(0.95); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 999999; max-width: 90%; }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        @media (max-width: 600px) {
+            .admin-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; }
+            .admin-container { padding: 16px 12px 40px; margin: 16px auto; }
+            .profile-header { padding: 20px 16px; border-radius: 20px; }
+            .profile-stats { gap: 16px; }
+            .profile-stats .stat .number { font-size: 1.4rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .section-title { font-size: 1.3rem; }
+            .quick-actions { flex-direction: column; }
+            .quick-actions button { width: 100%; justify-content: center; }
+            .admin-card { padding: 16px; }
+            table { font-size: 0.8rem; }
+            table th, table td { padding: 6px 8px; }
+        }
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .profile-stats { flex-direction: column; gap: 8px; }
+        }
+        .modal-profil-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10,15,25,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-profil-overlay.open { display: flex; }
+        .modal-profil {
+            background: white;
+            border-radius: 20px;
+            padding: 1.6rem;
+            max-width: 380px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+        .modal-profil h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .modal-profil .form-group { margin-bottom: 0.8rem; }
+        .modal-profil .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 4px;
+        }
+        .modal-profil .form-group input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        .modal-profil .btn-primary { padding: 0.7rem; border-radius: 12px; font-weight: 700; }
+
+        [data-theme="dark"] body { background: #0f172a; color: #e2e8f0; }
+        [data-theme="dark"] .profile-header,
+        [data-theme="dark"] .stat-card,
+        [data-theme="dark"] .admin-card,
+        [data-theme="dark"] .modal-profil {
+            background: rgba(26,36,54,0.9);
+            border-color: #263447;
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .profile-info h1,
+        [data-theme="dark"] .stat-card .number { color: #f1f5f9; }
+        [data-theme="dark"] .profile-info .email,
+        [data-theme="dark"] .stat-card .label { color: #94a3b8; }
+        [data-theme="dark"] input,
+        [data-theme="dark"] select,
+        [data-theme="dark"] textarea {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] table { color: #e2e8f0; }
+        [data-theme="dark"] th { color: #94a3b8; border-color: #263447; }
+        [data-theme="dark"] td { border-color: #263447; }
+        [data-theme="dark"] .empty-state { color: #64748b; }
+    </style>
+
+</head>
+<body>
+
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions">
+            <a href="../html/index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Accueil</a>
+            <select id="themeSelectorHeader" style="padding:0.4rem 0.8rem;border-radius:30px;border:1px solid #e2e8f0;font-size:0.8rem;font-weight:600;background:white;color:#1a2a3a;">
+                <option value="light">☀️ Clair</option>
+                <option value="dark">🌙 Sombre</option>
+                <option value="system">💻 Système</option>
+            </select>
+            <button id="btnLogout" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <div class="avatar-placeholder" id="avatarPlaceholder">MO</div>
+                <img id="avatarImage" style="display:none;" alt="Photo de profil">
+            </div>
+            <div class="profile-info">
+                <h1 id="profileName">Modérateur <span class="badge">⚖️ Modérateur</span></h1>
+                <div class="email" id="profileEmail">moderateur@sine.shop</div>
+                <button id="btnOuvrirProfil" style="margin-top:10px;padding:0.4rem 1.1rem;border-radius:30px;background:#f1f5f9;font-weight:600;font-size:0.8rem;"><i class="fa-solid fa-pen"></i> Modifier mon profil</button>
+            </div>
+            <div class="profile-stats">
+                <div class="stat"><div class="number" id="statUsers">0</div><div class="label">Utilisateurs</div></div>
+                <div class="stat"><div class="number" id="statProducts">0</div><div class="label">Produits</div></div>
+                <div class="stat"><div class="number" id="statOrders">0</div><div class="label">Commandes</div></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><span class="icon">👤</span><div class="number" id="statClients">0</div><div class="label" data-translate="admin.clients">Clients</div></div>
+            <div class="stat-card"><span class="icon">🛍️</span><div class="number" id="statVendeurs">0</div><div class="label" data-translate="admin.sellers">Vendeurs</div></div>
+            <div class="stat-card"><span class="icon">🚚</span><div class="number" id="statLivreurs">0</div><div class="label" data-translate="admin.deliveryDrivers">Livreurs</div></div>
+            <div class="stat-card"><span class="icon">💰</span><div class="number" id="statRevenus">0 FCFA</div><div class="label" data-translate="admin.totalRevenue">Revenus totaux</div></div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="btn-primary" id="btnReports"><i class="fa-solid fa-flag"></i> <span data-translate="moderator.reports">Signalements</span></button>
+            <button class="btn-success" id="btnUsers"><i class="fa-solid fa-users"></i> <span data-translate="admin.users">Utilisateurs</span></button>
+            <button id="btnContent"><i class="fa-solid fa-file-lines"></i> <span data-translate="moderator.content">Contenus</span></button>
+            <button id="btnDisputes"><i class="fa-solid fa-scale-balanced"></i> <span data-translate="moderator.disputes">Litiges</span></button>
+            <button id="btnSettings"><i class="fa-solid fa-gear"></i> <span data-translate="nav.settings">Paramètres</span></button>
+        </div>
+
+        <div class="section-title">🗑️ <span data-translate="account.management">Demandes de gestion de compte</span> <span class="sub" id="nbDemandesComptes"></span></div>
+        <div class="admin-card"><div id="demandesComptes"><div class="empty-state"><span class="icon">🗑️</span><span data-translate="admin.loading">Chargement...</span></div></div></div>
+
+        <div class="section-title" id="usersModSectionTitle" style="display:none;">👥 <span data-translate="admin.users">Utilisateurs</span> <span style="font-size:0.75rem;font-weight:400;color:#94a3b8;" data-translate="moderator.readOnlyNote">(lecture seule)</span></div>
+        <div class="admin-card" id="usersModCard" style="display:none;"><div id="listeUtilisateursMod"></div></div>
+
+        <div class="section-title">👤 <span data-translate="moderator.latestReports">Derniers signalements</span></div>
+        <div class="admin-card"><div id="derniersSignalements"><div class="empty-state"><span class="icon">🚩</span><span data-translate="moderator.noRecentReports">Aucun signalement récent.</span></div></div></div>
+
+        <div class="section-title">📋 <span data-translate="moderator.ongoingDisputes">Litiges en cours</span></div>
+        <div class="admin-card"><div id="litigesEnCours"><div class="empty-state"><span class="icon">⚖️</span><span data-translate="moderator.noOngoingDisputes">Aucun litige en cours.</span></div></div></div>
+
+        <div class="section-title">📄 <span data-translate="moderator.content">Contenus</span> <span class="sub" id="contentToggleHint"></span></div>
+        <div class="admin-card" id="sectionContentModerateur" style="display:none;">
+            <div id="listeAvisModeration"><div class="empty-state"><span class="icon">📄</span>Chargement...</div></div>
+        </div>
+
+        <div class="section-title">📜 <span data-translate="legal.sectionTitle">Informations légales</span></div>
+        <div class="admin-card">
+            <div class="actions-group">
+                <button onclick="window.location.href='../html/conditions-admin.html'">🛡️ <span data-translate="legalAdmin.title">Conditions applicables aux équipes d'administration</span></button>
+                <button onclick="window.location.href='../html/cgu.html'">📄 CGU</button>
+                <button onclick="window.location.href='../html/cgv.html'">📄 CGV</button>
+                <button onclick="window.location.href='../html/privacy.html'">🔒 <span data-translate="legal.privacy">Confidentialité</span></button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODIFIER MON PROFIL -->
+    <div class="modal-profil-overlay" id="modalProfilOverlay">
+        <div class="modal-profil">
+            <h3>✏️ <span data-translate="admin.editProfile">Modifier mon profil</span></h3>
+            <div style="display:flex;align-items:center;gap:1rem;margin:1rem 0;">
+                <img id="profilModalAvatarPreview" src="" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover;background:#e2e8f0;display:none;">
+                <div id="profilModalAvatarPlaceholder" class="avatar-placeholder" style="width:64px;height:64px;border-radius:50%;font-size:1.6rem;">--</div>
+                <button id="btnChangerPhotoAdmin" style="padding:0.4rem 1rem;border-radius:30px;background:#f1f5f9;font-weight:600;font-size:0.8rem;">📷 <span data-translate="admin.change">Changer</span></button>
+                <input type="file" id="inputPhotoAdmin" accept="image/*" style="display:none;">
+            </div>
+            <div class="form-group"><label data-translate="livreur.firstName">Prénom</label><input type="text" id="profilModalFirstName"></div>
+            <div class="form-group"><label data-translate="livreur.lastName">Nom</label><input type="text" id="profilModalLastName"></div>
+            <div class="form-group"><label data-translate="seller.phone">Téléphone</label><input type="tel" id="profilModalPhone"></div>
+            <button id="btnEnregistrerProfilAdmin" class="btn-primary" style="width:100%;margin-top:0.6rem;">💾 <span data-translate="settings.save">Enregistrer</span></button>
+
+            <hr style="margin:1.4rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🔒 <span data-translate="settings.changePassword">Changer le mot de passe</span></h4>
+            <div class="form-group"><label data-translate="admin.currentPassword">Mot de passe actuel</label><input type="password" id="profilModalCurrentPwd"></div>
+            <div class="form-group"><label data-translate="admin.newPassword">Nouveau mot de passe</label><input type="password" id="profilModalNewPwd"></div>
+            <button id="btnChangerMdpAdmin" style="width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;margin-top:0.4rem;"><span data-translate="settings.changePassword">Changer le mot de passe</span></button>
+
+            <button id="btnFermerModalProfil" style="width:100%;margin-top:1rem;padding:0.6rem;border-radius:12px;color:#94a3b8;font-weight:600;"><span data-translate="admin.close">Fermer</span></button>
+        </div>
+    </div>
+
+
+    <div id="notification"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' : 
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #ef4444';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            // =====================================================
+            // VÉRIFICATION AUTHENTIFICATION
+            // =====================================================
+            function checkAuth() {
+                const token = localStorage.getItem('sineToken');
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!token || !user || user.role !== 'moderator') {
+                    window.location.href = '../html/login.html';
+                    return false;
+                }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            function applyTheme(pref) {
+                const effective = pref === 'system' ? getSystemTheme() : pref;
+                document.documentElement.setAttribute('data-theme', effective);
+                const select = document.getElementById('themeSelectorHeader');
+                if (select) select.value = pref;
+            }
+            function initTheme() {
+                const saved = localStorage.getItem('sineTheme') || 'system';
+                applyTheme(saved);
+                // Synchronisation en temps réel entre onglets déjà ouverts — l'événement
+                // "storage" du navigateur se déclenche automatiquement dans TOUS les
+                // autres onglets du même site dès que le thème change dans l'un d'eux.
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'sineTheme' && e.newValue) applyTheme(e.newValue);
+                });
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if ((localStorage.getItem('sineTheme') || 'system') === 'system') applyTheme('system');
+                });
+                document.getElementById('themeSelectorHeader')?.addEventListener('change', function() {
+                    localStorage.setItem('sineTheme', this.value);
+                    applyTheme(this.value);
+                });
+            }
+            initTheme();
+                
+                document.getElementById('profileName').innerHTML = 
+                    (user.firstName || 'Modérateur') + ' ' + (user.lastName || '') +
+                    ' <span class="badge">⚖️ Modérateur</span>';
+                document.getElementById('profileEmail').textContent = user.email || 'moderateur@sine.shop';
+                return true;
+            }
+
+            // =========================================================
+            // MODIFIER MON PROFIL — jusqu'ici, cet espace n'avait aucun
+            // moyen de changer son propre nom, sa photo, ou son mot de
+            // passe : la carte d'en-tête était purement en lecture.
+            // =========================================================
+            function ouvrirModalProfil() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!user) return;
+                document.getElementById('profilModalFirstName').value = user.firstName || '';
+                document.getElementById('profilModalLastName').value = user.lastName || '';
+                document.getElementById('profilModalPhone').value = user.phone || '';
+                if (user.profilePicture) {
+                    document.getElementById('profilModalAvatarPreview').src = user.profilePicture;
+                    document.getElementById('profilModalAvatarPreview').style.display = 'block';
+                    document.getElementById('profilModalAvatarPlaceholder').style.display = 'none';
+                }
+                document.getElementById('modalProfilOverlay').classList.add('open');
+            }
+
+            document.getElementById('btnOuvrirProfil').addEventListener('click', ouvrirModalProfil);
+            document.getElementById('btnFermerModalProfil').addEventListener('click', function() {
+                document.getElementById('modalProfilOverlay').classList.remove('open');
+            });
+
+            document.getElementById('btnChangerPhotoAdmin').addEventListener('click', () => document.getElementById('inputPhotoAdmin').click());
+            document.getElementById('inputPhotoAdmin').addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const res = await window.SineAPI.uploadFile(file, 'avatars');
+                    const updated = await window.SineAPI.updateProfile({ profilePicture: res.url });
+                    localStorage.setItem('sineUser', JSON.stringify(updated));
+                    document.getElementById('profilModalAvatarPreview').src = res.url;
+                    document.getElementById('profilModalAvatarPreview').style.display = 'block';
+                    document.getElementById('profilModalAvatarPlaceholder').style.display = 'none';
+                    showNotification('✅ Photo mise à jour', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de l\'upload de la photo.', 'error');
+                }
+            });
+
+            document.getElementById('btnEnregistrerProfilAdmin').addEventListener('click', async function() {
+                try {
+                    const updated = await window.SineAPI.updateProfile({
+                        firstName: document.getElementById('profilModalFirstName').value,
+                        lastName: document.getElementById('profilModalLastName').value,
+                        phone: document.getElementById('profilModalPhone').value,
+                    });
+                    localStorage.setItem('sineUser', JSON.stringify(updated));
+                    checkAuth();
+                    showNotification('✅ Profil mis à jour', 'success');
+                    document.getElementById('modalProfilOverlay').classList.remove('open');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de la mise à jour.', 'error');
+                }
+            });
+
+            document.getElementById('btnChangerMdpAdmin').addEventListener('click', async function() {
+                const currentPwd = document.getElementById('profilModalCurrentPwd').value;
+                const newPwd = document.getElementById('profilModalNewPwd').value;
+                if (!currentPwd || !newPwd) {
+                    showNotification('Renseignez les deux champs.', 'warning');
+                    return;
+                }
+                if (newPwd.length < 8) {
+                    showNotification('Le nouveau mot de passe doit contenir au moins 8 caractères.', 'warning');
+                    return;
+                }
+                try {
+                    await window.SineAPI.updatePassword(currentPwd, newPwd);
+                    document.getElementById('profilModalCurrentPwd').value = '';
+                    document.getElementById('profilModalNewPwd').value = '';
+                    showNotification('✅ Mot de passe changé avec succès', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur — vérifiez votre mot de passe actuel.', 'error');
+                }
+            });
+
+            const LABELS_ROLE = {
+                client: 'Client', seller: 'Vendeur', livreur: 'Livreur',
+                affiliate: 'Affilié', admin: 'Admin', superadmin: 'Super Admin',
+            };
+            const LABELS_DEMANDE = {
+                hide_temporary: '👁️‍🗨️ Masquage temporaire',
+                close: '⏸️ Fermeture',
+                delete_permanent: '🗑️ Suppression définitive',
+            };
+
+            async function chargerDemandesComptes() {
+                const container = document.getElementById('demandesComptes');
+                const compteur = document.getElementById('nbDemandesComptes');
+                try {
+                    const demandes = await window.SineAPI.getAccountActionRequests('pending');
+                    compteur.textContent = demandes.length > 0 ? `(${demandes.length} en attente)` : '';
+                    if (demandes.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">✅</span>Aucune demande en attente.</div>';
+                        return;
+                    }
+                    container.innerHTML = demandes.map(d => {
+                        const u = d.user || {};
+                        const nom = `${u.firstName || ''} ${u.lastName || ''}`.trim() || 'Utilisateur';
+                        return `
+                            <div class="demande-compte-item">
+                                <div class="infos">
+                                    <div class="nom">${nom} <span class="badge-status badge-pending">${LABELS_ROLE[d.userRole] || d.userRole}</span></div>
+                                    <div class="detail">${LABELS_DEMANDE[d.requestType] || d.requestType} · ${u.email || ''} · demandé le ${new Date(d.createdAt).toLocaleDateString('fr-FR')}</div>
+                                    ${d.reason ? `<div class="motif">Motif : ${d.reason}</div>` : ''}
+                                </div>
+                                <div class="actions-demande">
+                                    <button class="btn-approuver" onclick="window.traiterDemandeCompte('${d._id}', 'approved')"><i class="fa-solid fa-check"></i> Approuver</button>
+                                    <button class="btn-refuser" onclick="window.traiterDemandeCompte('${d._id}', 'rejected')"><i class="fa-solid fa-xmark"></i> Refuser</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } catch (error) {
+                    console.error('Erreur chargement demandes de compte:', error);
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            }
+
+            window.traiterDemandeCompte = async function(id, decision) {
+                if (!confirm(`Confirmer : ${decision === 'approved' ? 'approuver' : 'refuser'} cette demande ?`)) return;
+                try {
+                    await window.SineAPI.reviewAccountActionRequest(id, decision);
+                    showNotification(decision === 'approved' ? '✅ Demande approuvée et appliquée.' : '↩️ Demande refusée.', 'success');
+                    await chargerDemandesComptes();
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors du traitement.'), 'error');
+                }
+            };
+
+            // =====================================================
+            // CHARGEMENT DU DASHBOARD
+            // =====================================================
+            async function loadDashboard() {
+                try {
+                    await chargerDemandesComptes();
+                    const dashboard = await window.SineAPI.getAdminDashboard();
+                    document.getElementById('statUsers').textContent = dashboard.users?.total || 0;
+                    document.getElementById('statProducts').textContent = dashboard.products || 0;
+                    document.getElementById('statOrders').textContent = dashboard.orders?.total || 0;
+                    const byRole = (dashboard.users?.byRole || []).reduce((acc, r) => { acc[r._id] = r.count; return acc; }, {});
+                    document.getElementById('statClients').textContent = byRole.client || 0;
+                    document.getElementById('statVendeurs').textContent = byRole.seller || 0;
+                    document.getElementById('statLivreurs').textContent = byRole.livreur || 0;
+                    document.getElementById('statRevenus').textContent = (dashboard.revenue || 0).toLocaleString() + ' FCFA';
+                } catch (error) {
+                    console.error('Erreur chargement dashboard:', error);
+                    showNotification('❌ ' + (error.message || 'Erreur de chargement.'), 'error');
+                }
+
+                // Signalements — backend maintenant construit (models/Report.js +
+                // report.controller.js). Les litiges restent à construire
+                // séparément (concept différent, lié aux commandes).
+                try {
+                    const reports = await window.SineAPI.getAllReports('pending');
+                    afficherSignalements(reports);
+                } catch (error) {
+                    console.error('Erreur chargement signalements:', error);
+                    afficherSignalements([]);
+                }
+                try {
+                    const disputes = await window.SineAPI.getAllDisputes('open');
+                    afficherLitiges(disputes);
+                } catch (error) {
+                    console.error('Erreur chargement litiges:', error);
+                    afficherLitiges([]);
+                }
+            }
+
+            // =====================================================
+            // AFFICHAGE DES SIGNALEMENTS
+            // =====================================================
+            function afficherSignalements(reports) {
+                const container = document.getElementById('derniersSignalements');
+                if (!container) return;
+
+                if (!reports || reports.length === 0) {
+                    container.innerHTML = `
+                        <table>
+                            <thead><tr><th>Utilisateur</th><th>Motif</th><th>Statut</th><th>Date</th></tr></thead>
+                            <tbody>
+                                <tr><td colspan="4" style="text-align:center;color:#6a8aaa;">Aucun signalement</td></tr>
+                            </tbody>
+                        </table>
+                    `;
+                    return;
+                }
+
+                const REASON_LABELS = { inappropriate_content: 'Contenu inapproprié', spam: 'Spam', fraud: 'Fraude', harassment: 'Harcèlement', other: 'Autre' };
+
+                container.innerHTML = `
+                    <table>
+                        <thead><tr><th>Utilisateur</th><th>Cible</th><th>Motif</th><th>Statut</th><th>Date</th><th></th></tr></thead>
+                        <tbody>
+                            ${reports.map(r => `
+                                <tr>
+                                    <td>${r.reportedBy?.firstName ? `${r.reportedBy.firstName} ${r.reportedBy.lastName}` : 'Anonyme'}</td>
+                                    <td>${{ message: '💬 Message', product: '📦 Produit', user: '👤 Utilisateur', review: '⭐ Avis' }[r.targetType] || r.targetType}</td>
+                                    <td>${REASON_LABELS[r.reason] || r.reason || 'Non spécifié'}</td>
+                                    <td>
+                                        <span class="badge-status ${r.status === 'reviewed' ? 'badge-active' : r.status === 'dismissed' ? 'badge-inactive' : 'badge-pending'}">
+                                            ${r.status === 'reviewed' ? 'Traité' : r.status === 'dismissed' ? 'Rejeté' : 'En attente'}
+                                        </span>
+                                    </td>
+                                    <td>${new Date(r.createdAt).toLocaleDateString()}</td>
+                                    <td>
+                                        ${r.status === 'pending' ? `
+                                            <button onclick="window.traiterSignalement('${r._id}', 'reviewed')" style="color:#16a34a;font-size:0.78rem;">✔️ Traiter</button>
+                                            <button onclick="window.traiterSignalement('${r._id}', 'dismissed')" style="color:#dc2626;font-size:0.78rem;">✖️ Rejeter</button>
+                                        ` : ''}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            window.traiterSignalement = async function(id, status) {
+                const note = status === 'reviewed' ? (prompt('Note de résolution (optionnel) :', '') || '') : '';
+                try {
+                    await window.SineAPI.reviewReport(id, status, note);
+                    showNotification(status === 'reviewed' ? '✅ Signalement traité.' : '↩️ Signalement rejeté.', 'success');
+                    const reports = await window.SineAPI.getAllReports('pending');
+                    afficherSignalements(reports);
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors du traitement.'), 'error');
+                }
+            };
+
+            // =====================================================
+            // AFFICHAGE DES LITIGES
+            // =====================================================
+            const DISPUTE_REASON_LABELS = {
+                not_received: 'Produit non reçu',
+                not_as_described: 'Non conforme',
+                damaged: 'Endommagé',
+                refund_request: 'Demande de remboursement',
+                other: 'Autre',
+            };
+
+            function afficherLitiges(disputes) {
+                const container = document.getElementById('litigesEnCours');
+                if (!container) return;
+
+                if (!disputes || disputes.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><span class="icon">✅</span>Aucun litige en cours</div>`;
+                    return;
+                }
+
+                container.innerHTML = disputes.map(d => `
+                    <div class="demande-compte-item">
+                        <div class="infos">
+                            <div class="nom">${d.raisedBy?.firstName || 'Utilisateur'} ${d.raisedBy?.lastName || ''} vs ${d.against?.firstName || 'Utilisateur'} ${d.against?.lastName || ''}
+                                <span class="badge-status badge-pending">${DISPUTE_REASON_LABELS[d.reason] || d.reason}</span>
+                            </div>
+                            <div class="detail">Commande #${(d.order?._id || d.order || '').toString().slice(-6).toUpperCase()} · ${d.description || ''} · ${d.createdAt ? new Date(d.createdAt).toLocaleDateString() : ''}</div>
+                        </div>
+                        <div class="actions-demande">
+                            <button class="btn-approuver" onclick="window.resolveDispute('${d._id}', 'resolved')"><i class="fa-solid fa-check"></i> Résoudre</button>
+                            <button class="btn-refuser" onclick="window.resolveDispute('${d._id}', 'rejected')"><i class="fa-solid fa-xmark"></i> Rejeter</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            window.resolveDispute = async function(id, status) {
+                const resolution = prompt(status === 'resolved' ? 'Note de résolution (visible par les 2 parties) :' : 'Motif du rejet :', '') || '';
+                if (!confirm(`Confirmer : ${status === 'resolved' ? 'marquer ce litige comme résolu' : 'rejeter ce litige'} ?`)) return;
+                try {
+                    await window.SineAPI.resolveDispute(id, status, resolution);
+                    showNotification(status === 'resolved' ? '✅ Litige résolu.' : '↩️ Litige rejeté.', 'success');
+                    const disputes = await window.SineAPI.getAllDisputes('open');
+                    afficherLitiges(disputes);
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors du traitement.'), 'error');
+                }
+            };
+
+            // =====================================================
+            // ACTIONS RAPIDES
+            // =====================================================
+            document.getElementById('btnReports').addEventListener('click', () => {
+                document.getElementById('derniersSignalements').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            
+            // Accordéon — même amélioration que administrateur.html/
+            // superadministrateur.html : rien n'empêchait jusqu'ici d'ouvrir
+            // Utilisateurs+Contenus+Paramètres tous en même temps.
+            function fermerAutresSectionsModo(sauf) {
+                if (sauf !== 'usersModCard') {
+                    const t = document.getElementById('usersModSectionTitle');
+                    const c = document.getElementById('usersModCard');
+                    if (t) t.style.display = 'none';
+                    if (c) c.style.display = 'none';
+                }
+                if (sauf !== 'sectionContentModerateur') {
+                    const s = document.getElementById('sectionContentModerateur');
+                    if (s) s.style.display = 'none';
+                }
+                if (sauf !== 'sectionParametresAdmin') {
+                    const p = document.getElementById('sectionParametresAdmin');
+                    if (p) p.style.display = 'none';
+                }
+            }
+
+            document.getElementById('btnUsers').addEventListener('click', async () => {
+                const titleEl = document.getElementById('usersModSectionTitle');
+                const cardEl = document.getElementById('usersModCard');
+                if (titleEl.style.display !== 'none') { titleEl.style.display = 'none'; cardEl.style.display = 'none'; return; }
+                fermerAutresSectionsModo('usersModCard');
+                const container = document.getElementById('listeUtilisateursMod');
+                titleEl.style.display = '';
+                cardEl.style.display = '';
+                container.innerHTML = '<div class="empty-state"><span class="icon">👥</span>Chargement...</div>';
+                cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                try {
+                    const usersData = await window.SineAPI.getAdminUsers({ limit: 30, sort: '-createdAt' });
+                    const users = usersData.users || [];
+                    if (users.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">👥</span>Aucun utilisateur</div>';
+                        return;
+                    }
+                    container.innerHTML = `
+                        <table>
+                            <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Statut</th></tr></thead>
+                            <tbody>
+                                ${users.map(u => `
+                                    <tr>
+                                        <td><strong>${u.firstName || ''} ${u.lastName || ''}</strong></td>
+                                        <td>${u.email || 'N/A'}</td>
+                                        <td>${u.role || 'client'}</td>
+                                        <td><span class="badge-status ${u.status === 'active' ? 'badge-active' : 'badge-inactive'}">${u.status === 'active' ? '✅ Actif' : '❌ ' + (u.status || 'Inactif')}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } catch (error) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            });
+            
+            async function loadPendingReviews() {
+                try {
+                    const reviews = await window.SineAPI.getPendingReviews();
+                    const container = document.getElementById('listeAvisModeration');
+                    if (!reviews || reviews.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">✅</span>Aucun avis en attente de modération.</div>';
+                        return;
+                    }
+                    container.innerHTML = reviews.map(r => `
+                        <div class="demande-compte-item">
+                            <div class="infos">
+                                <div class="nom">${r.user?.firstName || 'Utilisateur'} ${r.user?.lastName || ''} — ${'⭐'.repeat(r.rating || 0)}</div>
+                                <div class="detail">${r.product?.name || 'Produit'} · ${r.title ? r.title + ' — ' : ''}${r.comment || ''}</div>
+                            </div>
+                            <div class="actions-demande">
+                                <button class="btn-approuver" onclick="window.moderateReview('${r._id}', 'approved')"><i class="fa-solid fa-check"></i> Approuver</button>
+                                <button class="btn-refuser" onclick="window.moderateReview('${r._id}', 'rejected')"><i class="fa-solid fa-xmark"></i> Rejeter</button>
+                            </div>
+                        </div>
+                    `).join('');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors du chargement des avis.'), 'error');
+                }
+            }
+
+            document.getElementById('btnContent').addEventListener('click', async () => {
+                const section = document.getElementById('sectionContentModerateur');
+                const nowVisible = section.style.display === 'none';
+                if (nowVisible) fermerAutresSectionsModo('sectionContentModerateur');
+                section.style.display = nowVisible ? 'block' : 'none';
+                if (!nowVisible) return;
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                await loadPendingReviews();
+            });
+
+            window.moderateReview = async function(id, status) {
+                if (!confirm(`Confirmer : ${status === 'approved' ? 'approuver' : 'rejeter'} cet avis ?`)) return;
+                try {
+                    await window.SineAPI.moderateReview(id, status);
+                    showNotification(status === 'approved' ? '✅ Avis approuvé.' : '↩️ Avis rejeté.', 'success');
+                    await loadPendingReviews();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la modération.'), 'error');
+                }
+            };
+            
+            document.getElementById('btnDisputes').addEventListener('click', () => {
+                document.getElementById('litigesEnCours').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            
+            // =====================================================
+            // PARAMÈTRES — langue, sécurité, gestion du compte
+            // (jusqu'ici : bouton "Paramètres" affichait juste un message
+            // "arrive bientôt", aucune vraie fonctionnalité derrière)
+            // =====================================================
+            document.getElementById('btnSettings').addEventListener('click', () => {
+                const section = document.getElementById('sectionParametresAdmin');
+                const nowVisible = section.style.display === 'none';
+                if (nowVisible) fermerAutresSectionsModo('sectionParametresAdmin');
+                section.style.display = nowVisible ? 'block' : 'none';
+                if (nowVisible) {
+                    const savedUser = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                    document.getElementById('langueAdminSection').value = savedUser.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            document.getElementById('btnSauvegarderLangueAdmin').addEventListener('click', async function() {
+                const langue = document.getElementById('langueAdminSection').value;
+                try {
+                    await window.SineAPI.updateProfile({ preferredLanguage: langue });
+                    const savedUser = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                    savedUser.preferredLanguage = langue;
+                    localStorage.setItem('sineUser', JSON.stringify(savedUser));
+                    if (window.SINE) window.SINE.applyLanguage(langue);
+                    showNotification('✅ Langue mise à jour.', 'success');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la mise à jour.'), 'error');
+                }
+            });
+
+            document.getElementById('btnDeconnecterTousAdmin').addEventListener('click', function() {
+                if (confirm('Déconnecter tous les appareils ?')) {
+                    window.SineAPI.logout();
+                    window.location.href = '../html/login.html';
+                }
+            });
+
+            window.envoyerDemandeCompteAdmin = async function(requestType, messageConfirm, messageSucces) {
+                if (!confirm(messageConfirm)) return;
+                const raison = prompt('Un motif à préciser (facultatif) :', '') || '';
+                try {
+                    await window.SineAPI.submitAccountActionRequest(requestType, raison);
+                    showNotification(messageSucces, 'success');
+                    if (requestType === 'delete_permanent') {
+                        setTimeout(() => { window.location.href = '../html/login.html'; }, 1500);
+                    }
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de l\'envoi de la demande.'), 'error');
+                }
+            };
+
+            document.getElementById('btnMasquerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('hide_temporary',
+                    '👁️‍🗨️ Envoyer une demande de masquage temporaire de votre compte ?',
+                    '✅ Demande de masquage envoyée — votre compte reste actif en attendant le traitement.');
+            });
+
+            document.getElementById('btnFermerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('close',
+                    '⏸️ Envoyer une demande de fermeture de votre compte ?',
+                    '✅ Demande de fermeture envoyée — votre compte reste actif en attendant le traitement.');
+            });
+
+            document.getElementById('btnSupprimerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('delete_permanent',
+                    '⚠️ Envoyer une demande de suppression définitive de votre compte ? Vous serez déconnecté immédiatement. Cette action est irréversible une fois traitée par notre équipe.',
+                    '✅ Demande de suppression envoyée. Vous allez être déconnecté...');
+            });
+
+            // =====================================================
+            // DÉCONNEXION
+            // =====================================================
+            document.getElementById('btnLogout').addEventListener('click', function() {
+                if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                    window.SineAPI.logout();
+                }
+            });
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            if (checkAuth()) {
+                loadDashboard();
+                // Rafraîchir toutes les 30 secondes
+                setInterval(loadDashboard, 30000);
+            }
+
+            console.log('✅ Modérateur SINE.SHOP - Mode hybride (API + localStorage fallback)');
+        })();
+    </script>
+
+</body>
+</html>

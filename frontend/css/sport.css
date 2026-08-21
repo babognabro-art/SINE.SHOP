@@ -1,0 +1,550 @@
+/* =================================
+HEADER SINE.SHOP
+================================= */
+
+.main-header {
+
+    width: 100%;
+
+    padding: 15px 30px;
+
+    background: linear-gradient(
+        135deg,
+        #111,
+        #1d1d1d
+    );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.527);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 999;
+}
+
+
+/* LOGO + TITRE */
+
+.logo-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* LOGO */
+
+.header-logo {
+
+    width: 55px;
+
+    height: 55px;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+
+    background: rgb(17, 17, 17);
+
+    padding: 4px;
+}
+
+
+/* TITRE */
+
+.shop-title {
+
+    font-size: 30px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    color: #8ca7a5;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    text-shadow:
+        0 0 10px rgba(212,175,55,0.3);
+}
+
+
+/* =================================
+NOTIFICATION STOCK
+================================= */
+
+.stock-notification {
+
+    position: fixed;
+
+    top: 90px;
+
+    right: 20px;
+
+    width: 320px;
+
+    background: #fff8e1;
+
+    border-left: 6px solid #ff9800;
+
+    color: #333;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    z-index: 9999;
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.18);
+
+    animation:
+        slideNotif 0.4s ease;
+}
+
+
+/* ICONE */
+
+.notif-icon {
+
+    font-size: 24px;
+}
+
+
+/* TEXTE */
+
+.notif-text strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #ff9800;
+}
+
+.notif-text p {
+
+    margin: 0;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* BOUTON FERMER */
+
+.close-notif {
+
+    background: transparent;
+
+    border: none;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    color: #555;
+
+    margin-left: auto;
+}
+
+
+/* ANIMATION */
+
+@keyframes slideNotif {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(50px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+}
+
+/* =========================
+NAVBAR
+========================= */
+
+.navbar{
+    position:absolute;
+    top:20px;
+    right:30px;
+    z-index:10;
+
+    display:flex;
+    gap:12px;
+}
+
+.navbar a{
+    width:45px;
+    height:45px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+    text-decoration:none;
+
+    font-size:18px;
+
+    background:rgba(255,255,255,0.14);
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    transition:0.25s ease;
+}
+
+.navbar a:hover{
+    transform:translateY(-3px);
+    background:#7c3aed;
+}
+
+
+
+/* MOBILE */
+
+@media(max-width: 600px){
+
+    .stock-notification {
+
+        width: 90%;
+
+        right: 5%;
+    }
+}                                             
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:"Poppins", sans-serif;
+
+            background:
+            linear-gradient(rgba(175, 169, 194, 0.88), rgba(18,18,18,0.94)),
+            url("../images/sineguy-bg.jpg");
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+            min-height:100vh;
+        }
+
+        /* =========================
+           RETOUR
+        ========================= */
+
+        .back-link{
+            display:inline-block;
+            margin:30px 40px;
+            text-decoration:none;
+            color:#ffffff;
+            font-size:15px;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        .back-link:hover{
+            color:#ffb6d9;
+            transform:translateX(-5px);
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        #sport{
+            width:100%;
+            padding:20px 40px 80px;
+            collor:pink;
+        }
+
+        #sport h2{
+            text-align:center;
+            font-size:52px;
+            margin-bottom:55px;
+            font-weight:800;
+            letter-spacing:2px;
+
+            background:linear-gradient(90deg,#ffffff,#ffb6d9,#d9b3ff);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+
+        /* =========================
+           GRID PRODUITS
+        ========================= */
+
+        .products{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:30px;
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .product{
+            position:relative;
+
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(14px);
+
+            border-radius:28px;
+
+            padding:18px;
+
+            transition:0.35s ease;
+
+            display:flex;
+            flex-direction:column;
+        }
+
+        .product:hover{
+            transform:translateY(-10px);
+            border-color:#ffb6d9;
+
+            box-shadow:
+            0 12px 35px rgba(255,182,217,0.18);
+        }
+
+        /* =========================
+           IMAGE
+        ========================= */
+
+        .main-img{
+            width:100%;
+            height:180px;
+
+            object-fit:contain;
+
+            background:#ffffff;
+
+            border-radius:22px;
+
+            padding:10px;
+
+            margin-bottom:18px;
+        }
+
+        /* =========================
+           FAVORIS
+        ========================= */
+
+        .favori{
+            position:absolute;
+            top:18px;
+            right:18px;
+
+            width:42px;
+            height:42px;
+
+            border-radius:50%;
+
+            background:rgba(0,0,0,0.45);
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .favori::before{
+            content:"♡";
+            color:white;
+            font-size:20px;
+        }
+
+        .favori:hover{
+            background:#ffb6d9;
+            transform:scale(1.08);
+        }
+
+        /* =========================
+           TEXTES
+        ========================= */
+
+        .product h3{
+            font-size:20px;
+            margin-bottom:10px;
+            font-weight:700;
+            color:white;
+            line-height:1.4;
+        }
+
+        .product p{
+            color:#d4d4d4;
+            font-size:15px;
+            margin-bottom:10px;
+        }
+
+        /* =========================
+           PRIX
+        ========================= */
+
+        .price{
+            color:#ffb6d9;
+            font-size:24px;
+            font-weight:800;
+            margin:15px 0 20px;
+        }
+
+        /* =========================
+           BOUTONS
+        ========================= */
+
+        .product button{
+            width:100%;
+            padding:13px;
+
+            border:none;
+            border-radius:14px;
+
+            margin-top:10px;
+
+            cursor:pointer;
+
+            font-size:15px;
+            font-weight:700;
+
+            transition:0.3s;
+        }
+
+        .product button:nth-of-type(1){
+            background:#ffb6d9;
+            color:#111;
+        }
+
+        .product button:nth-of-type(2){
+            background:#ffffff;
+            color:#111111;
+        }
+
+        .product button:nth-of-type(3){
+            background:#1f1f1f;
+            color:white;
+            border:1px solid #444;
+        }
+
+        .product button:hover{
+            transform:scale(1.03);
+            opacity:0.92;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer{
+            margin-top:80px;
+            padding:40px 20px;
+
+            background:rgba(0,0,0,0.5);
+
+            border-top:1px solid rgba(255,255,255,0.08);
+
+            text-align:center;
+        }
+
+        .footer a{
+            color:#d8d8d8;
+            text-decoration:none;
+            margin:0 15px;
+
+            transition:0.3s;
+
+            font-size:15px;
+        }
+
+        .footer a:hover{
+            color:#ffb6d9;
+        }
+
+        .footer p{
+            margin-top:18px;
+            color:#8f8f8f;
+            font-size:14px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width:1200px){
+
+            .products{
+                grid-template-columns:repeat(3, 1fr);
+            }
+        }
+
+        @media(max-width:900px){
+
+            .products{
+                grid-template-columns:repeat(2, 1fr);
+            }
+
+            #sineguy h2{
+                font-size:40px;
+            }
+        }
+
+        @media(max-width:650px){
+
+            #sineguy{
+                padding:20px;
+            }
+
+            .products{
+                grid-template-columns:1fr;
+            }
+
+            #sineguy h2{
+                font-size:30px;
+            }
+
+            .main-img{
+                height:270px;
+            }
+        }
+

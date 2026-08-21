@@ -1,0 +1,421 @@
+/* ===================================================== */
+/* BLOC H2 : STYLE DE confirmation.html */
+/* ===================================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+}
+
+body{
+
+    background:#f4f6f9;
+
+    color:#222;
+
+}
+
+
+
+/* ======================================== */
+/* HEADER */
+/* ======================================== */
+
+.confirmation-header{
+
+    background:#0f172a;
+
+    color:white;
+
+    text-align:center;
+
+    padding:35px 20px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+
+}
+
+.confirmation-header h1{
+
+    font-size:34px;
+
+    margin-bottom:10px;
+
+}
+
+.confirmation-header p{
+
+    opacity:.9;
+
+}
+
+
+
+/* ======================================== */
+/* CONTENEUR */
+/* ======================================== */
+
+.confirmation-container{
+
+    width:95%;
+
+    max-width:1200px;
+
+    margin:40px auto;
+
+}
+
+
+
+/* ======================================== */
+/* CARTES */
+/* ======================================== */
+
+.card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.card h2{
+
+    margin-bottom:20px;
+
+    color:#0f172a;
+
+    border-bottom:2px solid #e5e7eb;
+
+    padding-bottom:10px;
+
+}
+
+
+
+/* ======================================== */
+/* LIGNES */
+/* ======================================== */
+
+.info-ligne,
+
+.resume-ligne{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.total{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#059669;
+
+}
+
+
+
+/* ======================================== */
+/* CLIENT */
+/* ======================================== */
+
+#clientInfos{
+
+    display:grid;
+
+    gap:12px;
+
+}
+
+
+
+/* ======================================== */
+/* PRODUITS */
+/* ======================================== */
+
+#listeProduits{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+
+
+/* carte produit */
+
+.produit{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:15px;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:12px;
+
+    transition:.25s;
+
+}
+
+.produit:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.produit img{
+
+    width:110px;
+
+    height:110px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+}
+
+.produit-info{
+
+    flex:1;
+
+}
+
+.produit-info h3{
+
+    margin-bottom:8px;
+
+}
+
+.produit-info p{
+
+    margin:4px 0;
+
+}
+
+
+
+/* ======================================== */
+/* LIVRAISON */
+/* ======================================== */
+
+.livraison-options{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.livraison-options button{
+
+    background:#ffffff;
+
+    border:2px solid #2563eb;
+
+    color:#2563eb;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+}
+
+.livraison-options button:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+/* ======================================== */
+/* ACTIONS */
+/* ======================================== */
+
+.actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin:40px 0;
+
+    flex-wrap:wrap;
+
+}
+
+.actions button{
+
+    padding:18px 30px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+}
+
+#btnSuivi{
+
+    background:#16a34a;
+
+    color:white;
+
+}
+
+#btnSuivi:hover{
+
+    background:#15803d;
+
+}
+
+#btnAccueil{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+#btnAccueil:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+/* ======================================== */
+/* RESPONSIVE */
+/* ======================================== */
+
+@media(max-width:768px){
+
+    .confirmation-header h1{
+
+        font-size:28px;
+
+    }
+
+    .produit{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .produit img{
+
+        width:150px;
+
+        height:150px;
+
+    }
+
+    .actions{
+
+        flex-direction:column;
+
+    }
+
+    .actions button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+
+/* ======================================== */
+/* QR CODE */
+/* ======================================== */
+
+.qr-zone{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:25px;
+
+}
+
+#qrcode{
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 20px rgba(0,0,0,.08);
+
+}
+
+
+
+
+       

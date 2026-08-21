@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0b1937">
+    <title>Politique de confidentialité • SINE.SHOP</title>
+    <!-- ===================================================== -->
+    <!-- BLOC CSS UNIQUE - PRIVACY -->
+    <!-- ===================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /*=========================================================
+        RESET & BASE
+        =========================================================*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Outfit", sans-serif;
+            background: #06142b;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+            touch-action: manipulation;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        /*=========================================================
+        HEADER
+        =========================================================*/
+        .privacy-header {
+            background: rgba(6,20,43,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 2px;
+        }
+        .header-brand span {
+            color: #72b6ff;
+        }
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-actions .btn-back {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.04);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-actions .btn-back:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+
+        /*=========================================================
+        CONTENU
+        =========================================================*/
+        .privacy-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            width: 100%;
+            flex: 1;
+        }
+        .privacy-container h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .privacy-container .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 20px;
+        }
+        .privacy-container .last-update {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .privacy-section {
+            margin-bottom: 32px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: 0.3s;
+        }
+        .privacy-section:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.06);
+        }
+        .privacy-section h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #87c8ff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .privacy-section h2 .icon {
+            color: #72b6ff;
+            font-size: 1.1rem;
+        }
+        .privacy-section p {
+            color: #c8d0d8;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .privacy-section ul {
+            margin-top: 10px;
+            padding-left: 8px;
+        }
+        .privacy-section ul li {
+            color: #c8d0d8;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            padding: 4px 0 4px 24px;
+            position: relative;
+        }
+        .privacy-section ul li::before {
+            content: "•";
+            color: #72b6ff;
+            position: absolute;
+            left: 4px;
+            font-weight: 700;
+        }
+
+        .privacy-section .highlight-box {
+            background: rgba(114,182,255,0.06);
+            border-left: 3px solid #72b6ff;
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 12px;
+        }
+        .privacy-section .highlight-box p {
+            color: #b8c8dd;
+            font-size: 0.9rem;
+        }
+
+        /*=========================================================
+        FOOTER LINKS
+        =========================================================*/
+        .footer-links {
+            margin-top: 40px;
+            padding: 24px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-links a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 16px;
+            border-radius: 30px;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+        .footer-links a:hover {
+            color: white;
+            border-color: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+        }
+
+        /*=========================================================
+        NOTIFICATION
+        =========================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /*=========================================================
+        RESPONSIVE
+        =========================================================*/
+        @media (max-width: 768px) {
+            .privacy-header {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .header-actions {
+                justify-content: space-between;
+            }
+            .privacy-container {
+                padding: 20px 16px 60px;
+            }
+            .privacy-section {
+                padding: 18px;
+            }
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-links a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-brand {
+                font-size: 1.3rem;
+            }
+            .header-actions .btn-back {
+                font-size: 0.8rem;
+                padding: 6px 14px;
+            }
+            .privacy-section h2 {
+                font-size: 1rem;
+            }
+            .privacy-section p,
+            .privacy-section ul li {
+                font-size: 0.88rem;
+            }
+        }
+
+        /* =========================================================
+           MODE SOMBRE — n'existait pas du tout sur cette page (voir
+           cgu.html pour le même correctif). Suit automatiquement la
+           préférence déjà choisie ailleurs sur le site.
+           ========================================================= */
+        [data-theme="dark"] body { background: linear-gradient(180deg, #0a1420 0%, #0f1c2e 100%); color: #dbe6f2; }
+        [data-theme="dark"] .privacy-container h1 { color: #e8f0fa; }
+        [data-theme="dark"] .privacy-container .subtitle { color: #8ba5c4; border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .privacy-container .last-update { color: #7893b3; }
+        [data-theme="dark"] .privacy-section { background: rgba(15,28,46,0.85); border-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .privacy-section h2 { color: #cfe0f5; }
+        [data-theme="dark"] .privacy-section p, [data-theme="dark"] .privacy-section li { color: #b7c8dc; }
+        [data-theme="dark"] .privacy-section .highlight-box { background: rgba(45,115,255,0.12); }
+        [data-theme="dark"] .privacy-section .highlight-box p { color: #dbe6f2; }
+        /* =========================================================
+   MODE SOMBRE — CORRECTION COMPLÈTE
+   ========================================================= */
+[data-theme="dark"] body { 
+    background: linear-gradient(180deg, #0a1420 0%, #0f1c2e 100%); 
+    color: #dbe6f2; 
+}
+[data-theme="dark"] .privacy-container h1 { 
+    color: #e8f0fa; 
+}
+[data-theme="dark"] .privacy-container .subtitle { 
+    color: #8ba5c4; 
+    border-bottom-color: rgba(255,255,255,0.08); 
+}
+[data-theme="dark"] .privacy-container .last-update { 
+    color: #7893b3; 
+}
+[data-theme="dark"] .privacy-section { 
+    background: rgba(15,28,46,0.85); 
+    border-color: rgba(255,255,255,0.06); 
+}
+[data-theme="dark"] .privacy-section h2 { 
+    color: #cfe0f5; 
+}
+[data-theme="dark"] .privacy-section p, 
+[data-theme="dark"] .privacy-section ul li { 
+    color: #b7c8dc; 
+}
+[data-theme="dark"] .privacy-section .highlight-box { 
+    background: rgba(45,115,255,0.12); 
+}
+[data-theme="dark"] .privacy-section .highlight-box p { 
+    color: #dbe6f2; 
+}
+[data-theme="dark"] .footer-links { 
+    background: rgba(255,255,255,0.03); 
+    border-color: rgba(255,255,255,0.04); 
+}
+[data-theme="dark"] .footer-links a { 
+    color: #94a3b8; 
+}
+[data-theme="dark"] .footer-links a:hover { 
+    color: #e8f0fa; 
+    border-color: rgba(255,255,255,0.08); 
+    background: rgba(255,255,255,0.04); 
+}
+[data-theme="dark"] .sine-header {
+    background: rgba(10,20,40,0.95) !important;
+    border-bottom-color: rgba(255,255,255,0.06) !important;
+}
+[data-theme="dark"] .sine-header .sine-word-1,
+[data-theme="dark"] .sine-header .sine-word-3 {
+    color: #e8f0fa !important;
+}
+[data-theme="dark"] .swipe-hint {
+    color: rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.2);
+}
+[data-theme="dark"] #notification {
+    background: rgba(10,20,40,0.95);
+    color: #e8f0fa;
+    border-color: rgba(255,255,255,0.08);
+}
+    </style>
+    <script>
+        (function() {
+            const saved = localStorage.getItem('sineTheme') || 'system';
+            const effective = saved === 'system'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : saved;
+            document.documentElement.setAttribute('data-theme', effective);
+        })();
+    </script>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- CONTENU -->
+    <!-- ===================================================== -->
+    <main class="privacy-container">
+
+        <h1>Politique de confidentialité</h1>
+        <p class="subtitle">Nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles ainsi que les informations liées à votre utilisation de la plateforme SINE.SHOP.</p>
+
+        <!-- Section 1 -->
+        <div class="privacy-section">
+            <h2><span class="icon">1.</span> Données collectées</h2>
+            <p>Nous pouvons collecter certaines informations nécessaires au bon fonctionnement du site et des comptes utilisateurs :</p>
+            <ul>
+                <li>Nom et prénom</li>
+                <li>Adresse email</li>
+                <li>Numéro de téléphone</li>
+                <li>Informations de connexion</li>
+                <li>Historique d'utilisation du site</li>
+                <li>Informations liées aux commandes et paiements</li>
+            </ul>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="privacy-section">
+            <h2><span class="icon">2.</span> Utilisation des données</h2>
+            <p>Les données collectées sont utilisées afin de garantir la sécurité, la qualité et le bon fonctionnement des services proposés par SINE.SHOP :</p>
+            <ul>
+                <li>Gérer les comptes utilisateurs</li>
+                <li>Assurer les commandes et livraisons</li>
+                <li>Améliorer les services et performances du site</li>
+                <li>Sécuriser la plateforme contre les fraudes</li>
+                <li>Fournir une assistance client efficace</li>
+            </ul>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="privacy-section">
+            <h2><span class="icon">3.</span> Partage des données</h2>
+            <p>Nous ne vendons jamais vos données personnelles. Certaines informations peuvent être partagées uniquement avec des services techniques ou partenaires nécessaires au fonctionnement sécurisé de la plateforme.</p>
+            <div class="highlight-box">
+                <p><i class="fa-solid fa-shield-halved" style="color:#72b6ff;margin-right:8px;"></i> <strong>Engagement :</strong> Vos données sont protégées et utilisées uniquement dans le cadre des services SINE.SHOP.</p>
+            </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="privacy-section">
+            <h2><span class="icon">4.</span> Sécurité des informations</h2>
+            <p>Nous mettons en place différentes mesures de sécurité afin de protéger les données contre les accès non autorisés, pertes, modifications ou utilisations abusives.</p>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="privacy-section">
+            <h2><span class="icon">5.</span> Conservation des données</h2>
+            <p>Les données sont conservées uniquement pendant la durée nécessaire au fonctionnement des services et au respect des obligations légales de la plateforme.</p>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="privacy-section">
+            <h2><span class="icon">6.</span> Vos droits</h2>
+            <p>Vous pouvez demander à tout moment :</p>
+            <ul>
+                <li>La consultation de vos données</li>
+                <li>La modification de vos informations</li>
+                <li>La suppression de votre compte</li>
+                <li>La limitation de certaines utilisations de vos données</li>
+            </ul>
+            <p>La consultation et la modification de vos informations personnelles se font directement depuis la section "Profil" de votre espace compte. Les demandes de fermeture ou de suppression de compte se font depuis la section "Paramètres", et sont traitées par notre équipe. Pour toute autre question relative à vos données, vous pouvez contacter notre support depuis le centre d'aide de votre espace.</p>
+        </div>
+
+        <!-- Section 7 -->
+        <div class="privacy-section">
+            <h2><span class="icon">7.</span> Cookies et technologies similaires</h2>
+            <p>Certaines fonctionnalités utilisent des cookies afin d'améliorer l'expérience utilisateur, sécuriser les connexions et analyser les performances du site.</p>
+            <div class="highlight-box">
+                <p><i class="fa-solid fa-cookie-bite" style="color:#f59e0b;margin-right:8px;"></i> <strong>Gestion des cookies :</strong> Vous pouvez configurer vos préférences de cookies via les paramètres de votre navigateur.</p>
+            </div>
+        </div>
+
+        <!-- Section 8 -->
+        <div class="privacy-section">
+            <h2><span class="icon">8.</span> Transfert et hébergement des données</h2>
+            <p>Vos données sont hébergées auprès de prestataires techniques reconnus (hébergement cloud, base de données) mettant en œuvre des mesures de sécurité conformes aux standards du secteur. Certains de nos prestataires (paiement, messagerie, hébergement) peuvent être situés hors de votre pays de résidence ; dans ce cas, des garanties appropriées encadrent ce transfert.</p>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="footer-links">
+            <a href="../html/index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="../html/cookies.html"><i class="fa-solid fa-cookie"></i> Politique de cookies</a>
+            <a href="../html/cgu.html"><i class="fa-solid fa-file-contract"></i> Conditions Générales</a>
+            <a href="../html/cgv.html"><i class="fa-solid fa-file-invoice"></i> Conditions de vente</a>
+        </div>
+
+        <p class="last-update"><strong>Dernière mise à jour :</strong> Juin 2026</p>
+
+    </main>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS -->
+    <!-- ===================================================== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' : '4px solid #f59e0b';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(function() {
+                    notif.classList.remove('show');
+                }, 4000);
+            }
+
+            // =====================================================
+            // SWIPE NAVIGATION
+            // =====================================================
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (diff > 80) {
+                    window.location.href = '../html/index.html';
+                } else if (diff < -80) {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+            }, { passive: true });
+
+            // =====================================================
+            // KEYBOARD
+            // =====================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+            });
+
+            console.log('✅ Politique de confidentialité SINE.SHOP chargée avec succès');
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+
+
+        *{
+
+            margin:0;
+
+            padding:0;
+
+            box-sizing:border-box;
+
+            font-family:"Poppins",sans-serif;
+
+        }
+
+
+
+        body{
+
+            background:#f6f7fb;
+
+            min-height:100vh;
+
+            color:#222;
+
+        }
+
+
+
+        a{
+
+            text-decoration:none;
+
+        }
+
+
+
+        img{
+
+            display:block;
+
+            max-width:100%;
+
+        }
+
+
+
+        button{
+
+            cursor:pointer;
+
+            transition:.25s;
+
+        }
+
+
+
+        button:hover{
+
+            transform:translateY(-2px);
+
+        }
+
+
+
+        /*=========================================
+                    CONTAINER
+        =========================================*/
+
+        .container{
+
+            width:95%;
+
+            max-width:1450px;
+
+            margin:auto;
+
+            padding:45px 0;
+
+        }
+
+
+
+        /*=========================================
+                    HEADER
+        =========================================*/
+
+        .header{
+
+            background:
+
+            linear-gradient(
+
+                135deg,
+
+                #ff4fa2,
+
+                #8c4bff
+
+            );
+
+            color:white;
+
+            border-radius:25px;
+
+            padding:45px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            flex-wrap:wrap;
+
+            gap:35px;
+
+            box-shadow:
+
+            0 18px 45px
+
+            rgba(0,0,0,.15);
+
+        }
+
+
+
+        .header-left{
+
+            flex:1;
+
+            min-width:350px;
+
+        }
+
+
+
+        .header-left h1{
+
+            font-size:42px;
+
+            margin-bottom:15px;
+
+            font-weight:700;
+
+        }
+
+
+
+        .header-left p{
+
+            line-height:1.8;
+
+            opacity:.96;
+
+            font-size:16px;
+
+            max-width:700px;
+
+        }
+
+
+
+        .header-right{
+
+            text-align:center;
+
+        }
+
+
+
+        .header-right img{
+
+            width:180px;
+
+            height:180px;
+
+            object-fit:contain;
+
+        }
+
+
+
+        /*=========================================
+                    FORMULAIRE
+        =========================================*/
+
+        .register-card{
+
+            margin-top:40px;
+
+            background:white;
+
+            border-radius:25px;
+
+            padding:45px;
+
+            box-shadow:
+
+            0 10px 35px
+
+            rgba(0,0,0,.08);
+
+        }
+
+
+
+        .section{
+
+            margin-bottom:55px;
+
+        }
+
+
+
+        .section h2{
+
+            color:#8c4bff;
+
+            margin-bottom:25px;
+
+            font-size:28px;
+
+            border-left:8px solid #ff4fa2;
+
+            padding-left:18px;
+
+        }
+
+
+
+        .grid{
+
+            display:grid;
+
+            grid-template-columns:
+
+            repeat(
+
+                auto-fit,
+
+                minmax(
+
+                    300px,
+
+                    1fr
+
+                )
+
+            );
+
+            gap:25px;
+
+        }
+
+
+
+        .champ{
+
+            display:flex;
+
+            flex-direction:column;
+
+        }
+
+
+
+        .champ label{
+
+            font-weight:600;
+
+            margin-bottom:10px;
+
+            color:#444;
+
+        }
+
+
+
+        .champ input,
+
+        .champ select,
+
+        .champ textarea{
+
+            border:1px solid #d8d8d8;
+
+            border-radius:14px;
+
+            padding:15px;
+
+            font-size:15px;
+
+            outline:none;
+
+            transition:.25s;
+
+        }
+
+
+
+        .champ textarea{
+
+            resize:vertical;
+
+            min-height:140px;
+
+        }
+
+
+
+        .champ input:focus,
+
+        .champ select:focus,
+
+        .champ textarea:focus{
+
+            border-color:#8c4bff;
+
+            box-shadow:
+
+            0 0 0 4px
+
+            rgba(
+
+                140,
+
+                75,
+
+                255,
+
+                .10
+
+            );
+
+        }
+
+
+
+        /*=========================================
+                PHOTO PROFIL
+        =========================================*/
+
+        .photo-box{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:35px;
+
+            flex-wrap:wrap;
+
+        }
+
+
+
+        .photo-preview{
+
+            width:170px;
+
+            height:170px;
+
+            border-radius:50%;
+
+            object-fit:cover;
+
+            border:6px solid #eeeeee;
+
+        }
+
+
+
+        .upload-btn{
+
+            background:#8c4bff;
+
+            color:white;
+
+            border:none;
+
+            border-radius:14px;
+
+            padding:15px 28px;
+
+            font-weight:600;
+
+        }
+
+
+
+        .upload-btn:hover{
+
+            background:#6f34d9;
+
+        }
+
+
+
+        input[type=file]{
+
+            display:none;
+
+        }

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Confirmation • SINE.SHOP</title>
+    <!-- ===================================================== -->
+    <!-- BLOC CSS UNIQUE - CONFIRMATION (IDENTITÉ CONSERVÉE) -->
+    <!-- ===================================================== -->
+    <style>
+        /*======================================================
+        RESET & BASE - CONSERVÉ
+        ======================================================*/
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #66d9ff, #b9ecff 30%, #dff8ff 60%, #ffffff);
+            min-height: 100vh;
+            color: #1c2431;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; display: block; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        /*======================================================
+        CARTE DE CONFIRMATION - CONSERVÉE
+        ======================================================*/
+        .confirmation-card {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.3);
+            text-align: center;
+            animation: cardAppear 0.6s ease;
+        }
+        @keyframes cardAppear {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .confirmation-card .icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .confirmation-card .icon.success { color: #22c55e; }
+        .confirmation-card .icon.info { color: #3b82f6; }
+        .confirmation-card .icon.error { color: #ef4444; }
+
+        .confirmation-card h1 {
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .confirmation-card .subtitle {
+            color: #64748b;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            margin-bottom: 24px;
+        }
+
+        /* HEADER ACTIONS - AJOUT LANGUE */
+        .confirmation-header-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        .confirmation-header-actions .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.6);
+            color: #0a2a44;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230a2a44' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .confirmation-header-actions .lang-select option { background: white; color: #1a2a3a; }
+
+        .confirmation-card .details {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+        }
+        .confirmation-card .details .ligne {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .confirmation-card .details .ligne:last-child { border-bottom: none; }
+        .confirmation-card .details .ligne strong { color: #0f172a; }
+        .confirmation-card .details .ligne .valeur { font-weight: 600; color: #0f172a; }
+        .confirmation-card .details .produits-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 2px solid #e2e8f0;
+        }
+        .confirmation-card .details .produits-section .produit-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        .confirmation-card .details .livraison-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .confirmation-card .details .livraison-section .livraison-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        .confirmation-card .details .poids-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            color: #475569;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .confirmation-card .total-final {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e51f53;
+            margin: 16px 0 24px;
+        }
+
+        .confirmation-card .btn-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .confirmation-card .btn-actions button {
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.3s;
+            touch-action: manipulation;
+        }
+        .confirmation-card .btn-actions .btn-payer {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            box-shadow: 0 4px 16px rgba(15,23,42,0.3);
+        }
+        .confirmation-card .btn-actions .btn-payer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15,23,42,0.4);
+        }
+        .confirmation-card .btn-actions .btn-retour {
+            background: rgba(100,116,139,0.08);
+            color: #475569;
+        }
+        .confirmation-card .btn-actions .btn-retour:hover { background: rgba(100,116,139,0.18); }
+        .confirmation-card .btn-actions .btn-imprimer {
+            background: rgba(59,130,246,0.08);
+            color: #3b82f6;
+        }
+        .confirmation-card .btn-actions .btn-imprimer:hover { background: rgba(59,130,246,0.18); }
+        .confirmation-card .btn-actions .btn-partager {
+            background: rgba(236,72,153,0.08);
+            color: #ec4899;
+        }
+        .confirmation-card .btn-actions .btn-partager:hover { background: rgba(236,72,153,0.18); }
+        .confirmation-card .btn-actions .btn-precedent {
+            background: rgba(100,116,139,0.08);
+            color: #475569;
+        }
+        .confirmation-card .btn-actions .btn-precedent:hover { background: rgba(100,116,139,0.18); }
+        .confirmation-card .btn-actions .btn-suivant {
+            background: rgba(59,130,246,0.08);
+            color: #3b82f6;
+        }
+        .confirmation-card .btn-actions .btn-suivant:hover { background: rgba(59,130,246,0.18); }
+        .confirmation-card .btn-actions .btn-annuler {
+            background: rgba(239,68,68,0.08);
+            color: #ef4444;
+            border: 1px solid rgba(239,68,68,0.15);
+        }
+        .confirmation-card .btn-actions .btn-annuler:hover {
+            background: rgba(239,68,68,0.18);
+            transform: translateY(-2px);
+        }
+        .confirmation-card .btn-actions-full { grid-column: 1 / -1; }
+
+        .confirmation-card .nav-info {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+
+        /*======================================================
+        QR CODE - CONSERVÉ
+        ======================================================*/
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .qr-container canvas {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 8px;
+            background: white;
+            max-width: 150px;
+            width: 100%;
+            height: auto;
+        }
+
+        /*======================================================
+        NOTIFICATION - CONSERVÉ
+        ======================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        /*======================================================
+        RESPONSIVE - CONSERVÉ
+        ======================================================*/
+        @media (max-width: 600px) {
+            .confirmation-card {
+                padding: 24px 20px;
+                border-radius: 24px;
+            }
+            .confirmation-card .icon { font-size: 3rem; }
+            .confirmation-card .btn-actions { grid-template-columns: 1fr; }
+            .confirmation-card .btn-actions .btn-actions-full { grid-column: 1; }
+            .confirmation-card .details .ligne { font-size: 0.85rem; padding: 6px 0; }
+            .confirmation-card .total-final { font-size: 1.2rem; }
+            .confirmation-card .btn-actions button { padding: 12px; font-size: 0.9rem; }
+            .confirmation-card .btn-actions .btn-precedent,
+            .confirmation-card .btn-actions .btn-suivant { font-size: 0.8rem; }
+            .confirmation-header-actions { justify-content: center; }
+        }
+        @media (max-width: 400px) {
+            .confirmation-card { padding: 18px 14px; }
+            .confirmation-card h1 { font-size: 1.3rem; }
+            .confirmation-card .subtitle { font-size: 0.85rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="../css/shared-header.css">
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- CARTE DE CONFIRMATION -->
+    <!-- ===================================================== -->
+    <div class="confirmation-card" id="confirmationCard">
+
+        <!-- HEADER ACTIONS -->
+        <div class="confirmation-header-actions">
+        </div>
+
+        <span class="icon success" id="iconConfirmation">✅</span>
+        <h1 id="titreConfirmation">Confirmation</h1>
+        <p class="subtitle" id="sousTitreConfirmation">Votre demande a été enregistrée avec succès.</p>
+
+        <div class="details" id="detailsConfirmation">
+            <!-- Dynamique -->
+        </div>
+
+        <div class="qr-container" id="qrContainer">
+            <canvas id="qrCodeCanvas"></canvas>
+        </div>
+
+        <div class="total-final" id="totalFinal">0 FCFA</div>
+
+        <div class="btn-actions">
+            <button class="btn-payer btn-actions-full" id="btnPayer">💳 Procéder au paiement</button>
+            <button class="btn-precedent" id="btnPrecedent">⬅️ Précédent</button>
+            <button class="btn-suivant" id="btnSuivant">Suivant ➡️</button>
+            <button class="btn-annuler" id="btnAnnuler">🗑️ Annuler la commande</button>
+            <button class="btn-retour" id="btnRetour">← Retour à l'accueil</button>
+            <button class="btn-imprimer" id="btnImprimer">🖨 Imprimer</button>
+            <button class="btn-partager" id="btnPartager">📤 Partager</button>
+        </div>
+
+        <div class="nav-info" id="navInfo">Page 1/1 • Sauvegardé automatiquement</div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS - INTÉGRATION COMPLÈTE -->
+    <!-- ===================================================== -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/produits.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            /*=========================================================
+                SINE.SHOP - CONFIRMATION
+                INTÉGRATION COMPLÈTE
+            =========================================================*/
+
+            // =====================================================
+            // =====================================================
+            // DEVISE
+            // =====================================================
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+
+            function getDeviseSymbole(dev) {
+                const symboles = { 'FCFA': 'FCFA', 'EUR': '€', 'USD': '$', 'GBP': '£', 'CAD': 'CA$', 'MAD': 'MAD' };
+                return symboles[dev] || dev;
+            }
+
+            function formatPrix(montant) {
+                const devise = getDevise();
+                const symbole = getDeviseSymbole(devise);
+                return montant.toLocaleString('fr-FR') + ' ' + symbole;
+            }
+
+            function convertirDevise(montant, deviseSource, deviseCible) {
+                const taux = {
+                    'FCFA': 1,
+                    'EUR': 0.00152,
+                    'USD': 0.00165,
+                    'GBP': 0.00132,
+                    'CAD': 0.00225,
+                    'MAD': 0.0106
+                };
+                const source = taux[deviseSource] || 1;
+                const cible = taux[deviseCible] || 1;
+                return montant * (cible / source);
+            }
+
+            function getLangue() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+            }
+
+            // =====================================================
+            // TRADUCTIONS
+            // =====================================================
+            const TRADUCTIONS = {
+                fr: {
+                    title: '✅ Confirmation',
+                    subtitle: 'Votre demande a été enregistrée avec succès.',
+                    order_title: '📦 Commande confirmée !',
+                    order_subtitle: 'Votre commande a été enregistrée avec succès.',
+                    reservation_title: '📅 Réservation confirmée !',
+                    reservation_subtitle: 'Votre réservation a été enregistrée avec succès.',
+                    error_title: '⚠️ Aucune confirmation trouvée',
+                    error_subtitle: 'Nous n\'avons pas pu retrouver les détails.',
+                    ref: 'Référence',
+                    date: 'Date',
+                    type: 'Type',
+                    type_order: '📦 Commande',
+                    type_reservation: '📅 Réservation',
+                    client: 'Client',
+                    phone: 'Téléphone',
+                    email: 'Email',
+                    address: 'Adresse',
+                    products: '📦 Produits',
+                    delivery: '🚚 Mode de livraison',
+                    poids: '⚖️ Poids total',
+                    deposit: 'Acompte (30%)',
+                    total: 'Total',
+                    status: 'Statut',
+                    not_found: 'Non trouvé',
+                    pay: '💳 Procéder au paiement',
+                    pay_deposit: '💳 Payer l\'acompte',
+                    back: '⬅️ Précédent',
+                    next: 'Suivant ➡️',
+                    return_home: '← Retour à l\'accueil',
+                    print: '🖨 Imprimer',
+                    share: '📤 Partager',
+                    cancel: '🗑️ Annuler la commande',
+                    cancel_confirm: '⚠️ Voulez-vous vraiment annuler cette commande ?',
+                    cancel_success: '🗑️ Commande annulée avec succès',
+                    cancel_error: '❌ Erreur lors de l\'annulation',
+                    page_info: 'Page 1/1 • Sauvegardé automatiquement • Devise: '
+                },
+                en: {
+                    title: '✅ Confirmation',
+                    subtitle: 'Your request has been successfully recorded.',
+                    order_title: '📦 Order confirmed!',
+                    order_subtitle: 'Your order has been successfully recorded.',
+                    reservation_title: '📅 Reservation confirmed!',
+                    reservation_subtitle: 'Your reservation has been successfully recorded.',
+                    error_title: '⚠️ No confirmation found',
+                    error_subtitle: 'We could not find the details.',
+                    ref: 'Reference',
+                    date: 'Date',
+                    type: 'Type',
+                    type_order: '📦 Order',
+                    type_reservation: '📅 Reservation',
+                    client: 'Client',
+                    phone: 'Phone',
+                    email: 'Email',
+                    address: 'Address',
+                    products: '📦 Products',
+                    delivery: '🚚 Delivery method',
+                    poids: '⚖️ Total weight',
+                    deposit: 'Deposit (30%)',
+                    total: 'Total',
+                    status: 'Status',
+                    not_found: 'Not found',
+                    pay: '💳 Proceed to payment',
+                    pay_deposit: '💳 Pay the deposit',
+                    back: '⬅️ Previous',
+                    next: 'Next ➡️',
+                    return_home: '← Back to home',
+                    print: '🖨 Print',
+                    share: '📤 Share',
+                    cancel: '🗑️ Cancel order',
+                    cancel_confirm: '⚠️ Are you sure you want to cancel this order?',
+                    cancel_success: '🗑️ Order cancelled successfully',
+                    cancel_error: '❌ Error cancelling order',
+                    page_info: 'Page 1/1 • Auto-saved • Currency: '
+                },
+                es: {
+                    title: '✅ Confirmación',
+                    subtitle: 'Su solicitud ha sido registrada con éxito.',
+                    order_title: '📦 ¡Pedido confirmado!',
+                    order_subtitle: 'Su pedido ha sido registrado con éxito.',
+                    reservation_title: '📅 ¡Reserva confirmada!',
+                    reservation_subtitle: 'Su reserva ha sido registrada con éxito.',
+                    error_title: '⚠️ No se encontró confirmación',
+                    error_subtitle: 'No pudimos encontrar los detalles.',
+                    ref: 'Referencia',
+                    date: 'Fecha',
+                    type: 'Tipo',
+                    type_order: '📦 Pedido',
+                    type_reservation: '📅 Reserva',
+                    client: 'Cliente',
+                    phone: 'Teléfono',
+                    email: 'Email',
+                    address: 'Dirección',
+                    products: '📦 Productos',
+                    delivery: '🚚 Método de entrega',
+                    poids: '⚖️ Peso total',
+                    deposit: 'Depósito (30%)',
+                    total: 'Total',
+                    status: 'Estado',
+                    not_found: 'No encontrado',
+                    pay: '💳 Proceder al pago',
+                    pay_deposit: '💳 Pagar el depósito',
+                    back: '⬅️ Anterior',
+                    next: 'Siguiente ➡️',
+                    return_home: '← Volver al inicio',
+                    print: '🖨 Imprimir',
+                    share: '📤 Compartir',
+                    cancel: '🗑️ Cancelar pedido',
+                    cancel_confirm: '⚠️ ¿Estás seguro de que quieres cancelar este pedido?',
+                    cancel_success: '🗑️ Pedido cancelado con éxito',
+                    cancel_error: '❌ Error al cancelar el pedido',
+                    page_info: 'Página 1/1 • Guardado automático • Moneda: '
+                },
+                ar: {
+                    title: '✅ التأكيد',
+                    subtitle: 'تم تسجيل طلبك بنجاح.',
+                    order_title: '📦 تم تأكيد الطلب!',
+                    order_subtitle: 'تم تسجيل طلبك بنجاح.',
+                    reservation_title: '📅 تم تأكيد الحجز!',
+                    reservation_subtitle: 'تم تسجيل حجزك بنجاح.',
+                    error_title: '⚠️ لم يتم العثور على تأكيد',
+                    error_subtitle: 'لم نتمكن من العثور على التفاصيل.',
+                    ref: 'المرجع',
+                    date: 'التاريخ',
+                    type: 'النوع',
+                    type_order: '📦 طلب',
+                    type_reservation: '📅 حجز',
+                    client: 'العميل',
+                    phone: 'الهاتف',
+                    email: 'البريد الإلكتروني',
+                    address: 'العنوان',
+                    products: '📦 المنتجات',
+                    delivery: '🚚 طريقة التوصيل',
+                    poids: '⚖️ الوزن الإجمالي',
+                    deposit: 'الدفعة المقدمة (30%)',
+                    total: 'المجموع',
+                    status: 'الحالة',
+                    not_found: 'غير موجود',
+                    pay: '💳 المتابعة إلى الدفع',
+                    pay_deposit: '💳 دفع العربون',
+                    back: '➡️ السابق',
+                    next: 'التالي ⬅️',
+                    return_home: '→ العودة إلى الرئيسية',
+                    print: '🖨 طباعة',
+                    share: '📤 مشاركة',
+                    cancel: '🗑️ إلغاء الطلب',
+                    cancel_confirm: '⚠️ هل تريد حقاً إلغاء هذا الطلب؟',
+                    cancel_success: '🗑️ تم إلغاء الطلب بنجاح',
+                    cancel_error: '❌ خطأ أثناء الإلغاء',
+                    page_info: 'صفحة 1/1 • حفظ تلقائي • العملة: '
+                }
+            };
+
+            function t(key) {
+                const lang = getLangue();
+                return TRADUCTIONS[lang]?.[key] || TRADUCTIONS.fr[key] || key;
+            }
+
+            // =====================================================
+            // APPLIQUER LANGUE
+            // =====================================================
+            function appliquerLangue() {
+                const lang = getLangue();
+                document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+
+                // Mettre à jour le titre et sous-titre selon le type
+                const type = confirmationType || 'commande';
+                if (type === 'commande') {
+                    document.getElementById('titreConfirmation').textContent = t('order_title');
+                    document.getElementById('sousTitreConfirmation').textContent = t('order_subtitle');
+                    document.getElementById('iconConfirmation').textContent = '✅';
+                    if (btnPayer) {
+                        btnPayer.textContent = t('pay');
+                    }
+                } else if (type === 'reservation') {
+                    document.getElementById('titreConfirmation').textContent = t('reservation_title');
+                    document.getElementById('sousTitreConfirmation').textContent = t('reservation_subtitle');
+                    document.getElementById('iconConfirmation').textContent = '📅';
+                    if (btnPayer) {
+                        btnPayer.textContent = t('pay_deposit');
+                    }
+                }
+
+                // Mettre à jour les boutons
+                document.getElementById('btnPrecedent').textContent = t('back');
+                document.getElementById('btnSuivant').textContent = t('next');
+                document.getElementById('btnRetour').textContent = t('return_home');
+                document.getElementById('btnImprimer').textContent = t('print');
+                document.getElementById('btnPartager').textContent = t('share');
+                document.getElementById('btnAnnuler').textContent = t('cancel');
+
+                // Mettre à jour la nav info
+                document.getElementById('navInfo').textContent = t('page_info') + getDevise();
+            }
+
+            // =====================================================
+            // LANGUE - ÉVÉNEMENT
+            // =====================================================
+            // =====================================================
+            // VÉRIFICATION AUTHENTIFICATION
+            // =====================================================
+            function checkAuth() {
+                const token = localStorage.getItem('sineToken');
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!token || !user) {
+                    window.location.href = '../html/login.html?redirect=confirmation';
+                    return false;
+                }
+                // Cloisonnement des rôles — un compte non-client connecté ne doit
+                // jamais atterrir sur les pages d'achat, même via URL directe.
+                if (user.role !== 'client') {
+                    const pages = {
+                        seller: '../html/vendeur.html',
+                        livreur: '../html/livreur.html',
+                        affiliate: '../html/sineshopaffiliation.html',
+                        admin: '../html/administrateur.html',
+                        superadmin: '../html/superadministrateur.html',
+                        moderator: '../html/moderateur.html',
+                        support: '../html/support.html',
+                    };
+                    if (pages[user.role]) {
+                        window.location.href = pages[user.role];
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // =====================================================
+            // ÉTAT
+            // =====================================================
+            let confirmationData = null;
+            let confirmationType = 'commande';
+            let orderId = null;
+            let deviseUtilisateur = 'FCFA';
+            // Vue groupée : un achat réparti entre plusieurs vendeurs affiche
+            // toutes leurs commandes ensemble (reliées par orderGroup), chacune
+            // clairement identifiée — jamais fusionnées en une seule commande
+            // artificielle.
+            let isGroupView = false;
+            let groupOrders = [];
+
+            // Éléments DOM
+            const detailsConfirmation = document.getElementById('detailsConfirmation');
+            const totalFinal = document.getElementById('totalFinal');
+            const btnPayer = document.getElementById('btnPayer');
+            const btnPrecedent = document.getElementById('btnPrecedent');
+            const btnSuivant = document.getElementById('btnSuivant');
+            const btnAnnuler = document.getElementById('btnAnnuler');
+            const btnRetour = document.getElementById('btnRetour');
+            const btnImprimer = document.getElementById('btnImprimer');
+            const btnPartager = document.getElementById('btnPartager');
+
+            // =====================================================
+            // CHARGEMENT DES DONNÉES
+            // =====================================================
+            async function chargerDonnees() {
+                if (!checkAuth()) return;
+
+                deviseUtilisateur = getDevise();
+                appliquerLangue();
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const idFromUrl = urlParams.get('id');
+                const groupFromUrl = urlParams.get('group');
+                const typeFromUrl = urlParams.get('type') || 'commande';
+
+                if (!idFromUrl && !groupFromUrl) {
+                    // Dernier recours : la session précédemment sauvegardée sur cette
+                    // page (pas une invention de données, juste un cache d'affichage).
+                    if (restaurerSession()) {
+                        afficherConfirmation();
+                        genererQRCode();
+                        return;
+                    }
+                    afficherErreur();
+                    return;
+                }
+
+                try {
+                    if (groupFromUrl) {
+                        // Achat réparti entre plusieurs vendeurs — chaque vendeur a
+                        // sa propre commande, toutes reliées par ce groupe.
+                        const result = await window.SineAPI.getOrderGroup(groupFromUrl);
+                        groupOrders = result.orders || [];
+                        isGroupView = true;
+                        confirmationType = 'commande';
+
+                        const premiere = groupOrders[0] || {};
+                        confirmationData = {
+                            _id: premiere._id,
+                            orderNumber: groupOrders.map(o => o.orderNumber).join(', '),
+                            createdAt: premiere.createdAt,
+                            user: premiere.user,
+                            shippingAddress: premiere.shippingAddress,
+                            shippingCost: groupOrders.reduce((sum, o) => sum + (o.shippingCost || 0), 0),
+                            total: result.total ?? groupOrders.reduce((sum, o) => sum + (o.total || 0), 0),
+                            items: groupOrders.flatMap(o => o.items || []),
+                        };
+                    } else if (typeFromUrl === 'commande') {
+                        isGroupView = false;
+                        const result = await window.SineAPI.getOrderDetails(idFromUrl);
+                        confirmationData = result.order || result;
+                    } else {
+                        isGroupView = false;
+                        confirmationData = await window.SineAPI.getReservationDetails(idFromUrl);
+                    }
+                    confirmationType = typeFromUrl;
+                    afficherConfirmation();
+                    genererQRCode();
+                    sauvegarderSession();
+                } catch (error) {
+                    console.error('Impossible de récupérer la confirmation:', error);
+                    afficherErreur();
+                }
+            }
+
+            // =====================================================
+            // SAUVEGARDE DE SESSION
+            // =====================================================
+            function sauvegarderSession() {
+                if (confirmationData) {
+                    localStorage.setItem('sineConfirmationData', JSON.stringify(confirmationData));
+                    localStorage.setItem('sineConfirmationType', confirmationType);
+                    localStorage.setItem('sineDevise', deviseUtilisateur);
+                }
+            }
+
+            function restaurerSession() {
+                const savedData = localStorage.getItem('sineConfirmationData');
+                const savedType = localStorage.getItem('sineConfirmationType');
+                const savedDevise = localStorage.getItem('sineDevise');
+                if (savedData && savedType) {
+                    try {
+                        confirmationData = JSON.parse(savedData);
+                        confirmationType = savedType;
+                        if (savedDevise) {
+                            deviseUtilisateur = savedDevise;
+                        }
+                        return true;
+                    } catch (e) {}
+                }
+                return false;
+            }
+
+            // =====================================================
+            // AFFICHAGE DE LA CONFIRMATION
+            // =====================================================
+            function afficherConfirmation() {
+                if (!confirmationData) {
+                    afficherErreur();
+                    return;
+                }
+
+                const data = confirmationData;
+                const type = confirmationType;
+
+                // Titre et icône
+                if (type === 'commande') {
+                    document.getElementById('titreConfirmation').textContent = t('order_title');
+                    document.getElementById('sousTitreConfirmation').textContent = t('order_subtitle');
+                    document.getElementById('iconConfirmation').textContent = '✅';
+                    btnPayer.textContent = t('pay');
+                } else {
+                    document.getElementById('titreConfirmation').textContent = t('reservation_title');
+                    document.getElementById('sousTitreConfirmation').textContent = t('reservation_subtitle');
+                    document.getElementById('iconConfirmation').textContent = '📅';
+                    btnPayer.textContent = t('pay_deposit');
+                }
+
+                const id = data.orderNumber || data._id || 'N/A';
+                const date = data.createdAt || new Date().toISOString();
+                const total = type === 'reservation' ? (data.totalPrice || 0) : (data.total || 0);
+                // Order: items[].product peuplé (name, images) + quantity + price
+                // Reservation: un seul product peuplé + quantity
+                const items = type === 'reservation'
+                    ? (data.product ? [{ product: data.product, quantity: data.quantity, price: data.totalPrice }] : [])
+                    : (data.items || []);
+                const client = data.user || {};
+                const adresseLivraison = data.shippingAddress || {};
+                const modeLivraison = adresseLivraison.street ? `${adresseLivraison.street}, ${adresseLivraison.city || ''}` : 'À définir';
+                const fraisLivraison = data.shippingCost || 0;
+                const poidsTotal = items.reduce((sum, item) => sum + (item.product?.weight || 0) * (item.quantity || 1), 0);
+
+                // Construction du HTML des détails — regroupé par vendeur si
+                // l'achat est réparti entre plusieurs commandes (isGroupView).
+                let produitsHTML = '';
+                if (isGroupView && groupOrders.length > 0) {
+                    produitsHTML = groupOrders.map(order => {
+                        const nomVendeur = order.seller?.storeName
+                            || `${order.seller?.firstName || ''} ${order.seller?.lastName || ''}`.trim()
+                            || 'Vendeur';
+                        const lignesProduits = (order.items || []).map(item => {
+                            const nom = item.product?.name || 'Produit';
+                            const qte = item.quantity || 1;
+                            const prixUnitaire = item.price || item.product?.price || 0;
+                            return `
+                                <div class="produit-item">
+                                    <span>${nom} × ${qte}</span>
+                                    <span>${formatPrix(prixUnitaire * qte)}</span>
+                                </div>
+                            `;
+                        }).join('');
+                        return `
+                            <div style="margin-bottom:10px;">
+                                <div style="font-weight:600;font-size:0.82rem;color:#64748b;margin-bottom:4px;">🏪 ${nomVendeur} — ${order.orderNumber}</div>
+                                ${lignesProduits}
+                                <div class="produit-item" style="border-top:1px dashed #e2e8f0;padding-top:4px;margin-top:2px;">
+                                    <span style="font-size:0.78rem;color:#94a3b8;">Statut : ${order.status || 'En attente'}</span>
+                                    <span style="font-weight:600;">${formatPrix(order.total || 0)}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else if (items.length > 0) {
+                    produitsHTML = items.map(item => {
+                        const nom = item.product?.name || 'Produit';
+                        const qte = item.quantity || 1;
+                        const prixUnitaire = item.price || item.product?.price || 0;
+                        return `
+                            <div class="produit-item">
+                                <span>${nom} × ${qte}</span>
+                                <span>${formatPrix(prixUnitaire * (type === 'reservation' ? 1 : qte))}</span>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    produitsHTML = `<div class="produit-item"><span>Aucun produit</span><span>${formatPrix(0)}</span></div>`;
+                }
+
+                const acompte = 0;
+
+                detailsConfirmation.innerHTML = `
+                    <div class="ligne">
+                        <span>${t('ref')}</span>
+                        <span class="valeur"><strong>${id}</strong></span>
+                    </div>
+                    <div class="ligne">
+                        <span>${t('date')}</span>
+                        <span class="valeur">${new Date(date).toLocaleString('fr-FR')}</span>
+                    </div>
+                    <div class="ligne">
+                        <span>${t('type')}</span>
+                        <span class="valeur">${type === 'commande' ? t('type_order') : t('type_reservation')}</span>
+                    </div>
+                    ${client.firstName ? `<div class="ligne"><span>${t('client')}</span><span class="valeur">${client.firstName} ${client.lastName || ''}</span></div>` : ''}
+                    ${client.phone ? `<div class="ligne"><span>${t('phone')}</span><span class="valeur">${client.phone}</span></div>` : ''}
+                    ${client.email ? `<div class="ligne"><span>${t('email')}</span><span class="valeur">${client.email}</span></div>` : ''}
+                    ${adresseLivraison.street ? `<div class="ligne"><span>${t('address')}</span><span class="valeur">${adresseLivraison.street}</span></div>` : ''}
+
+                    ${isGroupView && groupOrders.length > 1 ? `
+                    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:10px 14px;margin:8px 0;font-size:0.85rem;color:#1e40af;">
+                        📦 Votre achat est réparti en <strong>${groupOrders.length} commandes</strong> (${groupOrders.length} vendeurs différents) — chacune est suivie et livrée séparément.
+                    </div>
+                    ` : ''}
+
+                    ${poidsTotal > 0 ? `<div class="poids-section"><span>${t('poids')}</span><span>${poidsTotal.toFixed(1)} kg</span></div>` : ''}
+
+                    <div class="produits-section">
+                        <div style="font-weight:600;color:#0f172a;margin-bottom:4px;">${t('products')}</div>
+                        ${produitsHTML}
+                    </div>
+
+                    ${type === 'commande' ? `
+                    <div class="livraison-section">
+                        <div style="font-weight:600;color:#0f172a;margin-bottom:4px;">${t('delivery')}</div>
+                        <div class="livraison-item">
+                            <span>${modeLivraison}</span>
+                            <span>${fraisLivraison ? formatPrix(fraisLivraison) : 'Gratuit'}</span>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${type === 'reservation' ? `
+                        <div class="ligne" style="margin-top:8px;border-top:2px solid #e2e8f0;padding-top:8px;">
+                            <span>${t('deposit')}</span>
+                            <span class="valeur">${formatPrix(acompte)}</span>
+                        </div>
+                    ` : ''}
+                    <div class="ligne" style="border-top:2px solid #0f172a;padding-top:8px;margin-top:4px;">
+                        <span style="font-weight:700;color:#0f172a;">${t('total')}</span>
+                        <span class="valeur" style="font-weight:700;color:#e51f53;">${formatPrix(total)}</span>
+                    </div>
+                `;
+
+                const montantAffiche = type === 'reservation' ? acompte : total;
+                totalFinal.textContent = formatPrix(montantAffiche);
+
+                if (data._id) {
+                    orderId = data._id;
+                }
+
+                document.getElementById('navInfo').textContent = t('page_info') + getDevise();
+            }
+
+            function afficherErreur() {
+                document.getElementById('titreConfirmation').textContent = t('error_title');
+                document.getElementById('sousTitreConfirmation').textContent = t('error_subtitle');
+                document.getElementById('iconConfirmation').textContent = '⚠️';
+                document.getElementById('iconConfirmation').className = 'icon error';
+                detailsConfirmation.innerHTML = `
+                    <div class="ligne">
+                        <span>${t('status')}</span>
+                        <span class="valeur">${t('not_found')}</span>
+                    </div>
+                `;
+                totalFinal.textContent = formatPrix(0);
+                btnPayer.style.display = 'none';
+                btnPrecedent.style.display = 'none';
+                btnSuivant.style.display = 'none';
+                btnAnnuler.style.display = 'none';
+            }
+
+            // =====================================================
+            // QR CODE
+            // =====================================================
+            function genererQRCode() {
+                const container = document.getElementById('qrContainer');
+                if (!container) return;
+
+                const data = confirmationData || {};
+                const id = data.orderNumber || data._id || '';
+                // Un vrai lien scannable (vers le suivi de commande/réservation),
+                // pas un simple objet JSON — sinon rien ne se passe quand on
+                // scanne avec l'appareil photo d'un téléphone.
+                const qrData = isGroupView && data.orderGroup
+                    ? `${window.location.origin}/html/suivi.html?commande=${encodeURIComponent(id)}`
+                    : `${window.location.origin}/html/${confirmationType === 'commande' ? 'suivi' : 'confirmation'}.html?id=${encodeURIComponent(data._id || id)}&type=${confirmationType}`;
+
+                const size = 150;
+                const url =
+                    `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(qrData)}&format=png`;
+
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'QR Code';
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.maxWidth = '150px';
+                img.style.borderRadius = '12px';
+                img.style.border = '2px solid #e2e8f0';
+                img.style.padding = '8px';
+                img.style.background = 'white';
+
+                container.innerHTML = '';
+                container.appendChild(img);
+            }
+
+            // =====================================================
+            // NAVIGATION
+            // =====================================================
+            btnPrecedent.addEventListener('click', function() {
+                if (document.referrer && (document.referrer.includes('commande.html') || document.referrer.includes(
+                        'panier.html'))) {
+                    window.history.back();
+                } else {
+                    window.location.href = '../html/commande.html';
+                }
+            });
+
+            btnSuivant.addEventListener('click', function() {
+                if (confirmationType === 'reservation') {
+                    // Une réservation est déjà créée et confirmée à ce stade
+                    // (voir reservation.html) — rien à payer ici, contrairement à
+                    // une commande qui doit encore passer par payment.html.
+                    window.location.href = '../html/client.html?section=reservations';
+                } else if (orderId) {
+                    window.location.href =
+                        `../html/payment.html?orderId=${orderId}&type=${confirmationType}`;
+                } else {
+                    window.location.href = '../html/payment.html';
+                }
+            });
+
+            btnRetour.addEventListener('click', function() {
+                window.location.href = '../html/index.html';
+            });
+
+            // =====================================================
+            // ANNULER LA COMMANDE
+            // =====================================================
+            btnAnnuler.addEventListener('click', async function() {
+                if (!confirm(t('cancel_confirm'))) return;
+
+                try {
+                    const id = confirmationData?._id || orderId;
+                    if (id) {
+                        if (confirmationType === 'reservation') {
+                            await window.SineAPI.cancelReservation(id);
+                        } else {
+                            await window.SineAPI.cancelOrder(id);
+                        }
+                    }
+
+                    localStorage.removeItem('sineConfirmationData');
+                    localStorage.removeItem('sineConfirmationType');
+                    localStorage.removeItem('sineDevise');
+
+                    showNotification(t('cancel_success'), 'success');
+                    setTimeout(() => {
+                        window.location.href = '../html/index.html';
+                    }, 1000);
+                } catch (error) {
+                    showNotification(error.message || t('cancel_error'), 'error');
+                }
+            });
+
+            // =====================================================
+            // IMPRIMER
+            // =====================================================
+            btnImprimer.addEventListener('click', function() {
+                window.print();
+                showNotification('🖨 Impression en cours...', 'info');
+            });
+
+            // =====================================================
+            // PARTAGER
+            // =====================================================
+            btnPartager.addEventListener('click', function() {
+                const url = window.location.href;
+                const text =
+                    `🧾 Confirmation ${confirmationType === 'commande' ? 'commande' : 'réservation'} ${orderId || ''}\nTotal: ${totalFinal.textContent}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Confirmation SINE.SHOP',
+                        text: text,
+                        url: url
+                    }).catch(() => {});
+                } else {
+                    navigator.clipboard.writeText(url).then(() => {
+                        showNotification('📤 Lien copié dans le presse-papier', 'success');
+                    }).catch(() => {
+                        showNotification('📤 Copiez le lien : ' + url, 'info');
+                    });
+                }
+            });
+
+            // =====================================================
+            // PAIEMENT
+            // =====================================================
+            btnPayer.addEventListener('click', function() {
+                if (orderId) {
+                    window.location.href =
+                        `../html/payment.html?orderId=${orderId}&type=${confirmationType}`;
+                } else {
+                    window.location.href = '../html/payment.html';
+                }
+            });
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 4000);
+            }
+
+            // =====================================================
+            // SWIPE NAVIGATION
+            // =====================================================
+            let touchStartX = 0;
+            let touchStartY = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.media-scroll, .carousel-slides, .cat-media-scroll, [data-no-swipe-nav]')) { touchStartX = null; return; }
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                if (touchStartX === null) return;
+                const diffX = touchStartX - e.changedTouches[0].screenX;
+                const diffY = touchStartY - e.changedTouches[0].screenY;
+                if (Math.abs(diffX) < 80 || Math.abs(diffX) < Math.abs(diffY) * 1.5) return;
+                if (diffX > 0) {
+                    btnSuivant.click();
+                } else {
+                    btnPrecedent.click();
+                }
+            }, { passive: true });
+
+            // =====================================================
+            // KEYBOARD NAVIGATION
+            // =====================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    btnPrecedent.click();
+                } else if (e.key === 'ArrowRight') {
+                    btnSuivant.click();
+                } else if (e.key === 'Escape') {
+                    btnRetour.click();
+                } else if (e.key === 'Delete' || e.key === 'Backspace') {
+                    btnAnnuler.click();
+                }
+            });
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            if (!restaurerSession()) {
+                chargerDonnees();
+            } else {
+                afficherConfirmation();
+                genererQRCode();
+            }
+
+            // Sauvegarde automatique toutes les 30 secondes
+            setInterval(() => {
+                sauvegarderSession();
+                const now = new Date().toLocaleTimeString();
+                document.getElementById('navInfo').textContent =
+                    t('page_info') + getDevise() + ' • ' + now;
+            }, 30000);
+
+            console.log('✅ Confirmation SINE.SHOP initialisée');
+            console.log('📋 Type:', confirmationType);
+            console.log('💱 Devise:', getDevise());
+            console.log('📦 Données:', confirmationData);
+
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Profil vendeur • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, sans-serif;
+            background: #f6f3ee;
+            color: #2b2620;
+            min-height: 100vh;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; }
+        img { max-width: 100%; display: block; }
+
+        .vendeur-hero {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 20px;
+        }
+        .vendeur-banniere {
+            max-width: 900px;
+            margin: 40px auto -40px;
+            padding: 0 24px;
+        }
+        .vendeur-banniere img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+            display: block;
+        }
+        .vendeur-info .pseudo { color: #8a8070; font-size: 0.85rem; margin-top: 2px; }
+        .vendeur-reseaux { display: flex; gap: 10px; margin-top: 12px; }
+        .vendeur-reseaux a {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: #f1ece0; display: flex; align-items: center; justify-content: center;
+            color: #2b2620; font-size: 0.9rem;
+        }
+        .vendeur-reseaux a:hover { background: #b5622f; color: white; }
+        .vendeur-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(43,38,32,0.06);
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .vendeur-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #eee2d0;
+            flex-shrink: 0;
+        }
+        .vendeur-info { flex: 1; min-width: 200px; }
+        .vendeur-info h1 {
+            font-family: "Fraunces", serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-verified {
+            background: #dcfce7;
+            color: #16a34a;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .vendeur-info .desc { color: #7a7160; font-size: 0.92rem; margin-top: 6px; line-height: 1.5; }
+        .vendeur-meta {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            font-size: 0.85rem;
+            color: #8a8070;
+        }
+        .vendeur-meta span { display: flex; align-items: center; gap: 6px; }
+        .vendeur-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-contacter, .btn-voir-boutique {
+            padding: 11px 22px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn-contacter { background: #b5622f; color: white; }
+        .btn-contacter:hover { background: #9c5227; }
+        .btn-voir-boutique { background: #f1ece0; color: #2b2620; }
+        .btn-voir-boutique:hover { background: #e8dfc9; }
+
+        .vendeur-produits {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px 24px 60px;
+        }
+        .vendeur-produits h2 {
+            font-family: "Fraunces", serif;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+        .produits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+        }
+        .produit-mini {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(43,38,32,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .produit-mini:hover { transform: translateY(-3px); }
+        .produit-mini img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: #f6f3ee; padding: 6px; }
+        .produit-mini .info { padding: 10px 12px 12px; }
+        .produit-mini .nom { font-size: 0.8rem; font-weight: 600; min-height: 2.2em; overflow: hidden; }
+        .produit-mini .prix { font-size: 0.9rem; font-weight: 700; color: #b5622f; margin-top: 4px; }
+
+        .empty-state, .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8a8070;
+        }
+        .empty-state .icon, .loading-state .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+
+        #notification {
+            position: fixed; bottom: 26px; right: 26px; padding: 12px 20px; border-radius: 14px;
+            background: #2b2620; color: white; font-weight: 600; font-size: 0.85rem; z-index: 99999;
+            opacity: 0; transform: translateY(16px); transition: 0.35s; pointer-events: none; max-width: 320px;
+        }
+        #notification.show { opacity: 1; transform: translateY(0); }
+        #notification.success { background: #16a34a; }
+        #notification.error { background: #dc2626; }
+        #notification.warning { background: #d97706; }
+    </style>
+</head>
+<body>
+
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions">
+            <a href="../html/index.html">Accueil</a>
+            <a href="../html/collections.html">Collections</a>
+        </div>
+    </header>
+
+    <div class="vendeur-hero" id="vendeurHero">
+        <div class="loading-state"><span class="icon">⏳</span>Chargement du profil...</div>
+    </div>
+
+    <div class="vendeur-produits" id="vendeurProduitsSection" style="display:none;">
+        <h2>🛍️ Produits de cette boutique</h2>
+        <div class="produits-grid" id="produitsGrid"></div>
+    </div>
+
+    <div id="notification"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+            function formatPrix(montant) {
+                const symboles = { 'FCFA': 'FCFA', 'XOF': 'FCFA', 'EUR': '€', 'USD': '$', 'GBP': '£', 'CAD': 'CA$', 'MAD': 'MAD' };
+                const d = getDevise();
+                return (montant || 0).toLocaleString('fr-FR') + ' ' + (symboles[d] || d);
+            }
+            function showNotification(message, type) {
+                const el = document.getElementById('notification');
+                el.textContent = message;
+                el.className = 'show ' + (type || '');
+                clearTimeout(el._t);
+                el._t = setTimeout(() => el.classList.remove('show'), 3500);
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            const vendeurId = params.get('id');
+
+            async function charger() {
+                if (!vendeurId) {
+                    document.getElementById('vendeurHero').innerHTML = `
+                        <div class="empty-state"><span class="icon">🏪</span>Aucun vendeur spécifié.</div>
+                    `;
+                    return;
+                }
+
+                try {
+                    const seller = await window.SineAPI.getSellerProfile(vendeurId);
+                    afficherVendeur(seller);
+
+                    const produits = await window.SineAPI.getSellerProducts(vendeurId);
+                    afficherProduits(produits);
+                } catch (error) {
+                    document.getElementById('vendeurHero').innerHTML = `
+                        <div class="empty-state"><span class="icon">❌</span>Impossible de charger ce profil vendeur.</div>
+                    `;
+                }
+            }
+
+            function afficherVendeur(seller) {
+                const nom = seller.storeName || `${seller.firstName || ''} ${seller.lastName || ''}`.trim() || 'Vendeur';
+                const photo = seller.storeLogo || seller.profilePicture || '../images/profil.png';
+                const localisation = [seller.city, seller.country].filter(Boolean).join(', ');
+                const membreDepuis = seller.memberSince ? new Date(seller.memberSince).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' }) : '';
+
+                const reseaux = seller.socialLinks || {};
+                const liensReseaux = [
+                    reseaux.instagram ? { url: reseaux.instagram, icon: 'fa-instagram' } : null,
+                    reseaux.facebook ? { url: reseaux.facebook, icon: 'fa-facebook' } : null,
+                    reseaux.tiktok ? { url: reseaux.tiktok, icon: 'fa-tiktok' } : null,
+                    reseaux.whatsapp ? { url: 'https://wa.me/' + reseaux.whatsapp.replace(/\D/g, ''), icon: 'fa-whatsapp' } : null,
+                    reseaux.website ? { url: reseaux.website, icon: 'fa-globe', brand: false } : null,
+                ].filter(Boolean);
+
+                const banniereHtml = seller.storeBanner
+                    ? `<div class="vendeur-banniere"><img src="${seller.storeBanner}" alt="" onerror="this.parentElement.style.display='none'"></div>`
+                    : '';
+
+                document.getElementById('vendeurHero').innerHTML = `
+                    ${banniereHtml}
+                    <div class="vendeur-card">
+                        <img class="vendeur-avatar" src="${photo}" alt="${nom}" onerror="this.src='../images/profil.png'">
+                        <div class="vendeur-info">
+                            <h1>${nom} ${seller.isStoreVerified ? '<span class="badge-verified">✓ Boutique vérifiée</span>' : ''}</h1>
+                            ${seller.pseudo ? `<div class="pseudo">@${seller.pseudo}</div>` : ''}
+                            ${seller.storeDescription || seller.bio ? `<div class="desc">${seller.storeDescription || seller.bio}</div>` : ''}
+                            <div class="vendeur-meta">
+                                ${seller.rating > 0 ? `<span>⭐ ${seller.rating.toFixed(1)} (${seller.numReviews} avis)</span>` : ''}
+                                <span>🛍️ ${seller.productCount || 0} produit(s)</span>
+                                ${localisation ? `<span>📍 ${localisation}</span>` : ''}
+                                ${membreDepuis ? `<span>📅 Membre depuis ${membreDepuis}</span>` : ''}
+                            </div>
+                            ${liensReseaux.length ? `<div class="vendeur-reseaux">${liensReseaux.map(r => `<a href="${r.url}" target="_blank" rel="noopener"><i class="fa-brands ${r.icon}"></i></a>`).join('')}</div>` : ''}
+                        </div>
+                        <div class="vendeur-actions">
+                            <button class="btn-contacter" id="btnContacter">💬 Contacter</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('btnContacter').addEventListener('click', async function() {
+                    const utilisateur = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                    if (!utilisateur) {
+                        window.location.href = '../html/login.html?redirect=vendeur-profil';
+                        return;
+                    }
+                    try {
+                        await window.SineAPI.startConversation(seller._id);
+                        window.location.href = '../html/client.html?section=messages';
+                    } catch (error) {
+                        showNotification('❌ ' + (error.message || 'Impossible de démarrer la conversation.'), 'error');
+                    }
+                });
+            }
+
+            function afficherProduits(produits) {
+                const section = document.getElementById('vendeurProduitsSection');
+                const grid = document.getElementById('produitsGrid');
+                section.style.display = 'block';
+
+                if (!produits || produits.length === 0) {
+                    grid.innerHTML = '';
+                    section.innerHTML = '<div class="empty-state"><span class="icon">📦</span>Cette boutique n\'a pas encore de produit en ligne.</div>';
+                    return;
+                }
+
+                grid.innerHTML = produits.map(p => {
+                    const enPromo = p.discountedPrice && p.discountedPrice < p.price;
+                    const prix = enPromo ? p.discountedPrice : (p.price || 0);
+                    const image = p.images?.[0]?.url || '../images/produit.png';
+                    return `
+                        <div class="produit-mini" onclick="window.location.href='../html/collections.html?produit=${p._id}'">
+                            <img src="${image}" alt="${p.name || 'Produit'}" loading="lazy" onerror="this.src='../images/produit.png'">
+                            <div class="info">
+                                <div class="nom">${p.name || 'Produit'}</div>
+                                <div class="prix">${formatPrix(prix)}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            charger();
+        })();
+    </script>
+
+</body>
+</html>

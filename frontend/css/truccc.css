@@ -1,0 +1,10933 @@
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 1
+========================================================== */
+
+/* ===========================
+   RESET
+=========================== */
+
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+    background:#f4f6fb63;
+
+    color:#1f2937;
+
+    font-size:15px;
+
+    line-height:1.6;
+
+    overflow-x:hidden;
+
+}
+
+/* ===========================
+   VARIABLES
+=========================== */
+
+:root{
+
+    --primary:#2563eb;
+
+    --primary-dark:#1d4ed8;
+
+    --secondary:#0f172a;
+
+    --success:#16a34a;
+
+    --danger:#dc2626;
+
+    --warning:#f59e0b;
+
+    --info:#0ea5e9;
+
+    --light:#ffffff;
+
+    --background:#f4f6fb;
+
+    --border:#e5e7eb;
+
+    --text:#1f2937;
+
+    --text-light:#6b7280;
+
+    --shadow:
+
+    0 10px 30px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+    --transition:.25s ease;
+
+}
+
+/* ===========================
+   LIENS
+=========================== */
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+/* ===========================
+   LISTES
+=========================== */
+
+ul{
+
+    list-style:none;
+
+}
+
+/* ===========================
+   IMAGES
+=========================== */
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+    height:auto;
+
+}
+
+/* ===========================
+   BOUTONS
+=========================== */
+
+button{
+
+    cursor:pointer;
+
+    border:none;
+
+    outline:none;
+
+    font-family:inherit;
+
+    transition:var(--transition);
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+input,
+textarea,
+select{
+
+    width:100%;
+
+    font-family:inherit;
+
+    font-size:15px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:13px 15px;
+
+    background:#fff;
+
+    transition:var(--transition);
+
+}
+
+textarea{
+
+    resize:vertical;
+
+    min-height:120px;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    border-color:var(--primary);
+
+    outline:none;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:9px;
+
+    height:9px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#c7ced9;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#9ca3af;
+
+}
+
+/* ===========================
+   LAYOUT PRINCIPAL
+=========================== */
+
+.layout-vendeur{
+
+    display:flex;
+
+    width:100%;
+
+    min-height:100vh;
+
+}
+
+/* ===========================
+   CONTENU
+=========================== */
+
+#contenuPrincipal{
+
+    flex:1;
+
+    padding:30px;
+
+    min-width:0;
+
+    overflow-x:hidden;
+
+}
+
+/* ===========================
+   PAGES
+=========================== */
+
+.page-vendeur,
+.page-section{
+
+    display:none;
+
+    animation:fadePage .35s ease;
+
+}
+
+.active-page{
+
+    display:block;
+
+}
+
+/* ===========================
+   ANIMATION
+=========================== */
+
+@keyframes fadePage{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===========================
+   TITRES
+=========================== */
+
+h1{
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+h2{
+
+    font-size:25px;
+
+    font-weight:700;
+
+    color:var(--secondary);
+
+    margin-bottom:8px;
+
+}
+
+h3{
+
+    font-size:19px;
+
+    margin-bottom:15px;
+
+    color:var(--secondary);
+
+}
+
+h4{
+
+    font-size:16px;
+
+}
+
+/* ===========================
+   PARAGRAPHES
+=========================== */
+
+p{
+
+    color:var(--text-light);
+
+}
+
+/* ===========================
+   ESPACEMENTS
+=========================== */
+
+section{
+
+    margin-bottom:35px;
+
+}
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 2
+   HEADER + SIDEBAR
+========================================================== */
+
+/* ===========================
+   HEADER
+=========================== */
+
+.header-vendeur{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    height:78px;
+
+    background:#ffffff9d;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    border-bottom:1px solid var(--border);
+
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
+
+}
+
+.logo-zone{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.logo{
+
+    width:52px;
+
+    height:52px;
+
+    object-fit:contain;
+
+}
+
+.logo-zone h1{
+
+    font-size:23px;
+
+    color:var(--primary);
+
+    line-height:1;
+
+}
+
+.logo-zone p{
+
+    margin-top:4px;
+
+    font-size:13px;
+
+    color:var(--text-light);
+
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.header-actions button{
+
+    position:relative;
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:14px;
+
+    background:#f7f8fb;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+    color:#555;
+
+    transition:.25s;
+
+}
+
+.header-actions button:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+#badgeNotifications,
+#badgeMessages{
+
+    position:absolute;
+
+    top:-4px;
+
+    right:-4px;
+
+    min-width:20px;
+
+    height:20px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    padding:2px;
+
+}
+
+.profil-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding-left:20px;
+
+    border-left:1px solid var(--border);
+
+}
+
+.profil-header img{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid #edf2ff;
+
+}
+
+.profil-header h4{
+
+    margin:0;
+
+    color:var(--secondary);
+
+}
+
+.profil-header small{
+
+    color:var(--text-light);
+
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+
+    width:285px;
+
+    min-width:285px;
+
+    background:#0f172a;
+
+    color:#fff;
+
+    min-height:calc(100vh - 78px);
+
+    overflow-y:auto;
+
+    position:sticky;
+
+    top:78px;
+
+    padding-bottom:40px;
+
+}
+
+.sidebar-top{
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.photo-sidebar{
+
+    width:95px;
+
+    height:95px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid rgba(255,255,255,.15);
+
+    margin-bottom:15px;
+
+}
+
+.sidebar-top h3{
+
+    color:#fff;
+
+    margin-bottom:6px;
+
+}
+
+.sidebar-top p{
+
+    color:#cbd5e1;
+
+    font-size:14px;
+
+}
+
+.sidebar nav{
+
+    padding:18px 0;
+
+}
+
+.sidebar ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+.menu-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    color:#d7dde8;
+
+    padding:14px 24px;
+
+    transition:.25s;
+
+    border-left:4px solid transparent;
+
+    font-size:15px;
+
+}
+
+.menu-link i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:17px;
+
+}
+
+.menu-link:hover{
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    border-left-color:var(--primary);
+
+}
+
+.menu-link.actif{
+
+    background:rgba(37,99,235,.18);
+
+    color:#fff;
+
+    border-left-color:#3b82f6;
+
+}
+
+.menu-link span{
+
+    flex:1;
+
+}
+
+/* ===========================
+   SCROLL SIDEBAR
+=========================== */
+
+.sidebar::-webkit-scrollbar{
+
+    width:7px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.25);
+
+    border-radius:20px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(255,255,255,.45);
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 2
+   HEADER + SIDEBAR
+========================================================== */
+
+/* ===========================
+   HEADER
+=========================== */
+
+.header-vendeur{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    height:78px;
+
+    background:#ffffff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    border-bottom:1px solid var(--border);
+
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
+
+}
+
+.logo-zone{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.logo{
+
+    width:52px;
+
+    height:52px;
+
+    object-fit:contain;
+
+}
+
+.logo-zone h1{
+
+    font-size:23px;
+
+    color:var(--primary);
+
+    line-height:1;
+
+}
+
+.logo-zone p{
+
+    margin-top:4px;
+
+    font-size:13px;
+
+    color:var(--text-light);
+
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.header-actions button{
+
+    position:relative;
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:14px;
+
+    background:#f7f8fb;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+    color:#555;
+
+    transition:.25s;
+
+}
+
+.header-actions button:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+#badgeNotifications,
+#badgeMessages{
+
+    position:absolute;
+
+    top:-4px;
+
+    right:-4px;
+
+    min-width:20px;
+
+    height:20px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    padding:2px;
+
+}
+
+.profil-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding-left:20px;
+
+    border-left:1px solid var(--border);
+
+}
+
+.profil-header img{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid #edf2ff;
+
+}
+
+.profil-header h4{
+
+    margin:0;
+
+    color:var(--secondary);
+
+}
+
+.profil-header small{
+
+    color:var(--text-light);
+
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+
+    width:285px;
+
+    min-width:285px;
+
+    background:#0f172a;
+
+    color:#fff;
+
+    min-height:calc(100vh - 78px);
+
+    overflow-y:auto;
+
+    position:sticky;
+
+    top:78px;
+
+    padding-bottom:40px;
+
+}
+
+.sidebar-top{
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.photo-sidebar{
+
+    width:95px;
+
+    height:95px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid rgba(255,255,255,.15);
+
+    margin-bottom:15px;
+
+}
+
+.sidebar-top h3{
+
+    color:#fff;
+
+    margin-bottom:6px;
+
+}
+
+.sidebar-top p{
+
+    color:#cbd5e1;
+
+    font-size:14px;
+
+}
+
+.sidebar nav{
+
+    padding:18px 0;
+
+}
+
+.sidebar ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+.menu-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    color:#d7dde8;
+
+    padding:14px 24px;
+
+    transition:.25s;
+
+    border-left:4px solid transparent;
+
+    font-size:15px;
+
+}
+
+.menu-link i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:17px;
+
+}
+
+.menu-link:hover{
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    border-left-color:var(--primary);
+
+}
+
+.menu-link.actif{
+
+    background:rgba(37,99,235,.18);
+
+    color:#fff;
+
+    border-left-color:#3b82f6;
+
+}
+
+.menu-link span{
+
+    flex:1;
+
+}
+
+/* ===========================
+   SCROLL SIDEBAR
+=========================== */
+
+.sidebar::-webkit-scrollbar{
+
+    width:7px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.25);
+
+    border-radius:20px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(255,255,255,.45);
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 4
+   PAGE PROFIL
+==========================================================*/
+
+/* ======================================
+   LAYOUT PROFIL
+====================================== */
+
+.profil-layout{
+
+    display:grid;
+
+    grid-template-columns:320px 1fr;
+
+    gap:30px;
+
+    align-items:start;
+
+}
+
+/* ======================================
+   COLONNE GAUCHE
+====================================== */
+
+.profil-colonne{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    position:sticky;
+
+    top:95px;
+
+}
+
+/* ======================================
+   PHOTO
+====================================== */
+
+.photo-profil{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.photo-profil img{
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:6px solid #eef3ff;
+
+    background:#fff;
+
+}
+
+/* ======================================
+   BOUTON UPLOAD
+====================================== */
+
+.btn-upload{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 22px;
+
+    border-radius:14px;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    font-weight:600;
+
+}
+
+.btn-upload:hover{
+
+    background:var(--primary-dark);
+
+}
+
+/* ======================================
+   VERIFICATION
+====================================== */
+
+.verification{
+
+    margin-top:35px;
+
+    border-top:1px solid var(--border);
+
+    padding-top:25px;
+
+}
+
+.verification h3{
+
+    margin-bottom:18px;
+
+}
+
+.verification p{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 0;
+
+    font-weight:500;
+
+}
+
+/* ======================================
+   FORMULAIRE
+====================================== */
+
+.profil-formulaire{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+/* ======================================
+   BANNIERE
+====================================== */
+
+.banniere-boutique{
+
+    overflow:hidden;
+
+    position:relative;
+
+    margin-bottom:30px;
+
+}
+
+.banniere-boutique img{
+
+    width:100%;
+
+    height:280px;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.banniere-actions{
+
+    position:absolute;
+
+    right:20px;
+
+    bottom:20px;
+
+}
+
+/* ======================================
+   RESEAUX
+====================================== */
+
+.profil-formulaire h3{
+
+    margin-top:10px;
+
+    margin-bottom:5px;
+
+}
+
+/* ======================================
+   OPTIONS
+====================================== */
+
+.options-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(240px,1fr));
+
+    gap:18px;
+
+    margin-top:15px;
+
+}
+
+.options-grid label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:16px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.options-grid label:hover{
+
+    border-color:var(--primary);
+
+    background:#f8fbff;
+
+}
+
+.options-grid input{
+
+    width:18px;
+
+    height:18px;
+
+    cursor:pointer;
+
+}
+
+/* ======================================
+   GPS
+====================================== */
+
+.profil-actions{
+
+    margin-top:10px;
+
+}
+
+/* ======================================
+   INPUTS PROFIL
+====================================== */
+
+.profil-formulaire input,
+.profil-formulaire textarea,
+.profil-formulaire select{
+
+    background:#fcfcfd;
+
+}
+
+/* ======================================
+   FOCUS
+====================================== */
+
+.profil-formulaire input:focus,
+.profil-formulaire textarea:focus,
+.profil-formulaire select:focus{
+
+    background:#fff;
+
+}
+
+/* ======================================
+   ADRESSE LONGUE
+====================================== */
+
+#adresseVendeur{
+
+    min-height:50px;
+
+}
+
+/* ======================================
+   BIO
+====================================== */
+
+#bioBoutique{
+
+    min-height:180px;
+
+    max-height:450px;
+
+}
+
+/* ======================================
+   RESPONSIVE PROFIL
+====================================== */
+
+@media(max-width:1100px){
+
+    .profil-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .profil-colonne{
+
+        position:relative;
+
+        top:auto;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .photo-profil img{
+
+        width:140px;
+
+        height:140px;
+
+    }
+
+    .banniere-boutique img{
+
+        height:180px;
+
+    }
+
+    .options-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 5
+   PUBLICATION PRODUIT
+==========================================================*/
+
+/* ======================================
+   CONTENEUR
+====================================== */
+
+.publication-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+#publicationProduit{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+/* ======================================
+   CARTES
+====================================== */
+
+.publication-card{
+
+    overflow:hidden;
+
+}
+
+.publication-card h3{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding-bottom:15px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+/* ======================================
+   GRID
+====================================== */
+
+.publication-grid{
+
+    margin-top:25px;
+
+}
+
+/* ======================================
+   INPUTS
+====================================== */
+
+.publication-card input,
+.publication-card textarea,
+.publication-card select{
+
+    background:#ffffff;
+
+    border:1px solid var(--border);
+
+}
+
+.publication-card input:hover,
+.publication-card textarea:hover,
+.publication-card select:hover{
+
+    border-color:#cbd5e1;
+
+}
+
+.publication-card input:focus,
+.publication-card textarea:focus,
+.publication-card select:focus{
+
+    border-color:var(--primary);
+
+}
+
+/* ======================================
+   FILE INPUT
+====================================== */
+
+input[type=file]{
+
+    padding:14px;
+
+    background:#f8fafc;
+
+    cursor:pointer;
+
+}
+
+input[type=file]::file-selector-button{
+
+    border:none;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    margin-right:15px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+input[type=file]::file-selector-button:hover{
+
+    background:var(--primary-dark);
+
+}
+
+/* ======================================
+   GALERIE IMAGES
+====================================== */
+
+.preview-gallery{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(160px,1fr));
+
+    gap:18px;
+
+    margin-top:20px;
+
+}
+
+/* ======================================
+   IMAGE
+====================================== */
+
+.preview-gallery img{
+
+    width:100%;
+
+    height:160px;
+
+    object-fit:cover;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+    background:#f8fafc;
+
+}
+
+/* ======================================
+   VIDEO
+====================================== */
+
+.preview-gallery video{
+
+    width:100%;
+
+    height:160px;
+
+    object-fit:cover;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+}
+
+/* ======================================
+   MINIATURE
+====================================== */
+
+.preview-item{
+
+    position:relative;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+
+}
+
+.preview-item button{
+
+    position:absolute;
+
+    top:8px;
+
+    right:8px;
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    background:rgba(220,38,38,.95);
+
+    color:#fff;
+
+    font-size:14px;
+
+}
+
+/* ======================================
+   SEO
+====================================== */
+
+#descriptionSEO{
+
+    min-height:120px;
+
+}
+
+#motsCles{
+
+    text-transform:lowercase;
+
+}
+
+/* ======================================
+   PRIX
+====================================== */
+
+#ancienPrix{
+
+    color:#9ca3af;
+
+}
+
+#prixProduit{
+
+    font-weight:700;
+
+    color:var(--success);
+
+}
+
+#pourcentageReduction{
+
+    background:#ecfdf5;
+
+    color:#16a34a;
+
+    font-weight:700;
+
+    text-align:center;
+
+}
+
+/* ======================================
+   SKU
+====================================== */
+
+#skuProduit,
+#idProduit{
+
+    background:#f3f4f6;
+
+    color:#6b7280;
+
+    font-weight:600;
+
+}
+
+/* ======================================
+   DESCRIPTION
+====================================== */
+
+#descriptionProduit{
+
+    min-height:220px;
+
+}
+
+#contenuColis{
+
+    min-height:160px;
+
+}
+
+/* ======================================
+   BOUTONS BAS
+====================================== */
+
+.publication-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-top:10px;
+
+}
+
+.publication-actions button{
+
+    min-width:190px;
+
+    padding:15px 25px;
+
+    border-radius:14px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+#btnApercu{
+
+    background:#64748b;
+
+    color:#fff;
+
+}
+
+#btnBrouillon{
+
+    background:#f59e0b;
+
+    color:#fff;
+
+}
+
+#btnPublierProduit{
+
+    background:var(--success);
+
+    color:#fff;
+
+}
+
+#btnPublierProduit:hover{
+
+    background:#15803d;
+
+}
+
+/* ======================================
+   BADGES
+====================================== */
+
+.badge-publication{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.badge-stock{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.badge-rupture{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+.badge-attente{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:900px){
+
+    .publication-actions{
+
+        flex-direction:column;
+
+    }
+
+    .publication-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .preview-gallery{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 6
+   MES PRODUITS
+==========================================================*/
+
+/* ======================================
+   BARRE D'OUTILS
+====================================== */
+
+.produits-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:30px;
+
+}
+
+.produits-search{
+
+    flex:1;
+
+    min-width:260px;
+
+}
+
+.produits-search input{
+
+    width:100%;
+
+}
+
+.produits-filtres{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.produits-filtres select{
+
+    min-width:180px;
+
+}
+
+/* ======================================
+   GRILLE
+====================================== */
+
+.produits-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(320px,1fr));
+
+    gap:28px;
+
+}
+
+/* ======================================
+   CARTE PRODUIT
+====================================== */
+
+.produit-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    transition:.30s;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.produit-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+/* ======================================
+   IMAGE
+====================================== */
+
+.produit-image{
+
+    position:relative;
+
+    width:100%;
+
+    height:250px;
+
+    overflow:hidden;
+
+}
+
+.produit-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.35s;
+
+}
+
+.produit-card:hover .produit-image img{
+
+    transform:scale(1.05);
+
+}
+
+/* ======================================
+   BADGES
+====================================== */
+
+.produit-badge{
+
+    position:absolute;
+
+    top:15px;
+
+    left:15px;
+
+    padding:7px 14px;
+
+    border-radius:999px;
+
+    color:#fff;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.badge-publie{
+
+    background:#16a34a;
+
+}
+
+.badge-brouillon{
+
+    background:#64748b;
+
+}
+
+.badge-attente{
+
+    background:#f59e0b;
+
+}
+
+.badge-epuise{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   FAVORIS
+====================================== */
+
+.produit-favoris{
+
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+/* ======================================
+   CONTENU
+====================================== */
+
+.produit-body{
+
+    padding:22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    flex:1;
+
+}
+
+.produit-body h3{
+
+    margin:0;
+
+    font-size:20px;
+
+    color:var(--secondary);
+
+}
+
+.produit-description{
+
+    color:var(--text-light);
+
+    line-height:1.6;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:3;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+
+}
+
+/* ======================================
+   PRIX
+====================================== */
+
+.produit-prix{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+}
+
+.prix-actuel{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#16a34a;
+
+}
+
+.prix-ancien{
+
+    text-decoration:line-through;
+
+    color:#9ca3af;
+
+}
+
+/* ======================================
+   INFOS
+====================================== */
+
+.produit-infos{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    margin-top:8px;
+
+}
+
+.produit-info{
+
+    background:#f8fafc;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    text-align:center;
+
+}
+
+.produit-info strong{
+
+    display:block;
+
+    color:var(--secondary);
+
+    margin-bottom:5px;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+.produit-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+.produit-actions button{
+
+    padding:12px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    color:#fff;
+
+}
+
+.btn-modifier{
+
+    background:#2563eb;
+
+}
+
+.btn-dupliquer{
+
+    background:#0ea5e9;
+
+}
+
+.btn-masquer{
+
+    background:#f59e0b;
+
+}
+
+.btn-supprimer{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   PRODUIT BLOQUÉ
+====================================== */
+
+.produit-verrou{
+
+    margin-top:18px;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    background:#fef3c7;
+
+    border:1px solid #fde68a;
+
+    color:#92400e;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+.produit-verrou strong{
+
+    display:block;
+
+    margin-bottom:6px;
+
+}
+
+.produit-verrou i{
+
+    margin-right:6px;
+
+}
+
+/*
+==========================================================
+
+IMPORTANT
+
+Si un produit possède :
+
+- une réservation active
+
+OU
+
+- un paiement en cours
+
+OU
+
+- une commande validée
+
+Le bouton .btn-supprimer devra être :
+
+disabled
+
+Le JavaScript devra afficher :
+
+"Ce produit ne peut pas être supprimé tant qu'une
+commande, une réservation ou un paiement est en cours.
+Veuillez contacter SINE.SHOP."
+
+==========================================================
+*/
+
+/* ======================================
+   PAGINATION
+====================================== */
+
+.pagination-produits{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:45px;
+
+    flex-wrap:wrap;
+
+}
+
+.pagination-produits button{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:12px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+}
+
+.pagination-produits button.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:900px){
+
+    .produits-toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .produits-filtres{
+
+        width:100%;
+
+    }
+
+    .produits-filtres select{
+
+        flex:1;
+
+        min-width:0;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .produits-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .produit-actions{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .produit-infos{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 7
+   COMMANDES
+==========================================================*/
+
+/* ======================================
+   EN-TÊTE
+====================================== */
+
+.commandes-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.commandes-filtres{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.commandes-filtres select,
+.commandes-filtres input{
+
+    min-width:180px;
+
+}
+
+/* ======================================
+   TABLEAU
+====================================== */
+
+.commandes-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+}
+
+.commandes-table thead{
+
+    background:var(--secondary);
+
+    color:#fff;
+
+}
+
+.commandes-table th{
+
+    padding:18px;
+
+    text-align:left;
+
+    font-size:14px;
+
+    letter-spacing:.4px;
+
+}
+
+.commandes-table td{
+
+    padding:18px;
+
+    border-bottom:1px solid var(--border);
+
+    vertical-align:middle;
+
+}
+
+.commandes-table tbody tr{
+
+    transition:.25s;
+
+}
+
+.commandes-table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+/* ======================================
+   CLIENT
+====================================== */
+
+.client-commande{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.client-commande img{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.client-commande strong{
+
+    display:block;
+
+}
+
+.client-commande small{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   PRODUIT
+====================================== */
+
+.produit-commande{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.produit-commande img{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+    border:1px solid var(--border);
+
+}
+
+/* ======================================
+   STATUT
+====================================== */
+
+.statut{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 15px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.statut-attente{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+.statut-confirmee{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+.statut-expediee{
+
+    background:#e0f2fe;
+
+    color:#0369a1;
+
+}
+
+.statut-livree{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+.statut-annulee{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+.commande-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}
+
+.commande-actions button{
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.btn-detail{
+
+    background:#2563eb;
+
+}
+
+.btn-confirmer{
+
+    background:#16a34a;
+
+}
+
+.btn-expedier{
+
+    background:#0ea5e9;
+
+}
+
+.btn-annuler{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   RÉSUMÉ
+====================================== */
+
+.resume-commandes{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+    margin-bottom:35px;
+
+}
+
+.resume-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:24px;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    text-align:center;
+
+}
+
+.resume-card h3{
+
+    font-size:30px;
+
+    color:var(--primary);
+
+    margin-bottom:8px;
+
+}
+
+.resume-card p{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   PAGINATION
+====================================== */
+
+.commandes-pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:35px;
+
+}
+
+.commandes-pagination button{
+
+    width:44px;
+
+    height:44px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:#fff;
+
+}
+
+.commandes-pagination button.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:1100px){
+
+    .commandes-table{
+
+        display:block;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .commande-actions{
+
+        flex-direction:column;
+
+    }
+
+    .commande-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 8
+   RÉSERVATIONS
+==========================================================*/
+
+/* ======================================
+   BARRE SUPÉRIEURE
+====================================== */
+
+.reservations-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.reservations-toolbar input,
+.reservations-toolbar select{
+
+    min-width:200px;
+
+}
+
+/* ======================================
+   LISTE
+====================================== */
+
+.reservations-list{
+
+    display:grid;
+
+    gap:22px;
+
+}
+
+/* ======================================
+   CARTE
+====================================== */
+
+.reservation-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+    transition:.30s;
+
+}
+
+.reservation-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.reservation-header{
+
+    padding:20px 25px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.reservation-id{
+
+    font-size:15px;
+
+    color:var(--text-light);
+
+}
+
+.reservation-date{
+
+    font-size:14px;
+
+    color:#94a3b8;
+
+}
+
+/* ======================================
+   CONTENU
+====================================== */
+
+.reservation-body{
+
+    padding:25px;
+
+    display:grid;
+
+    grid-template-columns:120px 1fr auto;
+
+    gap:25px;
+
+    align-items:center;
+
+}
+
+.reservation-body img{
+
+    width:120px;
+
+    height:120px;
+
+    border-radius:15px;
+
+    object-fit:cover;
+
+}
+
+.reservation-details{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.reservation-details h3{
+
+    margin:0;
+
+    color:var(--secondary);
+
+}
+
+.reservation-details p{
+
+    margin:0;
+
+    color:var(--text-light);
+
+    line-height:1.6;
+
+}
+
+/* ======================================
+   CLIENT
+====================================== */
+
+.reservation-client{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:10px;
+
+}
+
+.reservation-client img{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+}
+
+/* ======================================
+   PRIX
+====================================== */
+
+.reservation-prix{
+
+    text-align:right;
+
+}
+
+.reservation-prix h2{
+
+    color:#16a34a;
+
+    margin-bottom:8px;
+
+}
+
+.reservation-prix small{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   STATUT
+====================================== */
+
+.reservation-status{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-weight:700;
+
+    font-size:13px;
+
+}
+
+.status-active{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+.status-expiree{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
+
+.status-confirmee{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+.status-annulee{
+
+    background:#f3f4f6;
+
+    color:#475569;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+.reservation-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    padding:22px 25px;
+
+    border-top:1px solid var(--border);
+
+    background:#fafafa;
+
+}
+
+.reservation-actions button{
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    color:#fff;
+
+}
+
+.btn-accepter{
+
+    background:#16a34a;
+
+}
+
+.btn-refuser{
+
+    background:#dc2626;
+
+}
+
+.btn-contacter{
+
+    background:#2563eb;
+
+}
+
+.btn-prolonger{
+
+    background:#f59e0b;
+
+}
+
+/* ======================================
+   ALERTE
+====================================== */
+
+.reservation-warning{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#fff7ed;
+
+    border:1px solid #fdba74;
+
+    color:#9a3412;
+
+    line-height:1.6;
+
+}
+
+/* ======================================
+   PAGINATION
+====================================== */
+
+.reservations-pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:40px;
+
+}
+
+.reservations-pagination button{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:10px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+}
+
+.reservations-pagination button.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:900px){
+
+    .reservation-body{
+
+        grid-template-columns:1fr;
+
+        text-align:center;
+
+    }
+
+    .reservation-prix{
+
+        text-align:center;
+
+    }
+
+    .reservation-client{
+
+        justify-content:center;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .reservation-actions{
+
+        flex-direction:column;
+
+    }
+
+    .reservation-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 9
+   PAIEMENTS
+==========================================================*/
+
+/* ======================================
+   CONTENEUR
+====================================== */
+
+.paiements-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+/* ======================================
+   TABLEAU DE BORD
+====================================== */
+
+.paiements-dashboard{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:22px;
+
+}
+
+.paiement-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    transition:.30s;
+
+}
+
+.paiement-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.paiement-card h2{
+
+    margin-bottom:10px;
+
+    color:var(--primary);
+
+    font-size:28px;
+
+}
+
+.paiement-card p{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   MOYENS DE PAIEMENT
+====================================== */
+
+.moyens-paiement{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(220px,1fr));
+
+    gap:22px;
+
+}
+
+.moyen-card{
+
+    background:#fff;
+
+    border:2px solid var(--border);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.30s;
+
+    cursor:pointer;
+
+}
+
+.moyen-card:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-5px);
+
+}
+
+.moyen-card.active{
+
+    border-color:#16a34a;
+
+    background:#f0fdf4;
+
+}
+
+.moyen-card img{
+
+    width:80px;
+
+    height:80px;
+
+    object-fit:contain;
+
+    margin-bottom:15px;
+
+}
+
+.moyen-card h3{
+
+    margin-bottom:8px;
+
+}
+
+.moyen-card p{
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+/* ======================================
+   FORMULAIRE
+====================================== */
+
+.form-paiement{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:22px;
+
+}
+
+.form-paiement .champ{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.form-paiement label{
+
+    font-weight:600;
+
+}
+
+.form-paiement input{
+
+    width:100%;
+
+}
+
+/* ======================================
+   HISTORIQUE
+====================================== */
+
+.table-paiements{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+}
+
+.table-paiements thead{
+
+    background:var(--secondary);
+
+    color:#fff;
+
+}
+
+.table-paiements th{
+
+    padding:18px;
+
+    text-align:left;
+
+}
+
+.table-paiements td{
+
+    padding:18px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.table-paiements tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+/* ======================================
+   BADGES
+====================================== */
+
+.badge-paye{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+.badge-attente{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+.badge-refuse{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
+
+.badge-rembourse{
+
+    background:#e0e7ff;
+
+    color:#4338ca;
+
+}
+
+.badge-paye,
+.badge-attente,
+.badge-refuse,
+.badge-rembourse{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+/* ======================================
+   BOUTONS
+====================================== */
+
+.actions-paiement{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+.actions-paiement button{
+
+    padding:14px 22px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+.btn-ajouter-moyen{
+
+    background:#2563eb;
+
+}
+
+.btn-enregistrer-moyen{
+
+    background:#16a34a;
+
+}
+
+.btn-supprimer-moyen{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   INFORMATION
+====================================== */
+
+.info-paiement{
+
+    padding:18px;
+
+    border-radius:15px;
+
+    background:#eff6ff;
+
+    border-left:5px solid #2563eb;
+
+    color:#1e3a8a;
+
+    line-height:1.7;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:900px){
+
+    .table-paiements{
+
+        display:block;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .actions-paiement{
+
+        flex-direction:column;
+
+    }
+
+    .actions-paiement button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 10
+   MESSAGERIE
+==========================================================*/
+
+/* ======================================
+   LAYOUT PRINCIPAL
+====================================== */
+
+.chat-layout{
+
+    display:grid;
+
+    grid-template-columns:340px 1fr;
+
+    gap:25px;
+
+    height:calc(100vh - 170px);
+
+    min-height:700px;
+
+}
+
+/* ======================================
+   SIDEBAR
+====================================== */
+
+.conversation-sidebar{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    border:1px solid var(--border);
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    box-shadow:var(--shadow);
+
+}
+
+.conversation-header{
+
+    padding:20px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.conversation-header input{
+
+    width:100%;
+
+}
+
+#conversationList{
+
+    flex:1;
+
+    overflow-y:auto;
+
+}
+
+/* ======================================
+   CONVERSATION
+====================================== */
+
+.conversation-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    border-bottom:1px solid #f3f4f6;
+
+}
+
+.conversation-item:hover{
+
+    background:#f8fafc;
+
+}
+
+.conversation-item.active{
+
+    background:#eff6ff;
+
+    border-left:5px solid var(--primary);
+
+}
+
+.conversation-item img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.conversation-item h4{
+
+    margin:0;
+
+    color:var(--secondary);
+
+}
+
+.conversation-item p{
+
+    margin-top:6px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+
+    text-overflow:ellipsis;
+
+}
+
+/* ======================================
+   PANEL
+====================================== */
+
+.conversation-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ======================================
+   HEADER
+====================================== */
+
+.conversation-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid var(--border);
+
+    background:#fafafa;
+
+}
+
+.conversation-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.conversation-user img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.conversation-user h3{
+
+    margin:0;
+
+}
+
+.conversation-user small{
+
+    color:#16a34a;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+.conversation-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.conversation-actions button{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:#f3f4f6;
+
+    transition:.25s;
+
+}
+
+.conversation-actions button:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   MESSAGES
+====================================== */
+
+.chat-messages{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:25px;
+
+    background:#f8fafc;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+/* ======================================
+   BULLES
+====================================== */
+
+.message{
+
+    max-width:72%;
+
+    padding:15px 18px;
+
+    border-radius:18px;
+
+    line-height:1.7;
+
+    word-break:break-word;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+}
+
+.message-client{
+
+    align-self:flex-start;
+
+    background:#fff;
+
+}
+
+.message-vendeur{
+
+    align-self:flex-end;
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   DATE
+====================================== */
+
+.message-time{
+
+    margin-top:8px;
+
+    font-size:12px;
+
+    opacity:.7;
+
+    text-align:right;
+
+}
+
+/* ======================================
+   BAS
+====================================== */
+
+.chat-bottom{
+
+    border-top:1px solid var(--border);
+
+    padding:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    background:#fff;
+
+}
+
+/* ======================================
+   OUTILS
+====================================== */
+
+.chat-tools{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.chat-tools button,
+
+.chat-tools label{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#f3f4f6;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.chat-tools button:hover,
+
+.chat-tools label:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   SAISIE
+====================================== */
+
+#messageInput{
+
+    width:100%;
+
+    min-height:90px;
+
+    max-height:180px;
+
+    resize:vertical;
+
+}
+
+/* ======================================
+   ENVOI
+====================================== */
+
+.chat-send{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+#envoyerMessage{
+
+    min-width:170px;
+
+    padding:14px 28px;
+
+    border-radius:14px;
+
+    background:#16a34a;
+
+    color:#fff;
+
+    font-weight:700;
+
+}
+
+#envoyerMessage:hover{
+
+    background:#15803d;
+
+}
+
+/* ======================================
+   SCROLLBAR
+====================================== */
+
+#conversationList::-webkit-scrollbar,
+
+.chat-messages::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+#conversationList::-webkit-scrollbar-thumb,
+
+.chat-messages::-webkit-scrollbar-thumb{
+
+    background:#cbd5e1;
+
+    border-radius:10px;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:1100px){
+
+    .chat-layout{
+
+        grid-template-columns:300px 1fr;
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .chat-layout{
+
+        grid-template-columns:1fr;
+
+        height:auto;
+
+    }
+
+    .conversation-sidebar{
+
+        max-height:320px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .conversation-top{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+    }
+
+    .conversation-actions{
+
+        width:100%;
+
+        justify-content:flex-end;
+
+    }
+
+    .message{
+
+        max-width:90%;
+
+    }
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 11
+   CLIENTS
+==========================================================*/
+
+/* ======================================
+   OUTILS
+====================================== */
+
+.clients-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.clients-toolbar input{
+
+    min-width:320px;
+
+    flex:1;
+
+}
+
+.clients-toolbar .actions{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+/* ======================================
+   STATISTIQUES
+====================================== */
+
+.clients-stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+    margin-bottom:35px;
+
+}
+
+.client-stat{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+.client-stat h2{
+
+    color:var(--primary);
+
+    font-size:32px;
+
+    margin-bottom:8px;
+
+}
+
+.client-stat p{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   TABLEAU
+====================================== */
+
+.clients-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+}
+
+.clients-table thead{
+
+    background:var(--secondary);
+
+    color:#fff;
+
+}
+
+.clients-table th{
+
+    padding:18px;
+
+    text-align:left;
+
+}
+
+.clients-table td{
+
+    padding:18px;
+
+    border-bottom:1px solid var(--border);
+
+    vertical-align:middle;
+
+}
+
+.clients-table tbody tr{
+
+    transition:.25s;
+
+}
+
+.clients-table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+/* ======================================
+   CLIENT
+====================================== */
+
+.client-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.client-info img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.client-info h4{
+
+    margin:0;
+
+    color:var(--secondary);
+
+}
+
+.client-info small{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   BADGES
+====================================== */
+
+.client-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.badge-premium{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+.badge-fidele{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+.badge-nouveau{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+/* ======================================
+   NOTE
+====================================== */
+
+.client-note{
+
+    color:#f59e0b;
+
+    font-size:18px;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+.client-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}
+
+.client-actions button{
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+.btn-message{
+
+    background:#2563eb;
+
+}
+
+.btn-profil{
+
+    background:#0ea5e9;
+
+}
+
+.btn-commandes{
+
+    background:#16a34a;
+
+}
+
+.btn-signaler{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   FICHE CLIENT
+====================================== */
+
+.client-card{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:320px 1fr;
+
+    gap:30px;
+
+}
+
+.client-profile{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    text-align:center;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+}
+
+.client-profile img{
+
+    width:130px;
+
+    height:130px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    margin-bottom:20px;
+
+}
+
+.client-profile h3{
+
+    margin-bottom:8px;
+
+}
+
+.client-profile p{
+
+    color:var(--text-light);
+
+}
+
+.client-history{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+}
+
+.client-history h3{
+
+    margin-bottom:20px;
+
+}
+
+/* ======================================
+   ACTIVITÉS
+====================================== */
+
+.client-timeline{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.timeline-item{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:flex-start;
+
+}
+
+.timeline-dot{
+
+    width:16px;
+
+    height:16px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    margin-top:6px;
+
+}
+
+.timeline-content{
+
+    flex:1;
+
+}
+
+.timeline-content h4{
+
+    margin-bottom:6px;
+
+}
+
+.timeline-content p{
+
+    color:var(--text-light);
+
+    line-height:1.6;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:950px){
+
+    .client-card{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .clients-table{
+
+        display:block;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .clients-toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .clients-toolbar input{
+
+        min-width:100%;
+
+    }
+
+    .client-actions{
+
+        flex-direction:column;
+
+    }
+
+    .client-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 12
+   STATISTIQUES
+==========================================================*/
+
+/* ======================================
+   TABLEAU DE BORD
+====================================== */
+
+.stats-dashboard{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(240px,1fr));
+
+    gap:24px;
+
+    margin-bottom:35px;
+
+}
+
+.stats-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:26px;
+
+    box-shadow:var(--shadow);
+
+    transition:.30s;
+
+}
+
+.stats-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.stats-card h2{
+
+    font-size:32px;
+
+    color:var(--primary);
+
+    margin-bottom:10px;
+
+}
+
+.stats-card p{
+
+    color:var(--text-light);
+
+}
+
+.stats-evolution{
+
+    margin-top:15px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.stats-up{
+
+    color:#16a34a;
+
+}
+
+.stats-down{
+
+    color:#dc2626;
+
+}
+
+/* ======================================
+   GRAPHIQUES
+====================================== */
+
+.stats-charts{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+    margin-bottom:35px;
+
+}
+
+.chart-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    border:1px solid var(--border);
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    min-height:420px;
+
+}
+
+.chart-card h3{
+
+    margin-bottom:25px;
+
+}
+
+.chart-placeholder{
+
+    height:320px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:2px dashed #d1d5db;
+
+    border-radius:15px;
+
+    color:#94a3b8;
+
+    font-size:18px;
+
+}
+
+/* ======================================
+   PRODUITS POPULAIRES
+====================================== */
+
+.top-products{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.top-product{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    background:#f8fafc;
+
+}
+
+.top-product img{
+
+    width:75px;
+
+    height:75px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+}
+
+.top-product h4{
+
+    margin-bottom:5px;
+
+}
+
+.top-product p{
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+/* ======================================
+   TABLEAU ANALYTIQUE
+====================================== */
+
+.stats-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+}
+
+.stats-table thead{
+
+    background:var(--secondary);
+
+    color:#fff;
+
+}
+
+.stats-table th{
+
+    padding:18px;
+
+    text-align:left;
+
+}
+
+.stats-table td{
+
+    padding:18px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.stats-table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+/* ======================================
+   BARRES
+====================================== */
+
+.progress-bar{
+
+    width:100%;
+
+    height:10px;
+
+    background:#e5e7eb;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+}
+
+.progress-value{
+
+    height:100%;
+
+    background:#16a34a;
+
+    border-radius:999px;
+
+}
+
+/* ======================================
+   FILTRES
+====================================== */
+
+.stats-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:30px;
+
+}
+
+.stats-toolbar select{
+
+    min-width:180px;
+
+}
+
+/* ======================================
+   EXPORT
+====================================== */
+
+.stats-actions{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+.stats-actions button{
+
+    padding:13px 20px;
+
+    border-radius:12px;
+
+    color:#fff;
+
+    font-weight:700;
+
+}
+
+.btn-export-pdf{
+
+    background:#dc2626;
+
+}
+
+.btn-export-excel{
+
+    background:#16a34a;
+
+}
+
+.btn-print{
+
+    background:#2563eb;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:1050px){
+
+    .stats-charts{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .stats-table{
+
+        display:block;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .stats-toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .stats-actions{
+
+        flex-direction:column;
+
+    }
+
+    .stats-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 13
+   NOTIFICATIONS
+==========================================================*/
+
+/* ======================================
+   EN-TÊTE
+====================================== */
+
+.notifications-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.notifications-actions{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+.notifications-actions button{
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+}
+
+/* ======================================
+   FILTRES
+====================================== */
+
+.notifications-filters{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-bottom:30px;
+
+}
+
+.notifications-filters button{
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    transition:.25s;
+
+}
+
+.notifications-filters button.active,
+
+.notifications-filters button:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   LISTE
+====================================== */
+
+.notifications-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+/* ======================================
+   CARTE
+====================================== */
+
+.notification-card{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:flex-start;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+.notification-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.notification-card.non-lue{
+
+    border-left:6px solid var(--primary);
+
+    background:#f8fbff;
+
+}
+
+/* ======================================
+   ICÔNE
+====================================== */
+
+.notification-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:24px;
+
+    flex-shrink:0;
+
+}
+
+.icon-message{
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+}
+
+.icon-commande{
+
+    background:#dcfce7;
+
+    color:#16a34a;
+
+}
+
+.icon-reservation{
+
+    background:#fef3c7;
+
+    color:#d97706;
+
+}
+
+.icon-favori{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+.icon-ai{
+
+    background:#ede9fe;
+
+    color:#7c3aed;
+
+}
+
+.icon-systeme{
+
+    background:#e2e8f0;
+
+    color:#334155;
+
+}
+
+/* ======================================
+   CONTENU
+====================================== */
+
+.notification-content{
+
+    flex:1;
+
+}
+
+.notification-content h3{
+
+    margin-bottom:8px;
+
+    color:var(--secondary);
+
+}
+
+.notification-content p{
+
+    color:var(--text-light);
+
+    line-height:1.7;
+
+}
+
+.notification-date{
+
+    margin-top:12px;
+
+    font-size:13px;
+
+    color:#94a3b8;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+.notification-buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:18px;
+
+}
+
+.notification-buttons button{
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+.btn-ouvrir{
+
+    background:#2563eb;
+
+}
+
+.btn-marquer{
+
+    background:#16a34a;
+
+}
+
+.btn-supprimer{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   BADGES
+====================================== */
+
+.notification-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:7px 14px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.badge-important{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+.badge-info{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+.badge-favori{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+.badge-systeme{
+
+    background:#e5e7eb;
+
+    color:#374151;
+
+}
+
+/* ======================================
+   ÉTAT VIDE
+====================================== */
+
+.notifications-empty{
+
+    text-align:center;
+
+    padding:80px 20px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    border:2px dashed var(--border);
+
+}
+
+.notifications-empty i{
+
+    font-size:60px;
+
+    color:#cbd5e1;
+
+    margin-bottom:20px;
+
+}
+
+.notifications-empty h3{
+
+    margin-bottom:10px;
+
+}
+
+.notifications-empty p{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   PAGINATION
+====================================== */
+
+.notifications-pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:35px;
+
+}
+
+.notifications-pagination button{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:#fff;
+
+}
+
+.notifications-pagination button.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:700px){
+
+    .notification-card{
+
+        flex-direction:column;
+
+    }
+
+    .notification-icon{
+
+        width:55px;
+
+        height:55px;
+
+    }
+
+    .notification-buttons{
+
+        flex-direction:column;
+
+    }
+
+    .notification-buttons button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 14
+   ASSISTANT IA
+==========================================================*/
+
+/* ======================================
+   CONTENEUR PRINCIPAL
+====================================== */
+
+.ai-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+    height:calc(100vh - 180px);
+
+    min-height:700px;
+
+}
+
+/* ======================================
+   EN-TÊTE
+====================================== */
+
+.ai-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    background:#fff;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+}
+
+.ai-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.ai-avatar{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:30px;
+
+}
+
+.ai-title h2{
+
+    margin-bottom:8px;
+
+    color:var(--secondary);
+
+}
+
+.ai-title p{
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   STATUT IA
+====================================== */
+
+.ai-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:600;
+
+    color:#16a34a;
+
+}
+
+.ai-status::before{
+
+    content:"";
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#16a34a;
+
+    animation:aiPulse 1.5s infinite;
+
+}
+
+@keyframes aiPulse{
+
+    0%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        transform:scale(1.4);
+
+        opacity:.5;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+/* ======================================
+   FENÊTRE DE DISCUSSION
+====================================== */
+
+.ai-chat{
+
+    flex:1;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    border:1px solid var(--border);
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    box-shadow:var(--shadow);
+
+}
+
+.ai-messages{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:30px;
+
+    background:#f8fafc;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+/* ======================================
+   BULLES
+====================================== */
+
+.ai-message{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:flex-start;
+
+}
+
+.ai-message.user{
+
+    flex-direction:row-reverse;
+
+}
+
+.ai-photo{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    flex-shrink:0;
+
+    object-fit:cover;
+
+}
+
+.ai-bubble{
+
+    max-width:75%;
+
+    padding:18px 20px;
+
+    border-radius:18px;
+
+    line-height:1.8;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+
+}
+
+.ai-message.bot .ai-bubble{
+
+    background:#ffffff;
+
+}
+
+.ai-message.user .ai-bubble{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+.ai-time{
+
+    margin-top:8px;
+
+    font-size:12px;
+
+    opacity:.7;
+
+}
+
+/* ======================================
+   ZONE DE SAISIE
+====================================== */
+
+.ai-input{
+
+    border-top:1px solid var(--border);
+
+    padding:20px;
+
+    background:#fff;
+
+}
+
+.ai-input textarea{
+
+    width:100%;
+
+    min-height:90px;
+
+    resize:vertical;
+
+}
+
+.ai-input-actions{
+
+    margin-top:15px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+/* ======================================
+   SUGGESTIONS
+====================================== */
+
+.ai-suggestions{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+}
+
+.ai-suggestions button{
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:#eef2ff;
+
+    color:#4338ca;
+
+    border:1px solid #c7d2fe;
+
+    transition:.25s;
+
+}
+
+.ai-suggestions button:hover{
+
+    background:#4338ca;
+
+    color:#fff;
+
+}
+
+/* ======================================
+   ENVOYER
+====================================== */
+
+.ai-send{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.ai-send button{
+
+    padding:14px 24px;
+
+    border-radius:12px;
+
+    color:#fff;
+
+    font-weight:700;
+
+}
+
+.btn-ai-send{
+
+    background:#2563eb;
+
+}
+
+.btn-ai-clear{
+
+    background:#64748b;
+
+}
+
+.btn-ai-send:hover{
+
+    background:#1d4ed8;
+
+}
+
+.btn-ai-clear:hover{
+
+    background:#475569;
+
+}
+
+/* ======================================
+   CARTES IA
+====================================== */
+
+.ai-tools{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+.ai-tool{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+    transition:.30s;
+
+}
+
+.ai-tool:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.ai-tool i{
+
+    font-size:40px;
+
+    color:var(--primary);
+
+    margin-bottom:15px;
+
+}
+
+.ai-tool h3{
+
+    margin-bottom:10px;
+
+}
+
+.ai-tool p{
+
+    color:var(--text-light);
+
+    line-height:1.7;
+
+}
+
+/* ======================================
+   SCROLLBAR
+====================================== */
+
+.ai-messages::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.ai-messages::-webkit-scrollbar-thumb{
+
+    background:#cbd5e1;
+
+    border-radius:10px;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:850px){
+
+    .ai-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .ai-bubble{
+
+        max-width:90%;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .ai-input-actions{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .ai-send{
+
+        width:100%;
+
+        flex-direction:column;
+
+    }
+
+    .ai-send button{
+
+        width:100%;
+
+    }
+
+}
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 15
+   PARAMÈTRES
+==========================================================*/
+
+/* ======================================
+   CONTENEUR
+====================================== */
+
+.settings-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+/* ======================================
+   CARTES
+====================================== */
+
+.settings-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.settings-card h3{
+
+    margin-bottom:10px;
+
+    color:var(--secondary);
+
+}
+
+.settings-card p{
+
+    margin-bottom:25px;
+
+    color:var(--text-light);
+
+}
+
+/* ======================================
+   GRILLE
+====================================== */
+
+.settings-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:25px;
+
+}
+
+/* ======================================
+   LIGNES
+====================================== */
+
+.setting-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:18px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.setting-row:last-child{
+
+    border-bottom:none;
+
+}
+
+.setting-info h4{
+
+    margin-bottom:6px;
+
+    color:var(--secondary);
+
+}
+
+.setting-info p{
+
+    margin:0;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+/* ======================================
+   CHAMPS
+====================================== */
+
+.setting-control{
+
+    min-width:220px;
+
+}
+
+.setting-control input,
+
+.setting-control select{
+
+    width:100%;
+
+}
+
+/* ======================================
+   SWITCH
+====================================== */
+
+.switch{
+
+    position:relative;
+
+    display:inline-block;
+
+    width:58px;
+
+    height:30px;
+
+}
+
+.switch input{
+
+    display:none;
+
+}
+
+.slider{
+
+    position:absolute;
+
+    inset:0;
+
+    cursor:pointer;
+
+    background:#d1d5db;
+
+    border-radius:999px;
+
+    transition:.3s;
+
+}
+
+.slider::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:24px;
+
+    height:24px;
+
+    left:3px;
+
+    top:3px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    transition:.3s;
+
+}
+
+.switch input:checked + .slider{
+
+    background:#2563eb;
+
+}
+
+.switch input:checked + .slider::before{
+
+    transform:translateX(28px);
+
+}
+
+/* ======================================
+   THÈMES
+====================================== */
+
+.theme-selector{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+
+}
+
+.theme-card{
+
+    border:2px solid var(--border);
+
+    border-radius:16px;
+
+    padding:20px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.theme-card:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-4px);
+
+}
+
+.theme-preview{
+
+    height:120px;
+
+    border-radius:12px;
+
+    margin-bottom:15px;
+
+}
+
+.theme-light{
+
+    background:#f8fafc;
+
+}
+
+.theme-dark{
+
+    background:#1e293b;
+
+}
+
+.theme-auto{
+
+    background:linear-gradient(90deg,#f8fafc 50%,#1e293b 50%);
+
+}
+
+/* ======================================
+   SÉCURITÉ
+====================================== */
+
+.security-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.security-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    background:#f8fafc;
+
+}
+
+.security-status{
+
+    font-weight:700;
+
+    color:#16a34a;
+
+}
+
+/* ======================================
+   SAUVEGARDE
+====================================== */
+
+.backup-actions{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    margin-top:20px;
+
+}
+
+.backup-actions button{
+
+    padding:14px 22px;
+
+    border-radius:12px;
+
+    color:#fff;
+
+    font-weight:700;
+
+}
+
+.btn-backup{
+
+    background:#16a34a;
+
+}
+
+.btn-restore{
+
+    background:#2563eb;
+
+}
+
+.btn-reset{
+
+    background:#dc2626;
+
+}
+
+/* ======================================
+   DANGER
+====================================== */
+
+.settings-danger{
+
+    border:2px solid #fecaca;
+
+    background:#fff5f5;
+
+}
+
+.settings-danger h3{
+
+    color:#b91c1c;
+
+}
+
+.settings-danger button{
+
+    margin-top:20px;
+
+    background:#dc2626;
+
+    color:#fff;
+
+    padding:14px 22px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+}
+
+/* ======================================
+   PIED
+====================================== */
+
+.settings-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+.settings-footer button{
+
+    padding:15px 24px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+}
+
+.btn-save-settings{
+
+    background:#16a34a;
+
+    color:#fff;
+
+}
+
+.btn-cancel-settings{
+
+    background:#64748b;
+
+    color:#fff;
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:850px){
+
+    .setting-row{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .setting-control{
+
+        width:100%;
+
+        min-width:100%;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .backup-actions,
+
+    .settings-footer{
+
+        flex-direction:column;
+
+    }
+
+    .backup-actions button,
+
+    .settings-footer button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 16
+   DÉCONNEXION + MODALES
+==========================================================*/
+
+/* ======================================
+   PAGE DÉCONNEXION
+====================================== */
+
+#deconnexion{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+#deconnexion .publication-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ======================================
+   PROFIL
+====================================== */
+
+#photoProfilDeconnexion{
+
+    width:130px;
+
+    height:130px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:5px solid #eef2ff;
+
+    margin-bottom:20px;
+
+}
+
+#nomCompteDeconnexion{
+
+    margin-bottom:10px;
+
+    color:var(--secondary);
+
+}
+
+#emailCompteDeconnexion{
+
+    color:var(--text-light);
+
+    margin-bottom:15px;
+
+}
+
+#deconnexion .profil-colonne{
+
+    text-align:center;
+
+}
+
+/* ======================================
+   ACTIONS
+====================================== */
+
+#deconnexion .shortcut-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+#deconnexion .shortcut-btn{
+
+    min-height:130px;
+
+}
+
+#confirmerDeconnexion{
+
+    background:#dc2626;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    padding:16px 28px;
+
+    border-radius:12px;
+
+}
+
+#confirmerDeconnexion:hover{
+
+    background:#b91c1c;
+
+}
+
+/* ======================================
+   MODALES
+====================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:25px;
+
+    z-index:5000;
+
+}
+
+.modal.active{
+
+    display:flex;
+
+    animation:fadeModal .25s ease;
+
+}
+
+.modal-content{
+
+    width:100%;
+
+    max-width:850px;
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:#fff;
+
+    border-radius:22px;
+
+    padding:35px;
+
+    box-shadow:0 30px 60px rgba(0,0,0,.25);
+
+}
+
+/* ======================================
+   TITRES
+====================================== */
+
+.modal-content h2{
+
+    margin-bottom:20px;
+
+    color:var(--secondary);
+
+}
+
+.modal-content h3{
+
+    margin:25px 0 15px;
+
+}
+
+/* ======================================
+   SCROLL
+====================================== */
+
+.modal-content::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.modal-content::-webkit-scrollbar-thumb{
+
+    background:#cbd5e1;
+
+    border-radius:10px;
+
+}
+
+/* ======================================
+   LIVREURS
+====================================== */
+
+#listeLivreurs{
+
+    display:grid;
+
+    gap:18px;
+
+    margin:25px 0;
+
+}
+
+.livreur-card{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:18px;
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    transition:.25s;
+
+}
+
+.livreur-card:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-3px);
+
+}
+
+.livreur-card img{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.livreur-card button{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    border-radius:10px;
+
+    padding:12px 18px;
+
+}
+
+/* ======================================
+   IA MODALE
+====================================== */
+
+#assistantIA .modal-content{
+
+    max-width:950px;
+
+}
+
+#aiConversation{
+
+    height:420px;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    background:#f8fafc;
+
+    border-radius:15px;
+
+    border:1px solid var(--border);
+
+    margin-bottom:20px;
+
+}
+
+#questionIA{
+
+    width:100%;
+
+    min-height:110px;
+
+    resize:vertical;
+
+}
+
+#envoyerIA{
+
+    margin-top:20px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    padding:15px 26px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+}
+
+/* ======================================
+   ANIMATIONS
+====================================== */
+
+@keyframes fadeModal{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.96);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media(max-width:700px){
+
+    .modal{
+
+        padding:15px;
+
+    }
+
+    .modal-content{
+
+        padding:22px;
+
+    }
+
+    .livreur-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .livreur-card button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+
+
+/* ==========================================================
+   SINE.SHOP
+   ESPACE VENDEUR
+   CSS PROFESSIONNEL
+   BLOC 17
+   ANIMATIONS • TOASTS • BADGES • LOADERS
+   RESPONSIVE FINAL
+==========================================================*/
+
+/* ======================================
+   APPARITION
+====================================== */
+
+.fade-in{
+
+    animation:fadeIn .35s ease;
+
+}
+
+.slide-up{
+
+    animation:slideUp .35s ease;
+
+}
+
+.zoom-in{
+
+    animation:zoomIn .30s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes zoomIn{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ======================================
+   LOADER
+====================================== */
+
+.loader{
+
+    width:48px;
+
+    height:48px;
+
+    border:5px solid #e5e7eb;
+
+    border-top:5px solid var(--primary);
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+.loader-center{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:50px;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ======================================
+   BADGES
+====================================== */
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:7px 14px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.badge-success{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+.badge-warning{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+.badge-danger{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+.badge-info{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+.badge-secondary{
+
+    background:#e5e7eb;
+
+    color:#374151;
+
+}
+
+/* ======================================
+   ALERTES
+====================================== */
+
+.alert{
+
+    padding:18px 22px;
+
+    border-radius:14px;
+
+    margin-bottom:20px;
+
+    border-left:5px solid;
+
+}
+
+.alert-success{
+
+    background:#f0fdf4;
+
+    border-color:#16a34a;
+
+}
+
+.alert-warning{
+
+    background:#fffbeb;
+
+    border-color:#d97706;
+
+}
+
+.alert-danger{
+
+    background:#fef2f2;
+
+    border-color:#dc2626;
+
+}
+
+.alert-info{
+
+    background:#eff6ff;
+
+    border-color:#2563eb;
+
+}
+
+/* ======================================
+   TOAST
+====================================== */
+
+.toast-container{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    z-index:99999;
+
+}
+
+.toast{
+
+    min-width:320px;
+
+    max-width:420px;
+
+    background:#fff;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+    border-left:5px solid var(--primary);
+
+    animation:toastShow .35s ease;
+
+}
+
+.toast-success{
+
+    border-left-color:#16a34a;
+
+}
+
+.toast-error{
+
+    border-left-color:#dc2626;
+
+}
+
+.toast-warning{
+
+    border-left-color:#f59e0b;
+
+}
+
+.toast-info{
+
+    border-left-color:#2563eb;
+
+}
+
+@keyframes toastShow{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(50px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* ======================================
+   TOOLTIP
+====================================== */
+
+.tooltip{
+
+    position:relative;
+
+}
+
+.tooltip:hover::after{
+
+    content:attr(data-tooltip);
+
+    position:absolute;
+
+    bottom:120%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:#111827;
+
+    color:#fff;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    white-space:nowrap;
+
+    font-size:13px;
+
+    z-index:500;
+
+}
+
+/* ======================================
+   ÉTATS
+====================================== */
+
+.disabled{
+
+    opacity:.55;
+
+    pointer-events:none;
+
+}
+
+.hidden{
+
+    display:none !important;
+
+}
+
+.visible{
+
+    display:block !important;
+
+}
+
+.loading{
+
+    pointer-events:none;
+
+    opacity:.7;
+
+}
+
+/* ======================================
+   IMPRESSION
+====================================== */
+
+@media print{
+
+    .sidebar,
+
+    .header-vendeur,
+
+    .chat-bottom,
+
+    .conversation-sidebar,
+
+    .page-actions,
+
+    button{
+
+        display:none !important;
+
+    }
+
+    body{
+
+        background:#fff;
+
+    }
+
+    main{
+
+        width:100%;
+
+        margin:0;
+
+        padding:0;
+
+    }
+
+}
+
+/* ======================================
+   RESPONSIVE GLOBAL
+====================================== */
+
+@media(max-width:992px){
+
+    .dashboard-grid,
+
+    .shortcut-grid,
+
+    .publication-grid,
+
+    .stats-dashboard,
+
+    .settings-grid{
+
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .dashboard-header,
+
+    .page-header,
+
+    .header-actions{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .profil-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .dashboard-footer{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+    }
+
+}
+
+@media(max-width:576px){
+
+    body{
+
+        font-size:14px;
+
+    }
+
+    h1{
+
+        font-size:24px;
+
+    }
+
+    h2{
+
+        font-size:22px;
+
+    }
+
+    h3{
+
+        font-size:18px;
+
+    }
+
+    .publication-card,
+
+    .dashboard-panel,
+
+    .settings-card{
+
+        padding:20px;
+
+    }
+
+    button{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+/*==================================================
+MOYENS DE PAIEMENT
+==================================================*/
+
+.moyens-paiement-grid{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(320px,1fr));
+
+gap:25px;
+
+}
+
+.carte-paiement{
+
+background:#fff;
+
+border-radius:15px;
+
+padding:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.logo-paiement{
+
+width:70px;
+
+height:70px;
+
+object-fit:contain;
+
+margin-bottom:15px;
+
+}
+
+.paiement-body{
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+.paiement-body input{
+
+padding:12px;
+
+border-radius:10px;
+
+border:1px solid #ddd;
+
+}
+
+.paiement-actions{
+
+display:flex;
+
+gap:10px;
+
+margin-top:10px;
+
+}
+
+.paiement-actions button{
+
+flex:1;
+
+cursor:pointer;
+
+}
+
+
+
+
+
+
+
+.carte-ligne{
+
+display:grid;
+
+grid-template-columns:1fr 120px;
+
+gap:15px;
+
+}
+
+.carte-ligne input{
+
+width:100%;
+
+}
+
+.carte-paiement button{
+
+margin-top:15px;
+
+padding:12px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.carte-paiement label{
+
+font-weight:600;
+
+margin-top:5px;
+
+}
+
+.carte-paiement h3{
+
+margin-bottom:15px;
+
+}
+
+
+
+
+
+
+
+/*==================================================
+MOYENS ENREGISTRÉS
+==================================================*/
+
+.moyens-enregistres{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(320px,1fr));
+
+gap:20px;
+
+margin-top:20px;
+
+}
+
+.moyen-item{
+
+background:#fff;
+
+border-radius:12px;
+
+padding:20px;
+
+border:1px solid #e4e4e4;
+
+}
+
+.moyen-item h4{
+
+margin-bottom:10px;
+
+}
+
+.moyen-actions{
+
+display:flex;
+
+gap:10px;
+
+margin-top:15px;
+
+flex-wrap:wrap;
+
+}
+
+.moyen-principal{
+
+border:2px solid #2196f3;
+
+}
+
+
+
+
+
+
+/*=========================================================
+    MESSAGERIE
+=========================================================*/
+
+
+
+
+
+/*=========================================================
+    MESSAGERIE - STRUCTURE GENERALE
+=========================================================*/
+
+:root{
+
+    --chat-bg:#f5f7fb;
+
+    --chat-panel:#ffffff;
+
+    --chat-border:#dde3ec;
+
+    --chat-shadow:0 10px 25px rgba(0,0,0,.06);
+
+    --chat-primary:#1565c0;
+
+    --chat-primary-hover:#0d47a1;
+
+    --chat-secondary:#edf2f8;
+
+    --chat-text:#243447;
+
+    --chat-light:#6d7a88;
+
+    --chat-success:#28a745;
+
+    --chat-warning:#f0ad4e;
+
+    --chat-danger:#dc3545;
+
+    --chat-radius:18px;
+
+}
+
+/*=========================================================
+    CONTENEUR
+=========================================================*/
+
+.messagerie{
+
+    display:flex;
+
+    width:100%;
+
+    height:calc(100vh - 90px);
+
+    background:var(--chat-bg);
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    box-shadow:var(--chat-shadow);
+
+}
+
+/*=========================================================
+    COLONNE GAUCHE
+=========================================================*/
+
+.messagerie-gauche{
+
+    width:340px;
+
+    min-width:340px;
+
+    background:#fff;
+
+    border-right:1px solid var(--chat-border);
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/*=========================================================
+    COLONNE DROITE
+=========================================================*/
+
+.messagerie-droite{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#f9fbfd;
+
+}
+
+/*=========================================================
+    ENTETE
+=========================================================*/
+
+.chat-header{
+
+    height:72px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 22px;
+
+    background:#fff;
+
+    border-bottom:1px solid var(--chat-border);
+
+}
+
+/*=========================================================
+    TITRE
+=========================================================*/
+
+.chat-header h2{
+
+    font-size:19px;
+
+    font-weight:700;
+
+    color:var(--chat-text);
+
+}
+
+/*=========================================================
+    ICONES
+=========================================================*/
+
+.chat-header .actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.chat-header button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#eef3f8;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.chat-header button:hover{
+
+    background:var(--chat-primary);
+
+    color:#fff;
+
+    transform:scale(1.08);
+
+}
+
+/*=========================================================
+    LISTE
+=========================================================*/
+
+.liste-conversations{
+
+    flex:1;
+
+    overflow-y:auto;
+
+}
+
+/*=========================================================
+    SCROLL
+=========================================================*/
+
+.liste-conversations::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.liste-conversations::-webkit-scrollbar-thumb{
+
+    background:#d3d9e2;
+
+    border-radius:30px;
+
+}
+
+.liste-conversations::-webkit-scrollbar-thumb:hover{
+
+    background:#b8c2cf;
+
+}
+
+/*=========================================================
+    CONVERSATION
+=========================================================*/
+
+.conversation{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:16px;
+
+    border-bottom:1px solid #eef1f5;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.conversation:hover{
+
+    background:#f4f8fc;
+
+}
+
+.conversation.active{
+
+    background:#e7f0fb;
+
+    border-left:4px solid var(--chat-primary);
+
+}
+
+/*=========================================================
+    PHOTO
+=========================================================*/
+
+.conversation img{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+/*=========================================================
+    INFOS
+=========================================================*/
+
+.conversation .infos{
+
+    flex:1;
+
+    overflow:hidden;
+
+}
+
+.conversation .infos h3{
+
+    font-size:15px;
+
+    color:var(--chat-text);
+
+    margin-bottom:4px;
+
+}
+
+.conversation .infos p{
+
+    color:var(--chat-light);
+
+    font-size:13px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+/*=========================================================
+    BADGE
+=========================================================*/
+
+.nb-non-lus{
+
+    min-width:22px;
+
+    height:22px;
+
+    border-radius:50%;
+
+    background:var(--chat-primary);
+
+    color:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+/*=========================================================
+    MESSAGERIE - ZONE DE DISCUSSION
+=========================================================*/
+
+/*=========================================================
+    CORPS DE LA CONVERSATION
+=========================================================*/
+
+.chat-body{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:28px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    background:#f4f7fb;
+
+    scroll-behavior:smooth;
+
+}
+
+.chat-body::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.chat-body::-webkit-scrollbar-thumb{
+
+    background:#ccd5df;
+
+    border-radius:20px;
+
+}
+
+/*=========================================================
+    LIGNE MESSAGE
+=========================================================*/
+
+.message{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:12px;
+
+    width:100%;
+
+}
+
+.message.recu{
+
+    justify-content:flex-start;
+
+}
+
+.message.envoye{
+
+    justify-content:flex-end;
+
+}
+
+/*=========================================================
+    AVATAR
+=========================================================*/
+
+.message-avatar{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    flex-shrink:0;
+
+}
+
+/*=========================================================
+    BULLES
+=========================================================*/
+
+.bulle{
+
+    position:relative;
+
+    max-width:72%;
+
+    padding:14px 18px;
+
+    border-radius:18px;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    word-break:break-word;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+
+}
+
+.message.recu .bulle{
+
+    background:#ffffff;
+
+    color:#263238;
+
+    border-bottom-left-radius:6px;
+
+}
+
+.message.envoye .bulle{
+
+    background:#1565c0;
+
+    color:#ffffff;
+
+    border-bottom-right-radius:6px;
+
+}
+
+/*=========================================================
+    HEURE
+=========================================================*/
+
+.message-time{
+
+    display:block;
+
+    margin-top:8px;
+
+    font-size:11px;
+
+    opacity:.75;
+
+    text-align:right;
+
+}
+
+/*=========================================================
+    MESSAGE SYSTEME
+=========================================================*/
+
+.message-systeme{
+
+    align-self:center;
+
+    background:#fff7d6;
+
+    color:#8a6d3b;
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    border:1px solid #ffe8a1;
+
+}
+
+/*=========================================================
+    ETAT LECTURE
+=========================================================*/
+
+.message-etat{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    gap:5px;
+
+    margin-top:6px;
+
+    font-size:11px;
+
+}
+
+.message-etat.lu{
+
+    color:#1976d2;
+
+}
+
+.message-etat.non-lu{
+
+    color:#9e9e9e;
+
+}
+
+/*=========================================================
+    IMAGES
+=========================================================*/
+
+.message-image{
+
+    width:260px;
+
+    max-width:100%;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.message-image:hover{
+
+    transform:scale(1.02);
+
+}
+
+/*=========================================================
+    VIDEOS
+=========================================================*/
+
+.message-video{
+
+    width:300px;
+
+    max-width:100%;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+}
+
+/*=========================================================
+    DOCUMENTS
+=========================================================*/
+
+.message-document{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px 15px;
+
+    border-radius:14px;
+
+    background:#eef3f8;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.message-document:hover{
+
+    background:#dfeaf7;
+
+}
+
+/*=========================================================
+    VOCAL
+=========================================================*/
+
+.message-vocal{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    min-width:220px;
+
+}
+
+.message-vocal audio{
+
+    width:100%;
+
+}
+
+/*=========================================================
+    POSITION GPS
+=========================================================*/
+
+.message-position{
+
+    padding:14px;
+
+    border-radius:16px;
+
+    background:#eef7ff;
+
+    border-left:4px solid #1565c0;
+
+    color:#263238;
+
+}
+
+/*=========================================================
+    REACTIONS
+=========================================================*/
+
+.message-reactions{
+
+    display:flex;
+
+    gap:6px;
+
+    margin-top:8px;
+
+    flex-wrap:wrap;
+
+}
+
+.message-reactions span{
+
+    padding:4px 9px;
+
+    border-radius:16px;
+
+    background:#ffffff;
+
+    border:1px solid #dfe6ef;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.message-reactions span:hover{
+
+    background:#1565c0;
+
+    color:#fff;
+
+}
+
+/*=========================================================
+    MESSAGE EPINGLE
+=========================================================*/
+
+.message.epingle{
+
+    border-left:4px solid #ff9800;
+
+    padding-left:10px;
+
+}
+
+
+
+
+/*=========================================================
+    MESSAGERIE - BARRE DE SAISIE
+=========================================================*/
+
+/*=========================================================
+    PIED DE LA CONVERSATION
+=========================================================*/
+
+.chat-footer{
+
+    background:#ffffff;
+
+    border-top:1px solid var(--chat-border);
+
+    padding:16px 20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+/*=========================================================
+    BARRE PRINCIPALE
+=========================================================*/
+
+.chat-input-bar{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:12px;
+
+}
+
+/*=========================================================
+    BOUTONS OUTILS
+=========================================================*/
+
+.chat-tools{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+}
+
+.chat-tools button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#eef3f8;
+
+    color:#425466;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+}
+
+.chat-tools button:hover{
+
+    background:var(--chat-primary);
+
+    color:#ffffff;
+
+    transform:translateY(-2px);
+
+}
+
+.chat-tools button:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+/*=========================================================
+    ZONE DE TEXTE
+=========================================================*/
+
+.chat-editor{
+
+    flex:1;
+
+    min-height:48px;
+
+    max-height:160px;
+
+    resize:none;
+
+    border:1px solid var(--chat-border);
+
+    border-radius:22px;
+
+    padding:14px 18px;
+
+    background:#fafbfd;
+
+    color:var(--chat-text);
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    outline:none;
+
+    overflow-y:auto;
+
+    transition:.25s;
+
+}
+
+.chat-editor:focus{
+
+    border-color:var(--chat-primary);
+
+    box-shadow:0 0 0 3px rgba(21,101,192,.12);
+
+    background:#ffffff;
+
+}
+
+.chat-editor::placeholder{
+
+    color:#8a96a3;
+
+}
+
+/*=========================================================
+    ENVOYER
+=========================================================*/
+
+.chat-send{
+
+    width:52px;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--chat-primary);
+
+    color:#ffffff;
+
+    cursor:pointer;
+
+    font-size:19px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.25s;
+
+}
+
+.chat-send:hover{
+
+    background:var(--chat-primary-hover);
+
+    transform:scale(1.05);
+
+}
+
+.chat-send:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+/*=========================================================
+    PIECES JOINTES
+=========================================================*/
+
+.chat-attachments{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    padding-top:6px;
+
+}
+
+.attachment-chip{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 12px;
+
+    background:#eef3f8;
+
+    border:1px solid #dbe3ec;
+
+    border-radius:18px;
+
+    font-size:13px;
+
+    color:var(--chat-text);
+
+}
+
+.attachment-chip button{
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    color:#b00020;
+
+    font-size:15px;
+
+}
+
+/*=========================================================
+    INDICATEUR D'ECRITURE
+=========================================================*/
+
+.typing-indicator{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    font-size:13px;
+
+    color:var(--chat-light);
+
+    min-height:20px;
+
+}
+
+.typing-dot{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--chat-primary);
+
+    animation:typingPulse 1.2s infinite;
+
+}
+
+.typing-dot:nth-child(2){
+
+    animation-delay:.2s;
+
+}
+
+.typing-dot:nth-child(3){
+
+    animation-delay:.4s;
+
+}
+
+@keyframes typingPulse{
+
+    0%{
+
+        opacity:.2;
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:translateY(-3px);
+
+    }
+
+    100%{
+
+        opacity:.2;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*=========================================================
+    ENREGISTREMENT VOCAL
+=========================================================*/
+
+.recording{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 14px;
+
+    background:#fff3f3;
+
+    border:1px solid #ffd2d2;
+
+    border-radius:18px;
+
+    color:#c62828;
+
+    font-weight:600;
+
+}
+
+.recording::before{
+
+    content:"";
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#e53935;
+
+    animation:recordPulse 1s infinite;
+
+}
+
+@keyframes recordPulse{
+
+    0%{
+
+        transform:scale(.9);
+
+        opacity:.5;
+
+    }
+
+    50%{
+
+        transform:scale(1.2);
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        transform:scale(.9);
+
+        opacity:.5;
+
+    }
+
+}
+
+
+
+
+
+/*=========================================================
+    MESSAGERIE - GALERIE ET MEDIAS
+=========================================================*/
+
+/*=========================================================
+    PANNEAU GALERIE
+=========================================================*/
+
+.chat-gallery{
+
+    display:flex;
+
+    flex-direction:column;
+
+    width:100%;
+
+    background:#ffffff;
+
+    border-top:1px solid var(--chat-border);
+
+    padding:18px;
+
+    gap:18px;
+
+}
+
+/*=========================================================
+    TITRE
+=========================================================*/
+
+.chat-gallery-title{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+.chat-gallery-title h3{
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:var(--chat-text);
+
+}
+
+.chat-gallery-title button{
+
+    border:none;
+
+    background:#eef3f8;
+
+    padding:8px 14px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.chat-gallery-title button:hover{
+
+    background:var(--chat-primary);
+
+    color:#ffffff;
+
+}
+
+/*=========================================================
+    GRILLE
+=========================================================*/
+
+.chat-gallery-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+
+    gap:14px;
+
+}
+
+/*=========================================================
+    CARTE MEDIA
+=========================================================*/
+
+.media-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:16px;
+
+    background:#f7f9fc;
+
+    border:1px solid #e4ebf3;
+
+    transition:.25s;
+
+    cursor:pointer;
+
+}
+
+.media-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+}
+
+/*=========================================================
+    IMAGE
+=========================================================*/
+
+.media-card img{
+
+    width:100%;
+
+    height:130px;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+/*=========================================================
+    VIDEO
+=========================================================*/
+
+.media-card video{
+
+    width:100%;
+
+    height:130px;
+
+    object-fit:cover;
+
+}
+
+/*=========================================================
+    ICONE DOCUMENT
+=========================================================*/
+
+.media-document{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    height:130px;
+
+    padding:10px;
+
+    text-align:center;
+
+    color:var(--chat-text);
+
+    font-size:13px;
+
+    gap:8px;
+
+}
+
+.media-document i{
+
+    font-size:34px;
+
+    color:var(--chat-primary);
+
+}
+
+/*=========================================================
+    INFORMATIONS
+=========================================================*/
+
+.media-info{
+
+    padding:10px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+}
+
+.media-info span{
+
+    font-size:12px;
+
+    color:var(--chat-light);
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+/*=========================================================
+    APERCU
+=========================================================*/
+
+.media-preview{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.75);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:9999;
+
+}
+
+.media-preview.active{
+
+    display:flex;
+
+}
+
+.media-preview img,
+
+.media-preview video{
+
+    max-width:92%;
+
+    max-height:88vh;
+
+    border-radius:18px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+}
+
+/*=========================================================
+    FERMER
+=========================================================*/
+
+.media-close{
+
+    position:absolute;
+
+    top:25px;
+
+    right:25px;
+
+    width:46px;
+
+    height:46px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    transition:.25s;
+
+}
+
+.media-close:hover{
+
+    background:var(--chat-danger);
+
+    color:#ffffff;
+
+}
+
+/*=========================================================
+    RECEPISSE DE PAIEMENT
+=========================================================*/
+
+.media-payment{
+
+    border-left:5px solid var(--chat-success);
+
+}
+
+/*=========================================================
+    RESERVATION
+=========================================================*/
+
+.media-reservation{
+
+    border-left:5px solid #ff9800;
+
+}
+
+/*=========================================================
+    COMMANDE
+=========================================================*/
+
+.media-order{
+
+    border-left:5px solid var(--chat-primary);
+
+}
+
+/*=========================================================
+    INDICATEUR TELECHARGEMENT
+=========================================================*/
+
+.media-download{
+
+    position:absolute;
+
+    bottom:10px;
+
+    right:10px;
+
+    width:36px;
+
+    height:36px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.95);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.media-download:hover{
+
+    background:var(--chat-primary);
+
+    color:#ffffff;
+
+}
+
+/*=========================================================
+    BADGE TYPE
+=========================================================*/
+
+.media-badge{
+
+    position:absolute;
+
+    top:10px;
+
+    left:10px;
+
+    background:rgba(0,0,0,.70);
+
+    color:#ffffff;
+
+    padding:4px 8px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+
+
+/*=========================================================
+    MESSAGERIE - PANNEAU LATERAL
+=========================================================*/
+
+.chat-side-panel{
+
+    width:360px;
+
+    min-width:360px;
+
+    background:#ffffff;
+
+    border-left:1px solid var(--chat-border);
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow-y:auto;
+
+}
+
+.chat-side-panel::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.chat-side-panel::-webkit-scrollbar-thumb{
+
+    background:#cdd5df;
+
+    border-radius:30px;
+
+}
+
+/*=========================================================
+    PROFIL
+=========================================================*/
+
+.chat-profile{
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    border-bottom:1px solid var(--chat-border);
+
+}
+
+.chat-profile img{
+
+    width:96px;
+
+    height:96px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid #ffffff;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.chat-profile h3{
+
+    margin-top:15px;
+
+    font-size:20px;
+
+    color:var(--chat-text);
+
+}
+
+.chat-profile p{
+
+    margin-top:5px;
+
+    color:var(--chat-light);
+
+    font-size:14px;
+
+}
+
+/*=========================================================
+    BADGES
+=========================================================*/
+
+.profile-badges{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-top:18px;
+
+}
+
+.profile-badges span{
+
+    padding:7px 12px;
+
+    border-radius:18px;
+
+    background:#eef3f8;
+
+    font-size:12px;
+
+    color:var(--chat-text);
+
+}
+
+/*=========================================================
+    BLOCS
+=========================================================*/
+
+.chat-card{
+
+    margin:18px;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    background:#fafbfd;
+
+    border:1px solid #e3eaf3;
+
+}
+
+.chat-card h4{
+
+    margin-bottom:14px;
+
+    color:var(--chat-text);
+
+    font-size:15px;
+
+}
+
+.chat-card p{
+
+    margin:8px 0;
+
+    font-size:13px;
+
+    color:var(--chat-light);
+
+}
+
+/*=========================================================
+    COMMANDE
+=========================================================*/
+
+.chat-order{
+
+    border-left:5px solid var(--chat-primary);
+
+}
+
+/*=========================================================
+    RESERVATION
+=========================================================*/
+
+.chat-reservation{
+
+    border-left:5px solid #ff9800;
+
+}
+
+/*=========================================================
+    PAIEMENT
+=========================================================*/
+
+.chat-payment{
+
+    border-left:5px solid var(--chat-success);
+
+}
+
+/*=========================================================
+    LIVRAISON
+=========================================================*/
+
+.chat-delivery{
+
+    border-left:5px solid #7b1fa2;
+
+}
+
+/*=========================================================
+    ACTIONS
+=========================================================*/
+
+.chat-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:10px;
+
+    margin:20px;
+
+}
+
+.chat-actions button{
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:12px;
+
+    cursor:pointer;
+
+    background:#eef3f8;
+
+    transition:.25s;
+
+    font-size:13px;
+
+}
+
+.chat-actions button:hover{
+
+    background:var(--chat-primary);
+
+    color:#ffffff;
+
+}
+
+/*=========================================================
+    AUDIO
+=========================================================*/
+
+.call-audio{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:25px;
+
+}
+
+.call-audio button{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:50%;
+
+    border:none;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.call-audio button:hover{
+
+    transform:scale(1.08);
+
+}
+
+/*=========================================================
+    VIDEO
+=========================================================*/
+
+.call-video{
+
+    position:relative;
+
+    background:#000000;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    aspect-ratio:16/9;
+
+}
+
+.call-video video{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.call-local{
+
+    position:absolute;
+
+    right:15px;
+
+    bottom:15px;
+
+    width:120px;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    border:2px solid #ffffff;
+
+}
+
+/*=========================================================
+    ETAT
+=========================================================*/
+
+.call-status{
+
+    text-align:center;
+
+    padding:12px;
+
+    color:var(--chat-light);
+
+    font-size:14px;
+
+}
+
+/*=========================================================
+    GPS
+=========================================================*/
+
+.chat-map{
+
+    height:220px;
+
+    border-radius:16px;
+
+    background:#e9eef5;
+
+    overflow:hidden;
+
+}
+
+/*=========================================================
+    PIECES JOINTES
+=========================================================*/
+
+.shared-files{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.shared-file{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:#f5f8fb;
+
+}
+
+.shared-file:hover{
+
+    background:#eaf1f8;
+
+}
+
+
+
+
+
+/*=========================================================
+    MESSAGERIE - RESPONSIVE ET FINITIONS
+=========================================================*/
+
+/*=========================================================
+    ANIMATIONS
+=========================================================*/
+
+@keyframes chatFadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.message,
+
+.conversation,
+
+.media-card,
+
+.chat-card{
+
+    animation:chatFadeIn .25s ease;
+
+}
+
+/*=========================================================
+    FOCUS ACCESSIBILITE
+=========================================================*/
+
+button:focus-visible,
+
+input:focus-visible,
+
+textarea:focus-visible,
+
+select:focus-visible{
+
+    outline:3px solid rgba(21,101,192,.25);
+
+    outline-offset:2px;
+
+}
+
+/*=========================================================
+    ETAT HORS LIGNE
+=========================================================*/
+
+.user-offline{
+
+    opacity:.65;
+
+    filter:grayscale(.2);
+
+}
+
+.user-online::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:2px;
+
+    bottom:2px;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#2ecc71;
+
+    border:2px solid #ffffff;
+
+}
+
+/*=========================================================
+    RESPONSIVE TABLETTE
+=========================================================*/
+
+@media (max-width:1200px){
+
+    .chat-side-panel{
+
+        width:300px;
+
+        min-width:300px;
+
+    }
+
+}
+
+/*=========================================================
+    RESPONSIVE PETIT ECRAN
+=========================================================*/
+
+@media (max-width:992px){
+
+    .messagerie{
+
+        flex-direction:column;
+
+        height:auto;
+
+    }
+
+    .messagerie-gauche{
+
+        width:100%;
+
+        min-width:100%;
+
+        max-height:260px;
+
+        border-right:none;
+
+        border-bottom:1px solid var(--chat-border);
+
+    }
+
+    .chat-side-panel{
+
+        width:100%;
+
+        min-width:100%;
+
+        border-left:none;
+
+        border-top:1px solid var(--chat-border);
+
+    }
+
+    .bulle{
+
+        max-width:85%;
+
+    }
+
+}
+
+/*=========================================================
+    RESPONSIVE MOBILE
+=========================================================*/
+
+@media (max-width:768px){
+
+    .chat-header{
+
+        padding:0 12px;
+
+    }
+
+    .chat-header h2{
+
+        font-size:16px;
+
+    }
+
+    .conversation{
+
+        padding:12px;
+
+    }
+
+    .conversation img{
+
+        width:48px;
+
+        height:48px;
+
+    }
+
+    .chat-body{
+
+        padding:16px;
+
+    }
+
+    .chat-footer{
+
+        padding:12px;
+
+    }
+
+    .chat-tools{
+
+        gap:6px;
+
+    }
+
+    .chat-tools button{
+
+        width:38px;
+
+        height:38px;
+
+        font-size:16px;
+
+    }
+
+    .chat-send{
+
+        width:46px;
+
+        height:46px;
+
+    }
+
+    .bulle{
+
+        max-width:92%;
+
+        font-size:13px;
+
+    }
+
+    .message-image,
+
+    .message-video{
+
+        width:100%;
+
+    }
+
+    .call-local{
+
+        width:90px;
+
+    }
+
+}
+
+/*=========================================================
+    MODE SOMBRE
+=========================================================*/
+
+@media (prefers-color-scheme:dark){
+
+    :root{
+
+        --chat-bg:#14181d;
+
+        --chat-panel:#1d232b;
+
+        --chat-border:#303844;
+
+        --chat-text:#f4f6f8;
+
+        --chat-light:#b0bac5;
+
+        --chat-secondary:#2a313b;
+
+    }
+
+    .messagerie,
+
+    .messagerie-gauche,
+
+    .messagerie-droite,
+
+    .chat-side-panel,
+
+    .chat-header,
+
+    .chat-footer,
+
+    .chat-card,
+
+    .conversation{
+
+        background:var(--chat-panel);
+
+        color:var(--chat-text);
+
+    }
+
+    .message.recu .bulle{
+
+        background:#2b3440;
+
+        color:#f4f6f8;
+
+    }
+
+    .chat-editor{
+
+        background:#222a33;
+
+        color:#f4f6f8;
+
+    }
+
+    .attachment-chip,
+
+    .message-document{
+
+        background:#28313b;
+
+    }
+
+}
+
+/*=========================================================
+    IMPRESSION
+=========================================================*/
+
+@media print{
+
+    .chat-header,
+
+    .chat-footer,
+
+    .chat-side-panel,
+
+    .chat-tools,
+
+    .chat-actions,
+
+    .chat-send{
+
+        display:none !important;
+
+    }
+
+    .messagerie{
+
+        box-shadow:none;
+
+        height:auto;
+
+    }
+
+    .chat-body{
+
+        overflow:visible;
+
+    }
+
+}
+
+/*=========================================================
+    REDUCTION DES ANIMATIONS
+=========================================================*/
+
+@media (prefers-reduced-motion:reduce){
+
+    *{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}/*=========================================================
+    MESSAGERIE - RESPONSIVE ET FINITIONS
+=========================================================*/
+
+/*=========================================================
+    ANIMATIONS
+=========================================================*/
+
+@keyframes chatFadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.message,
+
+.conversation,
+
+.media-card,
+
+.chat-card{
+
+    animation:chatFadeIn .25s ease;
+
+}
+
+/*=========================================================
+    FOCUS ACCESSIBILITE
+=========================================================*/
+
+button:focus-visible,
+
+input:focus-visible,
+
+textarea:focus-visible,
+
+select:focus-visible{
+
+    outline:3px solid rgba(21,101,192,.25);
+
+    outline-offset:2px;
+
+}
+
+/*=========================================================
+    ETAT HORS LIGNE
+=========================================================*/
+
+.user-offline{
+
+    opacity:.65;
+
+    filter:grayscale(.2);
+
+}
+
+.user-online::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:2px;
+
+    bottom:2px;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#2ecc71;
+
+    border:2px solid #ffffff;
+
+}
+
+/*=========================================================
+    RESPONSIVE TABLETTE
+=========================================================*/
+
+@media (max-width:1200px){
+
+    .chat-side-panel{
+
+        width:300px;
+
+        min-width:300px;
+
+    }
+
+}
+
+/*=========================================================
+    RESPONSIVE PETIT ECRAN
+=========================================================*/
+
+@media (max-width:992px){
+
+    .messagerie{
+
+        flex-direction:column;
+
+        height:auto;
+
+    }
+
+    .messagerie-gauche{
+
+        width:100%;
+
+        min-width:100%;
+
+        max-height:260px;
+
+        border-right:none;
+
+        border-bottom:1px solid var(--chat-border);
+
+    }
+
+    .chat-side-panel{
+
+        width:100%;
+
+        min-width:100%;
+
+        border-left:none;
+
+        border-top:1px solid var(--chat-border);
+
+    }
+
+    .bulle{
+
+        max-width:85%;
+
+    }
+
+}
+
+/*=========================================================
+    RESPONSIVE MOBILE
+=========================================================*/
+
+@media (max-width:768px){
+
+    .chat-header{
+
+        padding:0 12px;
+
+    }
+
+    .chat-header h2{
+
+        font-size:16px;
+
+    }
+
+    .conversation{
+
+        padding:12px;
+
+    }
+
+    .conversation img{
+
+        width:48px;
+
+        height:48px;
+
+    }
+
+    .chat-body{
+
+        padding:16px;
+
+    }
+
+    .chat-footer{
+
+        padding:12px;
+
+    }
+
+    .chat-tools{
+
+        gap:6px;
+
+    }
+
+    .chat-tools button{
+
+        width:38px;
+
+        height:38px;
+
+        font-size:16px;
+
+    }
+
+    .chat-send{
+
+        width:46px;
+
+        height:46px;
+
+    }
+
+    .bulle{
+
+        max-width:92%;
+
+        font-size:13px;
+
+    }
+
+    .message-image,
+
+    .message-video{
+
+        width:100%;
+
+    }
+
+    .call-local{
+
+        width:90px;
+
+    }
+
+}
+
+/*=========================================================
+    MODE SOMBRE
+=========================================================*/
+
+@media (prefers-color-scheme:dark){
+
+    :root{
+
+        --chat-bg:#14181d;
+
+        --chat-panel:#1d232b;
+
+        --chat-border:#303844;
+
+        --chat-text:#f4f6f8;
+
+        --chat-light:#b0bac5;
+
+        --chat-secondary:#2a313b;
+
+    }
+
+    .messagerie,
+
+    .messagerie-gauche,
+
+    .messagerie-droite,
+
+    .chat-side-panel,
+
+    .chat-header,
+
+    .chat-footer,
+
+    .chat-card,
+
+    .conversation{
+
+        background:var(--chat-panel);
+
+        color:var(--chat-text);
+
+    }
+
+    .message.recu .bulle{
+
+        background:#2b3440;
+
+        color:#f4f6f8;
+
+    }
+
+    .chat-editor{
+
+        background:#222a33;
+
+        color:#f4f6f8;
+
+    }
+
+    .attachment-chip,
+
+    .message-document{
+
+        background:#28313b;
+
+    }
+
+}
+
+/*=========================================================
+    IMPRESSION
+=========================================================*/
+
+@media print{
+
+    .chat-header,
+
+    .chat-footer,
+
+    .chat-side-panel,
+
+    .chat-tools,
+
+    .chat-actions,
+
+    .chat-send{
+
+        display:none !important;
+
+    }
+
+    .messagerie{
+
+        box-shadow:none;
+
+        height:auto;
+
+    }
+
+    .chat-body{
+
+        overflow:visible;
+
+    }
+
+}
+
+/*=========================================================
+    REDUCTION DES ANIMATIONS
+=========================================================*/
+
+@media (prefers-reduced-motion:reduce){
+
+    *{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}/*=========================================================
+    MESSAGERIE - RESPONSIVE ET FINITIONS
+=========================================================*/
+
+/*=========================================================
+    ANIMATIONS
+=========================================================*/
+
+@keyframes chatFadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.message,
+
+.conversation,
+
+.media-card,
+
+.chat-card{
+
+    animation:chatFadeIn .25s ease;
+
+}
+
+/*=========================================================
+    FOCUS ACCESSIBILITE
+=========================================================*/
+
+button:focus-visible,
+
+input:focus-visible,
+
+textarea:focus-visible,
+
+select:focus-visible{
+
+    outline:3px solid rgba(21,101,192,.25);
+
+    outline-offset:2px;
+
+}
+
+/*=========================================================
+    ETAT HORS LIGNE
+=========================================================*/
+
+.user-offline{
+
+    opacity:.65;
+
+    filter:grayscale(.2);
+
+}
+
+.user-online::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:2px;
+
+    bottom:2px;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#2ecc71;
+
+    border:2px solid #ffffff;
+
+}
+
+/*=========================================================
+    RESPONSIVE TABLETTE
+=========================================================*/
+
+@media (max-width:1200px){
+
+    .chat-side-panel{
+
+        width:300px;
+
+        min-width:300px;
+
+    }
+
+}
+
+/*=========================================================
+    RESPONSIVE PETIT ECRAN
+=========================================================*/
+
+@media (max-width:992px){
+
+    .messagerie{
+
+        flex-direction:column;
+
+        height:auto;
+
+    }
+
+    .messagerie-gauche{
+
+        width:100%;
+
+        min-width:100%;
+
+        max-height:260px;
+
+        border-right:none;
+
+        border-bottom:1px solid var(--chat-border);
+
+    }
+
+    .chat-side-panel{
+
+        width:100%;
+
+        min-width:100%;
+
+        border-left:none;
+
+        border-top:1px solid var(--chat-border);
+
+    }
+
+    .bulle{
+
+        max-width:85%;
+
+    }
+
+}
+
+/*=========================================================
+    RESPONSIVE MOBILE
+=========================================================*/
+
+@media (max-width:768px){
+
+    .chat-header{
+
+        padding:0 12px;
+
+    }
+
+    .chat-header h2{
+
+        font-size:16px;
+
+    }
+
+    .conversation{
+
+        padding:12px;
+
+    }
+
+    .conversation img{
+
+        width:48px;
+
+        height:48px;
+
+    }
+
+    .chat-body{
+
+        padding:16px;
+
+    }
+
+    .chat-footer{
+
+        padding:12px;
+
+    }
+
+    .chat-tools{
+
+        gap:6px;
+
+    }
+
+    .chat-tools button{
+
+        width:38px;
+
+        height:38px;
+
+        font-size:16px;
+
+    }
+
+    .chat-send{
+
+        width:46px;
+
+        height:46px;
+
+    }
+
+    .bulle{
+
+        max-width:92%;
+
+        font-size:13px;
+
+    }
+
+    .message-image,
+
+    .message-video{
+
+        width:100%;
+
+    }
+
+    .call-local{
+
+        width:90px;
+
+    }
+
+}
+
+/*=========================================================
+    MODE SOMBRE
+=========================================================*/
+
+@media (prefers-color-scheme:dark){
+
+    :root{
+
+        --chat-bg:#14181d;
+
+        --chat-panel:#1d232b;
+
+        --chat-border:#303844;
+
+        --chat-text:#f4f6f8;
+
+        --chat-light:#b0bac5;
+
+        --chat-secondary:#2a313b;
+
+    }
+
+    .messagerie,
+
+    .messagerie-gauche,
+
+    .messagerie-droite,
+
+    .chat-side-panel,
+
+    .chat-header,
+
+    .chat-footer,
+
+    .chat-card,
+
+    .conversation{
+
+        background:var(--chat-panel);
+
+        color:var(--chat-text);
+
+    }
+
+    .message.recu .bulle{
+
+        background:#2b3440;
+
+        color:#f4f6f8;
+
+    }
+
+    .chat-editor{
+
+        background:#222a33;
+
+        color:#f4f6f8;
+
+    }
+
+    .attachment-chip,
+
+    .message-document{
+
+        background:#28313b;
+
+    }
+
+}
+
+/*=========================================================
+    IMPRESSION
+=========================================================*/
+
+@media print{
+
+    .chat-header,
+
+    .chat-footer,
+
+    .chat-side-panel,
+
+    .chat-tools,
+
+    .chat-actions,
+
+    .chat-send{
+
+        display:none !important;
+
+    }
+
+    .messagerie{
+
+        box-shadow:none;
+
+        height:auto;
+
+    }
+
+    .chat-body{
+
+        overflow:visible;
+
+    }
+
+}
+
+/*=========================================================
+    REDUCTION DES ANIMATIONS
+=========================================================*/
+
+@media (prefers-reduced-motion:reduce){
+
+    *{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+/*=========================================================
+    QUICK PANEL GLOBAL
+=========================================================*/
+
+.quick-panel{
+
+    position:fixed;
+
+    top:0;
+
+    right:-430px;
+
+    width:420px;
+
+    max-width:100%;
+
+    height:100vh;
+
+    background:#ffffff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    box-shadow:-12px 0 40px rgba(0,0,0,.15);
+
+    transition:.35s;
+
+    z-index:2500;
+
+}
+
+.quick-panel.open{
+
+    right:0;
+
+}
+
+.quick-panel-header{
+
+    padding:22px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.quick-panel-body{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.quick-panel-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:2400;
+
+}
+
+.quick-panel-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}/*=========================================================
+    QUICK PANEL GLOBAL
+=========================================================*/
+
+.quick-panel{
+
+    position:fixed;
+
+    top:0;
+
+    right:-430px;
+
+    width:420px;
+
+    max-width:100%;
+
+    height:100vh;
+
+    background:#ffffff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    box-shadow:-12px 0 40px rgba(0,0,0,.15);
+
+    transition:.35s;
+
+    z-index:2500;
+
+}
+
+.quick-panel.open{
+
+    right:0;
+
+}
+
+.quick-panel-header{
+
+    padding:22px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.quick-panel-body{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.quick-panel-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:2400;
+
+}
+
+.quick-panel-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ======================================
+   FIN DU CSS
+====================================== */
+
+
+

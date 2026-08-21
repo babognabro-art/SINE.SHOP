@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>SINE.SHOP • Centre Officiel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <style>
+        /* =========================================================
+           RESET & BASE
+           ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f8ff;
+            color: #1a2a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .sky { position: fixed; inset: 0; z-index: -1; background: linear-gradient(180deg, #87CEEB 0%, #b8dff0 40%, #d6ecf5 70%, #f0f8ff 100%); }
+        .sky::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.3) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.15) 0%, transparent 50%); pointer-events: none; }
+        .stars-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        .star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; animation: twinkle 3s ease-in-out infinite alternate; box-shadow: 0 0 6px rgba(255,255,255,0.5); }
+        .star:nth-child(odd) { animation-duration: 2.5s; }
+        .star:nth-child(3n) { animation-duration: 4s; }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+        .shooting-star { position: fixed; top: -80px; left: -200px; width: 300px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(255,255,255,0.3)); border-radius: 100px; transform: rotate(-25deg); z-index: 0; opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); animation: shootingStar 8s linear infinite; }
+        @keyframes shootingStar { 0% { opacity: 0; transform: translate(-200px, -80px) rotate(-25deg); } 5% { opacity: 1; } 20% { opacity: 1; } 25% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); } 100% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); } }
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+        .official-header {
+            background: rgba(135,206,235,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 30px;
+            border-bottom: 2px solid rgba(255,215,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 30px rgba(135,206,235,0.2);
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0a2a44;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .header-brand span { color: #1a5276; }
+        .header-brand .heart {
+            display: inline-block;
+            color: #ff2d55;
+            font-size: 1.6rem;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255,45,85,0.6), 0 0 60px rgba(255,45,85,0.3);
+            margin: 0 2px;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 20px rgba(255,45,85,0.6), 0 0 60px rgba(255,45,85,0.3); }
+            14% { transform: scale(1.3); text-shadow: 0 0 30px rgba(255,45,85,0.9), 0 0 80px rgba(255,45,85,0.5); }
+            28% { transform: scale(1); text-shadow: 0 0 20px rgba(255,45,85,0.6), 0 0 60px rgba(255,45,85,0.3); }
+            42% { transform: scale(1.2); text-shadow: 0 0 25px rgba(255,45,85,0.8), 0 0 70px rgba(255,45,85,0.4); }
+            70% { transform: scale(1); text-shadow: 0 0 20px rgba(255,45,85,0.6), 0 0 60px rgba(255,45,85,0.3); }
+        }
+
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .header-actions .lang-select {
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.35);
+            color: #0a2a44;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230a2a44' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        .header-actions .lang-select option { background: white; color: #1a2a3a; }
+        .header-actions .btn-logout {
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(239,68,68,0.2);
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid rgba(239,68,68,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-actions .btn-logout:hover { background: rgba(239,68,68,0.3); transform: translateY(-2px); }
+        .header-actions .official-badge {
+            padding: 4px 16px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            color: #0a2a44;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255,215,0,0.3);
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           LOGIN OFFICIEL
+           ========================================================= */
+        .official-login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .official-login-overlay.hidden { display: none; }
+        .official-login-box {
+            background: white;
+            border-radius: 28px;
+            padding: 40px;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.4s ease;
+        }
+        .official-login-box .logo {
+            text-align: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0a2a44;
+            margin-bottom: 4px;
+        }
+        .official-login-box .logo span { color: #1a5276; }
+        .official-login-box .logo .heart {
+            color: #ff2d55;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            display: inline-block;
+        }
+        .official-login-box .subtitle {
+            text-align: center;
+            color: #6a8aaa;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        .official-login-box .max-users {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.7rem;
+            margin-bottom: 16px;
+        }
+        .official-login-box .max-users strong { color: #f59e0b; }
+        .official-login-box .form-group { margin-bottom: 14px; }
+        .official-login-box .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #1a3a5a;
+            margin-bottom: 4px;
+        }
+        .official-login-box .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+            background: rgba(255,255,255,0.8);
+            color: #1a2a3a;
+        }
+        .official-login-box .form-group input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245,158,11,0.12);
+        }
+        .official-login-box .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            color: #0a2a44;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .official-login-box .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(250,204,21,0.35); }
+        .official-login-box .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .official-login-box .error-msg {
+            color: #dc2626;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 8px;
+            display: none;
+        }
+        .official-login-box .error-msg.show { display: block; }
+        .official-login-box .success-msg {
+            color: #16a34a;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 8px;
+            display: none;
+        }
+        .official-login-box .success-msg.show { display: block; }
+        .official-login-box .security-note {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .official-login-box .security-note i { color: #f59e0b; }
+        .official-login-box .register-link {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #6a8aaa;
+        }
+        .official-login-box .register-link a {
+            color: #2d73ff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .official-login-box .register-link a:hover { text-decoration: underline; }
+
+        /* =========================================================
+           LAYOUT PRINCIPAL
+           ========================================================= */
+        .official-layout {
+            display: flex;
+            flex: 1;
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 16px;
+            gap: 16px;
+        }
+
+        .official-sidebar {
+            width: 220px;
+            min-width: 220px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 16px 12px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            height: fit-content;
+            position: sticky;
+            top: 85px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        .official-sidebar .user-info {
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            margin-bottom: 12px;
+        }
+        .official-sidebar .user-info .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            margin: 0 auto 6px;
+            font-weight: 700;
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+        .official-sidebar .user-info .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0a2a44;
+        }
+        .official-sidebar .user-info .role {
+            font-size: 0.7rem;
+            color: #6a8aaa;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .official-sidebar .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            color: #4a6a8a;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+        .official-sidebar .nav-item:hover {
+            background: rgba(114,182,255,0.1);
+            color: #0a2a44;
+        }
+        .official-sidebar .nav-item.active {
+            background: rgba(250,204,21,0.15);
+            color: #b45309;
+            font-weight: 600;
+            border-left: 3px solid #f59e0b;
+        }
+        .official-sidebar .nav-item i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .official-sidebar .nav-item .badge {
+            margin-left: auto;
+            background: #ef4444;
+            color: white;
+            font-size: 0.55rem;
+            padding: 1px 7px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .official-content {
+            flex: 1;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px 28px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            min-height: 600px;
+        }
+        .official-content .page-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            color: #0a2a44;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .official-content .page-title .live-badge {
+            font-size: 0.6rem;
+            background: #ef4444;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .official-content .page-subtitle {
+            color: #6a8aaa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .content-section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================================
+           STATS
+           ========================================================= */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.6);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.04);
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .stat-card .number { font-size: 1.8rem; font-weight: 700; color: #0a2a44; }
+        .stat-card .label { font-size: 0.7rem; color: #6a8aaa; font-weight: 500; }
+        .stat-card .icon { font-size: 1.2rem; color: #facc15; margin-bottom: 2px; }
+
+        /* =========================================================
+           TABLEAUX
+           ========================================================= */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .table-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .table-wrapper th {
+            background: rgba(0,0,0,0.02);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: #1a3a5a;
+            border-bottom: 2px solid rgba(0,0,0,0.04);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-wrapper td {
+            padding: 8px 14px;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            color: #1a2a3a;
+        }
+        .table-wrapper tr:hover td { background: rgba(250,204,21,0.04); }
+        .table-wrapper .status {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .table-wrapper .status.active { background: #dcfce7; color: #16a34a; }
+        .table-wrapper .status.pending { background: #fef3c7; color: #f59e0b; }
+        .table-wrapper .status.inactive { background: #fee2e2; color: #dc2626; }
+
+        .action-btn {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: 0.3s;
+            margin: 0 2px;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+        .action-btn.view { background: #dbeafe; color: #2563eb; }
+        .action-btn.view:hover { background: #bfdbfe; }
+        .action-btn.edit { background: #fef3c7; color: #f59e0b; }
+        .action-btn.edit:hover { background: #fde68a; }
+        .action-btn.block { background: #fee2e2; color: #dc2626; }
+        .action-btn.block:hover { background: #fecaca; }
+        .action-btn.delete { background: #fecaca; color: #991b1b; }
+        .action-btn.delete:hover { background: #fca5a5; }
+        .action-btn.pay { background: #dbeafe; color: #2563eb; }
+        .action-btn.pay:hover { background: #bfdbfe; }
+
+        .btn-primary {
+            padding: 10px 24px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            color: #0a2a44;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(250,204,21,0.25);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(250,204,21,0.35); }
+        .btn-secondary {
+            padding: 10px 24px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.04);
+            color: #4a6a8a;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        .btn-secondary:hover { background: rgba(0,0,0,0.08); }
+        .btn-success {
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: #dcfce7;
+            color: #16a34a;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-success:hover { background: #bbf7d0; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-content .modal-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.5rem;
+            color: #0a2a44;
+            margin-bottom: 2px;
+        }
+        .modal-content .modal-subtitle {
+            color: #6a8aaa;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .modal-close {
+            float: right;
+            font-size: 1.3rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.3s;
+            background: none;
+            border: none;
+        }
+        .modal-close:hover { color: #1a2a3a; }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #1a3a5a;
+            margin-bottom: 3px;
+        }
+        .form-group label .required { color: #ef4444; margin-left: 2px; }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+            background: rgba(255,255,255,0.8);
+            color: #1a2a3a;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245,158,11,0.12);
+            background: white;
+        }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.9rem;
+            outline: none;
+            background: rgba(255,255,255,0.8);
+            min-width: 150px;
+        }
+        .search-bar input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245,158,11,0.12);
+        }
+        .search-bar select {
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.8);
+            outline: none;
+        }
+
+        .activity-feed {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .activity-item .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .activity-item .icon.user { background: #dbeafe; color: #2563eb; }
+        .activity-item .icon.order { background: #fef3c7; color: #f59e0b; }
+        .activity-item .icon.product { background: #dcfce7; color: #16a34a; }
+        .activity-item .icon.payment { background: #fce7f3; color: #db2777; }
+        .activity-item .icon.alert { background: #fee2e2; color: #dc2626; }
+        .activity-item .icon.success { background: #dcfce7; color: #16a34a; }
+        .activity-item .content { flex: 1; }
+        .activity-item .content .text { font-size: 0.85rem; color: #1a2a3a; }
+        .activity-item .content .text strong { color: #0a2a44; }
+        .activity-item .content .time { font-size: 0.7rem; color: #94a3b8; }
+
+        #notification {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: clamp(0.85rem, 1vw, 0.95rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        #registerAlert {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(239,68,68,0.95);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            z-index: 999998;
+            opacity: 0;
+            transition: 0.4s ease;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        #registerAlert.show { opacity: 1; pointer-events: auto; }
+        #registerAlert.success { background: rgba(34,197,94,0.95); }
+        #registerAlert.warning { background: rgba(245,158,11,0.95); }
+
+        @media (max-width: 1024px) {
+            .official-sidebar { width: 190px; min-width: 190px; }
+            .official-sidebar .nav-item { font-size: 0.75rem; padding: 6px 10px; }
+        }
+        @media (max-width: 768px) {
+            .official-layout { flex-direction: column; padding: 10px; }
+            .official-sidebar {
+                width: 100%;
+                min-width: unset;
+                position: static;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2px;
+                padding: 10px;
+                justify-content: center;
+                max-height: none;
+                overflow-y: visible;
+            }
+            .official-sidebar .user-info {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding-bottom: 8px;
+                margin-bottom: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .official-sidebar .user-info .avatar { width: 40px; height: 40px; font-size: 1.2rem; margin: 0; }
+            .official-sidebar .nav-item { padding: 6px 10px; font-size: 0.7rem; }
+            .official-content { padding: 16px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .official-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 6px; }
+            .header-actions { justify-content: space-between; flex-wrap: wrap; }
+            .official-content .page-title { font-size: 1.4rem; }
+            .header-brand { font-size: 1.4rem; }
+            .header-brand .heart { font-size: 1.2rem; }
+            .search-bar { flex-direction: column; }
+            .search-bar input { width: 100%; }
+            .search-bar select { width: 100%; }
+            .table-wrapper table { font-size: 0.75rem; }
+            .table-wrapper th, .table-wrapper td { padding: 6px 10px; }
+            .action-btn { padding: 2px 6px; font-size: 0.6rem; }
+            .official-login-box { padding: 24px; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .official-content .page-title { font-size: 1.2rem; }
+            .modal-content { padding: 16px; }
+            .form-row { grid-template-columns: 1fr; }
+            .official-sidebar .nav-item { font-size: 0.65rem; padding: 4px 8px; }
+            .official-sidebar .nav-item i { font-size: 0.7rem; width: 14px; }
+            .official-login-box { padding: 16px; }
+        }
+        @media (max-width: 360px) {
+            .official-content { padding: 10px; }
+            .modal-content { padding: 12px; }
+            .stat-card .number { font-size: 1.4rem; }
+            .stat-card { padding: 10px; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: rgba(250,204,21,0.5); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(250,204,21,0.7); }
+    </style>
+</head>
+<body>
+
+    <div class="sky"></div>
+    <div class="stars-container" id="starsContainer"></div>
+    <div class="shooting-star"></div>
+
+    <!-- HEADER -->
+    <header class="official-header">
+        <a href="../html/index.html" class="header-brand">
+            SINE.<span>SH</span><span class="heart">♡</span><span>P</span>
+        </a>
+        <div class="header-actions">
+            <span class="official-badge"><i class="fa-solid fa-crown"></i> <span id="officialBadge">Centre Officiel</span></span>
+            <span class="user-count"><i class="fa-solid fa-users"></i> <span id="userCount">0</span>/6</span>
+            <select class="lang-select" id="langSelect">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="ar">🇸🇦 العربية</option>
+            </select>
+            <button class="btn-logout" id="btnLogout" style="display:none;">
+                <i class="fa-solid fa-sign-out-alt"></i> <span id="logoutText">Déconnexion</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- LOGIN OFFICIEL -->
+    <div class="official-login-overlay" id="officialLoginOverlay">
+        <div class="official-login-box">
+            <div class="logo">
+                SINE.<span>SH</span><span class="heart">♡</span><span>P</span>
+            </div>
+            <p class="subtitle" id="loginSubtitle">🔐 Accès au Centre Officiel</p>
+            <p class="max-users" id="maxUsersText">👥 <strong id="maxUsersCount">0</strong> utilisateurs enregistrés sur <strong>6</strong> maximum</p>
+            
+            <div id="loginFormContainer">
+                <form id="officialLoginForm">
+                    <div class="form-group">
+                        <label id="loginUserLabel">Identifiant</label>
+                        <input type="text" id="officialUsername" placeholder="Votre identifiant" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="loginPassLabel">Mot de passe</label>
+                        <input type="password" id="officialPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="loginBtn">🔓 Se connecter</button>
+                    <div class="error-msg" id="loginError">Identifiant ou mot de passe incorrect</div>
+                    <div class="success-msg" id="loginSuccess">✅ Connexion réussie !</div>
+                    <div class="security-note">
+                        <i class="fa-solid fa-shield-halved"></i> <span id="securityNote">Accès sécurisé - 6 utilisateurs maximum</span>
+                    </div>
+                </form>
+            </div>
+
+            <div id="registerFormContainer" style="margin-top:16px;border-top:1px solid rgba(0,0,0,0.06);padding-top:16px;">
+                <p style="text-align:center;font-size:0.85rem;color:#6a8aaa;margin-bottom:10px;" id="registerPrompt">Pas encore de compte ? Créez-en un (places disponibles)</p>
+                <form id="officialRegisterForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label id="regUserLabel">Identifiant <span class="required">*</span></label>
+                            <input type="text" id="regUsername" placeholder="Choisissez un identifiant" required>
+                        </div>
+                        <div class="form-group">
+                            <label id="regPassLabel">Mot de passe <span class="required">*</span></label>
+                            <input type="password" id="regPassword" placeholder="••••••••" required minlength="6">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label id="regConfirmLabel">Confirmer le mot de passe <span class="required">*</span></label>
+                        <input type="password" id="regConfirmPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="registerBtn" style="background:linear-gradient(135deg,#22c55e,#16a34a);">📝 Créer mon compte</button>
+                    <div class="error-msg" id="registerError"></div>
+                    <div class="success-msg" id="registerSuccess">✅ Compte créé avec succès !</div>
+                    <div style="text-align:center;font-size:0.7rem;color:#94a3b8;margin-top:8px;">
+                        <i class="fa-solid fa-info-circle"></i> <span id="regInfo">Seuls 6 utilisateurs peuvent accéder au Centre Officiel</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerAlert"></div>
+    <div id="notification"></div>
+
+    <main class="official-layout" id="officialLayout" style="display:none;">
+        <aside class="official-sidebar" id="officialSidebar">
+            <div class="user-info">
+                <div class="avatar" id="userAvatar">⭐</div>
+                <div>
+                    <div class="name" id="userName">Centre Officiel</div>
+                    <div class="role" id="userRole">⭐ Administrateur</div>
+                </div>
+            </div>
+            <nav id="sidebarNav">
+                <div class="nav-item active" data-section="dashboard"><i class="fa-solid fa-chart-pie"></i> <span id="navDashboard">Tableau de bord</span></div>
+                <div class="nav-item" data-section="activity"><i class="fa-solid fa-bolt"></i> <span id="navActivity">Activités</span> <span class="badge" id="activityBadge">0</span></div>
+                <div class="nav-item" data-section="users"><i class="fa-solid fa-users"></i> <span id="navUsers">Utilisateurs</span> <span class="badge" id="usersBadge">0</span></div>
+                <div class="nav-item" data-section="admins"><i class="fa-solid fa-user-shield"></i> <span id="navAdmins">Administrateurs</span></div>
+                <div class="nav-item" data-section="livreurs"><i class="fa-solid fa-truck"></i> <span id="navLivreurs">Livreurs</span> <span class="badge" id="livreursBadge">0</span></div>
+                <div class="nav-item" data-section="affiliates"><i class="fa-solid fa-handshake"></i> <span id="navAffiliates">Affiliés</span> <span class="badge" id="affiliatesBadge">0</span></div>
+                <div class="nav-item" data-section="products"><i class="fa-solid fa-box"></i> <span id="navProducts">Produits</span> <span class="badge" id="productsBadge">0</span></div>
+                <div class="nav-item" data-section="orders"><i class="fa-solid fa-shopping-cart"></i> <span id="navOrders">Commandes</span> <span class="badge" id="ordersBadge">0</span></div>
+                <div class="nav-item" data-section="payments"><i class="fa-solid fa-credit-card"></i> <span id="navPayments">Paiements</span> <span class="badge" id="paymentsBadge">0</span></div>
+                <div class="nav-item" data-section="settings"><i class="fa-solid fa-cog"></i> <span id="navSettings">Paramètres</span></div>
+            </nav>
+        </aside>
+
+        <div class="official-content" id="officialContent">
+            <!-- DASHBOARD -->
+            <div class="content-section active" id="sectionDashboard">
+                <div class="page-title">
+                    <span id="dashboardTitle">📊 Tableau de bord officiel</span>
+                    <span class="live-badge"><i class="fa-solid fa-circle"></i> <span id="liveText">LIVE</span></span>
+                </div>
+                <p class="page-subtitle" id="dashboardSubtitle">Vue d'ensemble globale de toutes les activités SINE.SHOP.</p>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card"><div class="icon"><i class="fa-solid fa-box"></i></div><div class="number" id="statTotalProducts">0</div><div class="label" id="statTotalProductsLabel">Produits</div></div>
+                    <div class="stat-card"><div class="icon"><i class="fa-solid fa-users"></i></div><div class="number" id="statTotalUsers">0</div><div class="label" id="statTotalUsersLabel">Utilisateurs</div></div>
+                    <div class="stat-card"><div class="icon"><i class="fa-solid fa-shopping-cart"></i></div><div class="number" id="statTotalOrders">0</div><div class="label" id="statTotalOrdersLabel">Commandes</div></div>
+                    <div class="stat-card"><div class="icon"><i class="fa-solid fa-credit-card"></i></div><div class="number" id="statRevenue">0 FCFA</div><div class="label" id="statRevenueLabel">Revenus</div></div>
+                    <div class="stat-card"><div class="icon"><i class="fa-solid fa-user-shield"></i></div><div class="number" id="statAdminsCount">0</div><div class="label" id="statAdminsCountLabel">Administrateurs</div></div>
+                    <div class="stat-card"><div class="icon"><i class="fa-solid fa-flag"></i></div><div class="number" id="statReportsCount">0</div><div class="label" id="statReportsCountLabel">Signalements</div></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;">
+                    <div style="background:rgba(255,255,255,0.6);border-radius:14px;padding:16px;border:1px solid rgba(0,0,0,0.04);">
+                        <h4 style="font-family:'Cormorant Garamond',serif;color:#0a2a44;margin-bottom:8px;" id="recentActivityTitle">⚡ Activités récentes</h4>
+                        <div class="activity-feed" id="recentActivityFeed"><div style="text-align:center;color:#94a3b8;padding:20px;" id="noRecentActivity">Aucune activité récente</div></div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.6);border-radius:14px;padding:16px;border:1px solid rgba(0,0,0,0.04);">
+                        <h4 style="font-family:'Cormorant Garamond',serif;color:#0a2a44;margin-bottom:8px;" id="systemStatusTitle">🟢 État du système</h4>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <div style="background:rgba(255,255,255,0.6);border-radius:10px;padding:12px;border:1px solid rgba(0,0,0,0.04);text-align:center;"><div style="font-size:0.7rem;color:#6a8aaa;">API</div><div style="color:#22c55e;font-weight:700;"><i class="fa-solid fa-circle"></i> En ligne</div></div>
+                            <div style="background:rgba(255,255,255,0.6);border-radius:10px;padding:12px;border:1px solid rgba(0,0,0,0.04);text-align:center;"><div style="font-size:0.7rem;color:#6a8aaa;">BDD</div><div style="color:#22c55e;font-weight:700;"><i class="fa-solid fa-circle"></i> Connectée</div></div>
+                            <div style="background:rgba(255,255,255,0.6);border-radius:10px;padding:12px;border:1px solid rgba(0,0,0,0.04);text-align:center;"><div style="font-size:0.7rem;color:#6a8aaa;">Stockage</div><div style="color:#f59e0b;font-weight:700;">65%</div></div>
+                            <div style="background:rgba(255,255,255,0.6);border-radius:10px;padding:12px;border:1px solid rgba(0,0,0,0.04);text-align:center;"><div style="font-size:0.7rem;color:#6a8aaa;">Sessions</div><div style="color:#22c55e;font-weight:700;" id="activeSessions">0</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVITÉS -->
+            <div class="content-section" id="sectionActivity">
+                <div class="page-title"><span id="activityTitle">⚡ Flux d'activités</span></div>
+                <p class="page-subtitle" id="activitySubtitle">Toutes les activités en temps réel de la plateforme.</p>
+                <div class="activity-feed" id="fullActivityFeed" style="max-height:600px;"><div style="text-align:center;color:#94a3b8;padding:30px;" id="noActivityData">Aucune activité à afficher</div></div>
+            </div>
+
+            <!-- UTILISATEURS -->
+            <div class="content-section" id="sectionUsers">
+                <div class="page-title"><span id="usersTitle">👥 Gestion des utilisateurs</span></div>
+                <p class="page-subtitle" id="usersSubtitle">Gérez tous les utilisateurs de la plateforme.</p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th id="colUserName">Nom</th><th id="colUserEmail">Email</th><th id="colUserRole">Rôle</th><th id="colUserStatus">Statut</th><th id="colUserActions">Actions</th></tr></thead>
+                        <tbody id="usersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ADMINISTRATEURS -->
+            <div class="content-section" id="sectionAdmins">
+                <div class="page-title"><span id="adminsTitle">🛡️ Administrateurs</span></div>
+                <p class="page-subtitle" id="adminsSubtitle">Gestion des administrateurs.</p>
+                <div class="table-wrapper"><table><thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Actions</th></tr></thead><tbody id="adminsTableBody"></tbody></table></div>
+            </div>
+
+            <!-- LIVREURS -->
+            <div class="content-section" id="sectionLivreurs">
+                <div class="page-title"><span id="livreursTitle">🚚 Livreurs</span></div>
+                <p class="page-subtitle" id="livreursSubtitle">Gestion des livreurs.</p>
+                <div class="table-wrapper"><table><thead><tr><th>Nom</th><th>Zone</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="livreursTableBody"></tbody></table></div>
+            </div>
+
+            <!-- AFFILIÉS -->
+            <div class="content-section" id="sectionAffiliates">
+                <div class="page-title"><span id="affiliatesTitle">🤝 Affiliés</span></div>
+                <p class="page-subtitle" id="affiliatesSubtitle">Gestion des affiliés.</p>
+                <div class="table-wrapper"><table><thead><tr><th>Nom</th><th>Code</th><th>Gains</th><th>Actions</th></tr></thead><tbody id="affiliatesTableBody"></tbody></table></div>
+            </div>
+
+            <!-- PRODUITS -->
+            <div class="content-section" id="sectionProducts">
+                <div class="page-title"><span id="productsTitle">📦 Produits</span></div>
+                <p class="page-subtitle" id="productsSubtitle">Gestion des produits.</p>
+                <div class="table-wrapper"><table><thead><tr><th>Nom</th><th>Vendeur</th><th>Prix</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="productsTableBody"></tbody></table></div>
+            </div>
+
+            <!-- COMMANDES -->
+            <div class="content-section" id="sectionOrders">
+                <div class="page-title"><span id="ordersTitle">📦 Commandes</span></div>
+                <p class="page-subtitle" id="ordersSubtitle">Gestion des commandes.</p>
+                <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Client</th><th>Total</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="ordersTableBody"></tbody></table></div>
+            </div>
+
+            <!-- PAIEMENTS -->
+            <div class="content-section" id="sectionPayments">
+                <div class="page-title"><span id="paymentsTitle">💳 Paiements</span></div>
+                <p class="page-subtitle" id="paymentsSubtitle">Gestion des paiements.</p>
+                <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Utilisateur</th><th>Montant</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="paymentsTableBody"></tbody></table></div>
+            </div>
+
+            <!-- PARAMÈTRES -->
+            <div class="content-section" id="sectionSettings">
+                <div class="page-title"><span id="settingsTitle">⚙️ Paramètres</span></div>
+                <p class="page-subtitle" id="settingsSubtitle">Configurez vos préférences.</p>
+                <div class="form-group"><label id="labelLangue">Langue</label><select id="settingsLang"><option value="fr">🇫🇷 Français</option><option value="en">🇬🇧 English</option><option value="es">🇪🇸 Español</option><option value="ar">🇸🇦 العربية</option></select></div>
+                <div class="form-group"><label id="labelDevise">Devise</label><select id="settingsCurrency"><option value="XOF">FCFA</option><option value="EUR">Euro</option><option value="USD">Dollar</option></select></div>
+                <button class="btn-primary" id="btnSaveSettings"><i class="fa-solid fa-save"></i> <span id="saveSettingsBtn">Enregistrer</span></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 class="modal-title" id="modalTitle">Titre</h2>
+            <p class="modal-subtitle" id="modalSubtitle">Sous-titre</p>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+    /* =========================================================
+       ⚠️ CE BLOC EST LA VERSION D'ORIGINE REÇUE — ENTIÈREMENT
+       NON SÉCURISÉE ET DÉCONNECTÉE DU VRAI BACKEND (voir résumé
+       envoyé à l'utilisateur). Conservée temporairement le temps
+       de livrer la reconstruction complète dans un prochain tour :
+       - mots de passe en clair dans localStorage (n'importe qui
+         peut lire/modifier via les outils développeur)
+       - "session" = simple chaîne localStorage, falsifiable en
+         tapant une ligne dans la console
+       - toutes les statistiques (produits/commandes/revenus/
+         signalements) figées à 0, jamais interrogées en base
+       - liste d'utilisateurs lue depuis localStorage['sineUsers'],
+         une clé qui n'existe nulle part ailleurs dans le vrai
+         site — cette page n'a donc JAMAIS affiché de vraies
+         données utilisateur
+       - actions Voir/Modifier/Bloquer/Supprimer = faux handlers
+         (juste un showNotification, aucune action réelle)
+       - activeSessions = Math.random(), donnée simulée
+       - IDs référencés en JS mais absents du HTML (statLivreursCount,
+         statAffiliatesCount, productsBadge, ordersBadge, reportsBadge,
+         livreursBadge, affiliatesBadge) → erreurs silencieuses
+       ========================================================= */
+        (function() {
+            'use strict';
+
+            // =========================================================
+            // CONFIGURATION — reconstruction complète, connectée au vrai
+            // backend (POST/GET /api/official/...). AUCUNE donnée n'est
+            // plus stockée dans localStorage à part le token JWT lui-même
+            // (officialToken) — avant : mots de passe en clair, "session"
+            // falsifiable en tapant une ligne dans la console, toutes les
+            // statistiques figées à 0, actions Voir/Modifier/Bloquer sans
+            // aucun effet réel (voir résumé complet en tête de fichier).
+            // =========================================================
+            const API_BASE = (typeof SINE_CONFIG !== 'undefined' ? SINE_CONFIG.API_URL : '/api') + '/official';
+            let currentLang = 'fr';
+            let allUsersCache = [];
+
+            function getOfficialToken() {
+                return localStorage.getItem('officialToken');
+            }
+            function setOfficialToken(token) {
+                localStorage.setItem('officialToken', token);
+            }
+            function clearOfficialToken() {
+                localStorage.removeItem('officialToken');
+            }
+
+            async function officialApiCall(path, options = {}) {
+                const token = getOfficialToken();
+                const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                const response = await fetch(API_BASE + path, { ...options, headers });
+                let json = null;
+                try { json = await response.json(); } catch (e) { json = null; }
+                if (!response.ok) {
+                    const message = (json && json.message) || `Erreur API (${response.status})`;
+                    const err = new Error(message);
+                    err.status = response.status;
+                    throw err;
+                }
+                return json && Object.prototype.hasOwnProperty.call(json, 'data') ? json.data : json;
+            }
+
+            // =========================================================
+            // TRADUCTIONS (4 LANGUES) — inchangées, déjà complètes.
+            // =========================================================
+            const TRANSLATIONS = {
+                fr: {
+                    officialBadge: 'Centre Officiel', logout: 'Déconnexion', loginSubtitle: '🔐 Accès au Centre Officiel',
+                    loginUserLabel: 'Identifiant', loginPassLabel: 'Mot de passe', loginBtn: '🔓 Se connecter',
+                    securityNote: 'Accès sécurisé - 6 utilisateurs maximum', loginError: 'Identifiant ou mot de passe incorrect',
+                    loginSuccess: '✅ Connexion réussie !', registerPrompt: 'Pas encore de compte ? Créez-en un (places disponibles)',
+                    regUserLabel: 'Identifiant', regPassLabel: 'Mot de passe', regConfirmLabel: 'Confirmer le mot de passe',
+                    registerBtn: '📝 Créer mon compte', regInfo: 'Seuls 6 utilisateurs peuvent accéder au Centre Officiel',
+                    registerError: 'Erreur lors de la création du compte', registerSuccess: '✅ Compte créé avec succès !',
+                    navDashboard: 'Tableau de bord', navActivity: 'Activités', navUsers: 'Utilisateurs', navAdmins: 'Administrateurs',
+                    navLivreurs: 'Livreurs', navAffiliates: 'Affiliés', navProducts: 'Produits', navOrders: 'Commandes',
+                    navPayments: 'Paiements', navSettings: 'Paramètres', dashboardTitle: '📊 Tableau de bord officiel',
+                    dashboardSubtitle: "Vue d'ensemble globale de toutes les activités SINE.SHOP.", statTotalProducts: 'Produits',
+                    statTotalUsers: 'Utilisateurs', statTotalOrders: 'Commandes', statRevenue: 'Revenus',
+                    statAdminsCount: 'Administrateurs', statReportsCount: 'Signalements', recentActivityTitle: '⚡ Activités récentes',
+                    systemStatusTitle: '🟢 État du système', noRecentActivity: 'Aucune activité récente',
+                    activityTitle: "⚡ Flux d'activités", activitySubtitle: 'Toutes les activités en temps réel de la plateforme.',
+                    noActivityData: 'Aucune activité à afficher', usersTitle: '👥 Gestion des utilisateurs',
+                    usersSubtitle: 'Gérez tous les utilisateurs de la plateforme.', colUserName: 'Nom', colUserEmail: 'Email',
+                    colUserRole: 'Rôle', colUserStatus: 'Statut', colUserActions: 'Actions', noUsersData: 'Aucun utilisateur',
+                    adminsTitle: '🛡️ Administrateurs', adminsSubtitle: 'Gestion des administrateurs.', livreursTitle: '🚚 Livreurs',
+                    livreursSubtitle: 'Gestion des livreurs.', affiliatesTitle: '🤝 Affiliés', affiliatesSubtitle: 'Gestion des affiliés.',
+                    productsTitle: '📦 Produits', productsSubtitle: 'Gestion des produits.', ordersTitle: '📦 Commandes',
+                    ordersSubtitle: 'Gestion des commandes.', paymentsTitle: '💳 Paiements', paymentsSubtitle: 'Attribution des paies aux vendeurs et affiliés.',
+                    settingsTitle: '⚙️ Paramètres', settingsSubtitle: 'Configurez vos préférences.', labelLangue: 'Langue',
+                    labelDevise: 'Devise', saveSettingsBtn: 'Enregistrer', liveText: 'LIVE',
+                },
+                en: {
+                    officialBadge: 'Official Center', logout: 'Logout', loginSubtitle: '🔐 Access to Official Center',
+                    loginUserLabel: 'Username', loginPassLabel: 'Password', loginBtn: '🔓 Login',
+                    securityNote: 'Secure access - 6 users maximum', loginError: 'Incorrect username or password',
+                    loginSuccess: '✅ Login successful!', registerPrompt: 'No account yet? Create one (spots available)',
+                    regUserLabel: 'Username', regPassLabel: 'Password', regConfirmLabel: 'Confirm password',
+                    registerBtn: '📝 Create account', regInfo: 'Only 6 users can access the Official Center',
+                    registerError: 'Error creating account', registerSuccess: '✅ Account created successfully!',
+                    navDashboard: 'Dashboard', navActivity: 'Activities', navUsers: 'Users', navAdmins: 'Administrators',
+                    navLivreurs: 'Deliverers', navAffiliates: 'Affiliates', navProducts: 'Products', navOrders: 'Orders',
+                    navPayments: 'Payments', navSettings: 'Settings', dashboardTitle: '📊 Official Dashboard',
+                    dashboardSubtitle: 'Global overview of all SINE.SHOP activities.', statTotalProducts: 'Products',
+                    statTotalUsers: 'Users', statTotalOrders: 'Orders', statRevenue: 'Revenue',
+                    statAdminsCount: 'Administrators', statReportsCount: 'Reports', recentActivityTitle: '⚡ Recent activities',
+                    systemStatusTitle: '🟢 System status', noRecentActivity: 'No recent activity', activityTitle: '⚡ Activity feed',
+                    activitySubtitle: 'All real-time platform activities.', noActivityData: 'No activity to display',
+                    usersTitle: '👥 User management', usersSubtitle: 'Manage all platform users.', colUserName: 'Name',
+                    colUserEmail: 'Email', colUserRole: 'Role', colUserStatus: 'Status', colUserActions: 'Actions',
+                    noUsersData: 'No users', adminsTitle: '🛡️ Administrators', adminsSubtitle: 'Administrators management.',
+                    livreursTitle: '🚚 Deliverers', livreursSubtitle: 'Deliverers management.', affiliatesTitle: '🤝 Affiliates',
+                    affiliatesSubtitle: 'Affiliates management.', productsTitle: '📦 Products', productsSubtitle: 'Products management.',
+                    ordersTitle: '📦 Orders', ordersSubtitle: 'Orders management.', paymentsTitle: '💳 Payments',
+                    paymentsSubtitle: 'Payout attribution for sellers and affiliates.', settingsTitle: '⚙️ Settings',
+                    settingsSubtitle: 'Configure your preferences.', labelLangue: 'Language', labelDevise: 'Currency',
+                    saveSettingsBtn: 'Save', liveText: 'LIVE',
+                },
+                es: {
+                    officialBadge: 'Centro Oficial', logout: 'Cerrar sesión', loginSubtitle: '🔐 Acceso al Centro Oficial',
+                    loginUserLabel: 'Usuario', loginPassLabel: 'Contraseña', loginBtn: '🔓 Iniciar sesión',
+                    securityNote: 'Acceso seguro - 6 usuarios máximo', loginError: 'Usuario o contraseña incorrectos',
+                    loginSuccess: '✅ ¡Inicio de sesión exitoso!', registerPrompt: '¿No tienes cuenta? Crea una (plazas disponibles)',
+                    regUserLabel: 'Usuario', regPassLabel: 'Contraseña', regConfirmLabel: 'Confirmar contraseña',
+                    registerBtn: '📝 Crear cuenta', regInfo: 'Solo 6 usuarios pueden acceder al Centro Oficial',
+                    registerError: 'Error al crear la cuenta', registerSuccess: '✅ ¡Cuenta creada exitosamente!',
+                    navDashboard: 'Panel de control', navActivity: 'Actividades', navUsers: 'Usuarios', navAdmins: 'Administradores',
+                    navLivreurs: 'Repartidores', navAffiliates: 'Afiliados', navProducts: 'Productos', navOrders: 'Pedidos',
+                    navPayments: 'Pagos', navSettings: 'Configuración', dashboardTitle: '📊 Panel oficial',
+                    dashboardSubtitle: 'Visión global de todas las actividades de SINE.SHOP.', statTotalProducts: 'Productos',
+                    statTotalUsers: 'Usuarios', statTotalOrders: 'Pedidos', statRevenue: 'Ingresos',
+                    statAdminsCount: 'Administradores', statReportsCount: 'Informes', recentActivityTitle: '⚡ Actividades recientes',
+                    systemStatusTitle: '🟢 Estado del sistema', noRecentActivity: 'Sin actividad reciente',
+                    activityTitle: '⚡ Flujo de actividades', activitySubtitle: 'Todas las actividades en tiempo real.',
+                    noActivityData: 'Sin actividades para mostrar', usersTitle: '👥 Gestión de usuarios',
+                    usersSubtitle: 'Gestiona todos los usuarios de la plataforma.', colUserName: 'Nombre', colUserEmail: 'Correo',
+                    colUserRole: 'Rol', colUserStatus: 'Estado', colUserActions: 'Acciones', noUsersData: 'Sin usuarios',
+                    adminsTitle: '🛡️ Administradores', adminsSubtitle: 'Gestión de administradores.', livreursTitle: '🚚 Repartidores',
+                    livreursSubtitle: 'Gestión de repartidores.', affiliatesTitle: '🤝 Afiliados', affiliatesSubtitle: 'Gestión de afiliados.',
+                    productsTitle: '📦 Productos', productsSubtitle: 'Gestión de productos.', ordersTitle: '📦 Pedidos',
+                    ordersSubtitle: 'Gestión de pedidos.', paymentsTitle: '💳 Pagos', paymentsSubtitle: 'Atribución de pagos a vendedores y afiliados.',
+                    settingsTitle: '⚙️ Configuración', settingsSubtitle: 'Configura tus preferencias.', labelLangue: 'Idioma',
+                    labelDevise: 'Moneda', saveSettingsBtn: 'Guardar', liveText: 'EN VIVO',
+                },
+                ar: {
+                    officialBadge: 'المركز الرسمي', logout: 'تسجيل الخروج', loginSubtitle: '🔐 الوصول إلى المركز الرسمي',
+                    loginUserLabel: 'اسم المستخدم', loginPassLabel: 'كلمة المرور', loginBtn: '🔓 تسجيل الدخول',
+                    securityNote: 'وصول آمن - 6 مستخدمين كحد أقصى', loginError: 'اسم المستخدم أو كلمة المرور غير صحيحة',
+                    loginSuccess: '✅ تم تسجيل الدخول بنجاح!', registerPrompt: 'ليس لديك حساب؟ أنشئ واحداً (مكان متاح)',
+                    regUserLabel: 'اسم المستخدم', regPassLabel: 'كلمة المرور', regConfirmLabel: 'تأكيد كلمة المرور',
+                    registerBtn: '📝 إنشاء حساب', regInfo: 'يمكن لـ 6 مستخدمين فقط الوصول إلى المركز الرسمي',
+                    registerError: 'خطأ في إنشاء الحساب', registerSuccess: '✅ تم إنشاء الحساب بنجاح!',
+                    navDashboard: 'لوحة التحكم', navActivity: 'الأنشطة', navUsers: 'المستخدمين', navAdmins: 'المديرين',
+                    navLivreurs: 'المندوبين', navAffiliates: 'الشركاء', navProducts: 'المنتجات', navOrders: 'الطلبات',
+                    navPayments: 'المدفوعات', navSettings: 'الإعدادات', dashboardTitle: '📊 لوحة التحكم الرسمية',
+                    dashboardSubtitle: 'نظرة عامة شاملة على جميع أنشطة SINE.SHOP.', statTotalProducts: 'المنتجات',
+                    statTotalUsers: 'المستخدمين', statTotalOrders: 'الطلبات', statRevenue: 'الإيرادات',
+                    statAdminsCount: 'المديرين', statReportsCount: 'التقارير', recentActivityTitle: '⚡ الأنشطة الأخيرة',
+                    systemStatusTitle: '🟢 حالة النظام', noRecentActivity: 'لا توجد أنشطة حديثة', activityTitle: '⚡ تدفق الأنشطة',
+                    activitySubtitle: 'جميع أنشطة المنصة في الوقت الفعلي.', noActivityData: 'لا توجد أنشطة لعرضها',
+                    usersTitle: '👥 إدارة المستخدمين', usersSubtitle: 'إدارة جميع مستخدمي المنصة.', colUserName: 'الاسم',
+                    colUserEmail: 'البريد الإلكتروني', colUserRole: 'الدور', colUserStatus: 'الحالة', colUserActions: 'إجراءات',
+                    noUsersData: 'لا يوجد مستخدمين', adminsTitle: '🛡️ المديرين', adminsSubtitle: 'إدارة المديرين.',
+                    livreursTitle: '🚚 المندوبين', livreursSubtitle: 'إدارة المندوبين.', affiliatesTitle: '🤝 الشركاء',
+                    affiliatesSubtitle: 'إدارة الشركاء.', productsTitle: '📦 المنتجات', productsSubtitle: 'إدارة المنتجات.',
+                    ordersTitle: '📦 الطلبات', ordersSubtitle: 'إدارة الطلبات.', paymentsTitle: '💳 المدفوعات',
+                    paymentsSubtitle: 'تخصيص المدفوعات للبائعين والشركاء.', settingsTitle: '⚙️ الإعدادات',
+                    settingsSubtitle: 'تهيئة تفضيلاتك.', labelLangue: 'اللغة', labelDevise: 'العملة', saveSettingsBtn: 'حفظ', liveText: 'مباشر',
+                }
+            };
+
+            function getTranslation(key) {
+                return TRANSLATIONS[currentLang]?.[key] || TRANSLATIONS.fr[key] || key;
+            }
+
+            function applyLanguage(lang) {
+                currentLang = lang;
+                document.getElementById('langSelect').value = lang;
+                localStorage.setItem('officialLang', lang);
+                Object.keys(TRANSLATIONS.fr).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.textContent = getTranslation(key);
+                });
+                // Libellés spécifiques dont l'ID ne correspond pas 1:1 à la clé.
+                const mapping = {
+                    statTotalProductsLabel: 'statTotalProducts', statTotalUsersLabel: 'statTotalUsers',
+                    statTotalOrdersLabel: 'statTotalOrders', statRevenueLabel: 'statRevenue',
+                    statAdminsCountLabel: 'statAdminsCount', statReportsCountLabel: 'statReportsCount',
+                };
+                Object.entries(mapping).forEach(([id, key]) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = getTranslation(key);
+                });
+                document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            }
+
+            document.getElementById('langSelect').addEventListener('change', function() {
+                applyLanguage(this.value);
+                document.getElementById('settingsLang').value = this.value;
+            });
+
+            // =========================================================
+            // NOTIFICATIONS
+            // =========================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            // =========================================================
+            // COMPTEUR PUBLIC (X/6) — avant la connexion
+            // =========================================================
+            async function refreshPublicUserCount() {
+                try {
+                    const data = await officialApiCall('/auth/count');
+                    document.getElementById('userCount').textContent = data.count;
+                    document.getElementById('maxUsersCount').textContent = data.count;
+                } catch (e) { /* silencieux — écran de login uniquement */ }
+            }
+
+            // =========================================================
+            // LOGIN / REGISTER — vraies requêtes serveur, mot de passe
+            // jamais stocké ni comparé côté navigateur.
+            // =========================================================
+            async function checkOfficialSession() {
+                const token = getOfficialToken();
+                if (!token) {
+                    showLoginScreen();
+                    return;
+                }
+                try {
+                    // Un appel authentifié léger suffit à valider le token —
+                    // s'il est invalide/expiré, l'API renvoie 401 et on
+                    // repasse à l'écran de connexion.
+                    await officialApiCall('/dashboard');
+                    showDashboardScreen();
+                    loadAllData();
+                } catch (e) {
+                    clearOfficialToken();
+                    showLoginScreen();
+                }
+            }
+
+            function showLoginScreen() {
+                document.getElementById('officialLoginOverlay').classList.remove('hidden');
+                document.getElementById('officialLayout').style.display = 'none';
+                document.getElementById('btnLogout').style.display = 'none';
+                refreshPublicUserCount();
+            }
+
+            function showDashboardScreen(username) {
+                document.getElementById('officialLoginOverlay').classList.add('hidden');
+                document.getElementById('officialLayout').style.display = 'flex';
+                document.getElementById('btnLogout').style.display = 'inline-flex';
+                if (username) {
+                    document.getElementById('userName').textContent = username;
+                    document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                }
+            }
+
+            document.getElementById('officialLoginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('officialUsername').value.trim();
+                const password = document.getElementById('officialPassword').value;
+                const btn = document.getElementById('loginBtn');
+                btn.disabled = true;
+                try {
+                    const result = await officialApiCall('/auth/login', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, password }),
+                    });
+                    setOfficialToken(result.token);
+                    document.getElementById('loginError').classList.remove('show');
+                    document.getElementById('loginSuccess').classList.add('show');
+                    document.getElementById('userRole').textContent = result.user.role === 'owner' ? '⭐ Boss' : '🛡️ Admin';
+                    showDashboardScreen(result.user.username);
+                    loadAllData();
+                    showNotification('✅ Connexion réussie !', 'success');
+                    setTimeout(() => document.getElementById('loginSuccess').classList.remove('show'), 3000);
+                } catch (error) {
+                    document.getElementById('loginError').textContent = error.message || getTranslation('loginError');
+                    document.getElementById('loginError').classList.add('show');
+                    document.getElementById('loginSuccess').classList.remove('show');
+                    setTimeout(() => document.getElementById('loginError').classList.remove('show'), 4000);
+                } finally {
+                    btn.disabled = false;
+                }
+            });
+
+            document.getElementById('officialRegisterForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('regUsername').value.trim();
+                const password = document.getElementById('regPassword').value;
+                const confirmPassword = document.getElementById('regConfirmPassword').value;
+                document.getElementById('registerError').classList.remove('show');
+                document.getElementById('registerSuccess').classList.remove('show');
+
+                if (password !== confirmPassword) {
+                    document.getElementById('registerError').textContent = 'Les mots de passe ne correspondent pas';
+                    document.getElementById('registerError').classList.add('show');
+                    return;
+                }
+
+                const btn = document.getElementById('registerBtn');
+                btn.disabled = true;
+                try {
+                    const result = await officialApiCall('/auth/register', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, password, confirmPassword }),
+                    });
+                    setOfficialToken(result.token);
+                    document.getElementById('registerSuccess').textContent = '✅ Compte créé avec succès !';
+                    document.getElementById('registerSuccess').classList.add('show');
+                    showNotification('✅ Compte créé avec succès !', 'success');
+                    setTimeout(() => {
+                        document.getElementById('userRole').textContent = result.user.role === 'owner' ? '⭐ Boss' : '🛡️ Admin';
+                        showDashboardScreen(result.user.username);
+                        loadAllData();
+                    }, 1200);
+                } catch (error) {
+                    document.getElementById('registerError').textContent = error.message || getTranslation('registerError');
+                    document.getElementById('registerError').classList.add('show');
+                } finally {
+                    btn.disabled = false;
+                }
+            });
+
+            document.getElementById('btnLogout').addEventListener('click', function() {
+                if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                    clearOfficialToken();
+                    showLoginScreen();
+                    showNotification('🔒 Déconnecté', 'info');
+                }
+            });
+
+            // =========================================================
+            // NAVIGATION
+            // =========================================================
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                    this.classList.add('active');
+                    const section = this.dataset.section;
+                    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                    const target = document.getElementById('section' + section.charAt(0).toUpperCase() + section.slice(1));
+                    if (target) target.classList.add('active');
+                });
+            });
+
+            // =========================================================
+            // CHARGEMENT DES VRAIES DONNÉES — remplace entièrement l'ancien
+            // système localStorage['sineUsers'] (une clé qui n'a jamais
+            // existé nulle part ailleurs dans le vrai site — cette page
+            // n'affichait donc JAMAIS de vraies données).
+            // =========================================================
+            async function loadAllData() {
+                await Promise.all([
+                    loadDashboardStats(),
+                    loadUsersData(),
+                    loadProductsData(),
+                    loadOrdersData(),
+                    loadPaymentsData(),
+                ]);
+            }
+
+            async function loadDashboardStats() {
+                try {
+                    const stats = await officialApiCall('/dashboard');
+                    document.getElementById('statTotalUsers').textContent = stats.totalUsers ?? 0;
+                    document.getElementById('statTotalProducts').textContent = stats.totalProducts ?? 0;
+                    document.getElementById('statTotalOrders').textContent = stats.totalOrders ?? 0;
+                    document.getElementById('statRevenue').textContent = (stats.totalRevenue ?? 0).toLocaleString('fr-FR') + ' FCFA';
+                    document.getElementById('statAdminsCount').textContent = stats.totalAdmins ?? 0;
+                    document.getElementById('statReportsCount').textContent = stats.totalReports ?? 0;
+                } catch (e) {
+                    console.error('Erreur chargement stats dashboard:', e);
+                }
+                try {
+                    const sys = await officialApiCall('/system-stats');
+                    if (sys?.activeSessions !== undefined) {
+                        document.getElementById('activeSessions').textContent = sys.activeSessions;
+                    }
+                } catch (e) { /* pas critique */ }
+            }
+
+            async function loadUsersData() {
+                try {
+                    // Un seul appel, forte limite — on répartit ensuite
+                    // client-side par rôle (admins/livreurs/affiliés), comme
+                    // faisait déjà l'ancienne version, mais avec de VRAIES
+                    // données au lieu de localStorage.
+                    const data = await officialApiCall('/users?limit=500');
+                    allUsersCache = data.users || [];
+
+                    const admins = allUsersCache.filter(u => ['admin', 'superadmin', 'moderator', 'support'].includes(u.role));
+                    const livreurs = allUsersCache.filter(u => u.role === 'livreur');
+                    const affiliates = allUsersCache.filter(u => u.role === 'affiliate');
+
+                    document.getElementById('usersBadge').textContent = allUsersCache.length;
+                    document.getElementById('livreursBadge').textContent = livreurs.length;
+                    document.getElementById('affiliatesBadge').textContent = affiliates.length;
+                    document.getElementById('activityBadge').textContent = Math.min(allUsersCache.length, 99);
+
+                    fillUsersTable(allUsersCache);
+                    fillAdminsTable(admins);
+                    fillLivreursTable(livreurs);
+                    fillAffiliatesTable(affiliates);
+                    generateActivities(allUsersCache);
+                } catch (e) {
+                    console.error('Erreur chargement utilisateurs:', e);
+                    showNotification('❌ Erreur lors du chargement des utilisateurs.', 'error');
+                }
+            }
+
+            const ROLE_LABELS = {
+                client: 'Client', livreur: 'Livreur', seller: 'Vendeur', affiliate: 'Affilié',
+                admin: 'Administrateur', superadmin: 'Super Admin', moderator: 'Modérateur', support: 'Support',
+            };
+
+            function fillUsersTable(users) {
+                const tbody = document.getElementById('usersTableBody');
+                if (!users || users.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:20px;">Aucun utilisateur</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = users.map(u => `
+                    <tr>
+                        <td>${escapeHtml(u.firstName || '')} ${escapeHtml(u.lastName || '')}</td>
+                        <td>${escapeHtml(u.email || '')}</td>
+                        <td>${ROLE_LABELS[u.role] || u.role || 'Inconnu'}</td>
+                        <td><span class="status ${u.status === 'active' ? 'active' : u.status === 'suspended' ? 'inactive' : 'pending'}">${u.status || 'pending'}</span></td>
+                        <td>
+                            <button class="action-btn view" onclick="window.viewOfficialUser('${u._id}')"><i class="fa-solid fa-eye"></i></button>
+                            ${u.status !== 'suspended'
+                                ? `<button class="action-btn block" onclick="window.blockOfficialUser('${u._id}')"><i class="fa-solid fa-ban"></i></button>`
+                                : `<button class="action-btn view" onclick="window.unblockOfficialUser('${u._id}')"><i class="fa-solid fa-check"></i></button>`}
+                            <button class="action-btn delete" onclick="window.deleteOfficialUser('${u._id}')"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            function fillAdminsTable(admins) {
+                const tbody = document.getElementById('adminsTableBody');
+                if (!admins || admins.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:20px;">Aucun administrateur</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = admins.map(a => `
+                    <tr>
+                        <td>${escapeHtml(a.firstName || '')} ${escapeHtml(a.lastName || '')}</td>
+                        <td>${escapeHtml(a.email || '')}</td>
+                        <td>${ROLE_LABELS[a.role] || a.role}</td>
+                        <td>
+                            <button class="action-btn view" onclick="window.viewOfficialUser('${a._id}')"><i class="fa-solid fa-eye"></i></button>
+                            <button class="action-btn delete" onclick="window.deleteOfficialUser('${a._id}')"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            function fillLivreursTable(livreurs) {
+                const tbody = document.getElementById('livreursTableBody');
+                if (!livreurs || livreurs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:20px;">Aucun livreur</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = livreurs.map(l => `
+                    <tr>
+                        <td>${escapeHtml(l.firstName || '')} ${escapeHtml(l.lastName || '')}</td>
+                        <td>${escapeHtml(l.deliveryZone || l.address?.city || 'Non défini')}</td>
+                        <td><span class="status ${l.isAvailable !== false ? 'active' : 'inactive'}">${l.isAvailable !== false ? 'Disponible' : 'Indisponible'}</span></td>
+                        <td>
+                            <button class="action-btn view" onclick="window.viewOfficialUser('${l._id}')"><i class="fa-solid fa-eye"></i></button>
+                            <button class="action-btn delete" onclick="window.deleteOfficialUser('${l._id}')"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            function fillAffiliatesTable(affiliates) {
+                const tbody = document.getElementById('affiliatesTableBody');
+                if (!affiliates || affiliates.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:20px;">Aucun affilié</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = affiliates.map(a => `
+                    <tr>
+                        <td>${escapeHtml(a.firstName || '')} ${escapeHtml(a.lastName || '')}</td>
+                        <td><code style="background:rgba(0,0,0,0.04);padding:2px 8px;border-radius:4px;font-size:0.7rem;">${escapeHtml(a.email || '')}</code></td>
+                        <td>—</td>
+                        <td>
+                            <button class="action-btn view" onclick="window.viewOfficialUser('${a._id}')"><i class="fa-solid fa-eye"></i></button>
+                            <button class="action-btn delete" onclick="window.deleteOfficialUser('${a._id}')"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Activité récente = vrais derniers inscrits (triés par date de
+            // création, déjà l'ordre renvoyé par l'API) — avant : "Il y a Xh"
+            // inventé arbitrairement par index de boucle.
+            function generateActivities(users) {
+                const feed = document.getElementById('recentActivityFeed');
+                const fullFeed = document.getElementById('fullActivityFeed');
+                if (!users || users.length === 0) {
+                    const empty = '<div style="text-align:center;color:#94a3b8;padding:20px;">Aucune activité récente</div>';
+                    feed.innerHTML = empty;
+                    fullFeed.innerHTML = empty;
+                    return;
+                }
+                const recent = users.slice(0, 8);
+                const html = recent.map(u => {
+                    const date = u.createdAt ? new Date(u.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+                    return `
+                        <div class="activity-item">
+                            <div class="icon user"><i class="fa-solid fa-user"></i></div>
+                            <div class="content">
+                                <div class="text">Utilisateur <strong>${escapeHtml(u.firstName || '')} ${escapeHtml(u.lastName || '')}</strong> (${ROLE_LABELS[u.role] || u.role}) inscrit</div>
+                                <div class="time">${date}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                feed.innerHTML = html;
+                fullFeed.innerHTML = html;
+            }
+
+            async function loadProductsData() {
+                try {
+                    const data = await officialApiCall('/products?limit=50');
+                    const products = data.products || data || [];
+                    document.getElementById('productsBadge').textContent = data.pagination?.total ?? products.length;
+                    const tbody = document.getElementById('productsTableBody');
+                    if (!products.length) {
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:20px;">Aucun produit</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = products.map(p => `
+                        <tr>
+                            <td>${escapeHtml(p.name || '')}</td>
+                            <td>${escapeHtml(p.seller?.storeName || p.seller?.firstName || 'Vendeur')}</td>
+                            <td>${(p.price || 0).toLocaleString('fr-FR')} FCFA</td>
+                            <td><span class="status ${p.isAvailable !== false ? 'active' : 'inactive'}">${p.isAvailable !== false ? 'Actif' : 'Inactif'}</span></td>
+                            <td><button class="action-btn view" onclick="window.open('../html/collections.html?produit=${p._id}','_blank')"><i class="fa-solid fa-eye"></i></button></td>
+                        </tr>
+                    `).join('');
+                } catch (e) {
+                    console.error('Erreur chargement produits:', e);
+                }
+            }
+
+            async function loadOrdersData() {
+                try {
+                    const data = await officialApiCall('/orders?limit=50');
+                    const orders = data.orders || data || [];
+                    document.getElementById('ordersBadge').textContent = data.pagination?.total ?? orders.length;
+                    const tbody = document.getElementById('ordersTableBody');
+                    if (!orders.length) {
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:20px;">Aucune commande</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = orders.map(o => `
+                        <tr>
+                            <td>#${escapeHtml(o.orderNumber || String(o._id).slice(-6))}</td>
+                            <td>${escapeHtml(o.user?.firstName || '')} ${escapeHtml(o.user?.lastName || '')}</td>
+                            <td>${(o.total || 0).toLocaleString('fr-FR')} FCFA</td>
+                            <td><span class="status ${o.status === 'delivered' ? 'active' : o.status === 'cancelled' ? 'inactive' : 'pending'}">${o.status || 'pending'}</span></td>
+                            <td>—</td>
+                        </tr>
+                    `).join('');
+                } catch (e) {
+                    console.error('Erreur chargement commandes:', e);
+                }
+            }
+
+            // Attribution des paies — construit de A à Z, n'existait nulle
+            // part avant (les demandes de retrait vendeurs/affiliés
+            // s'accumulaient sans qu'aucun admin ne puisse les traiter).
+            async function loadPaymentsData() {
+                try {
+                    const data = await officialApiCall('/payments?status=pending&limit=50');
+                    const withdrawals = data.withdrawals || [];
+                    document.getElementById('paymentsBadge').textContent = data.pagination?.total ?? withdrawals.length;
+                    const tbody = document.getElementById('paymentsTableBody');
+                    if (!withdrawals.length) {
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:20px;">Aucune demande en attente</td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = withdrawals.map(w => `
+                        <tr>
+                            <td>#${String(w._id).slice(-6).toUpperCase()}</td>
+                            <td>${escapeHtml(w.user?.firstName || w.user?.storeName || '')} ${escapeHtml(w.user?.lastName || '')} <span style="color:#94a3b8;font-size:0.7rem;">(${w.type === 'affiliate' ? 'Affilié' : 'Vendeur'})</span></td>
+                            <td>${(w.amount || 0).toLocaleString('fr-FR')} FCFA via ${escapeHtml(w.method || '')}</td>
+                            <td><span class="status pending">${w.status}</span></td>
+                            <td>
+                                <button class="action-btn pay" onclick="window.payOfficialWithdrawal('${w._id}')"><i class="fa-solid fa-credit-card"></i> Payer</button>
+                                <button class="action-btn delete" onclick="window.rejectOfficialWithdrawal('${w._id}')"><i class="fa-solid fa-xmark"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } catch (e) {
+                    console.error('Erreur chargement paiements:', e);
+                }
+            }
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str == null ? '' : String(str);
+                return div.innerHTML;
+            }
+
+            // =========================================================
+            // ACTIONS RÉELLES — remplacent les anciens faux handlers
+            // (onclick="showNotification('Voir X', 'success')" qui ne
+            // faisaient absolument rien d'autre qu'afficher un texte).
+            // =========================================================
+            window.viewOfficialUser = function(id) {
+                const user = allUsersCache.find(u => u._id === id);
+                if (!user) return;
+                document.getElementById('modalTitle').textContent = `${user.firstName || ''} ${user.lastName || ''}`;
+                document.getElementById('modalSubtitle').textContent = ROLE_LABELS[user.role] || user.role;
+                document.getElementById('modalBody').innerHTML = `
+                    <p><strong>Email :</strong> ${escapeHtml(user.email || '—')}</p>
+                    <p><strong>Téléphone :</strong> ${escapeHtml(user.phone || '—')}</p>
+                    <p><strong>Statut :</strong> ${escapeHtml(user.status || '—')}</p>
+                    <p><strong>Inscrit le :</strong> ${user.createdAt ? new Date(user.createdAt).toLocaleDateString('fr-FR') : '—'}</p>
+                `;
+                document.getElementById('modalOverlay').classList.add('active');
+            };
+            document.getElementById('modalClose').addEventListener('click', () => document.getElementById('modalOverlay').classList.remove('active'));
+            document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+
+            window.blockOfficialUser = async function(id) {
+                if (!confirm('Bloquer ce compte ? Il ne pourra plus se connecter tant qu\'il n\'est pas débloqué.')) return;
+                try {
+                    await officialApiCall(`/users/${id}/status`, { method: 'PUT', body: JSON.stringify({ status: 'suspended' }) });
+                    showNotification('🚫 Compte bloqué.', 'success');
+                    loadUsersData();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur.'), 'error');
+                }
+            };
+            window.unblockOfficialUser = async function(id) {
+                try {
+                    await officialApiCall(`/users/${id}/status`, { method: 'PUT', body: JSON.stringify({ status: 'active' }) });
+                    showNotification('✅ Compte débloqué.', 'success');
+                    loadUsersData();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur.'), 'error');
+                }
+            };
+            window.deleteOfficialUser = async function(id) {
+                if (!confirm('Supprimer définitivement ce compte ? Cette action est irréversible.')) return;
+                try {
+                    await officialApiCall(`/users/${id}`, { method: 'DELETE' });
+                    showNotification('🗑️ Compte supprimé.', 'success');
+                    loadUsersData();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur.'), 'error');
+                }
+            };
+            window.payOfficialWithdrawal = async function(id) {
+                if (!confirm('Confirmer que ce retrait a bien été payé (virement/Mobile Money effectué manuellement) ?')) return;
+                try {
+                    await officialApiCall(`/payments/${id}/pay`, { method: 'PUT' });
+                    showNotification('💳 Retrait marqué comme payé.', 'success');
+                    loadPaymentsData();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur.'), 'error');
+                }
+            };
+            window.rejectOfficialWithdrawal = async function(id) {
+                const reason = prompt('Motif du rejet :');
+                if (!reason) return;
+                try {
+                    await officialApiCall(`/payments/${id}/reject`, { method: 'PUT', body: JSON.stringify({ reason }) });
+                    showNotification('↩️ Demande rejetée.', 'success');
+                    loadPaymentsData();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur.'), 'error');
+                }
+            };
+
+            // =========================================================
+            // PARAMÈTRES
+            // =========================================================
+            document.getElementById('btnSaveSettings').addEventListener('click', function() {
+                const lang = document.getElementById('settingsLang').value;
+                const currency = document.getElementById('settingsCurrency').value;
+                localStorage.setItem('officialSettings', JSON.stringify({ lang, currency }));
+                applyLanguage(lang);
+                showNotification('✅ Paramètres enregistrés !', 'success');
+            });
+
+            // =========================================================
+            // ÉTOILES (décoratif, inchangé)
+            // =========================================================
+            (function createStars() {
+                const container = document.getElementById('starsContainer');
+                if (!container) return;
+                const count = Math.min(80, Math.floor(window.innerWidth / 10));
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animationDelay = (Math.random() * 5) + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(star);
+                }
+            })();
+
+            // =========================================================
+            // INIT
+            // =========================================================
+            const savedLang = localStorage.getItem('officialLang') || 'fr';
+            applyLanguage(savedLang);
+            document.getElementById('settingsLang').value = savedLang;
+
+            const savedSettings = JSON.parse(localStorage.getItem('officialSettings') || '{}');
+            if (savedSettings.currency) document.getElementById('settingsCurrency').value = savedSettings.currency;
+
+            checkOfficialSession();
+
+            console.log('✅ Centre Officiel SINE.SHOP - Chargé (connecté au vrai backend)');
+
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>Conditions Client • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <script src="../js/config.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", sans-serif;
+            /* Vitrine propre à cet espace : dégradé vert menthe/émeraude doux,
+               distinct du doré vendeur et du bleu ciel par défaut. */
+            background: linear-gradient(180deg, #eefdf6 0%, #e0f9ee 40%, #d0f3e2 100%);
+            color: #163326;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        [data-theme="dark"] body { background: linear-gradient(180deg, #081a12 0%, #0d2419 100%); color: #d2ecdf; }
+        [data-theme="dark"] .legal-section { background: rgba(10,26,18,0.85); border-color: #143a28; }
+        [data-theme="dark"] .legal-section h2 { color: #7be0ae; }
+        [data-theme="dark"] .legal-section p, [data-theme="dark"] .legal-section li { color: #b9dfcb; }
+        [data-theme="dark"] .legal-hero { background: rgba(10,26,18,0.85); }
+        [data-theme="dark"] .legal-hero p { color: #b9dfcb; }
+        /* Correctif lisibilité — .update-note et .related-links gardaient
+           leur couleur de texte claire pensée pour un fond CLAIR, jamais
+           adaptée au mode sombre : sur le fond presque noir de cette
+           page, le texte devenait quasiment invisible. */
+        [data-theme="dark"] .update-note { color: #b9dfcb; }
+        [data-theme="dark"] .related-links { background: rgba(10,26,18,0.85); border: 1px solid #143a28; }
+        [data-theme="dark"] .related-links p { color: #b9dfcb; }
+
+        main { flex: 1; max-width: 820px; margin: 0 auto; padding: 30px 24px 80px; width: 100%; }
+        .legal-hero {
+            text-align: center;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 28px;
+        }
+        .legal-hero .icon { font-size: 2.4rem; margin-bottom: 10px; }
+        .legal-hero h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: #0d7a4a; }
+        .legal-hero p { color: #2e5a44; margin-top: 8px; font-size: 0.95rem; }
+
+        .legal-section {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .legal-section h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.4rem;
+            color: #0d7a4a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legal-section h2 .icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #a8ecc6; color: #0d7a4a;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+        }
+        .legal-section p, .legal-section li { color: #244a37; line-height: 1.7; font-size: 0.95rem; }
+        .legal-section ul { margin-top: 8px; padding-left: 20px; }
+        .legal-section li { margin-bottom: 6px; }
+        .legal-section p + p { margin-top: 10px; }
+
+        .related-links { background: rgba(255,255,255,0.75); border-radius: 20px; padding: 20px 24px; margin-bottom: 18px; text-align: center; }
+        .related-links p { color: #2e5a44; font-size: 0.85rem; margin-bottom: 10px; }
+        .related-links a {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px; border-radius: 30px;
+            background: #a8ecc6; color: #0d7a4a; font-weight: 600; font-size: 0.85rem;
+            margin: 4px;
+        }
+
+        .update-note { text-align: center; padding: 16px; color: #2e5a44; font-size: 0.85rem; }
+
+        .swipe-hint {
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.6); color: white; padding: 8px 16px;
+            border-radius: 30px; font-size: 0.78rem; display: flex; align-items: center; gap: 6px;
+            opacity: 0.85; z-index: 50;
+        }
+
+        @media (max-width: 600px) {
+            main { padding: 20px 16px 70px; }
+            .legal-hero { padding: 24px 18px; }
+            .legal-hero h1 { font-size: 1.5rem; }
+            .legal-section { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/client.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart" style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <main>
+        <div class="legal-hero">
+            <div class="icon">🛍️</div>
+            <h1 data-translate="legalClient.title">Conditions applicables aux clients</h1>
+            <p data-translate="legalClient.subtitle">Ce document complète les Conditions Générales d'Utilisation, et précise les règles propres à votre activité d'achat sur SINE.SHOP.</p>
+        </div>
+
+        <div class="related-links">
+            <p data-translate="legalSeller.relatedNote">Les conditions générales de la plateforme s'appliquent également à vous :</p>
+            <a href="../html/cgu.html"><i class="fa-solid fa-file-contract"></i> CGU</a>
+            <a href="../html/cgv.html"><i class="fa-solid fa-file-invoice"></i> CGV</a>
+            <a href="../html/privacy.html"><i class="fa-solid fa-user-shield"></i> <span data-translate="legal.privacy">Confidentialité</span></a>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">1</span> <span data-translate="legalClient.s1title">Vos commandes et paiements</span></h2>
+            <p data-translate="legalClient.s1text1">Chaque commande passée sur SINE.SHOP donne lieu à une confirmation et à un suivi accessibles depuis votre espace. Les informations de paiement (mobile money, carte bancaire) sont transmises de façon sécurisée à nos prestataires de paiement, sans jamais être stockées en clair sur nos serveurs.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">2</span> <span data-translate="legalClient.s2title">Données collectées spécifiquement pour vos achats</span></h2>
+            <p data-translate="legalClient.s2text1">En tant que client, SINE.SHOP collecte et traite : votre historique de commandes et de favoris, votre adresse de livraison, vos échanges avec les vendeurs et livreurs via la messagerie intégrée, ainsi que les avis que vous laissez sur les produits achetés.</p>
+            <p data-translate="legalClient.s2text2">Ces informations servent à assurer le suivi de vos commandes, à personnaliser votre expérience d'achat, et à faciliter la communication avec les vendeurs et livreurs concernés par vos commandes.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">3</span> <span data-translate="legalClient.s3title">Livraison et suivi</span></h2>
+            <p data-translate="legalClient.s3text1">Lorsqu'une commande est prise en charge par un livreur, sa position est partagée en temps réel sur votre page de suivi, exclusivement pendant la durée de la livraison. Cette position n'est jamais partagée en dehors de ce contexte ni conservée au-delà de la livraison.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">4</span> <span data-translate="legalClient.s4title">Avis et évaluations</span></h2>
+            <p data-translate="legalClient.s4text1">Les avis que vous publiez sur les produits sont visibles publiquement et associés à votre profil. Ils doivent rester honnêtes et refléter votre expérience réelle d'achat. SINE.SHOP se réserve le droit de retirer tout avis abusif, diffamatoire ou sans rapport avec le produit concerné.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">5</span> <span data-translate="legalClient.s5title">Fermeture de votre compte</span></h2>
+            <p data-translate="legalClient.s5text1">Vous pouvez demander la fermeture temporaire ou la suppression définitive de votre compte depuis les paramètres de votre espace. Les données liées à vos commandes passées peuvent être conservées pour la durée légale requise à des fins comptables, même après suppression du compte.</p>
+        </div>
+
+        <div class="update-note">
+            <p><strong data-translate="legalSeller.lastUpdate">Dernière mise à jour</strong> : Août 2026</p>
+        </div>
+    </main>
+
+    <div class="swipe-hint"><i class="fa-solid fa-arrow-left"></i> <span data-translate="legalSeller.swipeHint">Balayez pour revenir</span></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const token = localStorage.getItem('sineToken');
+            const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+            if (!token || !user) {
+                window.location.href = '../html/login.html';
+                return;
+            }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            const savedTheme = localStorage.getItem('sineTheme') || 'system';
+            document.documentElement.setAttribute('data-theme', savedTheme === 'system' ? getSystemTheme() : savedTheme);
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'sineTheme' && e.newValue) {
+                    const t = e.newValue === 'system' ? getSystemTheme() : e.newValue;
+                    document.documentElement.setAttribute('data-theme', t);
+                }
+            });
+            if (window.SINE) {
+                window.SINE.applyLanguage(user.preferredLanguage || window.SINE.detectLanguage());
+            }
+
+            let touchStartX = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                const touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX - touchStartX > 80) {
+                    window.location.href = document.referrer || '../html/client.html';
+                }
+            }, { passive: true });
+        })();
+    </script>
+</body>
+</html>

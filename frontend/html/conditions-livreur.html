@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>Conditions Livreur • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <script src="../js/config.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", sans-serif;
+            /* Vitrine propre à cet espace : dégradé orange/corail, évoquant le
+               mouvement et la route — distinct des autres espaces. */
+            background: linear-gradient(180deg, #fff3ec 0%, #ffe6d8 40%, #ffd9c4 100%);
+            color: #3a2314;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        [data-theme="dark"] body { background: linear-gradient(180deg, #1f0f05 0%, #2b1408 100%); color: #f0dcc9; }
+        [data-theme="dark"] .legal-section { background: rgba(31,15,5,0.85); border-color: #452414; }
+        [data-theme="dark"] .legal-section h2 { color: #ffab7a; }
+        [data-theme="dark"] .legal-section p, [data-theme="dark"] .legal-section li { color: #e3c3ab; }
+        [data-theme="dark"] .legal-hero { background: rgba(31,15,5,0.85); }
+        [data-theme="dark"] .legal-hero p { color: #e3c3ab; }
+        [data-theme="dark"] .update-note { color: #e3c3ab; }
+        [data-theme="dark"] .related-links { background: rgba(31,15,5,0.85); border: 1px solid #472510; }
+        [data-theme="dark"] .related-links p { color: #e3c3ab; }
+
+        main { flex: 1; max-width: 820px; margin: 0 auto; padding: 30px 24px 80px; width: 100%; }
+        .legal-hero {
+            text-align: center;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 28px;
+        }
+        .legal-hero .icon { font-size: 2.4rem; margin-bottom: 10px; }
+        .legal-hero h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: #b8551c; }
+        .legal-hero p { color: #6a4630; margin-top: 8px; font-size: 0.95rem; }
+
+        .legal-section {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .legal-section h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.4rem;
+            color: #b8551c;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legal-section h2 .icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #ffcda3; color: #b8551c;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+        }
+        .legal-section p, .legal-section li { color: #4a3220; line-height: 1.7; font-size: 0.95rem; }
+        .legal-section ul { margin-top: 8px; padding-left: 20px; }
+        .legal-section li { margin-bottom: 6px; }
+        .legal-section p + p { margin-top: 10px; }
+
+        .related-links { background: rgba(255,255,255,0.75); border-radius: 20px; padding: 20px 24px; margin-bottom: 18px; text-align: center; }
+        .related-links p { color: #6a4630; font-size: 0.85rem; margin-bottom: 10px; }
+        .related-links a {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px; border-radius: 30px;
+            background: #ffcda3; color: #b8551c; font-weight: 600; font-size: 0.85rem;
+            margin: 4px;
+        }
+
+        .update-note { text-align: center; padding: 16px; color: #6a4630; font-size: 0.85rem; }
+
+        .swipe-hint {
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.6); color: white; padding: 8px 16px;
+            border-radius: 30px; font-size: 0.78rem; display: flex; align-items: center; gap: 6px;
+            opacity: 0.85; z-index: 50;
+        }
+
+        @media (max-width: 600px) {
+            main { padding: 20px 16px 70px; }
+            .legal-hero { padding: 24px 18px; }
+            .legal-hero h1 { font-size: 1.5rem; }
+            .legal-section { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/livreur.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart" style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <main>
+        <div class="legal-hero">
+            <div class="icon">🚚</div>
+            <h1 data-translate="legalLivreur.title">Conditions applicables aux livreurs</h1>
+            <p data-translate="legalLivreur.subtitle">Ce document complète les Conditions Générales d'Utilisation, et précise les règles propres à votre activité de livraison sur SINE.SHOP.</p>
+        </div>
+
+        <div class="related-links">
+            <p data-translate="legalSeller.relatedNote">Les conditions générales de la plateforme s'appliquent également à vous :</p>
+            <a href="../html/cgu.html"><i class="fa-solid fa-file-contract"></i> CGU</a>
+            <a href="../html/cgv.html"><i class="fa-solid fa-file-invoice"></i> CGV</a>
+            <a href="../html/privacy.html"><i class="fa-solid fa-user-shield"></i> <span data-translate="legal.privacy">Confidentialité</span></a>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">1</span> <span data-translate="legalLivreur.s1title">Ouverture et vérification du compte livreur</span></h2>
+            <p data-translate="legalLivreur.s1text1">L'ouverture d'un compte livreur nécessite une vérification d'identité (KYC) — pièce d'identité officielle et selfie de contrôle. Tant que cette vérification n'est pas approuvée, vous ne pouvez être assigné à aucune livraison.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">2</span> <span data-translate="legalLivreur.s2title">Partage de votre position en temps réel</span></h2>
+            <p data-translate="legalLivreur.s2text1">Lorsque vous activez le suivi en direct pour une livraison, votre position est partagée avec le client concerné, exclusivement pendant la durée de cette livraison. Elle n'est jamais partagée en dehors de ce contexte, ni utilisée à d'autres fins que le suivi de la course en cours.</p>
+            <p data-translate="legalLivreur.s2text2">Vous restez libre de désactiver le suivi en direct une fois la livraison terminée, et êtes invité à le faire pour préserver votre vie privée en dehors de vos courses.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">3</span> <span data-translate="legalLivreur.s3title">Données collectées spécifiquement pour votre activité</span></h2>
+            <p data-translate="legalLivreur.s3text1">En tant que livreur, SINE.SHOP collecte et traite : les documents d'identité soumis pour le KYC, votre historique de livraisons et statistiques (notes, délais), votre position lors des livraisons actives, vos coordonnées de paiement pour les retraits, ainsi que les échanges avec les clients et vendeurs via la messagerie intégrée.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">4</span> <span data-translate="legalLivreur.s4title">Responsabilité durant la livraison</span></h2>
+            <ul>
+                <li data-translate="legalLivreur.s4item1">Vous êtes responsable de la bonne prise en charge et de la remise du colis au client, dans le respect des délais raisonnables.</li>
+                <li data-translate="legalLivreur.s4item2">Tout incident survenant durant le transport (colis endommagé, perdu) doit être signalé sans délai via la messagerie ou le centre d'aide.</li>
+                <li data-translate="legalLivreur.s4item3">Vous devez respecter le code de la route et les règles de sécurité applicables à votre moyen de transport.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">5</span> <span data-translate="legalLivreur.s5title">Paiements et retraits</span></h2>
+            <p data-translate="legalLivreur.s5text1">Vos gains sont crédités sur votre solde livreur après confirmation de chaque livraison, et peuvent être retirés vers le moyen de paiement enregistré sur votre profil, sous réserve des délais de traitement habituels.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">6</span> <span data-translate="legalLivreur.s6title">Fermeture du compte livreur</span></h2>
+            <p data-translate="legalLivreur.s6text1">Vous pouvez demander la fermeture temporaire ou la suppression définitive de votre compte depuis les paramètres de votre espace. Toute livraison en cours doit être finalisée avant la fermeture.</p>
+        </div>
+
+        <div class="update-note">
+            <p><strong data-translate="legalSeller.lastUpdate">Dernière mise à jour</strong> : Août 2026</p>
+        </div>
+    </main>
+
+    <div class="swipe-hint"><i class="fa-solid fa-arrow-left"></i> <span data-translate="legalSeller.swipeHint">Balayez pour revenir</span></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const token = localStorage.getItem('sineToken');
+            const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+            if (!token || !user) {
+                window.location.href = '../html/login.html';
+                return;
+            }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            const savedTheme = localStorage.getItem('sineTheme') || 'system';
+            document.documentElement.setAttribute('data-theme', savedTheme === 'system' ? getSystemTheme() : savedTheme);
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'sineTheme' && e.newValue) {
+                    const t = e.newValue === 'system' ? getSystemTheme() : e.newValue;
+                    document.documentElement.setAttribute('data-theme', t);
+                }
+            });
+            if (window.SINE) {
+                window.SINE.applyLanguage(user.preferredLanguage || window.SINE.detectLanguage());
+            }
+
+            let touchStartX = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                const touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX - touchStartX > 80) {
+                    window.location.href = document.referrer || '../html/livreur.html';
+                }
+            }, { passive: true });
+        })();
+    </script>
+</body>
+</html>

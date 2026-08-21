@@ -1,0 +1,22 @@
+.env
+.env.*
+!.env.example
+backend/config/firebase/service-account.json
+*.pem
+*.key
+
+# =====================================================
+# CAPACITOR / MOBILE (Android + iOS) — ajouté lors de la mise en place
+# de la couche mobile. android/ et ios/ contiennent des projets natifs
+# entiers générés par `npx cap add` — volumineux et régénérables à tout
+# moment via `npx cap sync`, jamais à committer tels quels ni à inclure
+# dans le zip de livraison.
+# =====================================================
+node_modules/
+android/
+ios/
+.gradle/
+*.apk
+*.aab
+*.ipa
+GoogleService-Info.plist.bak

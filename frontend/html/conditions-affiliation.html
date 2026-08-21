@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>Conditions Affiliation • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <script src="../js/config.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", sans-serif;
+            /* Vitrine propre à cet espace : dégradé violet/or, évoquant le
+               partenariat et la récompense — distinct des autres espaces. */
+            background: linear-gradient(180deg, #f9f0ff 0%, #f1e0fc 40%, #e8cff7 100%);
+            color: #2a1a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        [data-theme="dark"] body { background: linear-gradient(180deg, #150a1f 0%, #1f0e2b 100%); color: #e8d4f2; }
+        [data-theme="dark"] .legal-section { background: rgba(21,10,31,0.85); border-color: #3a1e4a; }
+        [data-theme="dark"] .legal-section h2 { color: #d9a3f5; }
+        [data-theme="dark"] .legal-section p, [data-theme="dark"] .legal-section li { color: #d0b8dc; }
+        [data-theme="dark"] .legal-hero { background: rgba(21,10,31,0.85); }
+        [data-theme="dark"] .legal-hero p { color: #d0b8dc; }
+        [data-theme="dark"] .update-note { color: #d0b8dc; }
+        [data-theme="dark"] .related-links { background: rgba(21,10,31,0.85); border: 1px solid #3a1a52; }
+        [data-theme="dark"] .related-links p { color: #d0b8dc; }
+
+        main { flex: 1; max-width: 820px; margin: 0 auto; padding: 30px 24px 80px; width: 100%; }
+        .legal-hero {
+            text-align: center;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 28px;
+        }
+        .legal-hero .icon { font-size: 2.4rem; margin-bottom: 10px; }
+        .legal-hero h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: #7a2ba8; }
+        .legal-hero p { color: #5a3a6a; margin-top: 8px; font-size: 0.95rem; }
+
+        .legal-section {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .legal-section h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.4rem;
+            color: #7a2ba8;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legal-section h2 .icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #e0b3f7; color: #7a2ba8;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+        }
+        .legal-section p, .legal-section li { color: #3a2a4a; line-height: 1.7; font-size: 0.95rem; }
+        .legal-section ul { margin-top: 8px; padding-left: 20px; }
+        .legal-section li { margin-bottom: 6px; }
+        .legal-section p + p { margin-top: 10px; }
+
+        .related-links { background: rgba(255,255,255,0.75); border-radius: 20px; padding: 20px 24px; margin-bottom: 18px; text-align: center; }
+        .related-links p { color: #5a3a6a; font-size: 0.85rem; margin-bottom: 10px; }
+        .related-links a {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px; border-radius: 30px;
+            background: #e0b3f7; color: #7a2ba8; font-weight: 600; font-size: 0.85rem;
+            margin: 4px;
+        }
+
+        .update-note { text-align: center; padding: 16px; color: #5a3a6a; font-size: 0.85rem; }
+
+        .swipe-hint {
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.6); color: white; padding: 8px 16px;
+            border-radius: 30px; font-size: 0.78rem; display: flex; align-items: center; gap: 6px;
+            opacity: 0.85; z-index: 50;
+        }
+
+        @media (max-width: 600px) {
+            main { padding: 20px 16px 70px; }
+            .legal-hero { padding: 24px 18px; }
+            .legal-hero h1 { font-size: 1.5rem; }
+            .legal-section { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/sineshopaffiliation.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart" style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <main>
+        <div class="legal-hero">
+            <div class="icon">🤝</div>
+            <h1 data-translate="legalAffiliate.title">Conditions applicables aux affiliés</h1>
+            <p data-translate="legalAffiliate.subtitle">Ce document complète les Conditions Générales d'Utilisation, et précise les règles propres à votre activité de partenaire affilié sur SINE.SHOP.</p>
+        </div>
+
+        <div class="related-links">
+            <p data-translate="legalSeller.relatedNote">Les conditions générales de la plateforme s'appliquent également à vous :</p>
+            <a href="../html/cgu.html"><i class="fa-solid fa-file-contract"></i> CGU</a>
+            <a href="../html/cgv.html"><i class="fa-solid fa-file-invoice"></i> CGV</a>
+            <a href="../html/privacy.html"><i class="fa-solid fa-user-shield"></i> <span data-translate="legal.privacy">Confidentialité</span></a>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">1</span> <span data-translate="legalAffiliate.s1title">Fonctionnement du parrainage</span></h2>
+            <p data-translate="legalAffiliate.s1text1">Votre code de parrainage personnel vous permet de recommander SINE.SHOP à d'autres personnes. Chaque inscription réalisée avec votre code, ainsi que chaque achat effectué par les personnes parrainées, peut donner lieu à une commission, selon le barème détaillé dans votre espace affilié.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">2</span> <span data-translate="legalAffiliate.s2title">Données collectées spécifiquement pour votre activité</span></h2>
+            <p data-translate="legalAffiliate.s2text1">En tant qu'affilié, SINE.SHOP collecte et traite : votre historique de parrainages et de commissions, les codes promo que vous créez, vos coordonnées de paiement pour les retraits, ainsi que les statistiques d'utilisation de vos codes (nombre d'inscriptions, taux de conversion).</p>
+            <p data-translate="legalAffiliate.s2text2">Ces données servent exclusivement au calcul de vos commissions et à l'amélioration de votre suivi de performance. SINE.SHOP ne partage jamais l'identité des personnes que vous avez parrainées au-delà des statistiques agrégées visibles dans votre espace.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">3</span> <span data-translate="legalAffiliate.s3title">Usage des codes promo</span></h2>
+            <ul>
+                <li data-translate="legalAffiliate.s3item1">Vous êtes responsable de la façon dont vous diffusez vos codes promo — toute pratique trompeuse ou non conforme aux règles de la plateforme peut entraîner leur désactivation.</li>
+                <li data-translate="legalAffiliate.s3item2">L'auto-parrainage (utiliser son propre code) et toute forme de fraude à la commission sont strictement interdits.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">4</span> <span data-translate="legalAffiliate.s4title">Paiements et retraits</span></h2>
+            <p data-translate="legalAffiliate.s4text1">Le détail des conditions de retrait (montant minimum, ancienneté requise, plafonds) figure dans votre espace affilié. Vos commissions sont créditées sur votre solde après validation de chaque commission éligible, et peuvent être retirées vers le moyen de paiement enregistré sur votre profil.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2><span class="icon">5</span> <span data-translate="legalAffiliate.s5title">Fermeture du compte affilié</span></h2>
+            <p data-translate="legalAffiliate.s5text1">Vous pouvez demander la fermeture temporaire ou la suppression définitive de votre compte depuis les paramètres de votre espace. Les commissions déjà validées avant la fermeture restent dues et peuvent être retirées selon les conditions habituelles.</p>
+        </div>
+
+        <div class="update-note">
+            <p><strong data-translate="legalSeller.lastUpdate">Dernière mise à jour</strong> : Août 2026</p>
+        </div>
+    </main>
+
+    <div class="swipe-hint"><i class="fa-solid fa-arrow-left"></i> <span data-translate="legalSeller.swipeHint">Balayez pour revenir</span></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const token = localStorage.getItem('sineToken');
+            const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+            if (!token || !user) {
+                window.location.href = '../html/login.html';
+                return;
+            }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            const savedTheme = localStorage.getItem('sineTheme') || 'system';
+            document.documentElement.setAttribute('data-theme', savedTheme === 'system' ? getSystemTheme() : savedTheme);
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'sineTheme' && e.newValue) {
+                    const t = e.newValue === 'system' ? getSystemTheme() : e.newValue;
+                    document.documentElement.setAttribute('data-theme', t);
+                }
+            });
+            if (window.SINE) {
+                window.SINE.applyLanguage(user.preferredLanguage || window.SINE.detectLanguage());
+            }
+
+            let touchStartX = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                const touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX - touchStartX > 80) {
+                    window.location.href = document.referrer || '../html/sineshopaffiliation.html';
+                }
+            }, { passive: true });
+        })();
+    </script>
+</body>
+</html>

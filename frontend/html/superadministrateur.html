@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a2a44">
+    <title>Super Administrateur • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /* =========================================================
+           CSS UNIQUE - SUPER ADMIN (inchangé)
+           ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Outfit", sans-serif; background: #f0f8ff; color: #1a2a3a; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        .admin-header { background: rgba(10,42,68,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 14px 30px; border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header-brand { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 700; color: white; letter-spacing: 2px; }
+        .header-brand span { color: #72b6ff; }
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .header-actions .btn-back { padding: 6px 16px; border-radius: 30px; background: rgba(255,255,255,0.08); color: #94a3b8; font-weight: 500; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(255,255,255,0.04); display: inline-flex; align-items: center; gap: 6px; }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.15); color: white; }
+        .header-actions .btn-logout { padding: 6px 16px; border-radius: 30px; background: rgba(239,68,68,0.15); color: #f87171; font-weight: 500; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(239,68,68,0.1); display: inline-flex; align-items: center; gap: 6px; }
+        .header-actions .btn-logout:hover { background: rgba(239,68,68,0.25); }
+
+        .admin-container { max-width: 1400px; margin: 30px auto; padding: 0 24px 60px; width: 100%; flex: 1; }
+
+        .profile-header { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 28px; padding: 30px 32px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 30px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
+        .profile-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 3px solid #f59e0b; flex-shrink: 0; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-avatar .avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 600; color: #0a2a44; background: #d6ecf5; }
+        .profile-info h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: #0a2a44; }
+        .profile-info .badge { display: inline-block; padding: 2px 12px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; background: #fef3c7; color: #92400e; margin-left: 8px; }
+        .profile-info .email { color: #4a6a8a; font-size: 0.95rem; margin-top: 2px; }
+        .profile-stats { display: flex; gap: 30px; margin-left: auto; flex-wrap: wrap; }
+        .profile-stats .stat { text-align: center; }
+        .profile-stats .stat .number { font-size: 1.8rem; font-weight: 700; color: #0a2a44; }
+        .profile-stats .stat .label { font-size: 0.75rem; color: #6a8aaa; font-weight: 500; }
+        @media (max-width: 768px) {
+            .profile-header { flex-direction: column; text-align: center; padding: 24px 20px; }
+            .profile-stats { margin-left: 0; justify-content: center; width: 100%; }
+            .profile-avatar { width: 80px; height: 80px; }
+            .profile-info h1 { font-size: 1.6rem; }
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 16px; text-align: center; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); transition: 0.3s; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .stat-card .icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+        .stat-card .number { font-size: 1.6rem; font-weight: 700; color: #0a2a44; }
+        .stat-card .label { font-size: 0.8rem; color: #6a8aaa; font-weight: 500; }
+
+        .section-title { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; color: #0a2a44; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title .sub { font-size: 0.85rem; color: #6a8aaa; font-family: "Outfit", sans-serif; font-weight: 400; }
+        .admin-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 24px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); margin-bottom: 24px; }
+        .admin-card h3 { font-size: 1.1rem; font-weight: 600; color: #0a2a44; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+        .empty-state { text-align: center; padding: 40px 20px; color: #8a9aad; font-size: 0.95rem; }
+        .empty-state .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; opacity: 0.6; }
+
+        .badge-status { display: inline-block; padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .badge-active { background: #dcfce7; color: #16a34a; }
+        .badge-inactive { background: #fee2e2; color: #991b1b; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+
+        .kyc-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .kyc-item:last-child { border-bottom: none; }
+        .kyc-item .infos .nom { font-weight: 600; color: #0a2a44; }
+        .kyc-item .infos .detail { font-size: 0.8rem; color: #6a8aaa; margin-top: 2px; }
+        .kyc-docs { display: flex; gap: 8px; flex-wrap: wrap; }
+        .kyc-docs a img {
+            width: 90px; height: 60px; object-fit: cover; border-radius: 8px;
+            border: 1px solid #eef2f6; cursor: pointer;
+        }
+        .kyc-docs .doc-label { font-size: 0.65rem; color: #94a3b8; text-align: center; margin-top: 2px; }
+        .kyc-item .actions-demande { display: flex; gap: 8px; }
+
+        .demande-compte-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 14px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .demande-compte-item:last-child { border-bottom: none; }
+        .demande-compte-item .infos { flex: 1; min-width: 200px; }
+        .demande-compte-item .infos .nom { font-weight: 600; color: #0a2a44; }
+        .demande-compte-item .infos .detail { font-size: 0.8rem; color: #6a8aaa; margin-top: 2px; }
+        .demande-compte-item .infos .motif { font-size: 0.78rem; color: #92400e; margin-top: 4px; font-style: italic; }
+        .demande-compte-item .actions-demande { display: flex; gap: 8px; }
+        .actions-demande button {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .btn-approuver { background: #dcfce7; color: #16a34a; }
+        .btn-approuver:hover { background: #bbf7d0; }
+        .btn-refuser { background: #fee2e2; color: #991b1b; }
+        .btn-refuser:hover { background: #fecaca; }
+
+        .quick-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+        .quick-actions button { padding: 12px 24px; border-radius: 16px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); }
+        .quick-actions button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .quick-actions .btn-primary { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; }
+        .quick-actions .btn-primary:hover { box-shadow: 0 8px 25px rgba(245,158,11,0.3); }
+        .quick-actions .btn-success { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; }
+        .quick-actions .btn-success:hover { box-shadow: 0 8px 25px rgba(34,197,94,0.3); }
+
+        #notification { position: fixed; top: 25px; right: 25px; background: rgba(10,42,68,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: white; padding: 16px 24px; border-radius: 14px; font-weight: 600; font-size: clamp(0.9rem, 1vw, 1rem); box-shadow: 0 12px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: translateY(-20px) scale(0.95); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 999999; max-width: 90%; }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        @media (max-width: 600px) {
+            .admin-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; }
+            .admin-container { padding: 16px 12px 40px; margin: 16px auto; }
+            .profile-header { padding: 20px 16px; border-radius: 20px; }
+            .profile-stats { gap: 16px; }
+            .profile-stats .stat .number { font-size: 1.4rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .section-title { font-size: 1.3rem; }
+            .quick-actions { flex-direction: column; }
+            .quick-actions button { width: 100%; justify-content: center; }
+            .admin-card { padding: 16px; }
+            table { font-size: 0.8rem; }
+            table th, table td { padding: 6px 8px; }
+        }
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .profile-stats { flex-direction: column; gap: 8px; }
+        }
+        .modal-profil-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10,15,25,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-profil-overlay.open { display: flex; }
+        .modal-profil {
+            background: white;
+            border-radius: 20px;
+            padding: 1.6rem;
+            max-width: 380px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+        .modal-profil h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .modal-profil .form-group { margin-bottom: 0.8rem; }
+        .modal-profil .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 4px;
+        }
+        .modal-profil .form-group input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        .modal-profil .btn-primary { padding: 0.7rem; border-radius: 12px; font-weight: 700; }
+
+        [data-theme="dark"] body { background: #0f172a; color: #e2e8f0; }
+        [data-theme="dark"] .profile-header,
+        [data-theme="dark"] .stat-card,
+        [data-theme="dark"] .admin-card,
+        [data-theme="dark"] .modal-profil {
+            background: rgba(26,36,54,0.9);
+            border-color: #263447;
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .profile-info h1,
+        [data-theme="dark"] .stat-card .number { color: #f1f5f9; }
+        [data-theme="dark"] .profile-info .email,
+        [data-theme="dark"] .stat-card .label { color: #94a3b8; }
+        [data-theme="dark"] input,
+        [data-theme="dark"] select,
+        [data-theme="dark"] textarea {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] table { color: #e2e8f0; }
+        [data-theme="dark"] th { color: #94a3b8; border-color: #263447; }
+        [data-theme="dark"] td { border-color: #263447; }
+        [data-theme="dark"] .empty-state { color: #64748b; }
+    </style>
+
+</head>
+<body>
+
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions">
+            <a href="../html/index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Accueil</a>
+            <select id="themeSelectorHeader" style="padding:0.4rem 0.8rem;border-radius:30px;border:1px solid #e2e8f0;font-size:0.8rem;font-weight:600;background:white;color:#1a2a3a;">
+                <option value="light">☀️ Clair</option>
+                <option value="dark">🌙 Sombre</option>
+                <option value="system">💻 Système</option>
+            </select>
+            <button id="btnLogout" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <div class="avatar-placeholder" id="avatarPlaceholder">SA</div>
+                <img id="avatarImage" style="display:none;" alt="Photo de profil">
+            </div>
+            <div class="profile-info">
+                <h1 id="profileName">Super Administrateur <span class="badge">👑 Super Admin</span></h1>
+                <div class="email" id="profileEmail">superadmin@sinehome.shop</div>
+                <button id="btnOuvrirProfil" style="margin-top:10px;padding:0.4rem 1.1rem;border-radius:30px;background:#f1f5f9;font-weight:600;font-size:0.8rem;"><i class="fa-solid fa-pen"></i> Modifier mon profil</button>
+            </div>
+            <div class="profile-stats">
+                <div class="stat"><div class="number" id="statUsers">0</div><div class="label" data-translate="admin.users">Utilisateurs</div></div>
+                <div class="stat"><div class="number" id="statProducts">0</div><div class="label" data-translate="nav.products">Produits</div></div>
+                <div class="stat"><div class="number" id="statOrders">0</div><div class="label" data-translate="nav.orders">Commandes</div></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><span class="icon">👤</span><div class="number" id="statClients">0</div><div class="label" data-translate="admin.clients">Clients</div></div>
+            <div class="stat-card"><span class="icon">🛍️</span><div class="number" id="statVendeurs">0</div><div class="label" data-translate="admin.sellers">Vendeurs</div></div>
+            <div class="stat-card"><span class="icon">🚚</span><div class="number" id="statLivreurs">0</div><div class="label" data-translate="admin.deliveryDrivers">Livreurs</div></div>
+            <div class="stat-card"><span class="icon">💰</span><div class="number" id="statRevenus">0 FCFA</div><div class="label" data-translate="admin.totalRevenue">Revenus totaux</div></div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="btn-primary" id="btnUsers"><i class="fa-solid fa-users"></i> <span data-translate="admin.manageUsers">Gérer les utilisateurs</span></button>
+            <button class="btn-success" id="btnProducts"><i class="fa-solid fa-box-open"></i> <span data-translate="admin.manageProducts">Gérer les produits</span></button>
+            <button id="btnOrders"><i class="fa-solid fa-cart-shopping"></i> <span data-translate="nav.orders">Commandes</span></button>
+            <button id="btnReports"><i class="fa-solid fa-chart-line"></i> <span data-translate="admin.reports">Rapports</span></button>
+            <button id="btnApplications"><i class="fa-solid fa-user-shield"></i> Candidatures Administration</button>
+            <a href="../html/admin-finance.html" style="text-decoration:none;"><button type="button"><i class="fa-solid fa-money-bill-transfer"></i> Centre Financier</button></a>
+            <button id="btnSettings"><i class="fa-solid fa-gear"></i> <span data-translate="nav.settings">Paramètres</span></button>
+        </div>
+
+        <div class="section-title">🪪 <span data-translate="section.identityVerification">Vérifications d'identité (KYC)</span> <span class="sub" id="nbDemandesKyc"></span></div>
+        <div class="admin-card"><div id="demandesKyc"><div class="empty-state"><span class="icon">🪪</span><span data-translate="admin.loading">Chargement...</span></div></div></div>
+
+        <div class="section-title">🗑️ <span data-translate="account.management">Demandes de gestion de compte</span> <span class="sub" id="nbDemandesComptes"></span></div>
+        <div class="admin-card"><div id="demandesComptes"><div class="empty-state"><span class="icon">🗑️</span><span data-translate="admin.loading">Chargement...</span></div></div></div>
+
+        <div class="section-title">👤 <span data-translate="admin.latestUsers">Derniers utilisateurs inscrits</span></div>
+        <div class="admin-card"><div id="derniersUtilisateurs"><div class="empty-state"><span class="icon">👤</span><span data-translate="admin.loading">Chargement...</span></div></div></div>
+
+        <div class="section-title">📦 <span data-translate="admin.latestProducts">Produits récemment publiés</span></div>
+        <div class="admin-card"><div id="produitsRecents"><div class="empty-state"><span class="icon">📦</span><span data-translate="admin.loading">Chargement...</span></div></div></div>
+
+        <div class="section-title">📋 <span data-translate="admin.recentOrders">Commandes récentes</span></div>
+        <div class="admin-card"><div id="commandesRecentes"><div class="empty-state"><span class="icon">📋</span><span data-translate="admin.loading">Chargement...</span></div></div></div>
+
+        <div class="section-title">⚙️ <span data-translate="nav.settings">Paramètres</span> <span class="sub" id="sectionParametresToggleHint"></span></div>
+        <div class="admin-card" id="sectionParametresAdmin" style="display:none;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🌐 <span data-translate="settings.language">Langue</span></h4>
+            <div class="form-group" style="max-width:260px;">
+                <select id="langueAdminSection">
+                    <option value="fr">Français</option>
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="ar">العربية</option>
+                </select>
+            </div>
+            <div class="actions-group" style="margin-top:0.5rem;">
+                <button id="btnSauvegarderLangueAdmin" class="btn-primary">💾 <span data-translate="settings.save">Enregistrer</span></button>
+            </div>
+            <hr style="margin:1rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🎬 Vidéo de bienvenue</h4>
+            <p style="font-size:0.8rem;color:#64748b;margin-bottom:0.6rem;">Diffusée une seule fois à chaque nouveau compte (client, vendeur, livreur, affilié) lors de sa toute première connexion. L'utilisateur peut la fermer (✕) — elle ne réapparaît jamais ensuite pour ce compte.</p>
+            <div class="form-group">
+                <label>URL de la vidéo (Cloudinary ou autre lien direct .mp4)</label>
+                <input type="text" id="welcomeVideoUrlInput" placeholder="https://...">
+            </div>
+            <div class="form-group" style="display:flex;align-items:center;gap:8px;">
+                <input type="checkbox" id="welcomeVideoEnabledInput" style="width:18px;height:18px;">
+                <label for="welcomeVideoEnabledInput" style="margin:0;">Activer la diffusion</label>
+            </div>
+            <div class="actions-group" style="margin-top:0.5rem;">
+                <button id="btnSaveWelcomeVideo" class="btn-primary">💾 Enregistrer</button>
+            </div>
+            <hr style="margin:1rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🔐 <span data-translate="settings.security">Sécurité</span></h4>
+            <div class="actions-group">
+                <button id="btnDeconnecterTousAdmin" class="btn-danger">🚪 <span data-translate="settings.logoutAll">Déconnecter tous les appareils</span></button>
+            </div>
+            <hr style="margin:1rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🗑️ <span data-translate="account.management">Gestion du compte</span></h4>
+            <div class="actions-group">
+                <button id="btnMasquerCompteAdmin">👁️‍🗨️ <span data-translate="account.hideTemporarily">Masquer temporairement</span></button>
+                <button id="btnFermerCompteAdmin" style="color:#d97706;">⏸️ <span data-translate="account.close">Fermer le compte</span></button>
+                <button id="btnSupprimerCompteAdmin" class="btn-danger">🗑️ <span data-translate="account.deletePermanently">Supprimer définitivement</span></button>
+            </div>
+            <p style="font-size:0.8rem;color:#94a3b8;margin-top:0.5rem;"><i class="fa-solid fa-info-circle"></i> <span data-translate="account.managementNote">Une demande sera envoyée à notre équipe pour validation — rien n'est appliqué immédiatement, sauf la suppression définitive qui met fin à votre session sur-le-champ (le compte reste néanmoins actif tant que la demande n'est pas traitée).</span></p>
+        </div>
+
+        <div class="section-title" id="ordersAdminSectionTitle" style="display:none;">📋 <span data-translate="nav.orders">Commandes</span></div>
+        <div class="admin-card" id="ordersAdminCard" style="display:none;"><div id="listeCommandesAdmin"></div></div>
+
+        <div class="section-title" id="reportsAdminSectionTitle" style="display:none;">📊 <span data-translate="admin.reports">Rapports</span></div>
+        <div class="admin-card" id="reportsAdminCard" style="display:none;"><div id="statsRapportsAdmin"></div></div>
+
+        <div class="section-title" id="usersAdminSectionTitle" style="display:none;">👥 <span data-translate="admin.users">Utilisateurs</span></div>
+        <div class="admin-card" id="usersAdminCard" style="display:none;"><div id="listeUtilisateursAdmin"></div></div>
+
+        <div class="section-title" id="productsAdminSectionTitle" style="display:none;">📦 <span data-translate="nav.products">Produits</span></div>
+        <div class="admin-card" id="productsAdminCard" style="display:none;"><div id="listeProduitsAdmin"></div></div>
+
+        <div class="section-title" id="applicationsAdminSectionTitle" style="display:none;">🛡️ Candidatures Administration</div>
+        <div class="admin-card" id="applicationsAdminCard" style="display:none;">
+            <h4 style="font-size:0.85rem;color:#64748b;margin-bottom:0.8rem;">Après revue d'une candidature (CV, pièce d'identité, motivation...), générez un lien nominatif à usage unique pour le rôle que vous approuvez — à copier/coller vous-même dans votre réponse par email depuis votre messagerie professionnelle (rien n'est envoyé automatiquement par SINE.SHOP).</h4>
+            <div id="listeCandidaturesAdmin"><div class="empty-state"><span class="icon">🛡️</span>Chargement...</div></div>
+            <hr style="margin:1.2rem 0;">
+            <h4 style="font-size:0.85rem;color:#64748b;margin-bottom:0.6rem;">📜 Invitations déjà émises</h4>
+            <div id="listeInvitationsAdmin"><div class="empty-state"><span class="icon">📜</span>Chargement...</div></div>
+        </div>
+
+        <!-- GÉNÉRATION D'UN LIEN D'INVITATION -->
+        <div id="genererInviteModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999999;align-items:center;justify-content:center;padding:20px;">
+            <div style="background:white;border-radius:20px;padding:1.5rem;max-width:420px;width:100%;">
+                <h3 style="margin-bottom:1rem;">🔗 Générer un lien d'invitation</h3>
+                <div class="form-group">
+                    <label>Rôle approuvé</label>
+                    <select id="inviteRoleSelect">
+                        <option value="admin">🛡️ Administrateur</option>
+                        <option value="superadmin">👑 Super Administrateur</option>
+                        <option value="moderator">⚖️ Modérateur</option>
+                        <option value="support">💬 Support</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email du destinataire (optionnel — verrouille le lien à cette adresse)</label>
+                    <input type="email" id="inviteEmailInput" placeholder="destinataire@email.com">
+                </div>
+                <div class="actions-group" style="margin-top:1rem;">
+                    <button id="btnConfirmGenerateInvite" class="btn-primary">🔗 Générer le lien</button>
+                </div>
+                <div id="inviteLinkResult" style="display:none;margin-top:1rem;padding:0.8rem;background:#f1f5fb;border-radius:12px;">
+                    <p style="font-size:0.78rem;color:#64748b;margin-bottom:0.4rem;">Lien généré (copiez-le dans votre réponse par email) :</p>
+                    <div style="display:flex;gap:0.4rem;">
+                        <input type="text" id="inviteLinkOutput" readonly style="flex:1;font-size:0.78rem;">
+                        <button id="btnCopyInviteLink" type="button" style="padding:0.5rem 0.8rem;border-radius:10px;background:#2d73ff;color:white;font-weight:600;white-space:nowrap;">📋 Copier</button>
+                    </div>
+                    <p style="font-size:0.72rem;color:#94a3b8;margin-top:0.4rem;">⚠️ Ce lien n'est valable qu'une seule fois et expire dans 14 jours.</p>
+                </div>
+                <button onclick="document.getElementById('genererInviteModal').style.display='none';" style="margin-top:0.8rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Fermer</button>
+            </div>
+        </div>
+
+        <div class="section-title">📜 <span data-translate="legal.sectionTitle">Informations légales</span></div>
+        <div class="admin-card">
+            <div class="actions-group">
+                <button onclick="window.location.href='../html/conditions-admin.html'">🛡️ <span data-translate="legalAdmin.title">Conditions applicables aux équipes d'administration</span></button>
+                <button onclick="window.location.href='../html/cgu.html'">📄 CGU</button>
+                <button onclick="window.location.href='../html/cgv.html'">📄 CGV</button>
+                <button onclick="window.location.href='../html/privacy.html'">🔒 <span data-translate="legal.privacy">Confidentialité</span></button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODIFIER MON PROFIL -->
+    <div class="modal-profil-overlay" id="modalProfilOverlay">
+        <div class="modal-profil">
+            <h3>✏️ <span data-translate="admin.editProfile">Modifier mon profil</span></h3>
+            <div style="display:flex;align-items:center;gap:1rem;margin:1rem 0;">
+                <img id="profilModalAvatarPreview" src="" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover;background:#e2e8f0;display:none;">
+                <div id="profilModalAvatarPlaceholder" class="avatar-placeholder" style="width:64px;height:64px;border-radius:50%;font-size:1.6rem;">--</div>
+                <button id="btnChangerPhotoAdmin" style="padding:0.4rem 1rem;border-radius:30px;background:#f1f5f9;font-weight:600;font-size:0.8rem;">📷 <span data-translate="admin.change">Changer</span></button>
+                <input type="file" id="inputPhotoAdmin" accept="image/*" style="display:none;">
+            </div>
+            <div class="form-group"><label data-translate="livreur.firstName">Prénom</label><input type="text" id="profilModalFirstName"></div>
+            <div class="form-group"><label data-translate="livreur.lastName">Nom</label><input type="text" id="profilModalLastName"></div>
+            <div class="form-group"><label data-translate="seller.phone">Téléphone</label><input type="tel" id="profilModalPhone"></div>
+            <button id="btnEnregistrerProfilAdmin" class="btn-primary" style="width:100%;margin-top:0.6rem;">💾 <span data-translate="settings.save">Enregistrer</span></button>
+
+            <hr style="margin:1.4rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🔒 <span data-translate="settings.changePassword">Changer le mot de passe</span></h4>
+            <div class="form-group"><label data-translate="admin.currentPassword">Mot de passe actuel</label><input type="password" id="profilModalCurrentPwd"></div>
+            <div class="form-group"><label data-translate="admin.newPassword">Nouveau mot de passe</label><input type="password" id="profilModalNewPwd"></div>
+            <button id="btnChangerMdpAdmin" style="width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;margin-top:0.4rem;"><span data-translate="settings.changePassword">Changer le mot de passe</span></button>
+
+            <button id="btnFermerModalProfil" style="width:100%;margin-top:1rem;padding:0.6rem;border-radius:12px;color:#94a3b8;font-weight:600;"><span data-translate="admin.close">Fermer</span></button>
+        </div>
+    </div>
+
+
+    <div id="notification"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            const API_BASE = '';
+
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            function checkAuth() {
+                const token = localStorage.getItem('sineToken');
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!token || !user || user.role !== 'superadmin') {
+                    window.location.href = '../html/login.html';
+                    return false;
+                }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            function applyTheme(pref) {
+                const effective = pref === 'system' ? getSystemTheme() : pref;
+                document.documentElement.setAttribute('data-theme', effective);
+                const select = document.getElementById('themeSelectorHeader');
+                if (select) select.value = pref;
+            }
+            function initTheme() {
+                const saved = localStorage.getItem('sineTheme') || 'system';
+                applyTheme(saved);
+                // Synchronisation en temps réel entre onglets déjà ouverts — l'événement
+                // "storage" du navigateur se déclenche automatiquement dans TOUS les
+                // autres onglets du même site dès que le thème change dans l'un d'eux.
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'sineTheme' && e.newValue) applyTheme(e.newValue);
+                });
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if ((localStorage.getItem('sineTheme') || 'system') === 'system') applyTheme('system');
+                });
+                document.getElementById('themeSelectorHeader')?.addEventListener('change', function() {
+                    localStorage.setItem('sineTheme', this.value);
+                    applyTheme(this.value);
+                });
+            }
+            initTheme();
+                document.getElementById('profileName').innerHTML = (user.firstName || 'Super Admin') + ' ' + (user.lastName || '') +
+                    ' <span class="badge">👑 Super Admin</span>';
+                document.getElementById('profileEmail').textContent = user.email || '';
+                return true;
+            }
+
+            // =========================================================
+            // MODIFIER MON PROFIL — jusqu'ici, cet espace n'avait aucun
+            // moyen de changer son propre nom, sa photo, ou son mot de
+            // passe : la carte d'en-tête était purement en lecture.
+            // =========================================================
+            function ouvrirModalProfil() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!user) return;
+                document.getElementById('profilModalFirstName').value = user.firstName || '';
+                document.getElementById('profilModalLastName').value = user.lastName || '';
+                document.getElementById('profilModalPhone').value = user.phone || '';
+                if (user.profilePicture) {
+                    document.getElementById('profilModalAvatarPreview').src = user.profilePicture;
+                    document.getElementById('profilModalAvatarPreview').style.display = 'block';
+                    document.getElementById('profilModalAvatarPlaceholder').style.display = 'none';
+                }
+                document.getElementById('modalProfilOverlay').classList.add('open');
+            }
+
+            document.getElementById('btnOuvrirProfil').addEventListener('click', ouvrirModalProfil);
+            document.getElementById('btnFermerModalProfil').addEventListener('click', function() {
+                document.getElementById('modalProfilOverlay').classList.remove('open');
+            });
+
+            document.getElementById('btnChangerPhotoAdmin').addEventListener('click', () => document.getElementById('inputPhotoAdmin').click());
+            document.getElementById('inputPhotoAdmin').addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const res = await window.SineAPI.uploadFile(file, 'avatars');
+                    const updated = await window.SineAPI.updateProfile({ profilePicture: res.url });
+                    localStorage.setItem('sineUser', JSON.stringify(updated));
+                    document.getElementById('profilModalAvatarPreview').src = res.url;
+                    document.getElementById('profilModalAvatarPreview').style.display = 'block';
+                    document.getElementById('profilModalAvatarPlaceholder').style.display = 'none';
+                    showNotification('✅ Photo mise à jour', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de l\'upload de la photo.', 'error');
+                }
+            });
+
+            document.getElementById('btnEnregistrerProfilAdmin').addEventListener('click', async function() {
+                try {
+                    const updated = await window.SineAPI.updateProfile({
+                        firstName: document.getElementById('profilModalFirstName').value,
+                        lastName: document.getElementById('profilModalLastName').value,
+                        phone: document.getElementById('profilModalPhone').value,
+                    });
+                    localStorage.setItem('sineUser', JSON.stringify(updated));
+                    checkAuth();
+                    showNotification('✅ Profil mis à jour', 'success');
+                    document.getElementById('modalProfilOverlay').classList.remove('open');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de la mise à jour.', 'error');
+                }
+            });
+
+            document.getElementById('btnChangerMdpAdmin').addEventListener('click', async function() {
+                const currentPwd = document.getElementById('profilModalCurrentPwd').value;
+                const newPwd = document.getElementById('profilModalNewPwd').value;
+                if (!currentPwd || !newPwd) {
+                    showNotification('Renseignez les deux champs.', 'warning');
+                    return;
+                }
+                if (newPwd.length < 8) {
+                    showNotification('Le nouveau mot de passe doit contenir au moins 8 caractères.', 'warning');
+                    return;
+                }
+                try {
+                    await window.SineAPI.updatePassword(currentPwd, newPwd);
+                    document.getElementById('profilModalCurrentPwd').value = '';
+                    document.getElementById('profilModalNewPwd').value = '';
+                    showNotification('✅ Mot de passe changé avec succès', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur — vérifiez votre mot de passe actuel.', 'error');
+                }
+            });
+
+            const LABELS_ROLE = {
+                client: 'Client', seller: 'Vendeur', livreur: 'Livreur',
+                affiliate: 'Affilié', admin: 'Admin', superadmin: 'Super Admin',
+            };
+            const DOC_LABELS = { national_id: 'Carte d\'identité', passport: 'Passeport', driver_license: 'Permis de conduire' };
+            const LABELS_DEMANDE = {
+                hide_temporary: '👁️‍🗨️ Masquage temporaire',
+                close: '⏸️ Fermeture',
+                delete_permanent: '🗑️ Suppression définitive',
+            };
+
+            async function chargerDemandesKyc() {
+                const container = document.getElementById('demandesKyc');
+                const compteur = document.getElementById('nbDemandesKyc');
+                try {
+                    const demandes = await window.SineAPI.getAllKyc('pending');
+                    compteur.textContent = demandes.length > 0 ? `(${demandes.length} en attente)` : '';
+                    if (demandes.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">✅</span>Aucune vérification en attente.</div>';
+                        return;
+                    }
+                    container.innerHTML = demandes.map(k => {
+                        const u = k.user || {};
+                        const nom = `${u.firstName || ''} ${u.lastName || ''}`.trim() || 'Utilisateur';
+                        return `
+                            <div class="kyc-item">
+                                <div class="infos">
+                                    <div class="nom">${nom} <span class="badge-status badge-pending">${LABELS_ROLE[u.role] || u.role || ''}</span></div>
+                                    <div class="detail">${DOC_LABELS[k.documentType] || k.documentType} · ${u.email || ''} · soumis le ${new Date(k.createdAt).toLocaleDateString('fr-FR')}</div>
+                                </div>
+                                <div class="kyc-docs">
+                                    <div><a href="${k.documentFrontUrl}" target="_blank"><img src="${k.documentFrontUrl}" alt="Recto"></a><div class="doc-label">Recto</div></div>
+                                    ${k.documentBackUrl ? `<div><a href="${k.documentBackUrl}" target="_blank"><img src="${k.documentBackUrl}" alt="Verso"></a><div class="doc-label">Verso</div></div>` : ''}
+                                    <div><a href="${k.selfieUrl}" target="_blank"><img src="${k.selfieUrl}" alt="Selfie"></a><div class="doc-label">Selfie</div></div>
+                                </div>
+                                <div class="actions-demande">
+                                    <button class="btn-approuver" onclick="window.traiterKyc('${k._id}', 'approved')"><i class="fa-solid fa-check"></i> Approuver</button>
+                                    <button class="btn-refuser" onclick="window.traiterKyc('${k._id}', 'rejected')"><i class="fa-solid fa-xmark"></i> Refuser</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } catch (error) {
+                    console.error('Erreur chargement KYC:', error);
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            }
+
+            window.traiterKyc = async function(id, decision) {
+                let note = '';
+                if (decision === 'rejected') {
+                    note = prompt('Motif du refus (envoyé à la personne) :', '') || '';
+                }
+                if (!confirm(`Confirmer : ${decision === 'approved' ? 'approuver' : 'refuser'} cette vérification d'identité ?`)) return;
+                try {
+                    await window.SineAPI.reviewKyc(id, decision, note);
+                    showNotification(decision === 'approved' ? '✅ Vérification approuvée.' : '↩️ Vérification refusée.', 'success');
+                    await chargerDemandesKyc();
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors du traitement.'), 'error');
+                }
+            };
+
+            async function chargerDemandesComptes() {
+                const container = document.getElementById('demandesComptes');
+                const compteur = document.getElementById('nbDemandesComptes');
+                try {
+                    const demandes = await window.SineAPI.getAccountActionRequests('pending');
+                    compteur.textContent = demandes.length > 0 ? `(${demandes.length} en attente)` : '';
+                    if (demandes.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">✅</span>Aucune demande en attente.</div>';
+                        return;
+                    }
+                    container.innerHTML = demandes.map(d => {
+                        const u = d.user || {};
+                        const nom = `${u.firstName || ''} ${u.lastName || ''}`.trim() || 'Utilisateur';
+                        return `
+                            <div class="demande-compte-item">
+                                <div class="infos">
+                                    <div class="nom">${nom} <span class="badge-status badge-pending">${LABELS_ROLE[d.userRole] || d.userRole}</span></div>
+                                    <div class="detail">${LABELS_DEMANDE[d.requestType] || d.requestType} · ${u.email || ''} · demandé le ${new Date(d.createdAt).toLocaleDateString('fr-FR')}</div>
+                                    ${d.reason ? `<div class="motif">Motif : ${d.reason}</div>` : ''}
+                                </div>
+                                <div class="actions-demande">
+                                    <button class="btn-approuver" onclick="window.traiterDemandeCompte('${d._id}', 'approved')"><i class="fa-solid fa-check"></i> Approuver</button>
+                                    <button class="btn-refuser" onclick="window.traiterDemandeCompte('${d._id}', 'rejected')"><i class="fa-solid fa-xmark"></i> Refuser</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } catch (error) {
+                    console.error('Erreur chargement demandes de compte:', error);
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            }
+
+            window.traiterDemandeCompte = async function(id, decision) {
+                if (!confirm(`Confirmer : ${decision === 'approved' ? 'approuver' : 'refuser'} cette demande ?`)) return;
+                try {
+                    await window.SineAPI.reviewAccountActionRequest(id, decision);
+                    showNotification(decision === 'approved' ? '✅ Demande approuvée et appliquée.' : '↩️ Demande refusée.', 'success');
+                    await chargerDemandesComptes();
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors du traitement.'), 'error');
+                }
+            };
+
+            async function loadDashboard() {
+                try {
+                    await chargerDemandesKyc();
+                    await chargerDemandesComptes();
+                    const dashboard = await window.SineAPI.getAdminDashboard();
+                    document.getElementById('statUsers').textContent = dashboard.users?.total || 0;
+                    document.getElementById('statProducts').textContent = dashboard.products || 0;
+                    document.getElementById('statOrders').textContent = dashboard.orders?.total || 0;
+                    const byRole = (dashboard.users?.byRole || []).reduce((acc, r) => { acc[r._id] = r.count; return acc; }, {});
+                    document.getElementById('statClients').textContent = byRole.client || 0;
+                    document.getElementById('statVendeurs').textContent = byRole.seller || 0;
+                    document.getElementById('statLivreurs').textContent = byRole.livreur || 0;
+                    document.getElementById('statRevenus').textContent = (dashboard.revenue || 0).toLocaleString() + ' FCFA';
+
+                    const usersData = await window.SineAPI.getAdminUsers({ limit: 5, sort: '-createdAt' });
+                    const users = usersData.users || [];
+                    const container = document.getElementById('derniersUtilisateurs');
+                    if (users.length > 0) {
+                        container.innerHTML = `
+                            <table>
+                                <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Statut</th></tr></thead>
+                                <tbody>
+                                    ${users.map(u => `
+                                        <tr>
+                                            <td><strong>${u.firstName || ''} ${u.lastName || ''}</strong></td>
+                                            <td>${u.email || 'N/A'}</td>
+                                            <td>${u.role || 'client'}</td>
+                                            <td><span class="badge-status ${u.status === 'active' ? 'badge-active' : 'badge-inactive'}">${u.status === 'active' ? '✅ Actif' : '❌ ' + (u.status || 'Inactif')}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+
+                    const products = await window.SineAPI.getProducts({ limit: 5 });
+                    const pContainer = document.getElementById('produitsRecents');
+                    if (products.length > 0) {
+                        pContainer.innerHTML = `
+                            <table>
+                                <thead><tr><th>Nom</th><th>Prix</th><th>Catégorie</th><th>Statut</th></tr></thead>
+                                <tbody>
+                                    ${products.map(p => `
+                                        <tr>
+                                            <td><strong>${p.name || 'Produit'}</strong></td>
+                                            <td>${(p.price || 0).toLocaleString()} FCFA</td>
+                                            <td>${p.category?.name || 'N/A'}</td>
+                                            <td><span class="badge-status ${p.isAvailable ? 'badge-active' : 'badge-inactive'}">${p.isAvailable ? '✅ Publié' : '❌ Inactif'}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+
+                    const orders = dashboard.recentOrders || [];
+                    const oContainer = document.getElementById('commandesRecentes');
+                    if (orders.length > 0) {
+                        oContainer.innerHTML = `
+                            <table>
+                                <thead><tr><th>N° commande</th><th>Client</th><th>Total</th><th>Statut</th></tr></thead>
+                                <tbody>
+                                    ${orders.map(o => `
+                                        <tr>
+                                            <td><strong>${o.orderNumber || o._id || 'N/A'}</strong></td>
+                                            <td>${o.user?.firstName || 'N/A'} ${o.user?.lastName || ''}</td>
+                                            <td>${(o.total || 0).toLocaleString()} FCFA</td>
+                                            <td><span class="badge-status ${o.status === 'delivered' ? 'badge-active' : o.status === 'cancelled' ? 'badge-inactive' : 'badge-pending'}">${o.status || 'en_attente'}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Erreur chargement dashboard:', error);
+                    showNotification('❌ ' + (error.message || 'Erreur de chargement.'), 'error');
+                }
+            }
+
+            // =====================================================
+            // GESTION DES UTILISATEURS — jusqu'ici bouton "Gérer les
+            // utilisateurs" affichait juste un message vide, aucune vraie
+            // action derrière (même pattern que btnSettings trouvé cassé
+            // plus tôt sur cette page).
+            // =====================================================
+            // =====================================================
+            // COMMANDES (toute la plateforme) — même bug que Users/Products
+            // trouvé précédemment : bouton câblé mais handler vide.
+            // =====================================================
+            // Accordéon — améliore le système existant sans le refondre :
+            // rien n'empêchait jusqu'ici d'ouvrir Utilisateurs+Produits+
+            // Commandes+Rapports+Paramètres tous en même temps, rendant la
+            // page très longue et confuse. Une seule section reste ouverte à
+            // la fois désormais ; ouvrir une section referme les autres.
+            function fermerAutresSectionsAdmin(sauf) {
+                const sections = [
+                    ['ordersAdminSectionTitle', 'ordersAdminCard'],
+                    ['reportsAdminSectionTitle', 'reportsAdminCard'],
+                    ['usersAdminSectionTitle', 'usersAdminCard'],
+                    ['productsAdminSectionTitle', 'productsAdminCard'],
+                    ['applicationsAdminSectionTitle', 'applicationsAdminCard'],
+                ];
+                sections.forEach(([titleId, cardId]) => {
+                    if (cardId === sauf) return;
+                    const t = document.getElementById(titleId);
+                    const c = document.getElementById(cardId);
+                    if (t) t.style.display = 'none';
+                    if (c) c.style.display = 'none';
+                });
+                if (sauf !== 'sectionParametresAdmin') {
+                    const p = document.getElementById('sectionParametresAdmin');
+                    if (p) p.style.display = 'none';
+                }
+            }
+
+            document.getElementById('btnOrders').addEventListener('click', async () => {
+                const titleEl = document.getElementById('ordersAdminSectionTitle');
+                const cardEl = document.getElementById('ordersAdminCard');
+                if (titleEl.style.display !== 'none') { titleEl.style.display = 'none'; cardEl.style.display = 'none'; return; }
+                fermerAutresSectionsAdmin(cardEl.id);
+                titleEl.style.display = '';
+                cardEl.style.display = '';
+                cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                const container = document.getElementById('listeCommandesAdmin');
+                container.innerHTML = '<div class="empty-state"><span class="icon">📋</span>Chargement...</div>';
+                try {
+                    const data = await window.SineAPI.getAllOrdersAdmin({ limit: 30 });
+                    const orders = data.orders || [];
+                    if (orders.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">📋</span>Aucune commande</div>';
+                        return;
+                    }
+                    container.innerHTML = `
+                        <table>
+                            <thead><tr><th>N°</th><th>Client</th><th>Vendeur</th><th>Total</th><th>Statut</th><th>Date</th></tr></thead>
+                            <tbody>
+                                ${orders.map(o => `
+                                    <tr>
+                                        <td><strong>#${o.orderNumber || o._id.slice(-6).toUpperCase()}</strong></td>
+                                        <td>${o.user?.firstName ? `${o.user.firstName} ${o.user.lastName}` : 'N/A'}</td>
+                                        <td>${o.seller?.storeName || o.seller?.firstName || 'N/A'}</td>
+                                        <td>${o.total || 0} FCFA</td>
+                                        <td><span class="badge-status ${o.status === 'delivered' ? 'badge-active' : o.status === 'cancelled' ? 'badge-inactive' : 'badge-pending'}">${o.status || 'pending'}</span></td>
+                                        <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } catch (error) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            });
+
+            // =====================================================
+            // RAPPORTS — statistiques globales de la plateforme.
+            // =====================================================
+            document.getElementById('btnReports').addEventListener('click', async () => {
+                const titleEl = document.getElementById('reportsAdminSectionTitle');
+                const cardEl = document.getElementById('reportsAdminCard');
+                if (titleEl.style.display !== 'none') { titleEl.style.display = 'none'; cardEl.style.display = 'none'; return; }
+                fermerAutresSectionsAdmin(cardEl.id);
+                titleEl.style.display = '';
+                cardEl.style.display = '';
+                cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                const container = document.getElementById('statsRapportsAdmin');
+                container.innerHTML = '<div class="empty-state"><span class="icon">📊</span>Chargement...</div>';
+                try {
+                    const stats = await window.SineAPI.getSystemStats();
+                    container.innerHTML = `
+                        <div class="stats-grid">
+                            <div class="stat"><div class="number">${stats.totalUsers || 0}</div><div class="label">Utilisateurs</div></div>
+                            <div class="stat"><div class="number">${stats.totalProducts || 0}</div><div class="label">Produits</div></div>
+                            <div class="stat"><div class="number">${stats.totalOrders || 0}</div><div class="label">Commandes</div></div>
+                            <div class="stat"><div class="number">${stats.totalPayments || 0}</div><div class="label">Paiements</div></div>
+                            <div class="stat"><div class="number">${stats.totalRevenue || 0} FCFA</div><div class="label">Revenus (livrées)</div></div>
+                            <div class="stat"><div class="number">${stats.todayOrders || 0}</div><div class="label">Commandes aujourd'hui</div></div>
+                        </div>
+                    `;
+                } catch (error) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            });
+
+            document.getElementById('btnUsers').addEventListener('click', async () => {
+                const titleEl = document.getElementById('usersAdminSectionTitle');
+                const cardEl = document.getElementById('usersAdminCard');
+                if (titleEl.style.display !== 'none') { titleEl.style.display = 'none'; cardEl.style.display = 'none'; return; }
+                fermerAutresSectionsAdmin(cardEl.id);
+                titleEl.style.display = '';
+                cardEl.style.display = '';
+                cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                await loadUsersAdmin();
+            });
+
+            async function loadUsersAdmin() {
+                const container = document.getElementById('listeUtilisateursAdmin');
+                container.innerHTML = '<div class="empty-state"><span class="icon">👥</span>Chargement...</div>';
+                try {
+                    const usersData = await window.SineAPI.getAdminUsers({ limit: 30, sort: '-createdAt' });
+                    const users = usersData.users || [];
+                    if (users.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">👥</span>Aucun utilisateur</div>';
+                        return;
+                    }
+                    container.innerHTML = `
+                        <table>
+                            <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Statut</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                ${users.map(u => `
+                                    <tr>
+                                        <td><strong>${u.firstName || ''} ${u.lastName || ''}</strong></td>
+                                        <td>${u.email || 'N/A'}</td>
+                                        <td>${u.role || 'client'}</td>
+                                        <td><span class="badge-status ${u.status === 'active' ? 'badge-active' : 'badge-inactive'}">${u.status === 'active' ? '✅ Actif' : '❌ ' + (u.status || 'Inactif')}</span></td>
+                                        <td>
+                                            <button onclick="window.toggleUserStatusAdmin('${u._id}', '${u.status === 'active' ? 'suspended' : 'active'}')" style="font-size:0.75rem;padding:4px 10px;">${u.status === 'active' ? 'Suspendre' : 'Réactiver'}</button>
+                                            <button onclick="window.deleteUserAdmin('${u._id}')" class="btn-danger" style="font-size:0.75rem;padding:4px 10px;">Supprimer</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } catch (error) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            }
+
+            window.toggleUserStatusAdmin = async function(userId, newStatus) {
+                if (!confirm(`Confirmer : ${newStatus === 'active' ? 'réactiver' : 'suspendre'} ce compte ?`)) return;
+                try {
+                    await window.SineAPI.updateUserStatus(userId, newStatus);
+                    showNotification('✅ Statut mis à jour.', 'success');
+                    await loadUsersAdmin();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la mise à jour.'), 'error');
+                }
+            };
+
+            window.deleteUserAdmin = async function(userId) {
+                if (!confirm('⚠️ Supprimer définitivement ce compte utilisateur ? Cette action est irréversible.')) return;
+                try {
+                    await window.SineAPI.adminDeleteUser(userId);
+                    showNotification('✅ Compte supprimé.', 'success');
+                    await loadUsersAdmin();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la suppression.'), 'error');
+                }
+            };
+
+            // =====================================================
+            // GESTION DES PRODUITS — même bug (bouton vide) que ci-dessus.
+            // =====================================================
+            document.getElementById('btnProducts').addEventListener('click', async () => {
+                const titleEl = document.getElementById('productsAdminSectionTitle');
+                const cardEl = document.getElementById('productsAdminCard');
+                if (titleEl.style.display !== 'none') { titleEl.style.display = 'none'; cardEl.style.display = 'none'; return; }
+                fermerAutresSectionsAdmin(cardEl.id);
+                titleEl.style.display = '';
+                cardEl.style.display = '';
+                cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                await loadProductsAdmin();
+            });
+
+            // =========================================================
+            // CANDIDATURES ADMINISTRATION + INVITATIONS
+            // =========================================================
+            document.getElementById('btnApplications').addEventListener('click', async () => {
+                const titleEl = document.getElementById('applicationsAdminSectionTitle');
+                const cardEl = document.getElementById('applicationsAdminCard');
+                if (titleEl.style.display !== 'none') { titleEl.style.display = 'none'; cardEl.style.display = 'none'; return; }
+                fermerAutresSectionsAdmin(cardEl.id);
+                titleEl.style.display = '';
+                cardEl.style.display = '';
+                cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                await loadApplicationsAdmin();
+                await loadInvitesAdmin();
+            });
+
+            let applicationsCache = [];
+
+            async function loadApplicationsAdmin() {
+                const container = document.getElementById('listeCandidaturesAdmin');
+                try {
+                    applicationsCache = await window.SineAPI.getAdminApplications();
+                    if (!applicationsCache.length) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">🛡️</span>Aucune candidature pour l\'instant.</div>';
+                        return;
+                    }
+                    const statusLabel = { pending: '⏳ En attente', approved: '✅ Approuvée', rejected: '❌ Rejetée' };
+                    container.innerHTML = applicationsCache.map(a => `
+                        <div class="card-item" style="flex-wrap:wrap;">
+                            <div style="flex:1;min-width:200px;">
+                                <span class="title">${a.firstName} ${a.lastName}</span>
+                                <div style="font-size:0.78rem;color:#64748b;">${a.email} · ${a.city || ''}, ${a.country || ''}</div>
+                                <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">${statusLabel[a.status] || a.status || 'En attente'} · ${new Date(a.createdAt).toLocaleDateString('fr-FR')}</div>
+                            </div>
+                            <button class="btn-detail btn-primary" onclick="window.ouvrirGenerationInvite('${a._id}', '${a.email}')">🔗 Générer un lien</button>
+                        </div>
+                    `).join('');
+                } catch (e) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">⚠️</span>Erreur de chargement.</div>';
+                }
+            }
+
+            async function loadInvitesAdmin() {
+                const container = document.getElementById('listeInvitationsAdmin');
+                try {
+                    const invites = await window.SineAPI.getAdminInvites();
+                    if (!invites.length) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">📜</span>Aucune invitation émise pour l\'instant.</div>';
+                        return;
+                    }
+                    const roleLabels = { admin: '🛡️ Administrateur', superadmin: '👑 Super Administrateur', moderator: '⚖️ Modérateur', support: '💬 Support' };
+                    container.innerHTML = invites.map(inv => {
+                        const statut = inv.isUsed ? '✅ Utilisée' : (new Date(inv.expiresAt) < new Date() ? '⌛ Expirée' : '🟢 En attente');
+                        return `
+                        <div class="card-item">
+                            <div style="flex:1;">
+                                <span class="title">${roleLabels[inv.role] || inv.role}</span>
+                                <div style="font-size:0.78rem;color:#64748b;">${inv.email || 'Aucune adresse imposée'} · ${statut}</div>
+                            </div>
+                        </div>`;
+                    }).join('');
+                } catch (e) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">⚠️</span>Erreur de chargement.</div>';
+                }
+            }
+
+            window.ouvrirGenerationInvite = function(applicationId, email) {
+                document.getElementById('inviteEmailInput').value = email || '';
+                document.getElementById('inviteRoleSelect').value = 'admin';
+                document.getElementById('inviteLinkResult').style.display = 'none';
+                document.getElementById('genererInviteModal').dataset.applicationId = applicationId || '';
+                document.getElementById('genererInviteModal').style.display = 'flex';
+            };
+
+            document.getElementById('btnConfirmGenerateInvite').addEventListener('click', async function() {
+                const role = document.getElementById('inviteRoleSelect').value;
+                const email = document.getElementById('inviteEmailInput').value.trim();
+                const applicationId = document.getElementById('genererInviteModal').dataset.applicationId || undefined;
+                try {
+                    const result = await window.SineAPI.createAdminInvite(role, email || undefined, applicationId);
+                    document.getElementById('inviteLinkOutput').value = result.inviteUrl;
+                    document.getElementById('inviteLinkResult').style.display = 'block';
+                    loadInvitesAdmin();
+                    showNotification('🔗 Lien généré avec succès.', 'success');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la génération.'), 'error');
+                }
+            });
+            document.getElementById('btnCopyInviteLink').addEventListener('click', function() {
+                const input = document.getElementById('inviteLinkOutput');
+                input.select();
+                navigator.clipboard.writeText(input.value).then(() => {
+                    showNotification('📋 Lien copié dans le presse-papiers.', 'success');
+                }).catch(() => {});
+            });
+            document.getElementById('genererInviteModal').addEventListener('click', function(e) {
+                if (e.target === this) this.style.display = 'none';
+            });
+
+            async function loadProductsAdmin() {
+                const container = document.getElementById('listeProduitsAdmin');
+                container.innerHTML = '<div class="empty-state"><span class="icon">📦</span>Chargement...</div>';
+                try {
+                    const productsData = await window.SineAPI.getProducts({ limit: 30, sort: '-createdAt' });
+                    const products = productsData.products || productsData || [];
+                    if (products.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">📦</span>Aucun produit</div>';
+                        return;
+                    }
+                    container.innerHTML = `
+                        <table>
+                            <thead><tr><th>Produit</th><th>Vendeur</th><th>Prix</th><th>Statut</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                ${products.map(p => `
+                                    <tr>
+                                        <td><strong>${p.name || 'N/A'}</strong></td>
+                                        <td>${p.seller?.firstName ? `${p.seller.firstName} ${p.seller.lastName}` : (p.seller?.storeName || 'N/A')}</td>
+                                        <td>${p.price || 0} FCFA</td>
+                                        <td><span class="badge-status ${p.isAvailable ? 'badge-active' : 'badge-inactive'}">${p.isAvailable ? '✅ Publié' : '❌ Retiré'}</span></td>
+                                        <td>
+                                            <button onclick="window.deleteProductAdmin('${p._id}')" class="btn-danger" style="font-size:0.75rem;padding:4px 10px;">Retirer</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } catch (error) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Erreur de chargement.</div>';
+                }
+            }
+
+            window.deleteProductAdmin = async function(productId) {
+                if (!confirm('⚠️ Retirer ce produit de la plateforme ? Cette action est irréversible.')) return;
+                try {
+                    await window.SineAPI.deleteProduct(productId);
+                    showNotification('✅ Produit retiré.', 'success');
+                    await loadProductsAdmin();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors du retrait.'), 'error');
+                }
+            };
+                        // =====================================================
+            // PARAMÈTRES — langue, sécurité, gestion du compte
+            // (jusqu'ici : bouton "Paramètres" affichait juste un message
+            // "arrive bientôt", aucune vraie fonctionnalité derrière)
+            // =====================================================
+            document.getElementById('btnSettings').addEventListener('click', () => {
+                const section = document.getElementById('sectionParametresAdmin');
+                const nowVisible = section.style.display === 'none';
+                if (nowVisible) fermerAutresSectionsAdmin('sectionParametresAdmin');
+                section.style.display = nowVisible ? 'block' : 'none';
+                if (nowVisible) {
+                    const savedUser = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                    document.getElementById('langueAdminSection').value = savedUser.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+                    window.SineAPI.getAppSettings().then(settings => {
+                        document.getElementById('welcomeVideoUrlInput').value = settings?.welcomeVideoUrl || '';
+                        document.getElementById('welcomeVideoEnabledInput').checked = !!settings?.welcomeVideoEnabled;
+                    }).catch(() => {});
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            document.getElementById('btnSaveWelcomeVideo').addEventListener('click', async function() {
+                try {
+                    await window.SineAPI.updateAppSettings({
+                        welcomeVideoUrl: document.getElementById('welcomeVideoUrlInput').value.trim(),
+                        welcomeVideoEnabled: document.getElementById('welcomeVideoEnabledInput').checked
+                    });
+                    showNotification('✅ Vidéo de bienvenue mise à jour.', 'success');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la mise à jour.'), 'error');
+                }
+            });
+
+            document.getElementById('btnSauvegarderLangueAdmin').addEventListener('click', async function() {
+                const langue = document.getElementById('langueAdminSection').value;
+                try {
+                    await window.SineAPI.updateProfile({ preferredLanguage: langue });
+                    const savedUser = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                    savedUser.preferredLanguage = langue;
+                    localStorage.setItem('sineUser', JSON.stringify(savedUser));
+                    if (window.SINE) window.SINE.applyLanguage(langue);
+                    showNotification('✅ Langue mise à jour.', 'success');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la mise à jour.'), 'error');
+                }
+            });
+
+            document.getElementById('btnDeconnecterTousAdmin').addEventListener('click', function() {
+                if (confirm('Déconnecter tous les appareils ?')) {
+                    window.SineAPI.logout();
+                    window.location.href = '../html/login.html';
+                }
+            });
+
+            window.envoyerDemandeCompteAdmin = async function(requestType, messageConfirm, messageSucces) {
+                if (!confirm(messageConfirm)) return;
+                const raison = prompt('Un motif à préciser (facultatif) :', '') || '';
+                try {
+                    await window.SineAPI.submitAccountActionRequest(requestType, raison);
+                    showNotification(messageSucces, 'success');
+                    if (requestType === 'delete_permanent') {
+                        setTimeout(() => { window.location.href = '../html/login.html'; }, 1500);
+                    }
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de l\'envoi de la demande.'), 'error');
+                }
+            };
+
+            document.getElementById('btnMasquerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('hide_temporary',
+                    '👁️‍🗨️ Envoyer une demande de masquage temporaire de votre compte ?',
+                    '✅ Demande de masquage envoyée — votre compte reste actif en attendant le traitement.');
+            });
+
+            document.getElementById('btnFermerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('close',
+                    '⏸️ Envoyer une demande de fermeture de votre compte ?',
+                    '✅ Demande de fermeture envoyée — votre compte reste actif en attendant le traitement.');
+            });
+
+            document.getElementById('btnSupprimerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('delete_permanent',
+                    '⚠️ Envoyer une demande de suppression définitive de votre compte ? Vous serez déconnecté immédiatement. Cette action est irréversible une fois traitée par notre équipe.',
+                    '✅ Demande de suppression envoyée. Vous allez être déconnecté...');
+            });
+
+            document.getElementById('btnLogout').addEventListener('click', function() {
+                if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                    window.SineAPI.logout();
+                }
+            });
+
+            if (checkAuth()) {
+                loadDashboard();
+            }
+
+            console.log('✅ Super Administrateur SINE.SHOP connecté au backend');
+        })();
+    </script>
+
+</body>
+</html>

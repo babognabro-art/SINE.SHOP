@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Paiement - SINE.SHOP
+</title>
+
+<link
+rel="stylesheet"
+href="../css/visamastercard.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<script
+src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
+</script>
+
+</head>
+
+<body>
+
+<div class="payment-page">
+
+<!--========================================
+HEADER
+=========================================-->
+
+<header class="payment-header">
+
+<div class="header-left">
+
+<a
+href="../html/paiement.html"
+class="back-button">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</a>
+
+<div>
+
+<h1>
+
+Paiement sécurisé
+
+</h1>
+
+<p>
+
+Transactions protégées SSL 256 bits
+
+</p>
+
+</div>
+
+</div>
+
+<div class="header-right">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<span>
+
+100% Sécurisé
+
+</span>
+
+</div>
+
+</header>
+
+<!--========================================
+CARTE VIRTUELLE
+=========================================-->
+
+<section class="card-preview">
+
+<div class="bank-logo">
+
+<img
+id="bankLogo"
+src="../images/bank/default-bank.png"
+alt="Banque">
+
+</div>
+
+<div
+class="card-type"
+id="cardType">
+
+Carte bancaire
+
+</div>
+
+<div
+class="card-number"
+id="previewNumber">
+
+•••• •••• •••• ••••
+
+</div>
+
+<div class="card-bottom">
+
+<div>
+
+<p>
+
+Titulaire
+
+</p>
+
+<h3
+id="previewName">
+
+Nom Prénom
+
+</h3>
+
+</div>
+
+<div>
+
+<p>
+
+Expiration
+
+</p>
+
+<h3
+id="previewExpiry">
+
+MM/AA
+
+</h3>
+
+</div>
+
+</div>
+
+</section>
+
+<!--========================================
+RÉCAPITULATIF
+=========================================-->
+
+<section class="payment-summary">
+
+<h2>
+
+Résumé du paiement
+
+</h2>
+
+<div class="resume-item">
+
+<span>
+
+Montant
+
+</span>
+
+<strong id="montantTotal">
+
+0 FCFA
+
+</strong>
+
+</div>
+
+<div class="resume-item">
+
+<span>
+
+Commande
+
+</span>
+
+<strong id="commandeID">
+
+-----
+
+</strong>
+
+</div>
+
+<div class="resume-item">
+
+<span>
+
+Paiement
+
+</span>
+
+<strong id="paymentID">
+
+Génération...
+
+</strong>
+
+</div>
+
+<div class="resume-item">
+
+<span>
+
+Date
+
+</span>
+
+<strong id="paymentDate">
+
+--
+
+</strong>
+
+</div>
+
+</section>
+
+<!--========================================
+FORMULAIRE
+=========================================-->
+
+<section class="payment-form">
+
+<h2>
+
+Informations de la carte
+
+</h2>
+
+<form
+id="paymentForm"
+autocomplete="off">
+
+<div class="input-group">
+
+<label>
+
+Nom et prénom
+
+</label>
+
+<input
+
+type="text"
+
+id="holderName"
+
+placeholder="Ex : Jean Dupont"
+
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Numéro de carte
+
+</label>
+
+<div class="input-icon">
+
+<input
+
+type="text"
+
+maxlength="19"
+
+id="cardNumber"
+
+placeholder="0000 0000 0000 0000"
+
+required>
+
+<i
+class="fa-solid fa-credit-card"></i>
+
+</div>
+
+<small
+id="bankName">
+
+Banque détectée automatiquement
+
+</small>
+
+</div>
+
+                <div class="card-detection">
+
+                    <div class="network-list">
+
+                        <img
+                        src="../images/cartes/visa.png"
+                        alt="Visa"
+                        id="logoVisa"
+                        class="network-logo">
+
+                        <img
+                        src="../images/cartes/mastercard.png"
+                        alt="Mastercard"
+                        id="logoMastercard"
+                        class="network-logo">
+
+                        <img
+                        src="../images/cartes/amex.png"
+                        alt="American Express"
+                        id="logoAmex"
+                        class="network-logo">
+
+                        <img
+                        src="../images/cartes/maestro.png"
+                        alt="Maestro"
+                        id="logoMaestro"
+                        class="network-logo">
+
+                        <img
+                        src="../images/cartes/discover.png"
+                        alt="Discover"
+                        id="logoDiscover"
+                        class="network-logo">
+
+                    </div>
+
+                    <span id="cardStatus">
+
+                        Carte non détectée
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="input-group">
+
+                    <label>
+
+                        Date d'expiration
+
+                    </label>
+
+                    <input
+
+                    type="text"
+
+                    id="expiryDate"
+
+                    maxlength="5"
+
+                    placeholder="MM/AA"
+
+                    required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        CVV
+
+                    </label>
+
+                    <div class="input-icon">
+
+                        <input
+
+                        type="password"
+
+                        id="cvv"
+
+                        maxlength="4"
+
+                        placeholder="***"
+
+                        required>
+
+                        <i class="fa-solid fa-lock"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+
+                    Adresse de facturation
+
+                </label>
+
+                <input
+
+                type="text"
+
+                id="billingAddress"
+
+                placeholder="Adresse complète">
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="input-group">
+
+                    <label>
+
+                        Téléphone
+
+                    </label>
+
+                    <input
+
+                    type="tel"
+
+                    id="phoneNumber"
+
+                    placeholder="+221 XX XXX XX XX">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        Email
+
+                    </label>
+
+                    <input
+
+                    type="email"
+
+                    id="emailAddress"
+
+                    placeholder="email@exemple.com">
+
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="input-group">
+
+                    <label>
+
+                        Pays
+
+                    </label>
+
+                    <select id="country">
+
+                        <option value="">
+
+                            Sélectionner...
+
+                        </option>
+
+                        <option>Sénégal</option>
+
+                        <option>Côte d'Ivoire</option>
+
+                        <option>Maroc</option>
+
+                        <option>Mali</option>
+
+                        <option>Burkina Faso</option>
+
+                        <option>Guinée</option>
+
+                        <option>Bénin</option>
+
+                        <option>Togo</option>
+
+                        <option>Niger</option>
+
+                        <option>Cameroun</option>
+
+                        <option>France</option>
+
+                        <option>Belgique</option>
+
+                        <option>Canada</option>
+
+                        <option>Autre</option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+
+                        Devise
+
+                    </label>
+
+                    <select id="currency">
+
+                        <option value="FCFA">
+
+                            FCFA
+
+                        </option>
+
+                        <option value="EUR">
+
+                            Euro (€)
+
+                        </option>
+
+                        <option value="USD">
+
+                            Dollar ($)
+
+                        </option>
+
+                        <option value="MAD">
+
+                            Dirham (MAD)
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="security-message">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <div>
+
+                    <strong>
+
+                        Vérification de sécurité
+
+                    </strong>
+
+                    <p id="verificationMessage">
+
+                        Les informations de votre carte seront analysées automatiquement avant la validation du paiement.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div
+            id="paymentAlert"
+            class="payment-alert">
+
+            </div>
+
+            <div class="payment-actions">
+
+                <button
+                type="submit"
+                id="payButton">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    Payer maintenant
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+
+        <!--=========================================
+    PRODUITS CONCERNÉS
+    ==========================================-->
+
+    <section class="payment-products">
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-cart-shopping"></i>
+
+            <h2>
+
+                Produits concernés par ce paiement
+
+            </h2>
+
+        </div>
+
+        <div
+        id="paymentProducts"
+        class="payment-products-list">
+
+            <!-- Généré automatiquement par visamastercard.js -->
+
+        </div>
+
+    </section>
+
+    <!--=========================================
+    REÇU
+    ==========================================-->
+
+    <section class="payment-receipt">
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-receipt"></i>
+
+            <h2>
+
+                Reçu du paiement
+
+            </h2>
+
+        </div>
+
+        <div class="receipt-card">
+
+            <div class="receipt-left">
+
+                <div class="receipt-row">
+
+                    <span>Code du paiement</span>
+
+                    <strong id="receiptPaymentID">
+
+                        --------
+
+                    </strong>
+
+                </div>
+
+                <div class="receipt-row">
+
+                    <span>Commande</span>
+
+                    <strong id="receiptCommandeID">
+
+                        --------
+
+                    </strong>
+
+                </div>
+
+                <div class="receipt-row">
+
+                    <span>Nom</span>
+
+                    <strong id="receiptName">
+
+                        --------
+
+                    </strong>
+
+                </div>
+
+                <div class="receipt-row">
+
+                    <span>Banque</span>
+
+                    <strong id="receiptBank">
+
+                        --------
+
+                    </strong>
+
+                </div>
+
+                <div class="receipt-row">
+
+                    <span>Carte</span>
+
+                    <strong id="receiptCardType">
+
+                        --------
+
+                    </strong>
+
+                </div>
+
+                <div class="receipt-row">
+
+                    <span>Montant</span>
+
+                    <strong id="receiptAmount">
+
+                        0 FCFA
+
+                    </strong>
+
+                </div>
+
+                <div class="receipt-row">
+
+                    <span>Statut</span>
+
+                    <strong id="receiptStatus">
+
+                        En attente
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="receipt-right">
+
+                <canvas id="paymentQRCode"></canvas>
+
+                <p>
+
+                    Scanner pour vérifier le paiement
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="receipt-buttons">
+
+            <button
+            type="button"
+            id="downloadReceipt">
+
+                <i class="fa-solid fa-download"></i>
+
+                Télécharger
+
+            </button>
+
+            <button
+            type="button"
+            id="printReceipt">
+
+                <i class="fa-solid fa-print"></i>
+
+                Imprimer
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!--=========================================
+    HISTORIQUE
+    ==========================================-->
+
+    <section class="payment-history">
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            <h2>
+
+                Historique des paiements
+
+            </h2>
+
+        </div>
+
+        <div
+        id="paymentHistory">
+
+            <!-- Généré automatiquement -->
+
+        </div>
+
+    </section>
+
+    <!--=========================================
+    SÉCURITÉ
+    ==========================================-->
+
+    <section class="security-informations">
+
+        <div class="security-box">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <h3>
+
+                Paiement sécurisé
+
+            </h3>
+
+            <p>
+
+                Toutes les transactions sont protégées par un chiffrement SSL/TLS 256 bits afin de garantir la confidentialité de vos informations bancaires.
+
+            </p>
+
+        </div>
+
+        <div class="security-box">
+
+            <i class="fa-solid fa-credit-card"></i>
+
+            <h3>
+
+                Cartes acceptées
+
+            </h3>
+
+            <p>
+
+                Visa • Mastercard • Maestro • American Express • Discover et autres cartes compatibles.
+
+            </p>
+
+        </div>
+
+        <div class="security-box">
+
+            <i class="fa-solid fa-headset"></i>
+
+            <h3>
+
+                Assistance
+
+            </h3>
+
+            <p>
+
+                Notre équipe SINE.SHOP reste disponible pour vous accompagner en cas de difficulté pendant votre paiement.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!--=========================================
+    FOOTER
+    ==========================================-->
+
+    <footer class="payment-footer">
+
+        <div>
+
+            © 2026 SINE.SHOP
+
+        </div>
+
+        <div>
+
+            Paiement sécurisé • Transactions protégées • Tous droits réservés
+
+        </div>
+
+    </footer>
+
+</div>
+
+<script src="../js/visamastercard.js"></script>
+
+</body>
+</html>

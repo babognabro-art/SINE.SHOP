@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Réservation • SINE.SHOP</title>
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <!-- ===================================================== -->
+    <!-- BLOC CSS UNIQUE - RESERVATION -->
+    <!-- ===================================================== -->
+    <style>
+        /*======================================================
+        RESET & BASE
+        ======================================================*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #66d9ff, #b9ecff 30%, #dff8ff 60%, #ffffff);
+            min-height: 100vh;
+            color: #1c2431;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+            touch-action: manipulation;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            margin: 12px 0;
+        }
+
+        /*======================================================
+        HEADER
+        ======================================================*/
+        .header-reservation {
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-gauche .btn-retour {
+            color: #c4b5d4;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            transition: 0.3s;
+            font-size: clamp(0.85rem, 0.95vw, 1rem);
+            display: inline-block;
+        }
+        .header-gauche .btn-retour:hover {
+            background: rgba(255,255,255,0.18);
+            color: white;
+        }
+        .header-centre {
+            text-align: center;
+        }
+        .header-centre h1 {
+            font-size: clamp(1.4rem, 2.2vw, 2rem);
+            color: white;
+            font-weight: 700;
+        }
+        .header-centre p {
+            color: #94a3b8;
+            font-size: clamp(0.8rem, 0.9vw, 0.95rem);
+        }
+        .header-droite .reservation-id {
+            background: rgba(255,255,255,0.06);
+            padding: 8px 18px;
+            border-radius: 16px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .reservation-id strong {
+            color: #c084fc;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /*======================================================
+        RESUME HAUT
+        ======================================================*/
+        .resume-haut {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            padding: 20px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .resume-box {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .resume-box h2 {
+            color: white;
+            font-size: clamp(1.4rem, 2vw, 1.8rem);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /*======================================================
+        CONTENEUR PRINCIPAL
+        ======================================================*/
+        .conteneur-reservation {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px 40px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            align-items: start;
+        }
+        @media (max-width: 820px) {
+            .conteneur-reservation {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        /*======================================================
+        LISTE PRODUITS
+        ======================================================*/
+        .liste-produits {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .item-reservation {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 18px;
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 16px;
+            align-items: start;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+        .item-reservation:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+        }
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #f1f5f9;
+            flex-shrink: 0;
+        }
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 6px;
+        }
+        .item-infos {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+        .item-infos h3 {
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .item-infos .prix {
+            font-weight: 700;
+            color: #e51f53;
+            font-size: clamp(1rem, 1.1vw, 1.15rem);
+        }
+        .item-infos .prix.ancien {
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        .item-infos .vendeur {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .item-infos .attributs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .item-infos .attributs span {
+            background: #f1f5f9;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .item-infos .quantite {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 0.9rem;
+        }
+
+        /*======================================================
+        FORMULAIRE RESERVATION
+        ======================================================*/
+        .form-reservation {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .form-reservation h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+        .form-groupe {
+            margin-bottom: 14px;
+        }
+        .form-groupe label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .form-groupe input,
+        .form-groupe select,
+        .form-groupe textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+            background: white;
+        }
+        .form-groupe input:focus,
+        .form-groupe select:focus,
+        .form-groupe textarea:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+        }
+        .form-groupe textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 600px) {
+            .form-row, .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /*======================================================
+        RECAPITULATIF
+        ======================================================*/
+        .recapitulatif {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: sticky;
+            top: 100px;
+        }
+        .recapitulatif h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+        .recapitulatif .ligne {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+        .recapitulatif .ligne.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0f172a;
+            border-top: 2px solid #e2e8f0;
+            margin-top: 8px;
+            padding-top: 14px;
+        }
+        .recapitulatif .ligne.total strong {
+            color: #e51f53;
+        }
+        .recapitulatif .btn-confirmer {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #facc15, #eab308);
+            color: #0f172a;
+            box-shadow: 0 4px 16px rgba(250,204,21,0.3);
+        }
+        .recapitulatif .btn-confirmer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(250,204,21,0.4);
+        }
+        .recapitulatif .btn-commander {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            box-shadow: 0 4px 16px rgba(15,23,42,0.3);
+        }
+        .recapitulatif .btn-commander:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15,23,42,0.4);
+        }
+        .recapitulatif .btn-retour-panier {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 8px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: rgba(100,116,139,0.08);
+            color: #475569;
+        }
+        .recapitulatif .btn-retour-panier:hover {
+            background: rgba(100,116,139,0.18);
+        }
+
+        /*======================================================
+        NOTIFICATION
+        ======================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /*======================================================
+        RESPONSIVE
+        ======================================================*/
+        @media (max-width: 768px) {
+            .header-reservation {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .header-gauche .btn-retour {
+                display: inline-block;
+                text-align: center;
+            }
+            .header-droite .reservation-id {
+                display: inline-block;
+                padding: 6px 14px;
+            }
+            .resume-haut {
+                padding: 12px 16px;
+                gap: 10px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .resume-box {
+                padding: 12px 8px;
+            }
+            .resume-box h2 {
+                font-size: 1.2rem;
+            }
+            .conteneur-reservation {
+                padding: 0 12px 30px;
+                gap: 18px;
+            }
+            .item-reservation {
+                grid-template-columns: 60px 1fr;
+                padding: 14px;
+                gap: 12px;
+            }
+            .item-image {
+                width: 60px;
+                height: 60px;
+            }
+            .recapitulatif {
+                position: static;
+            }
+        }
+        @media (max-width: 480px) {
+            .item-reservation {
+                grid-template-columns: 1fr;
+                padding: 12px;
+            }
+            .item-image {
+                width: 100%;
+                height: 120px;
+            }
+            .item-infos h3 {
+                font-size: 0.9rem;
+            }
+            .form-reservation {
+                padding: 18px;
+            }
+            .recapitulatif {
+                padding: 18px;
+            }
+            .recapitulatif button {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 380px) {
+            .resume-haut {
+                grid-template-columns: 1fr 1fr;
+            }
+            .resume-box:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+    <header class="header-reservation sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <div class="header-gauche">
+            <span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span>
+            <a href="../html/panier.html" class="btn-retour">← Retour au panier</a>
+        </div>
+        <div class="header-centre">
+            <h1>📅 Réservation de produits</h1>
+            <p>Réservez vos produits en quelques clics</p>
+        </div>
+        <div class="header-droite">
+            <div class="reservation-id">
+                ID Réservation
+                <strong id="idReservation">RES-</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- RESUME HAUT -->
+    <!-- ===================================================== -->
+    <section class="resume-haut">
+        <div class="resume-box">
+            Produits
+            <h2 id="nombreArticles">0</h2>
+        </div>
+        <div class="resume-box">
+            Quantité
+            <h2 id="nombreQuantite">0</h2>
+        </div>
+        <div class="resume-box">
+            Total
+            <h2 id="montantTotal">0 FCFA</h2>
+        </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- CONTENEUR PRINCIPAL -->
+    <!-- ===================================================== -->
+    <main class="conteneur-reservation">
+
+        <!-- LISTE PRODUITS + FORMULAIRE -->
+        <div>
+            <section class="liste-produits" id="listeReservation">
+                <!-- Les items seront générés dynamiquement -->
+            </section>
+
+            <!-- FORMULAIRE RESERVATION -->
+            <section class="form-reservation" style="margin-top:20px;">
+                <h2>👤 Informations de réservation</h2>
+                <div class="form-groupe">
+                    <label for="nomComplet">Nom complet</label>
+                    <input type="text" id="nomComplet" placeholder="Votre nom et prénom">
+                </div>
+                <div class="form-row">
+                    <div class="form-groupe">
+                        <label for="telephone">Téléphone</label>
+                        <input type="tel" id="telephone" placeholder="+225 00 00 00 00">
+                    </div>
+                    <div class="form-groupe">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="votre@email.com">
+                    </div>
+                </div>
+
+                <h2 style="margin-top:24px;">📋 Détails de la réservation</h2>
+                <div class="form-row-3">
+                    <div class="form-groupe">
+                        <label for="dateDebut">Date de début</label>
+                        <input type="date" id="dateDebut">
+                    </div>
+                    <div class="form-groupe">
+                        <label for="dateFin">Date de fin</label>
+                        <input type="date" id="dateFin">
+                    </div>
+                    <div class="form-groupe">
+                        <label for="duree">Durée (jours)</label>
+                        <input type="number" id="duree" min="1" value="1" placeholder="1">
+                    </div>
+                </div>
+                <div class="form-groupe">
+                    <label for="messageReservation">Message supplémentaire</label>
+                    <textarea id="messageReservation" placeholder="Informations complémentaires pour le vendeur..."></textarea>
+                </div>
+
+                <div style="background:#fef3c7;padding:14px;border-radius:12px;border-left:4px solid #f59e0b;margin-top:12px;">
+                    <p style="font-size:0.85rem;color:#92400e;font-weight:500;">
+                        ⚠️ <strong>Note importante :</strong> La réservation est valable <strong>72 heures</strong>. Passé ce délai, elle sera automatiquement annulée. Vous recevrez une confirmation par email.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- RECAPITULATIF -->
+        <aside class="recapitulatif">
+            <h2>Récapitulatif</h2>
+            <hr>
+            <div class="ligne">
+                <span>Sous-total</span>
+                <strong id="sousTotal">0 FCFA</strong>
+            </div>
+            <div class="ligne">
+                <span>Acompte (30%)</span>
+                <strong id="acompte">0 FCFA</strong>
+            </div>
+            <div class="ligne total">
+                <span>À payer maintenant</span>
+                <strong id="grandTotal">0 FCFA</strong>
+            </div>
+            <button class="btn-confirmer" id="btnConfirmer">✅ Confirmer la réservation</button>
+            <button class="btn-commander" id="btnCommander">📦 Commander maintenant</button>
+            <button class="btn-retour-panier" id="btnRetourPanier">← Retour au panier</button>
+        </aside>
+
+    </main>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- BLOC SCRIPT UNIQUE - RESERVATION -->
+    <!-- ===================================================== -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/produits.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================================================
+            // ÉTAT
+            // =====================================================
+            let panier = null;
+            let reservationId = 'RES-' + Date.now().toString(36).toUpperCase();
+
+            // =====================================================
+            // ÉLÉMENTS DOM
+            // =====================================================
+            const listeReservation = document.getElementById('listeReservation');
+            const nombreArticles = document.getElementById('nombreArticles');
+            const nombreQuantite = document.getElementById('nombreQuantite');
+            const montantTotal = document.getElementById('montantTotal');
+            const sousTotal = document.getElementById('sousTotal');
+            const acompte = document.getElementById('acompte');
+            const grandTotal = document.getElementById('grandTotal');
+            const idReservation = document.getElementById('idReservation');
+
+            // =====================================================
+            // CHARGEMENT
+            // =====================================================
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+
+            function formatPrix(montant) {
+                if (window.SINE) return window.SINE.formatPrix(montant, getDevise());
+                return (montant || 0).toLocaleString('fr-FR') + ' FCFA';
+            }
+
+            // Cloisonnement des rôles — un compte non-client connecté ne doit
+            // jamais atterrir sur les pages d'achat/réservation.
+            function redirigerSiRoleNonClient(user) {
+                if (!user || user.role === 'client') return false;
+                const pages = {
+                    seller: '../html/vendeur.html',
+                    livreur: '../html/livreur.html',
+                    affiliate: '../html/sineshopaffiliation.html',
+                    admin: '../html/administrateur.html',
+                    superadmin: '../html/superadministrateur.html',
+                    moderator: '../html/moderateur.html',
+                    support: '../html/support.html',
+                };
+                if (pages[user.role]) {
+                    window.location.href = pages[user.role];
+                    return true;
+                }
+                return false;
+            }
+
+            async function chargerDonnees() {
+                if (redirigerSiRoleNonClient(JSON.parse(localStorage.getItem('sineUser') || 'null'))) return;
+                if (window.SINE && window.SineAPI) {
+                    await window.SINE.initialiserMoteur();
+                    panier = window.SINE.panier;
+                } else {
+                    panier = null;
+                }
+
+                const savedId = localStorage.getItem('reservationId');
+                if (savedId) {
+                    reservationId = savedId;
+                } else {
+                    localStorage.setItem('reservationId', reservationId);
+                }
+                idReservation.textContent = reservationId;
+                afficherReservation();
+                chargerInfosUtilisateur();
+                initialiserDates();
+            }
+
+            // =====================================================
+            // INITIALISER DATES
+            // =====================================================
+            function initialiserDates() {
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const dateStr = today.toISOString().split('T')[0];
+                const dateStrTomorrow = tomorrow.toISOString().split('T')[0];
+                document.getElementById('dateDebut').value = dateStr;
+                document.getElementById('dateFin').value = dateStrTomorrow;
+            }
+
+            // =====================================================
+            // CHARGER INFOS UTILISATEUR
+            // =====================================================
+            function chargerInfosUtilisateur() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (user) {
+                    document.getElementById('nomComplet').value = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                    document.getElementById('telephone').value = user.phone || '';
+                    document.getElementById('email').value = user.email || '';
+                }
+
+                const savedUser = localStorage.getItem('reservationUser');
+                if (savedUser) {
+                    try {
+                        const saved = JSON.parse(savedUser);
+                        if (saved.message) document.getElementById('messageReservation').value = saved.message;
+                        if (saved.dateDebut) document.getElementById('dateDebut').value = saved.dateDebut;
+                        if (saved.dateFin) document.getElementById('dateFin').value = saved.dateFin;
+                        if (saved.duree) document.getElementById('duree').value = saved.duree;
+                    } catch (e) {}
+                }
+            }
+
+            // =====================================================
+            // SAUVEGARDER INFOS UTILISATEUR
+            // =====================================================
+            function sauvegarderInfosUtilisateur() {
+                const user = {
+                    nom: document.getElementById('nomComplet').value,
+                    telephone: document.getElementById('telephone').value,
+                    email: document.getElementById('email').value,
+                    message: document.getElementById('messageReservation').value,
+                    dateDebut: document.getElementById('dateDebut').value,
+                    dateFin: document.getElementById('dateFin').value,
+                    duree: document.getElementById('duree').value
+                };
+                localStorage.setItem('reservationUser', JSON.stringify(user));
+            }
+
+            // =====================================================
+            // AFFICHAGE
+            // =====================================================
+            function afficherReservation() {
+                if (!listeReservation) return;
+
+                const items = panier?.items || [];
+
+                if (items.length === 0) {
+                    listeReservation.innerHTML = `
+                        <div style="background:rgba(255,255,255,0.85);border-radius:20px;padding:40px;text-align:center;border:1px solid rgba(255,255,255,0.3);">
+                            <p style="font-size:1.2rem;color:#64748b;">🛒 Votre panier est vide</p>
+                            <a href="../html/collections.html" style="display:inline-block;margin-top:16px;padding:12px 30px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;border-radius:30px;font-weight:600;">Découvrir les produits</a>
+                        </div>
+                    `;
+                    mettreAJourResume();
+                    return;
+                }
+
+                listeReservation.innerHTML = items.map((item) => {
+                    const produit = item.product || {};
+                    const prix = item.price || 0;
+                    const enPromo = produit.discountedPrice && produit.discountedPrice < produit.price;
+                    const ancienPrix = enPromo ? produit.price : null;
+                    const quantite = item.quantity || 1;
+                    const image = produit.images?.[0]?.url || '../images/produit.png';
+                    const nom = produit.name || 'Produit';
+                    const vendeur = produit.seller?.storeName || `${produit.seller?.firstName || ''} ${produit.seller?.lastName || ''}`.trim() || 'Vendeur';
+                    const attributs = item.selectedAttributes || {};
+                    const attributsHTML = Object.entries(attributs).map(([key, value]) =>
+                        `<span>${key}: ${value}</span>`
+                    ).join('');
+
+                    return `
+                        <div class="item-reservation">
+                            <div class="item-image">
+                                <img src="${image}" alt="${nom}" loading="lazy" onerror="this.src='../images/produit.png'">
+                            </div>
+                            <div class="item-infos">
+                                <h3>${nom}</h3>
+                                <div>
+                                    <span class="prix">${formatPrix(prix)}</span>
+                                    ${ancienPrix ? `<span class="prix ancien">${formatPrix(ancienPrix)}</span>` : ''}
+                                </div>
+                                <div class="vendeur">🏪 ${vendeur}</div>
+                                <div class="attributs">${attributsHTML}</div>
+                                <div class="quantite">Quantité: ${quantite}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                mettreAJourResume();
+            }
+
+            // =====================================================
+            // METTRE À JOUR RÉSUMÉ
+            // =====================================================
+            function mettreAJourResume() {
+                const items = panier?.items || [];
+                const totalItems = items.length;
+                const totalQuantite = panier?.totalItems || items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const totalPrix = panier?.totalPrice || items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
+
+                // Acompte de 30%
+                const acompteMontant = Math.round(totalPrix * 0.3);
+
+                nombreArticles.textContent = totalItems;
+                nombreQuantite.textContent = totalQuantite;
+                montantTotal.textContent = formatPrix(totalPrix);
+                sousTotal.textContent = formatPrix(totalPrix);
+                acompte.textContent = formatPrix(acompteMontant);
+                grandTotal.textContent = formatPrix(acompteMontant);
+            }
+
+            // =====================================================
+            // SAUVEGARDER LES CHAMPS
+            // =====================================================
+            document.querySelectorAll('.form-groupe input, .form-groupe select, .form-groupe textarea').forEach(el => {
+                el.addEventListener('change', sauvegarderInfosUtilisateur);
+                el.addEventListener('input', sauvegarderInfosUtilisateur);
+            });
+
+            // =====================================================
+            // CONFIRMER RESERVATION
+            // =====================================================
+            document.getElementById('btnConfirmer').addEventListener('click', async function() {
+                const items = panier?.items || [];
+                if (items.length === 0) {
+                    showNotification('🛒 Votre panier est vide');
+                    return;
+                }
+
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!user) {
+                    window.location.href = '../html/login.html?redirect=reservation';
+                    return;
+                }
+
+                const nom = document.getElementById('nomComplet').value.trim();
+                const tel = document.getElementById('telephone').value.trim();
+
+                if (!nom) {
+                    showNotification('⚠️ Veuillez entrer votre nom complet');
+                    document.getElementById('nomComplet').focus();
+                    return;
+                }
+                if (!tel) {
+                    showNotification('⚠️ Veuillez entrer votre numéro de téléphone');
+                    document.getElementById('telephone').focus();
+                    return;
+                }
+
+                sauvegarderInfosUtilisateur();
+
+                const startDate = document.getElementById('dateDebut').value;
+                const endDate = document.getElementById('dateFin').value;
+                if (!startDate || !endDate) {
+                    showNotification('⚠️ Veuillez indiquer les dates de réservation');
+                    return;
+                }
+
+                const btn = this;
+                btn.disabled = true;
+
+                // NB: le vrai modèle de réservation (backend/models/Reservation.js)
+                // porte sur un seul produit — on crée donc une réservation réelle
+                // PAR article du panier, avec les mêmes dates pour chacune.
+                try {
+                    const resultats = await Promise.allSettled(
+                        items.map(item => window.SineAPI.createReservation({
+                            // Le backend attend productId, pas product.
+                            productId: item.product?._id,
+                            quantity: item.quantity || 1,
+                            startDate: new Date(startDate).toISOString(),
+                            endDate: new Date(endDate).toISOString(),
+                            totalPrice: (item.price || 0) * (item.quantity || 1),
+                            notes: document.getElementById('messageReservation').value,
+                        }))
+                    );
+
+                    const reussies = resultats.filter(r => r.status === 'fulfilled');
+                    const echouees = resultats.filter(r => r.status === 'rejected');
+
+                    if (reussies.length === 0) {
+                        showNotification('❌ Aucune réservation n\'a pu être créée.');
+                        btn.disabled = false;
+                        return;
+                    }
+
+                    await window.SineAPI.clearCart();
+
+                    if (echouees.length > 0) {
+                        showNotification(`✅ ${reussies.length} réservation(s) confirmée(s), ${echouees.length} échec(s).`);
+                    } else {
+                        showNotification('✅ Réservation confirmée !');
+                    }
+
+                    // Même logique que pour une commande : passer par l'écran de
+                    // récapitulatif avant de renvoyer vers l'espace client — jusqu'ici,
+                    // la réservation sautait cette étape entièrement.
+                    const premiereReussie = reussies[0]?.value;
+                    setTimeout(() => {
+                        if (premiereReussie?._id) {
+                            window.location.href = '../html/confirmation.html?id=' + premiereReussie._id + '&type=reservation';
+                        } else {
+                            window.location.href = '../html/client.html?section=reservations';
+                        }
+                    }, 1500);
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors de la réservation.'));
+                    btn.disabled = false;
+                }
+            });
+
+            // =====================================================
+            // COMMANDER MAINTENANT
+            // =====================================================
+            document.getElementById('btnCommander').addEventListener('click', function() {
+                if (!panier?.items?.length) {
+                    showNotification('🛒 Votre panier est vide');
+                    return;
+                }
+
+                sauvegarderInfosUtilisateur();
+                // Rediriger vers la commande
+                window.location.href = '../html/commande.html';
+            });
+
+            // =====================================================
+            // RETOUR PANIER
+            // =====================================================
+            document.getElementById('btnRetourPanier').addEventListener('click', function() {
+                window.location.href = '../html/panier.html';
+            });
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 3000);
+            }
+
+            // =====================================================
+            // RECALCULER DUREE
+            // =====================================================
+            document.getElementById('dateDebut').addEventListener('change', function() {
+                const debut = new Date(this.value);
+                const fin = new Date(document.getElementById('dateFin').value);
+                if (debut && fin && fin > debut) {
+                    const diff = Math.ceil((fin - debut) / (1000 * 60 * 60 * 24));
+                    document.getElementById('duree').value = diff || 1;
+                    sauvegarderInfosUtilisateur();
+                }
+            });
+
+            document.getElementById('dateFin').addEventListener('change', function() {
+                const debut = new Date(document.getElementById('dateDebut').value);
+                const fin = new Date(this.value);
+                if (debut && fin && fin > debut) {
+                    const diff = Math.ceil((fin - debut) / (1000 * 60 * 60 * 24));
+                    document.getElementById('duree').value = diff || 1;
+                    sauvegarderInfosUtilisateur();
+                }
+            });
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            chargerDonnees();
+
+            console.log('✅ Réservation SINE.SHOP initialisée avec succès');
+        })();
+    </script>
+
+</body>
+</html>

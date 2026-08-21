@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>Inscription Client • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    
+    <!-- CONFIG GLOBALE -->
+    <script src="../js/config.js"></script>
+    <script src="../js/country-picker.js"></script>
+    <script src="../js/api.js"></script>
+    <script type="module" src="../js/firebase-config.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f8ff;
+            color: #1a2a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .sky { position: fixed; inset: 0; z-index: -1; background: linear-gradient(180deg, #87CEEB 0%, #b8dff0 40%, #d6ecf5 70%, #f0f8ff 100%); }
+        .sky::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.3) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.15) 0%, transparent 50%); pointer-events: none; }
+        .stars-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        .star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; animation: twinkle 3s ease-in-out infinite alternate; box-shadow: 0 0 6px rgba(255,255,255,0.5); }
+        .star:nth-child(odd) { animation-duration: 2.5s; }
+        .star:nth-child(3n) { animation-duration: 4s; }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+        .shooting-star { position: fixed; top: -80px; left: -200px; width: 300px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(255,255,255,0.3)); border-radius: 100px; transform: rotate(-25deg); z-index: 0; opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); animation: shootingStar 8s linear infinite; }
+        @keyframes shootingStar { 0% { opacity: 0; transform: translate(-200px, -80px) rotate(-25deg); } 5% { opacity: 1; } 20% { opacity: 1; } 25% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); } 100% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); } }
+
+        .register-header {
+            background: rgba(135,206,235,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 30px rgba(135,206,235,0.2);
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0a2a44;
+            letter-spacing: 2px;
+        }
+        .header-brand span { color: #1a5276; }
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .header-actions .btn-back {
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.35);
+            color: #0a2a44;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(8px);
+        }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.55); transform: translateY(-2px); }
+        .header-actions .lang-select {
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.35);
+            color: #0a2a44;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230a2a44' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        .header-actions .lang-select option { background: white; color: #1a2a3a; }
+
+        .register-container {
+            max-width: 600px;
+            margin: 30px auto 60px;
+            padding: 0 20px;
+            width: 100%;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .register-card {
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 36px 32px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .register-card h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+            color: #0a2a44;
+            margin-bottom: 4px;
+        }
+        .register-card .subtitle {
+            color: #4a6a8a;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1a3a5a;
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+            background: rgba(255,255,255,0.8);
+            color: #1a2a3a;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.15);
+            background: white;
+        }
+        .form-group input::placeholder { color: #8a9aad; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+        .password-wrapper { position: relative; }
+        .password-wrapper input { padding-right: 48px; }
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: #6a8aaa;
+            padding: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .password-wrapper .toggle-password:hover { color: #0a2a44; }
+
+        .password-criteria {
+            margin-top: 8px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.04);
+            font-size: 0.8rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+        }
+        @media (max-width: 500px) { .password-criteria { grid-template-columns: 1fr; } }
+        .password-criteria .criterion { display: flex; align-items: center; gap: 6px; color: #94a3b8; transition: 0.3s; padding: 2px 0; }
+        .password-criteria .criterion .icon { font-size: 0.9rem; width: 18px; text-align: center; }
+        .password-criteria .criterion.valid { color: #16a34a; }
+        .password-criteria .criterion.valid .icon { color: #16a34a; }
+        .password-criteria .criterion.invalid { color: #94a3b8; }
+
+        /* =========================================================
+           VÉRIFICATION PAR EMAIL
+           ========================================================= */
+        .verification-section {
+            background: #f1f8fe;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px 0;
+            border: 1px solid #d4e8f5;
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+        .verification-section.active { display: block; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .verification-section .code-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .verification-section .code-row input {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #d4e8f5;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 4px;
+            font-weight: 700;
+            background: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        .verification-section .code-row input:focus {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.15);
+        }
+        .verification-section .code-row .btn-verify {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .verification-section .code-row .btn-verify:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34,197,94,0.3);
+        }
+        .verification-section .status-message { font-size: 0.85rem; margin-top: 8px; min-height: 1.2em; }
+        .verification-section .status-message.error { color: #ef4444; }
+        .verification-section .status-message.success { color: #16a34a; }
+        .verification-section .resend-link {
+            color: #2d73ff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .verification-section .resend-link:hover { text-decoration: underline; }
+
+        .terms-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 16px 0 20px;
+        }
+        .terms-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: #4da7ff;
+            flex-shrink: 0;
+        }
+        .terms-group label {
+            font-size: 0.85rem;
+            color: #4a6a8a;
+            line-height: 1.5;
+        }
+        .terms-group a { color: #2d73ff; font-weight: 600; }
+        .terms-group a:hover { text-decoration: underline; }
+
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4da7ff, #2d73ff);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 8px 30px rgba(60,120,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(60,120,255,0.4);
+        }
+        .btn-register:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-register .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-register.loading .spinner { display: block; }
+        .btn-register.loading .text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+        }
+        .separator span {
+            color: #8a9aad;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1a2a3a;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .social-btn:hover {
+            background: #f8fafc;
+            border-color: rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .social-btn img { width: 24px; height: 24px; object-fit: contain; }
+        .social-btn.google { border-color: #ea4335; }
+        .social-btn.google:hover { background: #fef2f2; }
+        .social-btn.facebook { border-color: #1877f2; }
+        .social-btn.facebook:hover { background: #f0f4fe; }
+        .social-btn.apple { border-color: #1a1a1a; }
+        .social-btn.apple:hover { background: #f5f5f5; }
+
+        .login-link {
+            text-align: center;
+            margin-top: 18px;
+            color: #4a6a8a;
+            font-size: 0.9rem;
+        }
+        .login-link a { color: #2d73ff; font-weight: 600; }
+        .login-link a:hover { text-decoration: underline; }
+
+        #notification {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        #registerAlert {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(239,68,68,0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(239,68,68,0.3);
+            z-index: 999998;
+            opacity: 0;
+            transition: 0.4s ease;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        #registerAlert.show { opacity: 1; pointer-events: auto; }
+        #registerAlert.success { background: rgba(34,197,94,0.95); }
+        #registerAlert.warning { background: rgba(245,158,11,0.95); }
+
+        @media (max-width: 768px) {
+            .register-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; }
+            .register-container { padding: 0 14px; margin: 20px auto 40px; }
+            .register-card { padding: 24px 18px; border-radius: 20px; }
+            .password-criteria { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .header-brand { font-size: 1.4rem; }
+            .header-actions .btn-back { font-size: 0.8rem; padding: 6px 12px; }
+            .register-card h1 { font-size: 1.6rem; }
+            .register-card .subtitle { font-size: 0.85rem; }
+            .form-group input,
+            .form-group select { padding: 10px 14px; font-size: 0.9rem; }
+            .btn-register { font-size: 1rem; padding: 14px; }
+            .social-btn { font-size: 0.9rem; padding: 12px; }
+        }
+        .phone-wrapper {
+            display: flex;
+            gap: 0;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.8);
+            transition: 0.3s;
+        }
+        .phone-wrapper:focus-within {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.15);
+            background: white;
+        }
+        .phone-wrapper input { border: none !important; box-shadow: none !important; flex: 1; }
+        .phone-wrapper .sine-country-picker .scp-display { border: none; border-right: 1px solid rgba(0,0,0,0.08); border-radius: 0; }
+</style>
+
+<!-- SINE.SHOP SKY SHOWCASE HEADER -->
+<style id="sineshop-sky-header-v2">
+.sine-header {
+    position: sticky !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,.48) 0 1px, transparent 2px),
+        radial-gradient(circle at 42% 62%, rgba(255,255,255,.55) 0 1.2px, transparent 2.4px),
+        radial-gradient(circle at 76% 24%, rgba(255,255,255,.48) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 72%, rgba(255,255,255,.42) 0 1.2px, transparent 2.4px),
+        linear-gradient(135deg, #8edcff 0%, #5fc7f5 45%, #78d8ff 100%) !important;
+    background-size: 170px 110px, 230px 150px, 190px 125px, 260px 170px, 100% 100% !important;
+    border-bottom: 1px solid rgba(255,255,255,.55) !important;
+    box-shadow: 0 8px 30px rgba(35,151,207,.22), inset 0 1px 0 rgba(255,255,255,.48) !important;
+    backdrop-filter: blur(14px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+}
+.sine-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.22), transparent 32%, rgba(255,255,255,.08) 62%, transparent 100%);
+    opacity: .9;
+}
+.sine-header::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -70px;
+    top: -155px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.20);
+    filter: blur(18px);
+    pointer-events: none;
+}
+.sine-header-stars {
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+.sine-header-stars span {
+    position: absolute !important;
+    width: 3px !important;
+    height: 3px !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 0 7px rgba(255,255,255,.95) !important;
+    animation: sineHeaderTwinkle 2.8s ease-in-out infinite alternate !important;
+}
+.sine-header-stars span:nth-child(2n) { width: 2px !important; height: 2px !important; animation-duration: 2.1s !important; }
+.sine-header-stars span:nth-child(3n) { width: 4px !important; height: 4px !important; animation-duration: 3.6s !important; }
+@keyframes sineHeaderTwinkle {
+    from { opacity: .35; transform: scale(.72); }
+    to { opacity: 1; transform: scale(1.18); }
+}
+.sine-header-brand, .sine-header-actions { position: relative !important; z-index: 3 !important; }
+.sine-header-brand .sine-word-1,
+.sine-header-brand .sine-word-3,
+.sine-header-brand span[style*="color:white"] {
+    color: #050505 !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,.35) !important;
+}
+/* Laisser SH et le cœur conserver leurs couleurs de l'identité SINE.SHOP. */
+.sine-header-brand .sine-word-2,
+.sine-header-brand .sine-heart {
+    position: relative;
+    z-index: 3;
+}
+</style>
+
+</head>
+<body class="sine-auth-page">
+
+    <div class="sky"></div>
+    <div class="stars-container" id="starsContainer"></div>
+    <div class="shooting-star"></div>
+
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions">
+        </div>
+    </header>
+
+    <div id="registerAlert"></div>
+
+    <main class="register-container">
+        <div class="register-card">
+            <h1 data-translate="client.register_title">📝 Créer un compte client</h1>
+            <p class="subtitle" data-translate="client.register_subtitle">Inscrivez-vous pour acheter, réserver et suivre vos commandes.</p>
+
+            <form id="registerForm" autocomplete="on">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-translate="client.label_firstname">Prénom</label>
+                        <input type="text" id="prenom" placeholder="Jean" required autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label data-translate="client.label_lastname">Nom</label>
+                        <input type="text" id="nom" placeholder="Dupont" required autocomplete="family-name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_email">Adresse e-mail</label>
+                    <input type="email" id="email" placeholder="sine.sineshop@email.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_birthdate">Date de naissance <span class="required">*</span></label>
+                    <input type="date" id="birthdate" min="1900-01-01" required>
+                    <!-- max (17 ans minimum) fixé dynamiquement en JS plus bas. -->
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_phone">Numéro de téléphone</label>
+                    <div class="phone-wrapper">
+                        <select id="phoneCode"></select>
+                        <input type="tel" id="telephone" placeholder="00 00 00 00 00" required autocomplete="tel">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_password">Mot de passe</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="••••••••" required autocomplete="new-password">
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-criteria" id="passwordCriteria">
+                        <span class="criterion invalid" id="criteriaLength">
+                            <span class="icon">✕</span> 8 à 16 caractères
+                        </span>
+                        <span class="criterion invalid" id="criteriaUppercase">
+                            <span class="icon">✕</span> Une majuscule
+                        </span>
+                        <span class="criterion invalid" id="criteriaLowercase">
+                            <span class="icon">✕</span> Une minuscule
+                        </span>
+                        <span class="criterion invalid" id="criteriaNumber">
+                            <span class="icon">✕</span> Un chiffre
+                        </span>
+                        <span class="criterion invalid" id="criteriaSpecial">
+                            <span class="icon">✕</span> Un caractère spécial
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_confirm">Confirmer le mot de passe</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="passwordConfirm" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password" id="togglePasswordConfirm">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_timezone">Fuseau horaire</label>
+                    <input type="text" id="timezone" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label data-translate="client.label_referral">Code promo / parrainage <span style="font-weight:400;font-size:0.78rem;color:#94a3b8;">(optionnel)</span></label>
+                    <input type="text" id="referralCode" placeholder="Ex: SINEAB12CD" style="text-transform:uppercase;">
+                    <div id="referralStatus" style="font-size:0.78rem;margin-top:4px;"></div>
+                </div>
+
+                <div class="terms-group">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <label for="acceptTerms">
+                        J’accepte les <a href="../html/cgu.html" target="_blank" rel="noopener">Conditions d’utilisation</a>,
+                        la <a href="../html/privacy.html" target="_blank" rel="noopener">Politique de confidentialité</a>
+                        et la <a href="../html/cookies.html" target="_blank" rel="noopener">Politique relative aux cookies</a>.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-register" id="btnRegister">
+                    <span class="spinner"></span>
+                    <span class="text"><i class="fa-solid fa-user-plus"></i> <span data-translate="client.btn_register">Créer mon compte</span></span>
+                </button>
+
+                <!-- ========================================================= -->
+                <!-- VÉRIFICATION PAR EMAIL -->
+                <!-- ========================================================= -->
+                <div class="verification-section" id="verificationSection">
+                    <h3 style="font-size:1rem;margin-bottom:8px;">📧 Vérification par email</h3>
+                    <p style="font-size:0.9rem;color:#4a6a8a;margin-bottom:12px;">
+                        Un code de vérification a été envoyé à <strong id="verifyEmailDisplay"></strong>.
+                    </p>
+                    <p style="font-size:0.85rem;color:#6a8aaa;margin-bottom:8px;">
+                        <i class="fa-regular fa-envelope"></i> Entrez le code ci-dessous pour valider votre inscription :
+                    </p>
+                    <div class="code-row">
+                        <input type="text" id="verificationCode" placeholder="123456" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                        <button type="button" class="btn-verify" id="btnVerifyCode">✅ Vérifier</button>
+                    </div>
+                    <div class="status-message" id="verifyStatus"></div>
+                    <span class="resend-link" id="resendLink">📤 Renvoyer le code</span>
+                    <span style="color:#6a8aaa;font-size:0.8rem;margin-left:12px;" id="countdownTimer"></span>
+                </div>
+            </form>
+
+            <div class="separator">
+                <span data-translate="client.or">ou</span>
+            </div>
+
+            <!-- SOCIAL LOGIN -->
+            <button id="googleLogin" class="social-btn google" type="button">
+                <img src="../images/google-logo.webp" alt="Google" onerror="this.style.display='none'">
+                <span data-translate="client.google">Continuer avec Google</span>
+            </button>
+
+            <button id="facebookLogin" class="social-btn facebook" type="button">
+                <img src="../images/facebook-logo.jpg" alt="Facebook" onerror="this.style.display='none'">
+                <span data-translate="client.facebook">Continuer avec Facebook</span>
+            </button>
+
+            <div class="login-link">
+                <span data-translate="client.login_link">Vous avez déjà un compte ?</span> <a href="../html/login.html">Se connecter</a>
+            </div>
+        </div>
+    </main>
+
+    <div id="notification"></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Empêche physiquement de sélectionner une date faisant moins de
+            // 17 ans dans le calendrier — calculée dynamiquement.
+            (function setMaxBirthdate() {
+                const input = document.getElementById('birthdate');
+                if (!input) return;
+                const d = new Date();
+                d.setFullYear(d.getFullYear() - 17);
+                input.max = d.toISOString().split('T')[0];
+            })();
+
+            let currentLang = 'fr';
+
+            // =========================================================
+            // ETOILES
+            // =========================================================
+            (function createStars() {
+                const container = document.getElementById('starsContainer');
+                if (!container) return;
+                const count = Math.min(80, Math.floor(window.innerWidth / 10));
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animationDelay = (Math.random() * 5) + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(star);
+                }
+            })();
+
+            // =========================================================
+            // FUSEAU HORAIRE
+            // =========================================================
+            function detectTimezone() {
+                try {
+                    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    document.getElementById('timezone').value = tz || 'Africa/Dakar';
+                    return tz;
+                } catch (e) {
+                    document.getElementById('timezone').value = 'Africa/Dakar';
+                    return 'Africa/Dakar';
+                }
+            }
+            detectTimezone();
+
+            // =========================================================
+            // TOGGLE PASSWORD
+            // =========================================================
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const input = document.getElementById('password');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fa-regular fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fa-regular fa-eye';
+                }
+            });
+
+            document.getElementById('togglePasswordConfirm').addEventListener('click', function() {
+                const input = document.getElementById('passwordConfirm');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fa-regular fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fa-regular fa-eye';
+                }
+            });
+
+            // Sélecteur de pays/indicatif recherchable (150+ pays) — le
+            // script était bien inclus mais JAMAIS initialisé sur cette
+            // page : le <select id="phoneCode"> restait vide, sans aucune
+            // option, ni indicatif ni drapeau.
+            window.SineAttachCountryPicker('phoneCode', { defaultIso2: 'CI' });
+
+            // =========================================================
+            // VALIDATION PASSWORD
+            // =========================================================
+            const passwordInput = document.getElementById('password');
+            const criteria = {
+                length: document.getElementById('criteriaLength'),
+                uppercase: document.getElementById('criteriaUppercase'),
+                lowercase: document.getElementById('criteriaLowercase'),
+                number: document.getElementById('criteriaNumber'),
+                special: document.getElementById('criteriaSpecial')
+            };
+
+            function validatePassword(password) {
+                const validations = {
+                    length: password.length >= 8 && password.length <= 16,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /[0-9]/.test(password),
+                    special: /[!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>\/?]/.test(password)
+                };
+
+                Object.keys(validations).forEach(key => {
+                    const el = criteria[key];
+                    if (!el) return;
+                    if (validations[key]) {
+                        el.className = 'criterion valid';
+                        el.querySelector('.icon').textContent = '✓';
+                    } else {
+                        el.className = 'criterion invalid';
+                        el.querySelector('.icon').textContent = '✕';
+                    }
+                });
+
+                return Object.values(validations).every(v => v === true);
+            }
+
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                validatePassword(password);
+                const confirmInput = document.getElementById('passwordConfirm');
+                if (confirmInput.value.length > 0) {
+                    checkPasswordMatch(password, confirmInput.value);
+                }
+            });
+
+            // =========================================================
+            // CODE PROMO / PARRAINAGE — vérification en direct
+            // =========================================================
+            document.getElementById('referralCode').addEventListener('blur', async function() {
+                const code = this.value.trim().toUpperCase();
+                const statusEl = document.getElementById('referralStatus');
+                if (!code) { statusEl.textContent = ''; return; }
+
+                statusEl.textContent = '⏳ Vérification...';
+                statusEl.style.color = '#94a3b8';
+                try {
+                    await window.SineAPI.getAffiliateByCode(code);
+                    statusEl.textContent = '✅ Code valide';
+                    statusEl.style.color = '#16a34a';
+                } catch (err) {
+                    statusEl.textContent = '❌ Code promo invalide';
+                    statusEl.style.color = '#ef4444';
+                }
+            });
+
+            function checkPasswordMatch(password, confirm) {
+                const match = password === confirm && password.length > 0;
+                if (match) {
+                    document.getElementById('passwordConfirm').style.borderColor = '#16a34a';
+                } else if (confirm.length > 0) {
+                    document.getElementById('passwordConfirm').style.borderColor = '#ef4444';
+                } else {
+                    document.getElementById('passwordConfirm').style.borderColor = '';
+                }
+                return match;
+            }
+
+            document.getElementById('passwordConfirm').addEventListener('input', function() {
+                const password = passwordInput.value;
+                const confirm = this.value;
+                checkPasswordMatch(password, confirm);
+            });
+
+            // =========================================================
+            // NOTIFICATIONS
+            // =========================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            function showAlert(message, type) {
+                const alertEl = document.getElementById('registerAlert');
+                if (!alertEl) return;
+                alertEl.textContent = message;
+                alertEl.className = 'show';
+                if (type) alertEl.classList.add(type);
+                clearTimeout(alertEl._timeout);
+                alertEl._timeout = setTimeout(() => {
+                    alertEl.classList.remove('show');
+                }, 5000);
+            }
+
+            // =========================================================
+            // APPEL API — délégué à window.SineAPI (js/api.js)
+            // =========================================================
+
+            // =========================================================
+            // INSCRIPTION
+            // =========================================================
+            const form = document.getElementById('registerForm');
+            const btnRegister = document.getElementById('btnRegister');
+            let resendCooldown = 0;
+            let userEmail = '';
+            let countdownInterval = null;
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                btnRegister.classList.add('loading');
+                btnRegister.disabled = true;
+
+                try {
+                    const prenom = document.getElementById('prenom').value.trim();
+                    const nom = document.getElementById('nom').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const phoneCode = document.getElementById('phoneCode').value;
+                    const telephoneLocal = document.getElementById('telephone').value.trim();
+                    // Numéro complet stocké AVEC son indicatif — indispensable pour
+                    // que le login/reset par téléphone retrouve le compte quelle
+                    // que soit la façon dont le numéro est ressaisi ensuite.
+                    const telephone = phoneCode + telephoneLocal;
+                    const password = passwordInput.value;
+                    const passwordConfirm = document.getElementById('passwordConfirm').value;
+                    const acceptTerms = document.getElementById('acceptTerms').checked;
+                    const timezone = document.getElementById('timezone').value;
+
+                    // Validations
+                    if (!prenom || !nom) {
+                        showAlert('Veuillez remplir votre prénom et votre nom.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+                    if (!email || !email.includes('@')) {
+                        showAlert('Veuillez entrer une adresse email valide.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+                    if (!telephoneLocal || telephoneLocal.length < 6) {
+                        showAlert('Veuillez entrer un numéro de téléphone valide.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+
+                    const isPasswordValid = validatePassword(password);
+                    if (!isPasswordValid) {
+                        showAlert('Le mot de passe ne respecte pas tous les critères de sécurité.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+                    if (password !== passwordConfirm) {
+                        showAlert('Les mots de passe ne correspondent pas.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+                    if (!acceptTerms) {
+                        showAlert('Veuillez accepter les conditions générales.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+
+                    // Code promo / parrainage — optionnel, mais vérifié pour de vrai
+                    // auprès du backend avant de l'envoyer avec l'inscription.
+                    const referralCodeRaw = document.getElementById('referralCode').value.trim().toUpperCase();
+                    if (referralCodeRaw) {
+                        try {
+                            await window.SineAPI.getAffiliateByCode(referralCodeRaw);
+                        } catch (err) {
+                            showAlert('❌ Code promo invalide. Corrigez-le ou laissez le champ vide.', 'error');
+                            document.getElementById('referralStatus').textContent = '❌ Code invalide';
+                            document.getElementById('referralStatus').style.color = '#ef4444';
+                            btnRegister.classList.remove('loading');
+                            btnRegister.disabled = false;
+                            return;
+                        }
+                    }
+
+                    // Âge minimum 17 ans — vérification côté navigateur en
+                    // renfort (la vraie barrière est côté serveur, voir
+                    // auth.controller.js::register, jamais contournable).
+                    const birthdateVal = document.getElementById('birthdate').value;
+                    if (!birthdateVal) {
+                        showAlert('Veuillez entrer votre date de naissance.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+                    const clientAge = Math.floor((Date.now() - new Date(birthdateVal).getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+                    if (clientAge < 17) {
+                        showAlert('Vous devez avoir au moins 17 ans.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+
+                    // Construction du payload — champs alignés sur backend/controllers/auth.controller.js
+                    const payload = {
+                        firstName: prenom,
+                        lastName: nom,
+                        email,
+                        phone: telephone,
+                        password,
+                        role: 'client',
+                        birthdate: birthdateVal,
+                        timezone: timezone || 'Africa/Dakar',
+                        referralCode: referralCodeRaw || undefined
+                    };
+
+                    // Verrou CGU obligatoire — le compte n'est créé et le
+                    // code de vérification envoyé QUE si l'utilisateur
+                    // clique explicitement sur "Accepter" dans la fenêtre
+                    // CGU qui s'ouvre ici. "Refuser" bloque tout.
+                    const cguOk = await window.ensureCguAccepted();
+                    if (!cguOk) {
+                        showAlert('Vous devez accepter les Conditions Générales d\'Utilisation pour créer un compte.', 'warning');
+                        btnRegister.classList.remove('loading');
+                        btnRegister.disabled = false;
+                        return;
+                    }
+
+                    // Inscription réelle auprès du backend — plus de fallback local fictif.
+                    const userData = await window.SineAPI.register(payload);
+
+                    // Appliquer les préférences globales (affichage local immédiat)
+                    if (window.SINE) {
+                        window.SINE.setCurrency('XOF');
+                        window.SINE.setTimezone(timezone || 'Africa/Dakar');
+                    }
+
+                    userEmail = email;
+                    const section = document.getElementById('verificationSection');
+                    section.classList.add('active');
+                    document.getElementById('verifyEmailDisplay').textContent = email;
+                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    btnRegister.classList.remove('loading');
+                    btnRegister.disabled = true;
+                    btnRegister.querySelector('.text').textContent = '✅ Compte créé';
+
+                    showAlert('Code envoyé ! Vérifiez votre boîte mail.', 'success');
+                    showNotification('📧 Code de vérification envoyé à votre email.', 'success');
+
+                    startCountdown(60);
+
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    showAlert('❌ ' + (error.message || 'Erreur lors de l\'inscription.'), 'error');
+                    btnRegister.classList.remove('loading');
+                    btnRegister.disabled = false;
+                }
+            });
+
+            // =========================================================
+            // VÉRIFICATION DU CODE — vrai appel à /api/auth/verify
+            // =========================================================
+            document.getElementById('btnVerifyCode').addEventListener('click', async function() {
+                const btn = this;
+                const codeInput = document.getElementById('verificationCode');
+                const code = codeInput.value.trim();
+                const statusDiv = document.getElementById('verifyStatus');
+
+                if (!code || code.length < 4) {
+                    statusDiv.textContent = '⚠️ Veuillez entrer le code de vérification.';
+                    statusDiv.className = 'status-message error';
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = '⏳ Vérification...';
+
+                try {
+                    await window.SineAPI.verifyEmail(userEmail, code);
+
+                    statusDiv.textContent = '✅ Email vérifié avec succès ! Redirection...';
+                    statusDiv.className = 'status-message success';
+
+                    showAlert('✅ Compte créé et vérifié avec succès !', 'success');
+                    showNotification('🎉 Bienvenue sur SINE.SHOP !', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = '../html/client.html';
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    statusDiv.textContent = error.message || 'Code invalide. Veuillez réessayer.';
+                    statusDiv.className = 'status-message error';
+                    btn.disabled = false;
+                    btn.textContent = '✅ Vérifier';
+                    showAlert(error.message || 'Code invalide.', 'error');
+                }
+            });
+
+            // =========================================================
+            // RENVOYER LE CODE — vrai appel à /api/auth/resend-verification
+            // =========================================================
+            document.getElementById('resendLink').addEventListener('click', async function() {
+                if (resendCooldown > 0) {
+                    showNotification('⏳ Veuillez patienter ' + resendCooldown + 's avant de renvoyer.', 'warning');
+                    return;
+                }
+                try {
+                    await window.SineAPI.resendVerification(userEmail);
+                    showNotification('📧 Nouveau code envoyé à ' + userEmail, 'success');
+                    startCountdown(60);
+                } catch (error) {
+                    showNotification(error.message || 'Erreur lors du renvoi du code.', 'error');
+                }
+            });
+
+            // =========================================================
+            // COMPTE À REBOURS
+            // =========================================================
+            function startCountdown(seconds) {
+                if (countdownInterval) clearInterval(countdownInterval);
+                resendCooldown = seconds;
+                const timerEl = document.getElementById('countdownTimer');
+                countdownInterval = setInterval(() => {
+                    resendCooldown--;
+                    if (resendCooldown <= 0) {
+                        clearInterval(countdownInterval);
+                        timerEl.textContent = '';
+                        return;
+                    }
+                    timerEl.textContent = '⏳ ' + resendCooldown + 's';
+                }, 1000);
+            }
+
+            // =========================================================
+            // SOCIAL LOGIN
+            // Pas encore connecté à un vrai fournisseur OAuth — voir la note
+            // dans login.html. On ne simule plus une inscription réussie.
+            // =========================================================
+            async function initSocialLogin(provider) {
+                if (!window.SineFirebaseAuth) {
+                    showNotification('Le service ' + provider + ' n\'a pas pu se charger. Réessayez.', 'error');
+                    return;
+                }
+                try {
+                    const { idToken } = provider === 'Google'
+                        ? await window.SineFirebaseAuth.signInWithGoogle()
+                        : await window.SineFirebaseAuth.signInWithFacebook();
+
+                    await window.SineAPI.loginWithFirebase(idToken, 'client');
+
+                    showNotification('✅ Compte créé avec succès !', 'success');
+                    setTimeout(() => { window.location.href = '../html/client.html'; }, 1000);
+                } catch (error) {
+                    if (error.code === 'auth/popup-closed-by-user') return;
+                    console.error('Erreur ' + provider + ':', error);
+                    showNotification(error.message || 'Erreur lors de l\'inscription avec ' + provider + '.', 'error');
+                }
+            }
+
+            document.getElementById('googleLogin').addEventListener('click', function() {
+                initSocialLogin('Google');
+            });
+
+            document.getElementById('facebookLogin').addEventListener('click', function() {
+                initSocialLogin('Facebook');
+            });
+
+            // =========================================================
+            // LANGUE
+            // =========================================================
+            function applyLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('sineLang', lang);
+                if (window.SINE) window.SINE.applyDirection(lang);
+
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (window.SINE) {
+                        const translation = window.SINE.translate(key, lang);
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+                            el.placeholder = translation;
+                        } else {
+                            el.textContent = translation;
+                        }
+                    }
+                });
+            }
+
+            // =========================================================
+            // SWIPE
+            // =========================================================
+            let touchStartX = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                const diff = touchStartX - e.changedTouches[0].screenX;
+                if (diff > 80) {
+                    window.location.href = '../html/index.html';
+                } else if (diff < -80) {
+                    window.location.href = '../html/seler-page.html';
+                }
+            }, { passive: true });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    window.location.href = '../html/seler-page.html';
+                }
+            });
+
+            // =========================================================
+            // INIT
+            // =========================================================
+            const savedLang = window.SINE ? window.SINE.detectLanguage() : 'fr';
+            applyLanguage(savedLang);
+
+            console.log('✅ Inscription client SINE.SHOP - Avec social login');
+            console.log('🌐 Langue:', currentLang);
+            console.log('🕐 Fuseau horaire:', document.getElementById('timezone').value);
+
+        })();
+    </script>
+
+
+    <!-- =========================================================
+         VERROU CGU — une vraie page/fenêtre CGU doit s'ouvrir et
+         l'utilisateur DOIT cliquer sur "Accepter" avant que le compte
+         soit créé et le code de vérification envoyé. "Refuser" bloque
+         entièrement la création de compte (demande explicite). -->
+    <div id="cguGateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:white;border-radius:24px;padding:0;max-width:520px;width:100%;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;">
+            <div style="padding:1.4rem 1.4rem 0.6rem;">
+                <h3 style="margin:0 0 4px;">📄 Conditions Générales d'Utilisation</h3>
+                <p style="font-size:0.8rem;color:#94a3b8;margin:0;">Vous devez lire et accepter nos conditions pour créer votre compte SINE.SHOP.</p>
+            </div>
+            <iframe src="../html/cgu.html" style="flex:1;width:100%;border:none;min-height:340px;"></iframe>
+            <div style="padding:1rem 1.4rem;border-top:1px solid #eef2f6;display:flex;gap:0.6rem;">
+                <button type="button" id="btnCguRefuse" style="flex:1;padding:0.75rem;border-radius:14px;background:#f1f5f9;color:#475569;font-weight:600;">❌ Refuser</button>
+                <button type="button" id="btnCguAccept" style="flex:1;padding:0.75rem;border-radius:14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-weight:700;">✅ J'accepte</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Verrou CGU réutilisable — voir commentaire ci-dessus. Reste valable
+        // uniquement pour CETTE session de page (pas de mémorisation entre
+        // deux visites : on redemande à chaque nouvelle tentative d'inscription).
+        window.__cguAccepted = false;
+        window.ensureCguAccepted = function() {
+            return new Promise(function(resolve) {
+                if (window.__cguAccepted) { resolve(true); return; }
+                const modal = document.getElementById('cguGateModal');
+                modal.style.display = 'flex';
+                document.getElementById('btnCguAccept').onclick = function() {
+                    window.__cguAccepted = true;
+                    modal.style.display = 'none';
+                    resolve(true);
+                };
+                document.getElementById('btnCguRefuse').onclick = function() {
+                    modal.style.display = 'none';
+                    resolve(false);
+                };
+            });
+        };
+    </script>
+
+</body>
+</html>

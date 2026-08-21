@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Paiement • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /* ===================================================== */
+        /* RESET & BASE - CONSERVÉ */
+        /* ===================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #e0f7ff, #b3e8ff 30%, #80d8ff 60%, #e0f7ff);
+            min-height: 100vh;
+            color: #1c2431;
+            -webkit-font-smoothing: antialiased;
+            padding: 20px;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; display: block; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        hr { border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 16px 0; }
+
+        /* ===================================================== */
+        /* HEADER - CONSERVÉ AVEC AJOUT LANGUE */
+        /* ===================================================== */
+        .header-payment {
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            border-radius: 20px 20px 0 0;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .header-gauche .btn-retour {
+            color: #c4b5d4;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            transition: 0.3s;
+            font-size: clamp(0.85rem, 0.95vw, 1rem);
+            display: inline-block;
+        }
+        .header-gauche .btn-retour:hover { background: rgba(255,255,255,0.18); color: white; }
+        .header-centre h1 {
+            font-size: clamp(1.4rem, 2.2vw, 2rem);
+            color: white;
+            font-weight: 700;
+            text-align: center;
+        }
+        .header-centre p { color: #94a3b8; font-size: clamp(0.8rem, 0.9vw, 0.95rem); text-align: center; }
+        .header-droite {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .header-droite .payment-id {
+            background: rgba(255,255,255,0.06);
+            padding: 8px 18px;
+            border-radius: 16px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .payment-id strong { color: #c084fc; font-size: 0.9rem; display: block; margin-top: 2px; }
+        .header-droite .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .header-droite .lang-select option { background: #1a1a2e; color: white; }
+
+        /* ===================================================== */
+        /* CONTENEUR PRINCIPAL - CONSERVÉ */
+        /* ===================================================== */
+        .conteneur-payment {
+            max-width: 1100px;
+            margin: 0 auto 40px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 0 0 24px 24px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-top: none;
+        }
+
+        /* ===================================================== */
+        /* RÉSUMÉ COMMANDE - CONSERVÉ */
+        /* ===================================================== */
+        .resume-commande {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+        .resume-commande .ligne {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.95rem;
+            color: #475569;
+        }
+        .resume-commande .ligne.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0f172a;
+            border-top: 2px solid #e2e8f0;
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+        .resume-commande .ligne.total strong { color: #e51f53; }
+        .resume-commande .produits-list {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .resume-commande .produits-list .produit-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #475569;
+            padding: 4px 0;
+        }
+
+        /* ===================================================== */
+        /* SECTION PAIEMENT - CONSERVÉ */
+        /* ===================================================== */
+        .section-paiement { margin-bottom: 24px; }
+        .section-paiement h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===================================================== */
+        /* CARTES PAIEMENT - CONSERVÉ */
+        /* ===================================================== */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .payment-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 16px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: 0.3s;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .payment-card:hover {
+            border-color: #7c3aed;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.10);
+        }
+        .payment-card.active {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+            box-shadow: 0 8px 25px rgba(124,58,237,0.12);
+        }
+        .payment-card img {
+            width: 55px;
+            height: 35px;
+            object-fit: contain;
+            margin: 0 auto 8px;
+        }
+        .payment-card .icon { font-size: 2rem; display: block; margin-bottom: 6px; }
+        .payment-card h4 { font-size: 0.95rem; font-weight: 600; color: #0f172a; }
+        .payment-card p { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
+        .payment-card .badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: 30px;
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+        .payment-card .badge.recommande { background: #dcfce7; color: #16a34a; }
+        .payment-card .badge.soon { background: #e2e8f0; color: #64748b; }
+        .payment-card .badge.disabled { background: #fee2e2; color: #991b1b; }
+
+        /* ===================================================== */
+        /* FORMULAIRES PAIEMENT - CONSERVÉ */
+        /* ===================================================== */
+        .payment-form {
+            display: none;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            margin-top: 12px;
+            animation: slideDown 0.3s ease;
+        }
+        .payment-form.active { display: block; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .payment-form .form-groupe { margin-bottom: 14px; }
+        .payment-form .form-groupe label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .payment-form .form-groupe input,
+        .payment-form .form-groupe select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+            background: white;
+        }
+        .payment-form .form-groupe input:focus,
+        .payment-form .form-groupe select:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+        }
+        .payment-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 500px) { .payment-form .form-row { grid-template-columns: 1fr; } }
+
+        .payment-form .btn-payer {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 8px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            box-shadow: 0 4px 16px rgba(15,23,42,0.3);
+        }
+        .payment-form .btn-payer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15,23,42,0.4);
+        }
+        .payment-form .btn-payer:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===================================================== */
+        /* BOUTON SINE.PAY - CONSERVÉ */
+        /* ===================================================== */
+        .btn-sinepay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-sinepay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.4);
+        }
+
+        /* ===================================================== */
+        /* RECOMMANDATION SÉCURITÉ - CONSERVÉ */
+        /* ===================================================== */
+        .security-note {
+            background: #fef3c7;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border-left: 4px solid #f59e0b;
+            margin-top: 20px;
+        }
+        .security-note p {
+            font-size: 0.85rem;
+            color: #92400e;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        .security-note strong { color: #78350f; }
+
+        /* ===================================================== */
+        /* ACTIONS - CONSERVÉ */
+        /* ===================================================== */
+        .actions-payment {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .actions-payment button {
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            touch-action: manipulation;
+        }
+        .actions-payment .btn-imprimer {
+            background: rgba(59,130,246,0.08);
+            color: #3b82f6;
+        }
+        .actions-payment .btn-imprimer:hover { background: rgba(59,130,246,0.18); }
+        .actions-payment .btn-partager {
+            background: rgba(236,72,153,0.08);
+            color: #ec4899;
+        }
+        .actions-payment .btn-partager:hover { background: rgba(236,72,153,0.18); }
+        .actions-payment .btn-retour {
+            background: rgba(100,116,139,0.08);
+            color: #475569;
+        }
+        .actions-payment .btn-retour:hover { background: rgba(100,116,139,0.18); }
+
+        /* ===================================================== */
+        /* NOTIFICATION - CONSERVÉ */
+        /* ===================================================== */
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* ===================================================== */
+        /* LOADING - CONSERVÉ */
+        /* ===================================================== */
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: 12px;
+            color: #6a8aaa;
+        }
+        .loading-spinner .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #7c3aed;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===================================================== */
+        /* RESPONSIVE - CONSERVÉ */
+        /* ===================================================== */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .header-payment {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                border-radius: 16px 16px 0 0;
+            }
+            .header-gauche .btn-retour { display: inline-block; text-align: center; }
+            .header-droite { justify-content: center; }
+            .conteneur-payment { padding: 18px; border-radius: 0 0 16px 16px; }
+            .payment-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+            .payment-card { padding: 14px 10px; }
+            .payment-card img { width: 45px; height: 28px; }
+            .payment-card .icon { font-size: 1.6rem; }
+            .actions-payment { flex-direction: column; align-items: stretch; }
+            .actions-payment button { text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .conteneur-payment { padding: 14px; }
+            .payment-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .payment-card { padding: 10px 6px; }
+            .payment-card h4 { font-size: 0.75rem; }
+            .payment-card p { font-size: 0.65rem; }
+            .payment-form { padding: 14px; }
+            .resume-commande { padding: 14px; }
+            .resume-commande .ligne { font-size: 0.85rem; }
+            .resume-commande .ligne.total { font-size: 1rem; }
+        }
+        @media (max-width: 380px) { .payment-grid { grid-template-columns: 1fr; } }
+
+        /* =========================================================
+           BANNIÈRE DE SUCCÈS — "Suivre ma commande"
+           ========================================================= */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 20, 35, 0.65);
+            backdrop-filter: blur(6px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .success-overlay.active { display: flex; }
+        .success-banner {
+            background: white;
+            border-radius: 24px;
+            padding: 36px 32px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+            animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes successPop {
+            from { opacity: 0; transform: scale(0.85) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .success-banner .icon {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: white;
+            margin: 0 auto 18px;
+            box-shadow: 0 8px 24px rgba(34,197,94,0.35);
+        }
+        .success-banner h2 { font-size: 1.35rem; font-weight: 700; color: #0a2a44; margin-bottom: 8px; }
+        .success-banner p { color: #64748b; font-size: 0.9rem; line-height: 1.5; margin-bottom: 4px; }
+        .success-banner .ref { font-weight: 700; color: #2d73ff; }
+        .success-banner .btn-suivre {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 22px;
+            padding: 15px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2d73ff, #4da7ff);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 24px rgba(45,115,255,0.3);
+        }
+        .success-banner .btn-suivre:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(45,115,255,0.4); }
+        .success-banner .btn-later {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .success-banner .btn-later:hover { color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+    <header class="header-payment sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <div class="header-gauche">
+            <span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span>
+            <a href="../html/panier.html" class="btn-retour">← Retour</a>
+        </div>
+        <div class="header-centre">
+            <h1 id="headerTitle">💳 Paiement</h1>
+            <p id="headerSubtitle">Choisissez votre mode de paiement</p>
+        </div>
+        <div class="header-droite">
+            <div class="payment-id">
+                Transaction
+                <strong id="idTransaction">PAY-</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- CONTENEUR PRINCIPAL -->
+    <!-- ===================================================== -->
+    <div class="conteneur-payment">
+
+        <!-- RÉSUMÉ COMMANDE -->
+        <div class="resume-commande" id="resumeCommande">
+            <div class="ligne">
+                <span id="refLabel">Référence</span>
+                <strong id="refCommande">-</strong>
+            </div>
+            <div class="ligne">
+                <span id="typeLabel">Type</span>
+                <strong id="typeCommande">-</strong>
+            </div>
+            <div class="ligne">
+                <span id="articlesLabel">Articles</span>
+                <strong id="nbArticles">0</strong>
+            </div>
+            <div class="ligne">
+                <span id="clientLabel">Client</span>
+                <strong id="clientNom">-</strong>
+            </div>
+            <div class="ligne">
+                <span id="phoneLabel">Téléphone</span>
+                <strong id="clientTel">-</strong>
+            </div>
+            <div class="ligne">
+                <span id="addressLabel">Adresse de livraison</span>
+                <strong id="clientAdresse">-</strong>
+            </div>
+            <div class="produits-list" id="produitsList"></div>
+            <div class="ligne total">
+                <span id="totalLabel">Total à payer</span>
+                <strong id="montantTotal">0 FCFA</strong>
+            </div>
+        </div>
+
+        <!-- MODES DE PAIEMENT -->
+        <div class="section-paiement">
+            <h2 id="paymentTitle">💳 Choisissez votre mode de paiement</h2>
+            <div class="payment-grid" id="paymentGrid">
+
+                <!-- Paiement après livraison -->
+                <div class="payment-card active" data-method="apres_livraison" onclick="selectPayment('apres_livraison')">
+                    <span class="icon" style="font-size:2rem;">🤝</span>
+                    <h4 id="method1_title">Paiement après livraison</h4>
+                    <p id="method1_desc">Payez à la réception</p>
+                    <span class="badge recommande" id="method1_badge">✅ Recommandé</span>
+                </div>
+
+                <!-- SINE PAY -->
+                <div class="payment-card" data-method="sinepay" onclick="selectPayment('sinepay')">
+                    <span class="icon" style="font-size:1.8rem;">🪙</span>
+                    <h4 id="method2_title">SINE.PAY</h4>
+                    <p id="method2_desc">Paiement sécurisé SINE</p>
+                    <span class="badge recommande" id="method2_badge">Sécurisé</span>
+                </div>
+
+                <!-- WAVE -->
+                <div class="payment-card" data-method="wave" onclick="selectPayment('wave')">
+                    <img src="../images/Wave Mobile.webp" alt="Wave" onerror="this.style.display='none'">
+                    <span class="icon" style="font-size:1.5rem;">🌊</span>
+                    <h4 id="method3_title">Wave</h4>
+                    <p id="method3_desc">Mobile Money</p>
+                    <span class="badge soon" id="method3_badge">Bientôt disponible</span>
+                </div>
+
+                <!-- MTN MoMo -->
+                <div class="payment-card" data-method="mtn" onclick="selectPayment('mtn')">
+                    <img src="../images/MTN Mobile Money.jpeg" alt="MTN MoMo" onerror="this.style.display='none'">
+                    <span class="icon" style="font-size:1.5rem;">📱</span>
+                    <h4 id="method4_title">MTN MoMo</h4>
+                    <p id="method4_desc">Mobile Money</p>
+                    <span class="badge soon" id="method4_badge">Bientôt disponible</span>
+                </div>
+
+                <!-- Orange Money -->
+                <div class="payment-card" data-method="orange" onclick="selectPayment('orange')">
+                    <img src="../images/payments/orange-money.png" alt="Orange Money" onerror="this.style.display='none'">
+                    <span class="icon" style="font-size:1.5rem;">🍊</span>
+                    <h4 id="method5_title">Orange Money</h4>
+                    <p id="method5_desc">Mobile Money</p>
+                    <span class="badge soon" id="method5_badge">Bientôt disponible</span>
+                </div>
+
+                <!-- Carte bancaire -->
+                <div class="payment-card" data-method="carte" onclick="selectPayment('carte')">
+                    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:6px;">
+                        <img src="../images/payments/visa.png" alt="Visa" onerror="this.style.display='none'">
+                        <img src="../images/payments/mastercard.png" alt="Mastercard" onerror="this.style.display='none'">
+                    </div>
+                    <span class="icon" style="font-size:1.5rem;">💳</span>
+                    <h4 id="method6_title">Carte Bancaire</h4>
+                    <p id="method6_desc">Visa • Mastercard</p>
+                    <span class="badge soon" id="method6_badge">Bientôt disponible</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FORMULAIRES PAIEMENT -->
+        <div id="formulairesPayment">
+
+            <!-- Formulaire Paiement après livraison -->
+            <div class="payment-form active" id="formApresLivraison">
+                <h3 id="form1_title" style="font-size:1rem;margin-bottom:12px;">🤝 Paiement après livraison</h3>
+                <p id="form1_desc" style="color:#475569;margin-bottom:12px;">Vous payez à la réception de votre commande. Aucune information bancaire n'est requise.</p>
+                <div style="background:#dcfce7;padding:12px;border-radius:10px;margin-bottom:16px;">
+                    <p id="form1_safe" style="font-size:0.85rem;color:#16a34a;font-weight:600;">✅ Mode recommandé pour votre sécurité</p>
+                </div>
+                <div class="form-groupe">
+                    <label id="form1_label" for="apresAdresse">Confirmer votre adresse de livraison</label>
+                    <input type="text" id="apresAdresse" placeholder="Votre adresse complète">
+                </div>
+                <button class="btn-payer" onclick="payer('apres_livraison')">🤝 Confirmer la commande</button>
+            </div>
+
+            <!-- Formulaire SINE.PAY -->
+            <div class="payment-form" id="formSinePay">
+                <h3 id="form2_title" style="font-size:1rem;margin-bottom:12px;">🪙 Paiement SINE.PAY</h3>
+                <p id="form2_desc" style="color:#475569;margin-bottom:12px;">Paiement sécurisé via le portefeuille SINE.PAY. L'argent est bloqué jusqu'à la livraison.</p>
+                <div style="background:#f5f3ff;padding:12px;border-radius:10px;margin-bottom:16px;border:1px solid #d8b4fe;">
+                    <p id="form2_secure" style="font-size:0.85rem;color:#6d28d9;font-weight:600;">🔒 Paiement sécurisé par SINE.SHOP</p>
+                </div>
+                <div class="form-groupe">
+                    <label id="form2_email_label" for="sinepayEmail">Adresse email SINE.PAY</label>
+                    <input type="email" id="sinepayEmail" placeholder="votre@email.com" value="">
+                </div>
+                <div class="form-groupe">
+                    <label id="form2_amount_label" for="sinepayMontant">Montant à payer</label>
+                    <input type="text" id="sinepayMontant" readonly style="background:#f1f5f9;font-weight:700;font-size:1.1rem;">
+                </div>
+                <button class="btn-sinepay" onclick="payer('sinepay')">
+                    <i class="fa-solid fa-shield-halved"></i> <span id="form2_btn">Payer avec SINE.PAY</span>
+                </button>
+                <p id="form2_info" style="font-size:0.8rem;color:#64748b;margin-top:8px;">Vous serez redirigé vers SINE.PAY pour finaliser le paiement.</p>
+            </div>
+
+            <!-- Formulaire Wave (Bientôt disponible) -->
+            <div class="payment-form" id="formWave">
+                <div style="text-align:center;padding:20px 0;">
+                    <span style="font-size:3rem;display:block;margin-bottom:12px;">🌊</span>
+                    <h3 style="font-size:1.2rem;color:#0f172a;">Paiement Wave</h3>
+                    <p style="color:#64748b;margin:8px 0 16px;">Cette fonctionnalité sera disponible prochainement.</p>
+                    <div style="background:#f1f5f9;border-radius:12px;padding:16px;">
+                        <p style="color:#475569;font-size:0.9rem;">💡 En attendant, utilisez <strong>Paiement après livraison</strong> ou <strong>SINE.PAY</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire MTN (Bientôt disponible) -->
+            <div class="payment-form" id="formMtn">
+                <div style="text-align:center;padding:20px 0;">
+                    <span style="font-size:3rem;display:block;margin-bottom:12px;">📱</span>
+                    <h3 style="font-size:1.2rem;color:#0f172a;">Paiement MTN MoMo</h3>
+                    <p style="color:#64748b;margin:8px 0 16px;">Cette fonctionnalité sera disponible prochainement.</p>
+                    <div style="background:#f1f5f9;border-radius:12px;padding:16px;">
+                        <p style="color:#475569;font-size:0.9rem;">💡 En attendant, utilisez <strong>Paiement après livraison</strong> ou <strong>SINE.PAY</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire Orange (Bientôt disponible) -->
+            <div class="payment-form" id="formOrange">
+                <div style="text-align:center;padding:20px 0;">
+                    <span style="font-size:3rem;display:block;margin-bottom:12px;">🍊</span>
+                    <h3 style="font-size:1.2rem;color:#0f172a;">Paiement Orange Money</h3>
+                    <p style="color:#64748b;margin:8px 0 16px;">Cette fonctionnalité sera disponible prochainement.</p>
+                    <div style="background:#f1f5f9;border-radius:12px;padding:16px;">
+                        <p style="color:#475569;font-size:0.9rem;">💡 En attendant, utilisez <strong>Paiement après livraison</strong> ou <strong>SINE.PAY</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire Carte (Bientôt disponible) -->
+            <div class="payment-form" id="formCarte">
+                <div style="text-align:center;padding:20px 0;">
+                    <span style="font-size:3rem;display:block;margin-bottom:12px;">💳</span>
+                    <h3 style="font-size:1.2rem;color:#0f172a;">Paiement par carte</h3>
+                    <p style="color:#64748b;margin:8px 0 16px;">Cette fonctionnalité sera disponible prochainement.</p>
+                    <div style="background:#f1f5f9;border-radius:12px;padding:16px;">
+                        <p style="color:#475569;font-size:0.9rem;">💡 En attendant, utilisez <strong>Paiement après livraison</strong> ou <strong>SINE.PAY</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RECOMMANDATION SÉCURITÉ -->
+        <div class="security-note">
+            <p id="securityNote">
+                ⚠️ <strong>Recommandation de sécurité :</strong> Pour votre protection, nous vous recommandons vivement d'effectuer le paiement <strong>après réception et vérification du produit</strong>.
+                Le paiement après livraison est le mode recommandé par SINE.SHOP. Évitez tout paiement anticipé à des tiers non vérifiés.
+                SINE.SHOP facilite uniquement la mise en relation entre vendeur, client et livreur.
+            </p>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions-payment">
+            <button class="btn-imprimer" onclick="imprimerRecu()">🖨 Imprimer le reçu</button>
+            <button class="btn-partager" onclick="partagerRecu()">📤 Partager</button>
+            <button class="btn-retour" onclick="window.location.href='../html/panier.html'">← Retour au panier</button>
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS - INTÉGRATION COMPLÈTE -->
+    <!-- ===================================================== -->
+    <!-- BANNIÈRE DE SUCCÈS — "Suivre ma commande" -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-banner">
+            <div class="icon"><i class="fa-solid fa-check"></i></div>
+            <h2>Paiement confirmé !</h2>
+            <p>Votre commande <span class="ref" id="successRef"></span> est en cours de préparation.</p>
+            <button class="btn-suivre" id="btnSuivreCommande">🚚 Suivre ma commande</button>
+            <button class="btn-later" id="btnLaterCommande">Plus tard</button>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/produits.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            /*=========================================================
+                SINE.SHOP - PAIEMENT
+                INTÉGRATION COMPLÈTE
+            =========================================================*/
+
+            // =====================================================
+            // CONFIGURATION API
+            // =====================================================
+            let userData = JSON.parse(localStorage.getItem('sineUser') || 'null');
+
+            // =====================================================
+            // DEVISE ET LANGUE
+            // =====================================================
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+
+            function getDeviseSymbole(dev) {
+                const symboles = { 'FCFA': 'FCFA', 'EUR': '€', 'USD': '$', 'GBP': '£', 'CAD': 'CA$', 'MAD': 'MAD' };
+                return symboles[dev] || dev;
+            }
+
+            function formatPrix(montant) {
+                const devise = getDevise();
+                const symbole = getDeviseSymbole(devise);
+                return montant.toLocaleString('fr-FR') + ' ' + symbole;
+            }
+
+            function convertirDevise(montant, deviseSource, deviseCible) {
+                const taux = {
+                    'FCFA': 1,
+                    'XOF': 1,
+                    'EUR': 0.00152,
+                    'USD': 0.00165,
+                    'GBP': 0.00132,
+                    'CAD': 0.00225,
+                    'MAD': 0.0106
+                };
+                const source = taux[deviseSource] || 1;
+                const cible = taux[deviseCible] || 1;
+                return montant * (cible / source);
+            }
+
+            function getLangue() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+            }
+
+            // =====================================================
+            // TRADUCTIONS
+            // =====================================================
+            const TRADUCTIONS = {
+                fr: {
+                    header_title: '💳 Paiement',
+                    header_subtitle: 'Choisissez votre mode de paiement',
+                    ref: 'Référence',
+                    type: 'Type',
+                    articles: 'Articles',
+                    client: 'Client',
+                    phone: 'Téléphone',
+                    address: 'Adresse de livraison',
+                    total: 'Total à payer',
+                    payment_title: '💳 Choisissez votre mode de paiement',
+                    method1_title: 'Paiement après livraison',
+                    method1_desc: 'Payez à la réception',
+                    method1_badge: '✅ Recommandé',
+                    method2_title: 'SINE.PAY',
+                    method2_desc: 'Paiement sécurisé SINE',
+                    method2_badge: 'Sécurisé',
+                    method3_title: 'Wave',
+                    method3_desc: 'Mobile Money',
+                    method3_badge: 'Bientôt disponible',
+                    method4_title: 'MTN MoMo',
+                    method4_desc: 'Mobile Money',
+                    method4_badge: 'Bientôt disponible',
+                    method5_title: 'Orange Money',
+                    method5_desc: 'Mobile Money',
+                    method5_badge: 'Bientôt disponible',
+                    method6_title: 'Carte Bancaire',
+                    method6_desc: 'Visa • Mastercard',
+                    method6_badge: 'Bientôt disponible',
+                    form1_title: '🤝 Paiement après livraison',
+                    form1_desc: 'Vous payez à la réception de votre commande. Aucune information bancaire n\'est requise.',
+                    form1_safe: '✅ Mode recommandé pour votre sécurité',
+                    form1_label: 'Confirmer votre adresse de livraison',
+                    form1_btn: '🤝 Confirmer la commande',
+                    form2_title: '🪙 Paiement SINE.PAY',
+                    form2_desc: 'Paiement sécurisé via le portefeuille SINE.PAY. L\'argent est bloqué jusqu\'à la livraison.',
+                    form2_secure: '🔒 Paiement sécurisé par SINE.SHOP',
+                    form2_email_label: 'Adresse email SINE.PAY',
+                    form2_amount_label: 'Montant à payer',
+                    form2_btn: 'Payer avec SINE.PAY',
+                    form2_info: 'Vous serez redirigé vers SINE.PAY pour finaliser le paiement.',
+                    security_note: '⚠️ Recommandation de sécurité : Pour votre protection, nous vous recommandons vivement d\'effectuer le paiement après réception et vérification du produit.',
+                    print: '🖨 Imprimer le reçu',
+                    share: '📤 Partager',
+                    back: '← Retour au panier',
+                    error_empty: '❌ Aucune commande à payer',
+                    error_phone: '❌ Veuillez entrer un numéro de téléphone',
+                    error_email: '⚠️ Veuillez entrer une adresse email valide pour SINE.PAY',
+                    success_payment: '✅ Paiement effectué avec succès !',
+                    redirect: '🔄 Redirection vers SINE.PAY...',
+                    soon: '⏳ Ce moyen de paiement sera bientôt disponible.',
+                    confirm_order: '🤝 Confirmer la commande',
+                    pay_sinepay: 'Payer avec SINE.PAY'
+                },
+                en: {
+                    header_title: '💳 Payment',
+                    header_subtitle: 'Choose your payment method',
+                    ref: 'Reference',
+                    type: 'Type',
+                    articles: 'Articles',
+                    client: 'Client',
+                    phone: 'Phone',
+                    address: 'Delivery address',
+                    total: 'Total to pay',
+                    payment_title: '💳 Choose your payment method',
+                    method1_title: 'Pay on delivery',
+                    method1_desc: 'Pay upon receipt',
+                    method1_badge: '✅ Recommended',
+                    method2_title: 'SINE.PAY',
+                    method2_desc: 'Secure SINE payment',
+                    method2_badge: 'Secure',
+                    method3_title: 'Wave',
+                    method3_desc: 'Mobile Money',
+                    method3_badge: 'Coming soon',
+                    method4_title: 'MTN MoMo',
+                    method4_desc: 'Mobile Money',
+                    method4_badge: 'Coming soon',
+                    method5_title: 'Orange Money',
+                    method5_desc: 'Mobile Money',
+                    method5_badge: 'Coming soon',
+                    method6_title: 'Credit Card',
+                    method6_desc: 'Visa • Mastercard',
+                    method6_badge: 'Coming soon',
+                    form1_title: '🤝 Pay on delivery',
+                    form1_desc: 'You pay upon receipt of your order. No banking information required.',
+                    form1_safe: '✅ Recommended for your security',
+                    form1_label: 'Confirm your delivery address',
+                    form1_btn: '🤝 Confirm order',
+                    form2_title: '🪙 SINE.PAY Payment',
+                    form2_desc: 'Secure payment via SINE.PAY wallet. Money is blocked until delivery.',
+                    form2_secure: '🔒 Secure payment by SINE.SHOP',
+                    form2_email_label: 'SINE.PAY email address',
+                    form2_amount_label: 'Amount to pay',
+                    form2_btn: 'Pay with SINE.PAY',
+                    form2_info: 'You will be redirected to SINE.PAY to complete the payment.',
+                    security_note: '⚠️ Security recommendation: We strongly recommend payment after receipt and verification of the product.',
+                    print: '🖨 Print receipt',
+                    share: '📤 Share',
+                    back: '← Back to cart',
+                    error_empty: '❌ No order to pay',
+                    error_phone: '❌ Please enter a phone number',
+                    error_email: '⚠️ Please enter a valid email address for SINE.PAY',
+                    success_payment: '✅ Payment successful!',
+                    redirect: '🔄 Redirecting to SINE.PAY...',
+                    soon: '⏳ This payment method will be available soon.',
+                    confirm_order: '🤝 Confirm order',
+                    pay_sinepay: 'Pay with SINE.PAY'
+                },
+                es: {
+                    header_title: '💳 Pago',
+                    header_subtitle: 'Elige tu método de pago',
+                    ref: 'Referencia',
+                    type: 'Tipo',
+                    articles: 'Artículos',
+                    client: 'Cliente',
+                    phone: 'Teléfono',
+                    address: 'Dirección de entrega',
+                    total: 'Total a pagar',
+                    payment_title: '💳 Elige tu método de pago',
+                    method1_title: 'Pago contra entrega',
+                    method1_desc: 'Paga al recibir',
+                    method1_badge: '✅ Recomendado',
+                    method2_title: 'SINE.PAY',
+                    method2_desc: 'Pago seguro SINE',
+                    method2_badge: 'Seguro',
+                    method3_title: 'Wave',
+                    method3_desc: 'Mobile Money',
+                    method3_badge: 'Próximamente',
+                    method4_title: 'MTN MoMo',
+                    method4_desc: 'Mobile Money',
+                    method4_badge: 'Próximamente',
+                    method5_title: 'Orange Money',
+                    method5_desc: 'Mobile Money',
+                    method5_badge: 'Próximamente',
+                    method6_title: 'Tarjeta Bancaria',
+                    method6_desc: 'Visa • Mastercard',
+                    method6_badge: 'Próximamente',
+                    form1_title: '🤝 Pago contra entrega',
+                    form1_desc: 'Pagas al recibir tu pedido. No se requiere información bancaria.',
+                    form1_safe: '✅ Modo recomendado para tu seguridad',
+                    form1_label: 'Confirma tu dirección de entrega',
+                    form1_btn: '🤝 Confirmar pedido',
+                    form2_title: '🪙 Pago SINE.PAY',
+                    form2_desc: 'Pago seguro a través de la cartera SINE.PAY. El dinero está bloqueado hasta la entrega.',
+                    form2_secure: '🔒 Pago seguro por SINE.SHOP',
+                    form2_email_label: 'Correo electrónico SINE.PAY',
+                    form2_amount_label: 'Monto a pagar',
+                    form2_btn: 'Pagar con SINE.PAY',
+                    form2_info: 'Serás redirigido a SINE.PAY para completar el pago.',
+                    security_note: '⚠️ Recomendación de seguridad: Recomendamos encarecidamente el pago después de la recepción y verificación del producto.',
+                    print: '🖨 Imprimir recibo',
+                    share: '📤 Compartir',
+                    back: '← Volver al carrito',
+                    error_empty: '❌ No hay pedido para pagar',
+                    error_phone: '❌ Por favor ingresa un número de teléfono',
+                    error_email: '⚠️ Por favor ingresa un correo electrónico válido para SINE.PAY',
+                    success_payment: '✅ ¡Pago exitoso!',
+                    redirect: '🔄 Redirigiendo a SINE.PAY...',
+                    soon: '⏳ Este método de pago estará disponible pronto.',
+                    confirm_order: '🤝 Confirmar pedido',
+                    pay_sinepay: 'Pagar con SINE.PAY'
+                },
+                ar: {
+                    header_title: '💳 الدفع',
+                    header_subtitle: 'اختر طريقة الدفع',
+                    ref: 'المرجع',
+                    type: 'النوع',
+                    articles: 'المنتجات',
+                    client: 'العميل',
+                    phone: 'الهاتف',
+                    address: 'عنوان التوصيل',
+                    total: 'المجموع المطلوب دفعه',
+                    payment_title: '💳 اختر طريقة الدفع',
+                    method1_title: 'الدفع عند الاستلام',
+                    method1_desc: 'ادفع عند الاستلام',
+                    method1_badge: '✅ موصى به',
+                    method2_title: 'SINE.PAY',
+                    method2_desc: 'دفع آمن عبر SINE',
+                    method2_badge: 'آمن',
+                    method3_title: 'Wave',
+                    method3_desc: 'Mobile Money',
+                    method3_badge: 'قريباً',
+                    method4_title: 'MTN MoMo',
+                    method4_desc: 'Mobile Money',
+                    method4_badge: 'قريباً',
+                    method5_title: 'Orange Money',
+                    method5_desc: 'Mobile Money',
+                    method5_badge: 'قريباً',
+                    method6_title: 'بطاقة بنكية',
+                    method6_desc: 'Visa • Mastercard',
+                    method6_badge: 'قريباً',
+                    form1_title: '🤝 الدفع عند الاستلام',
+                    form1_desc: 'تدفع عند استلام طلبك. لا حاجة لأي معلومات بنكية.',
+                    form1_safe: '✅ الطريقة الموصى بها لأمانك',
+                    form1_label: 'أكّد عنوان التوصيل',
+                    form1_btn: '🤝 تأكيد الطلب',
+                    form2_title: '🪙 الدفع عبر SINE.PAY',
+                    form2_desc: 'دفع آمن عبر محفظة SINE.PAY. يبقى المبلغ محجوزاً حتى التوصيل.',
+                    form2_secure: '🔒 دفع آمن بواسطة SINE.SHOP',
+                    form2_email_label: 'البريد الإلكتروني لـ SINE.PAY',
+                    form2_amount_label: 'المبلغ المطلوب دفعه',
+                    form2_btn: 'الدفع عبر SINE.PAY',
+                    form2_info: 'سيتم توجيهك إلى SINE.PAY لإتمام الدفع.',
+                    security_note: '⚠️ توصية أمنية: ننصحكم بشدة بالدفع بعد استلام المنتج والتحقق منه.',
+                    print: '🖨 طباعة الإيصال',
+                    share: '📤 مشاركة',
+                    back: '→ العودة إلى السلة',
+                    error_empty: '❌ لا يوجد طلب للدفع',
+                    error_phone: '❌ يرجى إدخال رقم هاتف',
+                    error_email: '⚠️ يرجى إدخال بريد إلكتروني صالح لـ SINE.PAY',
+                    success_payment: '✅ تم الدفع بنجاح!',
+                    redirect: '🔄 جارٍ التوجيه إلى SINE.PAY...',
+                    soon: '⏳ ستكون طريقة الدفع هذه متاحة قريباً.',
+                    confirm_order: '🤝 تأكيد الطلب',
+                    pay_sinepay: 'الدفع عبر SINE.PAY'
+                }
+            };
+
+            function t(key) {
+                const lang = getLangue();
+                return TRADUCTIONS[lang]?.[key] || TRADUCTIONS.fr[key] || key;
+            }
+
+            // =====================================================
+            // APPLIQUER LANGUE
+            // =====================================================
+            function appliquerLangue() {
+                const lang = getLangue();
+                document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+
+                document.getElementById('headerTitle').textContent = t('header_title');
+                document.getElementById('headerSubtitle').textContent = t('header_subtitle');
+                document.getElementById('refLabel').textContent = t('ref');
+                document.getElementById('typeLabel').textContent = t('type');
+                document.getElementById('articlesLabel').textContent = t('articles');
+                document.getElementById('clientLabel').textContent = t('client');
+                document.getElementById('phoneLabel').textContent = t('phone');
+                document.getElementById('addressLabel').textContent = t('address');
+                document.getElementById('totalLabel').textContent = t('total');
+                document.getElementById('paymentTitle').textContent = t('payment_title');
+
+                document.getElementById('method1_title').textContent = t('method1_title');
+                document.getElementById('method1_desc').textContent = t('method1_desc');
+                document.getElementById('method1_badge').textContent = t('method1_badge');
+                document.getElementById('method2_title').textContent = t('method2_title');
+                document.getElementById('method2_desc').textContent = t('method2_desc');
+                document.getElementById('method2_badge').textContent = t('method2_badge');
+                document.getElementById('method3_title').textContent = t('method3_title');
+                document.getElementById('method3_desc').textContent = t('method3_desc');
+                document.getElementById('method3_badge').textContent = t('method3_badge');
+                document.getElementById('method4_title').textContent = t('method4_title');
+                document.getElementById('method4_desc').textContent = t('method4_desc');
+                document.getElementById('method4_badge').textContent = t('method4_badge');
+                document.getElementById('method5_title').textContent = t('method5_title');
+                document.getElementById('method5_desc').textContent = t('method5_desc');
+                document.getElementById('method5_badge').textContent = t('method5_badge');
+                document.getElementById('method6_title').textContent = t('method6_title');
+                document.getElementById('method6_desc').textContent = t('method6_desc');
+                document.getElementById('method6_badge').textContent = t('method6_badge');
+
+                document.getElementById('form1_title').textContent = t('form1_title');
+                document.getElementById('form1_desc').textContent = t('form1_desc');
+                document.getElementById('form1_safe').textContent = t('form1_safe');
+                document.getElementById('form1_label').textContent = t('form1_label');
+                document.querySelector('#formApresLivraison .btn-payer').textContent = t('form1_btn');
+
+                document.getElementById('form2_title').textContent = t('form2_title');
+                document.getElementById('form2_desc').textContent = t('form2_desc');
+                document.getElementById('form2_secure').textContent = t('form2_secure');
+                document.getElementById('form2_email_label').textContent = t('form2_email_label');
+                document.getElementById('form2_amount_label').textContent = t('form2_amount_label');
+                document.getElementById('form2_btn').textContent = t('form2_btn');
+                document.getElementById('form2_info').textContent = t('form2_info');
+
+                document.getElementById('securityNote').innerHTML = t('security_note');
+                document.querySelector('.btn-imprimer').textContent = t('print');
+                document.querySelector('.btn-partager').textContent = t('share');
+                document.querySelector('.btn-retour').textContent = t('back');
+            }
+
+            // =====================================================
+            // VÉRIFICATION AUTHENTIFICATION
+            // =====================================================
+            function checkAuth() {
+                if (!token || !userData) {
+                    window.location.href = '../html/login.html?redirect=paiement';
+                    return false;
+                }
+                // Bug corrigé : userData.type n'existe pas sur l'objet utilisateur
+                // (c'est userData.role), et les clés 'vendeur'/'administrateur' ne
+                // correspondaient à aucune vraie valeur de rôle ('seller'/'admin')
+                // — ce garde-fou ne s'était donc jamais déclenché.
+                if (userData.role !== 'client') {
+                    const pages = {
+                        'seller': '../html/vendeur.html',
+                        'livreur': '../html/livreur.html',
+                        'affiliate': '../html/sineshopaffiliation.html',
+                        'admin': '../html/administrateur.html',
+                        'superadmin': '../html/superadministrateur.html',
+                        'moderator': '../html/moderateur.html',
+                        'support': '../html/support.html'
+                    };
+                    if (pages[userData.role]) {
+                        window.location.href = pages[userData.role];
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // =====================================================
+            // ÉTAT LOCAL
+            // =====================================================
+            let commandeData = null;
+            let transactionId = 'PAY-' + Date.now().toString(36).toUpperCase();
+            let selectedMethod = 'apres_livraison';
+
+            // Éléments DOM
+            const refCommande = document.getElementById('refCommande');
+            const typeCommande = document.getElementById('typeCommande');
+            const nbArticles = document.getElementById('nbArticles');
+            const montantTotal = document.getElementById('montantTotal');
+            const idTransaction = document.getElementById('idTransaction');
+            const clientNom = document.getElementById('clientNom');
+            const clientTel = document.getElementById('clientTel');
+            const clientAdresse = document.getElementById('clientAdresse');
+            const produitsList = document.getElementById('produitsList');
+
+            // =====================================================
+            // CHARGEMENT DES DONNÉES
+            // =====================================================
+            async function chargerDonnees() {
+                if (!checkAuth()) return;
+
+                idTransaction.textContent = transactionId;
+                appliquerLangue();
+
+                const params = new URLSearchParams(window.location.search);
+                const orderId = params.get('commande') || params.get('orderId') || params.get('id');
+
+                if (!orderId) {
+                    // Pas de commande à payer : il faut d'abord passer par le tunnel
+                    // de commande (commande.html) qui crée réellement la commande.
+                    showNotification('⚠️ Aucune commande à payer. Redirection...', 'warning');
+                    setTimeout(() => { window.location.href = '../html/commande.html'; }, 1500);
+                    return;
+                }
+
+                await chargerCommandeDepuisAPI(orderId);
+            }
+
+            async function chargerCommandeDepuisAPI(orderId) {
+                try {
+                    const result = await window.SineAPI.getOrderDetails(orderId);
+                    commandeData = result.order || result;
+                    commandeData.type = 'commande';
+
+                    // Le paiement est partagé entre toutes les commandes du même
+                    // passage en caisse (voir orderGroup) — si cette commande fait
+                    // partie d'un groupe de plusieurs vendeurs, le montant réellement
+                    // à payer est le total du GROUPE, pas seulement cette commande.
+                    if (commandeData.orderGroup) {
+                        try {
+                            const group = await window.SineAPI.getOrderGroup(commandeData.orderGroup);
+                            if (group.orders && group.orders.length > 1) {
+                                commandeData.groupOrders = group.orders;
+                                commandeData.total = group.total;
+                            }
+                        } catch (e) { /* repli silencieux sur le total de cette seule commande */ }
+                    }
+
+                    afficherResume();
+                } catch (error) {
+                    console.error('Impossible de récupérer la commande:', error);
+                    showNotification('❌ Commande introuvable', 'error');
+                    setTimeout(() => { window.location.href = '../html/commande.html'; }, 1500);
+                }
+            }
+
+            // =====================================================
+            // AFFICHER RÉSUMÉ
+            // =====================================================
+            function afficherResume() {
+                if (!commandeData) {
+                    showNotification('❌ Aucune donnée de commande disponible', 'error');
+                    return;
+                }
+
+                const id = commandeData.orderNumber || commandeData._id || 'N/A';
+                const type = commandeData.type || 'commande';
+                const total = commandeData.total || 0;
+                const items = commandeData.groupOrders
+                    ? commandeData.groupOrders.flatMap(o => o.items || [])
+                    : (commandeData.items || []);
+                const client = commandeData.user || {};
+                const adresse = commandeData.shippingAddress || {};
+
+                refCommande.textContent = commandeData.groupOrders
+                    ? commandeData.groupOrders.map(o => o.orderNumber).join(', ')
+                    : id;
+                typeCommande.textContent = type === 'commande'
+                    ? (commandeData.groupOrders ? `📦 Commande (${commandeData.groupOrders.length} vendeurs)` : '📦 Commande')
+                    : '📅 Réservation';
+
+                const totalQuantite = items.reduce((sum, p) => sum + (p.quantity || 1), 0);
+                nbArticles.textContent = totalQuantite;
+
+                clientNom.textContent = client.firstName ? `${client.firstName} ${client.lastName || ''}` : 'Non renseigné';
+                clientTel.textContent = adresse.phone || client.phone || 'Non renseigné';
+                clientAdresse.textContent = adresse.street || 'Non renseignée';
+
+                if (items.length > 0) {
+                    produitsList.innerHTML = items.map(p => `
+                        <div class="produit-item">
+                            <span>${p.product?.name || 'Produit'} × ${p.quantity || 1}</span>
+                            <span>${formatPrix((p.price || 0) * (p.quantity || 1))}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    produitsList.innerHTML = `<div class="produit-item"><span>Aucun produit</span><span>${formatPrix(0)}</span></div>`;
+                }
+
+                montantTotal.textContent = formatPrix(total);
+
+                const sinepayMontant = document.getElementById('sinepayMontant');
+                if (sinepayMontant) {
+                    sinepayMontant.value = formatPrix(total);
+                }
+
+                const apresAdresse = document.getElementById('apresAdresse');
+                if (apresAdresse && adresse.street) {
+                    apresAdresse.value = `${adresse.street}, ${adresse.city || ''}, ${adresse.country || ''}`;
+                }
+
+                const sinepayEmail = document.getElementById('sinepayEmail');
+                if (sinepayEmail && userData?.email) {
+                    sinepayEmail.value = userData.email;
+                }
+            }
+
+            // =====================================================
+            // SÉLECTION PAIEMENT
+            // =====================================================
+            window.selectPayment = function(method) {
+                selectedMethod = method;
+
+                document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
+                const card = document.querySelector(`.payment-card[data-method="${method}"]`);
+                if (card) card.classList.add('active');
+
+                document.querySelectorAll('.payment-form').forEach(f => f.classList.remove('active'));
+
+                const formMap = {
+                    'carte': 'formCarte',
+                    'wave': 'formWave',
+                    'mtn': 'formMtn',
+                    'orange': 'formOrange',
+                    'sinepay': 'formSinePay',
+                    'apres_livraison': 'formApresLivraison'
+                };
+                const formId = formMap[method];
+                if (formId) {
+                    const form = document.getElementById(formId);
+                    if (form) form.classList.add('active');
+                }
+
+                if (method !== 'sinepay' && method !== 'apres_livraison') {
+                    showNotification(t('soon'), 'warning');
+                }
+            };
+
+            // =====================================================
+            // PAIER
+            // =====================================================
+            window.payer = async function(method) {
+                const total = commandeData?.total || 0;
+
+                if (method === 'sinepay') {
+                    const email = document.getElementById('sinepayEmail').value.trim();
+                    if (!email || !email.includes('@')) {
+                        showNotification(t('error_email'), 'warning');
+                        return;
+                    }
+
+                    showNotification(t('redirect'), 'info');
+                    setTimeout(() => {
+                        window.location.href = '../html/sinepay.html?orderId=' + encodeURIComponent(commandeData._id) +
+                            '&email=' + encodeURIComponent(email) +
+                            '&amount=' + total +
+                            '&from=paiement';
+                    }, 800);
+                    return;
+                }
+
+                if (method === 'apres_livraison') {
+                    const adresse = document.getElementById('apresAdresse').value.trim();
+                    if (!adresse) {
+                        showNotification('⚠️ Veuillez confirmer votre adresse de livraison', 'warning');
+                        return;
+                    }
+                    await finaliserPaiement(method);
+                    return;
+                }
+
+                showNotification(t('soon'), 'warning');
+            };
+
+            // =====================================================
+            // FINALISER PAIEMENT
+            // =====================================================
+            async function finaliserPaiement(method) {
+                const btn = event?.target;
+                if (btn) btn.disabled = true;
+
+                try {
+                    // NB: la commande a déjà un paiement associé, créé au moment de
+                    // sa création (voir backend/controllers/order.controller.js). Le
+                    // paiement à la livraison ne nécessite aucune passerelle : le
+                    // montant sera encaissé en personne par le livreur.
+                    document.getElementById('successRef').textContent = '#' + (commandeData?.orderNumber || commandeData?._id || '');
+                    document.getElementById('successOverlay').classList.add('active');
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors du paiement.'), 'error');
+                    if (btn) btn.disabled = false;
+                }
+            }
+
+            document.getElementById('btnSuivreCommande').addEventListener('click', function() {
+                window.location.href = '../html/suivi.html?commande=' + commandeData._id;
+            });
+            document.getElementById('btnLaterCommande').addEventListener('click', function() {
+                document.getElementById('successOverlay').classList.remove('active');
+                window.location.href = '../html/client.html?section=commandes';
+            });
+
+            // =====================================================
+            // IMPRIMER REÇU
+            // =====================================================
+            window.imprimerRecu = function() {
+                const total = commandeData?.total || 0;
+                const ref = commandeData?.orderNumber || commandeData?._id || 'N/A';
+                const type = commandeData?.type || 'commande';
+                const method = selectedMethod || 'non spécifié';
+                const client = commandeData?.user || {};
+                const adresse = commandeData?.shippingAddress || {};
+                const items = commandeData?.items || [];
+
+                const content = `
+                    <html>
+                    <head><title>Reçu SINE.SHOP</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 30px; color: #1c2431; max-width: 800px; margin: 0 auto; }
+                        h1 { color: #0f172a; border-bottom: 3px solid #7c3aed; padding-bottom: 10px; }
+                        .header { text-align: center; margin-bottom: 20px; }
+                        .header .logo { font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+                        .header .logo span { color: #7c3aed; }
+                        .ligne { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+                        .ligne.total { font-weight: 700; font-size: 1.2rem; border-top: 2px solid #0f172a; padding-top: 10px; margin-top: 10px; border-bottom: none; }
+                        .total strong { color: #e51f53; }
+                        .client-info { margin: 16px 0; padding: 16px; background: #f8fafc; border-radius: 8px; }
+                        .produits { margin: 16px 0; }
+                        .produits .item { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.9rem; color: #475569; }
+                        .footer { margin-top: 30px; font-size: 0.8rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 16px; text-align: center; }
+                        .qr { text-align: center; margin: 20px 0; }
+                        .qr img { max-width: 150px; border-radius: 8px; }
+                        .badge { display: inline-block; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; background: #dcfce7; color: #16a34a; }
+                        .badge.pending { background: #fef3c7; color: #92400e; }
+                        .devise { font-weight: 600; color: #0f172a; }
+                    </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <div class="logo">SINE.<span>SHOP</span></div>
+                            <h1>🧾 REÇU DE PAIEMENT</h1>
+                        </div>
+
+                        <div class="ligne"><strong>Référence commande</strong><span>${ref}</span></div>
+                        <div class="ligne"><strong>Transaction</strong><span>${transactionId}</span></div>
+                        <div class="ligne"><strong>Type</strong><span>${type === 'commande' ? 'Commande' : 'Réservation'}</span></div>
+                        <div class="ligne"><strong>Mode de paiement</strong><span>${method}</span></div>
+                        <div class="ligne"><strong>Date</strong><span>${new Date().toLocaleString('fr-FR')}</span></div>
+
+                        <div class="client-info">
+                            <h3 style="margin-bottom:8px;font-size:0.9rem;">👤 Informations client</h3>
+                            <div class="ligne"><strong>Nom</strong><span>${client.firstName ? `${client.firstName} ${client.lastName || ''}` : '-'}</span></div>
+                            <div class="ligne"><strong>Téléphone</strong><span>${adresse.phone || client.phone || '-'}</span></div>
+                            <div class="ligne"><strong>Adresse</strong><span>${adresse.street || '-'}</span></div>
+                        </div>
+
+                        <div class="produits">
+                            <h3 style="margin-bottom:8px;font-size:0.9rem;">🛒 Produits</h3>
+                            ${items.map(p => `
+                                <div class="item">
+                                    <span>${p.product?.name || 'Produit'} × ${p.quantity || 1}</span>
+                                    <span>${formatPrix((p.price || 0) * (p.quantity || 1))}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="ligne total">
+                            <span>TOTAL</span>
+                            <strong>${formatPrix(total)}</strong>
+                        </div>
+
+                        <div style="margin-top:12px;">
+                            <span class="badge ${method === 'sinepay' ? 'pending' : ''}">${method === 'sinepay' ? '⏳ Paiement en attente' : '✅ Paiement confirmé'}</span>
+                        </div>
+
+                        <div class="qr">
+                            <p style="font-size:0.8rem;color:#64748b;">QR Code de la transaction</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(JSON.stringify({id:transactionId,ref:ref,total:total}))}" alt="QR Code">
+                        </div>
+
+                        <div class="footer">
+                            <p><strong>SINE.SHOP</strong> - Merci pour votre confiance !</p>
+                            <p>© 2026 SINE.SHOP - Tous droits réservés</p>
+                            <p style="font-size:0.7rem;color:#94a3b8;">Ce reçu fait office de justificatif de paiement.</p>
+                        </div>
+                    </body>
+                    </html>
+                `;
+
+                try {
+                    const win = window.open('', '_blank', 'width=800,height=600');
+                    if (win) {
+                        win.document.write(content);
+                        win.document.close();
+                        setTimeout(() => win.print(), 500);
+                    } else {
+                        showNotification('🖨 Veuillez autoriser les pop-ups pour imprimer', 'warning');
+                    }
+                } catch (e) {
+                    showNotification('🖨 Erreur lors de l\'impression', 'error');
+                }
+            };
+
+            // =====================================================
+            // PARTAGER REÇU
+            // =====================================================
+            window.partagerRecu = function() {
+                const total = commandeData?.finalAmount || commandeData?.totalAmount || commandeData?.total || 0;
+                const ref = commandeData?.id || commandeData?.orderNumber || 'N/A';
+                const text =
+                    `🧾 Reçu SINE.SHOP\nRéférence: ${ref}\nTransaction: ${transactionId}\nMontant: ${formatPrix(total)}\nDate: ${new Date().toLocaleString('fr-FR')}`;
+
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Reçu SINE.SHOP',
+                        text: text,
+                        url: window.location.href
+                    }).catch(() => {});
+                } else {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showNotification('📤 Reçu copié dans le presse-papier', 'success');
+                    }).catch(() => {
+                        showNotification('📤 ' + text, 'info');
+                    });
+                }
+            };
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!checkAuth()) return;
+
+                if (window.SINE && window.SINE.initialiserMoteur) {
+                    window.SINE.initialiserMoteur().then(() => {
+                        chargerDonnees();
+                    });
+                } else {
+                    setTimeout(chargerDonnees, 500);
+                }
+
+                setTimeout(() => selectPayment('apres_livraison'), 300);
+
+                console.log('✅ Paiement SINE.SHOP initialisé');
+                console.log('💳 Transaction:', transactionId);
+                console.log('👤 Utilisateur:', userData?.email);
+                console.log('💱 Devise:', getDevise());
+                console.log('🌐 Langue:', getLangue());
+            });
+
+        })();
+    </script>
+
+</body>
+</html>

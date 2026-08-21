@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Commande • SINE.SHOP</title>
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <!-- ===================================================== -->
+    <!-- BLOC CSS UNIQUE - COMMANDE (IDENTITÉ CONSERVÉE) -->
+    <!-- ===================================================== -->
+    <style>
+        /*======================================================
+        RESET & BASE - CONSERVÉ
+        ======================================================*/
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #66d9ff, #b9ecff 30%, #dff8ff 60%, #ffffff);
+            min-height: 100vh;
+            color: #1c2431;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; display: block; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        hr { border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 12px 0; }
+
+        /*======================================================
+        HEADER - CONSERVÉ
+        ======================================================*/
+        .header-commande {
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-gauche .btn-retour {
+            color: #c4b5d4;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            transition: 0.3s;
+            font-size: clamp(0.85rem, 0.95vw, 1rem);
+            display: inline-block;
+        }
+        .header-gauche .btn-retour:hover { background: rgba(255,255,255,0.18); color: white; }
+        .header-centre { text-align: center; }
+        .header-centre h1 {
+            font-size: clamp(1.4rem, 2.2vw, 2rem);
+            color: white;
+            font-weight: 700;
+        }
+        .header-centre p { color: #94a3b8; font-size: clamp(0.8rem, 0.9vw, 0.95rem); }
+        .header-droite .commande-id {
+            background: rgba(255,255,255,0.06);
+            padding: 8px 18px;
+            border-radius: 16px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .commande-id strong {
+            color: #c084fc;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 2px;
+        }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-actions .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .header-actions .lang-select option { background: #1a1a2e; color: white; }
+
+        /*======================================================
+        RESUME HAUT - CONSERVÉ
+        ======================================================*/
+        .resume-haut {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            padding: 20px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .resume-box {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .resume-box h2 {
+            color: white;
+            font-size: clamp(1.4rem, 2vw, 1.8rem);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /*======================================================
+        CONTENEUR PRINCIPAL - CONSERVÉ
+        ======================================================*/
+        .conteneur-commande {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px 40px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            align-items: start;
+        }
+        @media (max-width: 820px) {
+            .conteneur-commande { grid-template-columns: 1fr; gap: 24px; }
+        }
+
+        /*======================================================
+        LISTE PRODUITS - CONSERVÉ
+        ======================================================*/
+        .liste-produits {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .item-commande {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 18px;
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 16px;
+            align-items: start;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+        .item-commande:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.10); }
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #f1f5f9;
+            flex-shrink: 0;
+        }
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 6px;
+        }
+        .item-infos {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+        .item-infos h3 {
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .item-infos .prix {
+            font-weight: 700;
+            color: #e51f53;
+            font-size: clamp(1rem, 1.1vw, 1.15rem);
+        }
+        .item-infos .prix.ancien {
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        .item-infos .vendeur {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .item-infos .attributs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .item-infos .attributs span {
+            background: #f1f5f9;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .item-infos .quantite {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 0.9rem;
+        }
+        .item-infos .poids {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        .item-infos .poids span {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        /*======================================================
+        FORMULAIRE COMMANDE - CONSERVÉ AVEC AMÉLIORATIONS
+        ======================================================*/
+        .form-commande {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .form-commande h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+        .form-groupe {
+            margin-bottom: 14px;
+        }
+        .form-groupe label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .form-groupe input,
+        .form-groupe select,
+        .form-groupe textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+            background: white;
+        }
+        .form-groupe input:focus,
+        .form-groupe select:focus,
+        .form-groupe textarea:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+        }
+        .form-groupe textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+        /*======================================================
+        RECAPITULATIF - CONSERVÉ
+        ======================================================*/
+        .recapitulatif {
+            background: rgba(255,255,255,0.92);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: sticky;
+            top: 100px;
+        }
+        .recapitulatif h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+        .recapitulatif .ligne {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+        .recapitulatif .ligne.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0f172a;
+            border-top: 2px solid #e2e8f0;
+            margin-top: 8px;
+            padding-top: 14px;
+        }
+        .recapitulatif .ligne.total strong {
+            color: #e51f53;
+        }
+        .recapitulatif .btn-confirmer {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            box-shadow: 0 4px 16px rgba(15,23,42,0.3);
+        }
+        .recapitulatif .btn-confirmer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15,23,42,0.4);
+        }
+        .recapitulatif .btn-reserver {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #facc15, #eab308);
+            color: #0f172a;
+        }
+        .recapitulatif .btn-reserver:hover { transform: translateY(-2px); }
+        .recapitulatif .btn-retour-panier {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 8px;
+            transition: 0.3s;
+            touch-action: manipulation;
+            background: rgba(100,116,139,0.08);
+            color: #475569;
+        }
+        .recapitulatif .btn-retour-panier:hover { background: rgba(100,116,139,0.18); }
+
+        /*======================================================
+        SINE.SHOP BRAND - CONSERVÉ
+        ======================================================*/
+        .sine-brand {
+            display: inline-flex;
+            align-items: center;
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .sine-brand .highlight { color: #72b6ff; }
+        .sine-brand .heart {
+            color: #ff2d55;
+            display: inline-block;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255,45,85,0.4);
+            margin: 0 1px;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.25); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
+
+        /*======================================================
+        NOTIFICATION - CONSERVÉ
+        ======================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        /*======================================================
+        RESPONSIVE - CONSERVÉ
+        ======================================================*/
+        @media (max-width: 768px) {
+            .header-commande {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .header-gauche .btn-retour { display: inline-block; text-align: center; }
+            .header-droite .commande-id { display: inline-block; padding: 6px 14px; }
+            .resume-haut {
+                padding: 12px 16px;
+                gap: 10px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .resume-box { padding: 12px 8px; }
+            .resume-box h2 { font-size: 1.2rem; }
+            .conteneur-commande { padding: 0 12px 30px; gap: 18px; }
+            .item-commande {
+                grid-template-columns: 60px 1fr;
+                padding: 14px;
+                gap: 12px;
+            }
+            .item-image { width: 60px; height: 60px; }
+            .recapitulatif { position: static; }
+        }
+        @media (max-width: 480px) {
+            .item-commande {
+                grid-template-columns: 1fr;
+                padding: 12px;
+            }
+            .item-image { width: 100%; height: 120px; }
+            .item-infos h3 { font-size: 0.9rem; }
+            .form-commande { padding: 18px; }
+            .recapitulatif { padding: 18px; }
+            .recapitulatif button { padding: 12px; font-size: 0.9rem; }
+        }
+        @media (max-width: 380px) {
+            .resume-haut { grid-template-columns: 1fr 1fr; }
+            .resume-box:last-child { grid-column: 1 / -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+    <header class="header-commande sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <div class="header-gauche">
+            <span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span>
+            <a href="../html/panier.html" class="btn-retour">← Retour au panier</a>
+        </div>
+        <div class="header-centre">
+            <h1 id="headerTitle">📦 Confirmation de commande</h1>
+            <p id="headerSubtitle">Vérifiez et confirmez votre commande</p>
+        </div>
+        <div class="header-actions">
+            <div class="commande-id">
+                ID Commande
+                <strong id="idCommande">CMD-</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- RESUME HAUT -->
+    <!-- ===================================================== -->
+    <section class="resume-haut">
+        <div class="resume-box" id="boxProducts">
+            Produits
+            <h2 id="nombreArticles">0</h2>
+        </div>
+        <div class="resume-box" id="boxQuantity">
+            Quantité
+            <h2 id="nombreQuantite">0</h2>
+        </div>
+        <div class="resume-box" id="boxTotal">
+            Total
+            <h2 id="montantTotal">0 FCFA</h2>
+        </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- CONTENEUR PRINCIPAL -->
+    <!-- ===================================================== -->
+    <main class="conteneur-commande">
+
+        <!-- LISTE PRODUITS + FORMULAIRE -->
+        <div>
+            <section class="liste-produits" id="listeCommande">
+                <!-- Les items seront générés dynamiquement -->
+            </section>
+
+            <!-- FORMULAIRE LIVRAISON -->
+            <section class="form-commande" style="margin-top:20px;">
+                <h2 id="formTitle">📍 Adresse de livraison</h2>
+                <div class="form-groupe">
+                    <label id="labelNom" for="nomComplet">Nom complet</label>
+                    <input type="text" id="nomComplet" placeholder="Votre nom et prénom">
+                </div>
+                <div class="form-row">
+                    <div class="form-groupe">
+                        <label id="labelTel" for="telephone">Téléphone</label>
+                        <input type="tel" id="telephone" placeholder="+225 00 00 00 00">
+                    </div>
+                    <div class="form-groupe">
+                        <label id="labelEmail" for="email">Email</label>
+                        <input type="email" id="email" placeholder="votre@email.com">
+                    </div>
+                </div>
+                <div class="form-groupe">
+                    <label id="labelAdresse" for="adresse">Adresse complète</label>
+                    <input type="text" id="adresse" placeholder="Rue, quartier, ville">
+                </div>
+                <div class="form-row">
+                    <div class="form-groupe">
+                        <label id="labelPays" for="pays">Pays</label>
+                        <select id="pays">
+                            <option value="CI">Côte d'Ivoire</option>
+                            <option value="SN">Sénégal</option>
+                            <option value="MA">Maroc</option>
+                            <option value="FR">France</option>
+                            <option value="US">États-Unis</option>
+                            <option value="GB">Royaume-Uni</option>
+                            <option value="DE">Allemagne</option>
+                            <option value="IT">Italie</option>
+                            <option value="ES">Espagne</option>
+                            <option value="PT">Portugal</option>
+                            <option value="BE">Belgique</option>
+                            <option value="CH">Suisse</option>
+                            <option value="CA">Canada</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="GH">Ghana</option>
+                            <option value="CM">Cameroun</option>
+                            <option value="BJ">Bénin</option>
+                            <option value="TG">Togo</option>
+                            <option value="BF">Burkina Faso</option>
+                            <option value="ML">Mali</option>
+                            <option value="NE">Niger</option>
+                            <option value="GN">Guinée</option>
+                            <option value="ZA">Afrique du Sud</option>
+                            <option value="EG">Égypte</option>
+                            <option value="AE">Émirats Arabes Unis</option>
+                            <option value="SA">Arabie Saoudite</option>
+                            <option value="IN">Inde</option>
+                            <option value="CN">Chine</option>
+                            <option value="JP">Japon</option>
+                            <option value="BR">Brésil</option>
+                        </select>
+                    </div>
+                    <div class="form-groupe">
+                        <label id="labelVille" for="ville">Ville</label>
+                        <input type="text" id="ville" placeholder="Ville">
+                    </div>
+                </div>
+                <div class="form-groupe">
+                    <label id="labelInstructions" for="instructions">Instructions de livraison</label>
+                    <textarea id="instructions" placeholder="Informations supplémentaires pour le livreur..."></textarea>
+                </div>
+
+                <h2 style="margin-top:24px;" id="deliveryTitle">🚚 Mode de livraison</h2>
+                <div class="form-groupe">
+                    <select id="modeLivraison">
+                        <option value="sine">Livraison SINE.SHOP (Partenaire) - Estimé selon poids</option>
+                        <option value="personnel">Livreur personnel - <strong>0 FCFA</strong></option>
+                        <option value="entrepot">Récupération à l'entrepôt - Gratuit</option>
+                        <option value="express">Livraison Express (Hors Abidjan) - Contactez-nous</option>
+                    </select>
+                </div>
+
+                <!-- POIDS TOTAL ESTIMÉ -->
+                <div style="background:#f1f5f9;padding:12px 16px;border-radius:12px;margin-top:8px;">
+                    <p style="font-size:0.85rem;color:#475569;" id="poidsInfo">
+                        📦 <strong>Poids total estimé :</strong> <span id="poidsTotal">0</span> kg
+                        <span style="display:block;font-size:0.75rem;color:#64748b;margin-top:4px;" id="poidsWarning">
+                            ⚠️ Limite de 30 kg pour Abidjan. Au-delà, contactez le support.
+                        </span>
+                    </p>
+                </div>
+
+                <!-- RECOMMANDATION SÉCURITÉ -->
+                <div style="background:#fef3c7;padding:14px;border-radius:12px;border-left:4px solid #f59e0b;margin-top:12px;">
+                    <p style="font-size:0.85rem;color:#92400e;font-weight:500;" id="securityNote">
+                        ⚠️ <strong>Recommandation de sécurité :</strong> Pour votre protection, nous vous recommandons vivement d'effectuer le paiement <strong>après réception et vérification du produit</strong>.
+                    </p>
+                    <p style="font-size:0.8rem;color:#92400e;margin-top:8px;font-weight:500;" id="timeNote">
+                        ⏰ <strong>Délai de signalement :</strong> Vous disposez d'un délai de <strong>72 heures</strong> après réception pour signaler tout problème.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- RECAPITULATIF -->
+        <aside class="recapitulatif">
+            <h2 id="recapTitle">Récapitulatif</h2>
+            <hr>
+            <div class="ligne">
+                <span id="subtotalLabel">Sous-total</span>
+                <strong id="sousTotal">0 FCFA</strong>
+            </div>
+            <div class="ligne">
+                <span id="deliveryLabel">Livraison</span>
+                <strong id="livraison">0 FCFA</strong>
+            </div>
+            <div class="ligne total">
+                <span id="totalLabel">TOTAL</span>
+                <strong id="grandTotal">0 FCFA</strong>
+            </div>
+            <button class="btn-confirmer" id="btnConfirmer">✅ Confirmer la commande</button>
+            <button class="btn-reserver" id="btnReserver">📅 Réserver uniquement</button>
+            <button class="btn-retour-panier" id="btnRetourPanier">← Retour au panier</button>
+        </aside>
+
+    </main>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS - INTÉGRATION COMPLÈTE -->
+    <!-- ===================================================== -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/produits.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================================================
+            // CONFIGURATION
+            // =====================================================
+            let panier = null;
+            let commandeId = 'CMD-' + Date.now().toString(36).toUpperCase();
+            let poidsTotal = 0;
+            let devise = 'XOF';
+            let langue = 'fr';
+
+            // =====================================================
+            // DOM ELEMENTS
+            // =====================================================
+            const listeCommande = document.getElementById('listeCommande');
+            const nombreArticles = document.getElementById('nombreArticles');
+            const nombreQuantite = document.getElementById('nombreQuantite');
+            const montantTotal = document.getElementById('montantTotal');
+            const sousTotal = document.getElementById('sousTotal');
+            const livraison = document.getElementById('livraison');
+            const grandTotal = document.getElementById('grandTotal');
+            const idCommande = document.getElementById('idCommande');
+            const poidsTotalEl = document.getElementById('poidsTotal');
+
+            // =====================================================
+            // DEVISE
+            // =====================================================
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+
+            function getDeviseSymbole(dev) {
+                const symboles = { 'FCFA': 'FCFA', 'EUR': '€', 'USD': '$', 'GBP': '£', 'CAD': 'CA$', 'MAD': 'MAD' };
+                return symboles[dev] || dev;
+            }
+
+            function formatPrix(montant) {
+                const d = getDevise();
+                const symbole = getDeviseSymbole(d);
+                return montant.toLocaleString('fr-FR') + ' ' + symbole;
+            }
+
+            function convertirDevise(montant, deviseSource, deviseCible) {
+                const taux = {
+                    'FCFA': 1,
+                    'XOF': 1,
+                    'EUR': 0.00152,
+                    'USD': 0.00165,
+                    'GBP': 0.00132,
+                    'CAD': 0.00225,
+                    'MAD': 0.0106
+                };
+                const source = taux[deviseSource] || 1;
+                const cible = taux[deviseCible] || 1;
+                return montant * (cible / source);
+            }
+
+            function getLangue() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+            }
+
+            // =====================================================
+            // TRADUCTIONS
+            // =====================================================
+            const TRADUCTIONS = {
+                fr: {
+                    title: '📦 Confirmation de commande',
+                    subtitle: 'Vérifiez et confirmez votre commande',
+                    products: 'Produits',
+                    quantity: 'Quantité',
+                    total: 'Total',
+                    form_title: '📍 Adresse de livraison',
+                    label_nom: 'Nom complet',
+                    label_tel: 'Téléphone',
+                    label_email: 'Email',
+                    label_adresse: 'Adresse complète',
+                    label_pays: 'Pays',
+                    label_ville: 'Ville',
+                    label_instructions: 'Instructions de livraison',
+                    delivery_title: '🚚 Mode de livraison',
+                    poids_info: 'Poids total estimé :',
+                    poids_warning: '⚠️ Limite de 30 kg pour Abidjan. Au-delà, contactez le support.',
+                    security_note: '⚠️ Recommandation de sécurité : Pour votre protection, nous vous recommandons vivement d\'effectuer le paiement après réception et vérification du produit.',
+                    time_note: '⏰ Délai de signalement : Vous disposez d\'un délai de 72 heures après réception pour signaler tout problème.',
+                    recap_title: 'Récapitulatif',
+                    subtotal: 'Sous-total',
+                    delivery: 'Livraison',
+                    total_label: 'TOTAL',
+                    confirm: '✅ Confirmer la commande',
+                    reserve: '📅 Réserver uniquement',
+                    back: '← Retour au panier',
+                    empty_cart: '🛒 Votre panier est vide',
+                    discover: 'Découvrir les produits',
+                    empty_cart_title: 'Votre panier est vide',
+                    delivery_sine: 'Livraison SINE.SHOP (Partenaire) - Estimé selon poids',
+                    delivery_personnel: 'Livreur personnel - 0 FCFA',
+                    delivery_entrepot: 'Récupération à l\'entrepôt - Gratuit',
+                    delivery_express: 'Livraison Express (Hors Abidjan) - Contactez-nous'
+                },
+                en: {
+                    title: '📦 Order confirmation',
+                    subtitle: 'Review and confirm your order',
+                    products: 'Products',
+                    quantity: 'Quantity',
+                    total: 'Total',
+                    form_title: '📍 Delivery address',
+                    label_nom: 'Full name',
+                    label_tel: 'Phone',
+                    label_email: 'Email',
+                    label_adresse: 'Full address',
+                    label_pays: 'Country',
+                    label_ville: 'City',
+                    label_instructions: 'Delivery instructions',
+                    delivery_title: '🚚 Delivery method',
+                    poids_info: 'Estimated total weight:',
+                    poids_warning: '⚠️ Limit of 30 kg for Abidjan. Beyond, contact support.',
+                    security_note: '⚠️ Security recommendation: We strongly recommend payment after receipt and verification of the product.',
+                    time_note: '⏰ Reporting period: You have 72 hours after receipt to report any issues.',
+                    recap_title: 'Summary',
+                    subtotal: 'Subtotal',
+                    delivery: 'Delivery',
+                    total_label: 'TOTAL',
+                    confirm: '✅ Confirm order',
+                    reserve: '📅 Reserve only',
+                    back: '← Back to cart',
+                    empty_cart: '🛒 Your cart is empty',
+                    discover: 'Discover products',
+                    empty_cart_title: 'Your cart is empty',
+                    delivery_sine: 'SINE.SHOP Delivery (Partner) - Estimated by weight',
+                    delivery_personnel: 'Personal courier - 0 FCFA',
+                    delivery_entrepot: 'Pickup at warehouse - Free',
+                    delivery_express: 'Express Delivery (Outside Abidjan) - Contact us'
+                },
+                es: {
+                    title: '📦 Confirmación de pedido',
+                    subtitle: 'Revisa y confirma tu pedido',
+                    products: 'Productos',
+                    quantity: 'Cantidad',
+                    total: 'Total',
+                    form_title: '📍 Dirección de entrega',
+                    label_nom: 'Nombre completo',
+                    label_tel: 'Teléfono',
+                    label_email: 'Email',
+                    label_adresse: 'Dirección completa',
+                    label_pays: 'País',
+                    label_ville: 'Ciudad',
+                    label_instructions: 'Instrucciones de entrega',
+                    delivery_title: '🚚 Método de entrega',
+                    poids_info: 'Peso total estimado:',
+                    poids_warning: '⚠️ Límite de 30 kg para Abidjan. Más allá, contacta soporte.',
+                    security_note: '⚠️ Recomendación de seguridad: Recomendamos encarecidamente el pago después de la recepción y verificación del producto.',
+                    time_note: '⏰ Plazo de notificación: Dispone de 72 horas después de la recepción para notificar cualquier problema.',
+                    recap_title: 'Resumen',
+                    subtotal: 'Subtotal',
+                    delivery: 'Entrega',
+                    total_label: 'TOTAL',
+                    confirm: '✅ Confirmar pedido',
+                    reserve: '📅 Reservar solo',
+                    back: '← Volver al carrito',
+                    empty_cart: '🛒 Tu carrito está vacío',
+                    discover: 'Descubrir productos',
+                    empty_cart_title: 'Tu carrito está vacío',
+                    delivery_sine: 'Entrega SINE.SHOP (Socio) - Estimado por peso',
+                    delivery_personnel: 'Mensajero personal - 0 FCFA',
+                    delivery_entrepot: 'Recogida en almacén - Gratis',
+                    delivery_express: 'Entrega Express (Fuera de Abidjan) - Contáctanos'
+                },
+                ar: {
+                    title: '📦 تأكيد الطلب',
+                    subtitle: 'راجع وأكّد طلبك',
+                    products: 'المنتجات',
+                    quantity: 'الكمية',
+                    total: 'المجموع',
+                    form_title: '📍 عنوان التوصيل',
+                    label_nom: 'الاسم الكامل',
+                    label_tel: 'الهاتف',
+                    label_email: 'البريد الإلكتروني',
+                    label_adresse: 'العنوان الكامل',
+                    label_pays: 'البلد',
+                    label_ville: 'المدينة',
+                    label_instructions: 'تعليمات التوصيل',
+                    delivery_title: '🚚 طريقة التوصيل',
+                    poids_info: 'الوزن الإجمالي المقدر:',
+                    poids_warning: '⚠️ الحد الأقصى 30 كغ لأبيدجان. فوق ذلك، تواصل مع الدعم.',
+                    security_note: '⚠️ توصية أمنية: ننصحكم بشدة بالدفع بعد استلام المنتج والتحقق منه.',
+                    time_note: '⏰ مهلة الإبلاغ: لديك 72 ساعة بعد الاستلام للإبلاغ عن أي مشكلة.',
+                    recap_title: 'الملخص',
+                    subtotal: 'المجموع الفرعي',
+                    delivery: 'التوصيل',
+                    total_label: 'المجموع الكلي',
+                    confirm: '✅ تأكيد الطلب',
+                    reserve: '📅 حجز فقط',
+                    back: '→ العودة إلى السلة',
+                    empty_cart: '🛒 سلتك فارغة',
+                    discover: 'اكتشف المنتجات',
+                    empty_cart_title: 'سلتك فارغة',
+                    delivery_sine: 'توصيل SINE.SHOP (شريك) - يُقدّر حسب الوزن',
+                    delivery_personnel: 'موصّل شخصي - 0 FCFA',
+                    delivery_entrepot: 'الاستلام من المستودع - مجاناً',
+                    delivery_express: 'توصيل سريع (خارج أبيدجان) - تواصل معنا'
+                }
+            };
+
+            function t(key) {
+                const lang = getLangue();
+                return TRADUCTIONS[lang]?.[key] || TRADUCTIONS.fr[key] || key;
+            }
+
+            // =====================================================
+            // APPLIQUER LANGUE
+            // =====================================================
+            function appliquerLangue() {
+                const lang = getLangue();
+                document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+
+                document.getElementById('headerTitle').textContent = t('title');
+                document.getElementById('headerSubtitle').textContent = t('subtitle');
+                document.getElementById('boxProducts').querySelector('span').textContent = t('products');
+                document.getElementById('boxQuantity').querySelector('span').textContent = t('quantity');
+                document.getElementById('boxTotal').querySelector('span').textContent = t('total');
+
+                document.getElementById('formTitle').textContent = t('form_title');
+                document.getElementById('labelNom').textContent = t('label_nom');
+                document.getElementById('labelTel').textContent = t('label_tel');
+                document.getElementById('labelEmail').textContent = t('label_email');
+                document.getElementById('labelAdresse').textContent = t('label_adresse');
+                document.getElementById('labelPays').textContent = t('label_pays');
+                document.getElementById('labelVille').textContent = t('label_ville');
+                document.getElementById('labelInstructions').textContent = t('label_instructions');
+                document.getElementById('deliveryTitle').textContent = t('delivery_title');
+
+                document.getElementById('poidsInfo').innerHTML =
+                    `📦 <strong>${t('poids_info')}</strong> <span id="poidsTotal">0</span> kg
+                    <span style="display:block;font-size:0.75rem;color:#64748b;margin-top:4px;" id="poidsWarning">${t('poids_warning')}</span>`;
+
+                document.querySelector('#securityNote').textContent = t('security_note');
+                document.querySelector('#timeNote').textContent = t('time_note');
+
+                document.getElementById('recapTitle').textContent = t('recap_title');
+                document.getElementById('subtotalLabel').textContent = t('subtotal');
+                document.getElementById('deliveryLabel').textContent = t('delivery');
+                document.getElementById('totalLabel').textContent = t('total_label');
+
+                document.getElementById('btnConfirmer').textContent = t('confirm');
+                document.getElementById('btnReserver').textContent = t('reserve');
+                document.getElementById('btnRetourPanier').textContent = t('back');
+
+                // Mise à jour des options de livraison
+                const modeSelect = document.getElementById('modeLivraison');
+                modeSelect.options[0].text = t('delivery_sine');
+                modeSelect.options[1].text = t('delivery_personnel');
+                modeSelect.options[2].text = t('delivery_entrepot');
+                modeSelect.options[3].text = t('delivery_express');
+
+                // Mise à jour des placeholders
+                document.getElementById('nomComplet').placeholder = t('label_nom');
+                document.getElementById('telephone').placeholder = '+225 00 00 00 00';
+                document.getElementById('email').placeholder = 'votre@email.com';
+                document.getElementById('adresse').placeholder = t('label_adresse');
+                document.getElementById('ville').placeholder = t('label_ville');
+                document.getElementById('instructions').placeholder = t('label_instructions');
+            }
+
+            // =====================================================
+
+            // =====================================================
+            // CLOISONNEMENT DES RÔLES — un compte non-client connecté ne
+            // doit jamais atterrir sur les pages d'achat, même via URL directe.
+            // =====================================================
+            function redirigerSiRoleNonClient(user) {
+                if (!user || user.role === 'client') return false;
+                const pages = {
+                    seller: '../html/vendeur.html',
+                    livreur: '../html/livreur.html',
+                    affiliate: '../html/sineshopaffiliation.html',
+                    admin: '../html/administrateur.html',
+                    superadmin: '../html/superadministrateur.html',
+                    moderator: '../html/moderateur.html',
+                    support: '../html/support.html',
+                };
+                if (pages[user.role]) {
+                    window.location.href = pages[user.role];
+                    return true;
+                }
+                return false;
+            }
+
+            // =====================================================
+            // CHARGEMENT
+            // =====================================================
+            async function chargerDonnees() {
+                if (redirigerSiRoleNonClient(JSON.parse(localStorage.getItem('sineUser') || 'null'))) return;
+                devise = getDevise();
+
+                if (window.SINE && window.SineAPI) {
+                    await window.SINE.initialiserMoteur();
+                    panier = window.SINE.panier;
+                } else {
+                    panier = null;
+                }
+
+                const savedId = localStorage.getItem('commandeId');
+                if (savedId) {
+                    commandeId = savedId;
+                } else {
+                    localStorage.setItem('commandeId', commandeId);
+                }
+                idCommande.textContent = commandeId;
+
+                appliquerLangue();
+
+                calculerPoidsTotal();
+                afficherCommande();
+                chargerInfosUtilisateur();
+            }
+
+            // =====================================================
+            // CALCUL POIDS TOTAL
+            // =====================================================
+            function calculerPoidsTotal() {
+                poidsTotal = (panier?.items || []).reduce((sum, item) => {
+                    const poids = item.product?.weight || 0;
+                    return sum + (poids * (item.quantity || 1));
+                }, 0);
+                if (poidsTotalEl) {
+                    poidsTotalEl.textContent = poidsTotal.toFixed(1);
+                }
+                return poidsTotal;
+            }
+
+            // =====================================================
+            // CALCUL FRAIS LIVRAISON (AUTOMATIQUE BASÉ SUR LE POIDS)
+            // =====================================================
+            function calculerFraisLivraison(mode, poids) {
+                const pays = document.getElementById('pays')?.value || 'CI';
+                const ville = document.getElementById('ville')?.value || '';
+
+                // Livraison personnelle = 0 FCFA
+                if (mode === 'personnel') return 0;
+
+                // Récupération à l'entrepôt = 0 FCFA
+                if (mode === 'entrepot') return 0;
+
+                // Express hors Abidjan
+                if (mode === 'express') {
+                    showNotification('📞 Livraison Express hors Abidjan. Veuillez contacter le support.', 'warning');
+                    return 0;
+                }
+
+                // Livraison SINE.SHOP (Abidjan et autres)
+                if (mode === 'sine') {
+                    const estAbidjan = ville.toLowerCase().includes('abidjan') || pays === 'CI';
+
+                    if (estAbidjan) {
+                        if (poids > 30) {
+                            showNotification('⚠️ Poids supérieur à 30 kg. Contactez le support.', 'warning');
+                            return 0;
+                        }
+                        // Tarification selon le poids (en FCFA)
+                        if (poids <= 0) return 0;
+                        if (poids <= 2) return 1500;
+                        if (poids <= 4) return 2000;
+                        if (poids <= 6) return 2600;
+                        if (poids <= 10) return 5000;
+                        if (poids <= 15) return 7500;
+                        if (poids <= 20) return 11000;
+                        if (poids <= 25) return 13500;
+                        if (poids <= 30) return 15000;
+                        return 15000;
+                    } else {
+                        showNotification('📍 Livraison hors Abidjan. Sélectionnez "Livraison Express".', 'warning');
+                        return 0;
+                    }
+                }
+
+                return 0;
+            }
+
+            // =====================================================
+            // CHARGER INFOS UTILISATEUR
+            // =====================================================
+            function chargerInfosUtilisateur() {
+                const savedUser = localStorage.getItem('commandeUser');
+                if (savedUser) {
+                    try {
+                        const user = JSON.parse(savedUser);
+                        document.getElementById('nomComplet').value = user.nom || '';
+                        document.getElementById('telephone').value = user.telephone || '';
+                        document.getElementById('email').value = user.email || '';
+                        document.getElementById('adresse').value = user.adresse || '';
+                        document.getElementById('ville').value = user.ville || '';
+                        document.getElementById('pays').value = user.pays || 'CI';
+                        document.getElementById('instructions').value = user.instructions || '';
+                        document.getElementById('modeLivraison').value = user.modeLivraison || 'sine';
+                    } catch (e) {}
+                }
+
+                // Charger depuis l'utilisateur connecté
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (user) {
+                    if (!document.getElementById('nomComplet').value) {
+                        document.getElementById('nomComplet').value = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                    }
+                    if (!document.getElementById('email').value) {
+                        document.getElementById('email').value = user.email || '';
+                    }
+                    if (!document.getElementById('telephone').value) {
+                        document.getElementById('telephone').value = user.phone || '';
+                    }
+                    if (!document.getElementById('ville').value) {
+                        document.getElementById('ville').value = user.address?.city || '';
+                    }
+                    if (!document.getElementById('pays').value) {
+                        document.getElementById('pays').value = user.address?.country || 'CI';
+                    }
+                    if (!document.getElementById('adresse').value) {
+                        document.getElementById('adresse').value = user.address?.street || '';
+                    }
+                }
+            }
+
+            // =====================================================
+            // SAUVEGARDER INFOS UTILISATEUR
+            // =====================================================
+            function sauvegarderInfosUtilisateur() {
+                const user = {
+                    nom: document.getElementById('nomComplet').value,
+                    telephone: document.getElementById('telephone').value,
+                    email: document.getElementById('email').value,
+                    adresse: document.getElementById('adresse').value,
+                    ville: document.getElementById('ville').value,
+                    pays: document.getElementById('pays').value,
+                    instructions: document.getElementById('instructions').value,
+                    modeLivraison: document.getElementById('modeLivraison').value
+                };
+                localStorage.setItem('commandeUser', JSON.stringify(user));
+            }
+
+            // =====================================================
+            // AFFICHAGE
+            // =====================================================
+            function afficherCommande() {
+                if (!listeCommande) return;
+
+                const items = panier?.items || [];
+
+                if (items.length === 0) {
+                    listeCommande.innerHTML = `
+                        <div style="background:rgba(255,255,255,0.85);border-radius:20px;padding:40px;text-align:center;border:1px solid rgba(255,255,255,0.3);">
+                            <p style="font-size:1.2rem;color:#64748b;">${t('empty_cart')}</p>
+                            <a href="../html/collections.html" style="display:inline-block;margin-top:16px;padding:12px 30px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;border-radius:30px;font-weight:600;">${t('discover')}</a>
+                        </div>
+                    `;
+                    mettreAJourResume();
+                    return;
+                }
+
+                listeCommande.innerHTML = items.map((item) => {
+                    const produit = item.product || {};
+                    const enPromo = produit.discountedPrice && produit.discountedPrice < produit.price;
+                    const prix = item.price || 0;
+                    const ancienPrix = enPromo ? produit.price : null;
+                    const quantite = item.quantity || 1;
+                    const image = produit.images?.[0]?.url || '../images/produit.png';
+                    const nom = produit.name || 'Produit';
+                    const vendeur = produit.seller?.storeName || `${produit.seller?.firstName || ''} ${produit.seller?.lastName || ''}`.trim() || 'Vendeur';
+                    const attributs = item.selectedAttributes || {};
+                    const poids = produit.weight || 0;
+                    const attributsHTML = Object.entries(attributs).map(([key, value]) =>
+                        `<span>${key}: ${value}</span>`
+                    ).join('');
+
+                    return `
+                        <div class="item-commande">
+                            <div class="item-image">
+                                <img src="${image}" alt="${nom}" loading="lazy" onerror="this.src='../images/produit.png'">
+                            </div>
+                            <div class="item-infos">
+                                <h3>${nom}</h3>
+                                <div>
+                                    <span class="prix">${formatPrix(prix)}</span>
+                                    ${ancienPrix ? `<span class="prix ancien">${formatPrix(ancienPrix)}</span>` : ''}
+                                </div>
+                                <div class="vendeur">🏪 ${vendeur}</div>
+                                <div class="attributs">${attributsHTML}</div>
+                                <div class="quantite">${t('quantity')}: ${quantite}</div>
+                                <div class="poids">⚖️ ${t('poids_info')} <span>${(poids * quantite).toFixed(1)} kg</span></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                mettreAJourResume();
+            }
+
+            // =====================================================
+            // METTRE À JOUR RÉSUMÉ
+            // =====================================================
+            function mettreAJourResume() {
+                const items = panier?.items || [];
+                const totalItems = items.length;
+                const totalQuantite = panier?.totalItems || items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const totalPrix = panier?.totalPrice || items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
+                const poids = calculerPoidsTotal();
+
+                const mode = document.getElementById('modeLivraison')?.value || 'sine';
+                const fraisLivraison = calculerFraisLivraison(mode, poids);
+
+                // Conversion de devise si nécessaire
+                const deviseUtilisateur = getDevise();
+                const totalPrixConverti = convertirDevise(totalPrix, 'XOF', deviseUtilisateur);
+                const fraisConverti = convertirDevise(fraisLivraison, 'XOF', deviseUtilisateur);
+                const totalFinalConverti = totalPrixConverti + fraisConverti;
+
+                nombreArticles.textContent = totalItems;
+                nombreQuantite.textContent = totalQuantite;
+                montantTotal.textContent = formatPrix(totalPrix);
+
+                const sousTotalEl = document.getElementById('sousTotal');
+                const livraisonEl = document.getElementById('livraison');
+                const grandTotalEl = document.getElementById('grandTotal');
+
+                sousTotalEl.textContent = formatPrix(totalPrix);
+
+                if (fraisLivraison === 0 && mode !== 'entrepot' && mode !== 'personnel') {
+                    livraisonEl.textContent = 'À définir';
+                } else if (fraisLivraison === 0) {
+                    livraisonEl.textContent = 'Gratuit';
+                } else {
+                    livraisonEl.textContent = formatPrix(fraisLivraison);
+                }
+
+                grandTotalEl.textContent = formatPrix(totalPrix + fraisLivraison);
+            }
+
+            // =====================================================
+            // ÉVÉNEMENTS
+            // =====================================================
+            document.getElementById('modeLivraison')?.addEventListener('change', function() {
+                mettreAJourResume();
+                sauvegarderInfosUtilisateur();
+            });
+
+            document.getElementById('ville')?.addEventListener('change', function() {
+                mettreAJourResume();
+                sauvegarderInfosUtilisateur();
+            });
+            document.getElementById('pays')?.addEventListener('change', function() {
+                mettreAJourResume();
+                sauvegarderInfosUtilisateur();
+            });
+
+            document.querySelectorAll('.form-groupe input, .form-groupe select, .form-groupe textarea').forEach(el => {
+                el.addEventListener('change', sauvegarderInfosUtilisateur);
+                el.addEventListener('input', sauvegarderInfosUtilisateur);
+            });
+
+            // =====================================================
+            // CONFIRMER COMMANDE
+            // =====================================================
+            document.getElementById('btnConfirmer').addEventListener('click', async function() {
+                if (!panier?.items?.length) {
+                    showNotification('🛒 Votre panier est vide');
+                    return;
+                }
+
+                const nom = document.getElementById('nomComplet').value.trim();
+                const tel = document.getElementById('telephone').value.trim();
+                const adresse = document.getElementById('adresse').value.trim();
+                const ville = document.getElementById('ville').value.trim();
+
+                if (!nom) {
+                    showNotification('⚠️ Veuillez entrer votre nom complet');
+                    document.getElementById('nomComplet').focus();
+                    return;
+                }
+                if (!tel) {
+                    showNotification('⚠️ Veuillez entrer votre numéro de téléphone');
+                    document.getElementById('telephone').focus();
+                    return;
+                }
+                if (!adresse) {
+                    showNotification('⚠️ Veuillez entrer votre adresse de livraison');
+                    document.getElementById('adresse').focus();
+                    return;
+                }
+                if (!ville) {
+                    showNotification('⚠️ Veuillez entrer votre ville');
+                    document.getElementById('ville').focus();
+                    return;
+                }
+
+                sauvegarderInfosUtilisateur();
+
+                const mode = document.getElementById('modeLivraison').value;
+                const poids = calculerPoidsTotal();
+                const fraisLivraison = calculerFraisLivraison(mode, poids);
+
+                if (mode === 'sine' && poids > 30) {
+                    showNotification('⚠️ Poids total supérieur à 30 kg. Contactez le support.', 'warning');
+                    return;
+                }
+
+                const villeVal = document.getElementById('ville').value.toLowerCase();
+                const pays = document.getElementById('pays').value;
+                const estAbidjan = villeVal.includes('abidjan') || pays === 'CI';
+                if (mode === 'sine' && !estAbidjan) {
+                    showNotification('📍 Livraison hors Abidjan. Sélectionnez "Livraison Express"', 'warning');
+                    return;
+                }
+
+                const btn = this;
+                btn.disabled = true;
+
+                try {
+                    const resultat = await window.SineAPI.createOrder({
+                        paymentMethod: 'sinepay',
+                        useCart: true,
+                        shippingAddress: {
+                            street: adresse,
+                            city: ville,
+                            country: document.getElementById('pays').value,
+                            phone: tel,
+                        },
+                        notes: document.getElementById('instructions').value,
+                    });
+
+                    // Un panier réparti entre plusieurs vendeurs crée plusieurs
+                    // commandes reliées par orderGroup — on redirige toujours
+                    // vers la vue groupée, qu'il y ait 1 ou plusieurs commandes.
+                    showNotification(resultat.orders.length > 1
+                        ? `✅ Commande créée avec succès ! Répartie en ${resultat.orders.length} commandes (${resultat.orders.length} vendeurs différents).`
+                        : '✅ Commande créée avec succès !', 'success');
+                    setTimeout(() => {
+                        window.location.href = '../html/confirmation.html?group=' + resultat.orderGroup + '&type=commande';
+                    }, 1000);
+                } catch (error) {
+                    showNotification('❌ ' + (error.message || 'Erreur lors de la commande.'), 'error');
+                    btn.disabled = false;
+                }
+            });
+
+            // =====================================================
+            // RÉSERVER UNIQUEMENT
+            // =====================================================
+            document.getElementById('btnReserver').addEventListener('click', function() {
+                // NB: le vrai système de réservation (backend/models/Reservation.js)
+                // porte sur UN seul produit avec des dates, pas sur un panier
+                // multi-articles — voir la même note dans panier.html. La
+                // réservation se fait produit par produit, depuis collections.html.
+                showNotification('📅 La réservation se fait produit par produit, pas depuis cette page pour l\'instant.', 'warning');
+            });
+
+            // =====================================================
+            // RETOUR PANIER
+            // =====================================================
+            document.getElementById('btnRetourPanier').addEventListener('click', function() {
+                window.location.href = '../html/panier.html';
+            });
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'warning' ? '4px solid #f59e0b' :
+                    type === 'error' ? '4px solid #ef4444' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            // =====================================================
+            // SWIPE NAVIGATION
+            // =====================================================
+            let touchStartX = 0;
+            let touchStartY = 0;
+            document.addEventListener('touchstart', function(e) {
+                // Un swipe commencé dans une galerie qui défile elle-même
+                // horizontalement (médias produit, carrousels...) ne doit
+                // jamais être confondu avec une navigation entre pages.
+                if (e.target.closest('.media-scroll, .carousel-slides, .cat-media-scroll, [data-no-swipe-nav]')) {
+                    touchStartX = null;
+                    return;
+                }
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                if (touchStartX === null) return;
+                const diffX = touchStartX - e.changedTouches[0].screenX;
+                const diffY = touchStartY - e.changedTouches[0].screenY;
+                // Exige un mouvement nettement plus horizontal que vertical
+                // et une amplitude suffisante — un simple défilement vertical
+                // de la page ne doit jamais déclencher de navigation.
+                if (Math.abs(diffX) < 80 || Math.abs(diffX) < Math.abs(diffY) * 1.5) return;
+                if (diffX > 0) {
+                    window.location.href = '../html/confirmation.html';
+                } else {
+                    window.location.href = '../html/panier.html';
+                }
+            }, { passive: true });
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            if (window.SINE && window.SINE.initialiserMoteur) {
+                window.SINE.initialiserMoteur().then(() => {
+                    chargerDonnees();
+                });
+            } else {
+                setTimeout(chargerDonnees, 500);
+            }
+
+            // Mise à jour périodique
+            setInterval(() => {
+                mettreAJourResume();
+            }, 30000);
+
+            console.log('✅ Commande SINE.SHOP initialisée avec succès');
+            console.log('📦 Produits:', panier?.items?.length || 0);
+            console.log('⚖️ Poids total:', poidsTotal, 'kg');
+            console.log('💱 Devise:', getDevise());
+            console.log('🌐 Langue:', getLangue());
+
+        })();
+    </script>
+
+</body>
+</html>

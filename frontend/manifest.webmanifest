@@ -1,0 +1,12 @@
+{
+  "name": "SINE.SHOP",
+  "short_name": "SINE.SHOP",
+  "description": "Shop · Reserve · Connect",
+  "lang": "fr",
+  "start_url": "./html/index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07152b",
+  "theme_color": "#5f94dc",
+  "icons": []
+}

@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#87CEEB">
+    <title>Connexion • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+
+    <!-- CONFIG GLOBALE + CONNEXION BACKEND -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script type="module" src="../js/firebase-config.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f8ff;
+            color: #1a2a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .sky { position: fixed; inset: 0; z-index: -1; background: linear-gradient(180deg, #87CEEB 0%, #b8dff0 40%, #d6ecf5 70%, #f0f8ff 100%); }
+        .sky::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.3) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.15) 0%, transparent 50%); pointer-events: none; }
+        .stars-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        .star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; animation: twinkle 3s ease-in-out infinite alternate; box-shadow: 0 0 6px rgba(255,255,255,0.5); }
+        .star:nth-child(odd) { animation-duration: 2.5s; }
+        .star:nth-child(3n) { animation-duration: 4s; }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+        .shooting-star { position: fixed; top: -80px; left: -200px; width: 300px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(255,255,255,0.3)); border-radius: 100px; transform: rotate(-25deg); z-index: 0; opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); animation: shootingStar 8s linear infinite; }
+        @keyframes shootingStar { 0% { opacity: 0; transform: translate(-200px, -80px) rotate(-25deg); } 5% { opacity: 1; } 20% { opacity: 1; } 25% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); } 100% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); } }
+
+        .login-header {
+            background: rgba(135,206,235,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 4px 30px rgba(135,206,235,0.2);
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0a2a44;
+            letter-spacing: 2px;
+        }
+        .header-brand span { color: #1a5276; }
+        .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .header-actions .btn-back {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.35);
+            color: #0a2a44;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(8px);
+        }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.55); transform: translateY(-2px); }
+        .header-actions .lang-select {
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.35);
+            color: #0a2a44;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230a2a44' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        .header-actions .lang-select option { background: white; color: #1a2a3a; }
+
+        .login-container {
+            max-width: 500px;
+            margin: 50px auto 60px;
+            padding: 0 24px;
+            width: 100%;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .login-card {
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 40px 36px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .login-card h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            color: #0a2a44;
+            margin-bottom: 4px;
+        }
+        .login-card .subtitle {
+            color: #4a6a8a;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1a3a5a;
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+            background: rgba(255,255,255,0.8);
+            color: #1a2a3a;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.15);
+            background: white;
+        }
+        .form-group input::placeholder { color: #8a9aad; }
+
+        .password-wrapper { position: relative; }
+        .password-wrapper input { padding-right: 48px; }
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: #6a8aaa;
+            padding: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .password-wrapper .toggle-password:hover { color: #0a2a44; }
+
+        .remember-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 16px 0 22px;
+        }
+        .remember-row label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #4a6a8a;
+            cursor: pointer;
+        }
+        .remember-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4da7ff;
+        }
+        .remember-row a {
+            color: #2d73ff;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .remember-row a:hover { text-decoration: underline; }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4da7ff, #2d73ff);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 8px 30px rgba(60,120,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(60,120,255,0.4);
+        }
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-login .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-login.loading .spinner { display: block; }
+        .btn-login.loading .text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn-guest {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.04);
+            color: #4a6a8a;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: 0.3s;
+            border: 1px solid rgba(0,0,0,0.06);
+            margin-top: 10px;
+        }
+        .btn-guest:hover { background: rgba(0,0,0,0.08); }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+        }
+        .separator span {
+            color: #8a9aad;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1a2a3a;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .social-btn:hover {
+            background: #f8fafc;
+            border-color: rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .social-btn img { width: 24px; height: 24px; object-fit: contain; }
+        .social-btn.google { border-color: #ea4335; }
+        .social-btn.google:hover { background: #fef2f2; }
+        .social-btn.facebook { border-color: #1877f2; }
+        .social-btn.facebook:hover { background: #f0f4fe; }
+        .social-btn.apple { border-color: #1a1a1a; }
+        .social-btn.apple:hover { background: #f5f5f5; }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #4a6a8a;
+            font-size: 0.9rem;
+        }
+        .register-link a {
+            color: #2d73ff;
+            font-weight: 600;
+        }
+        .register-link a:hover { text-decoration: underline; }
+
+        #notification {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        #loginAlert {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(239,68,68,0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(239,68,68,0.3);
+            z-index: 999998;
+            opacity: 0;
+            transition: 0.4s ease;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        #loginAlert.show { opacity: 1; pointer-events: auto; }
+        #loginAlert.success { background: rgba(34,197,94,0.95); }
+        #loginAlert.warning { background: rgba(245,158,11,0.95); }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+        }
+        .modal-content h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.6rem;
+            color: #0a2a44;
+            margin-bottom: 8px;
+        }
+        .modal-content p {
+            color: #4a6a8a;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+        .modal-content .form-group { margin-bottom: 16px; }
+        .modal-content .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4da7ff, #2d73ff);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .modal-content .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(60,120,255,0.3);
+        }
+        .modal-content .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .modal-content .btn-submit .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .modal-content .btn-submit.loading .spinner { display: block; }
+        .modal-content .btn-submit.loading .text { display: none; }
+        .modal-content .btn-cancel {
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .modal-content .btn-cancel:hover { background: #e2e8f0; }
+        .modal-content .success-message {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 12px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        .modal-content .success-message.show { display: block; }
+
+        @media (max-width: 768px) {
+            .login-header { padding: 12px 16px; flex-direction: column; align-items: stretch; gap: 10px; }
+            .header-actions { justify-content: space-between; }
+            .login-container { margin: 30px auto 40px; padding: 0 16px; }
+            .login-card { padding: 28px 20px; border-radius: 20px; }
+            #notification { top: 70px; right: 10px; max-width: 95%; }
+            #loginAlert { top: 70px; }
+        }
+        @media (max-width: 480px) {
+            .header-brand { font-size: 1.4rem; }
+            .header-actions .btn-back { font-size: 0.8rem; padding: 6px 14px; }
+            .login-card h1 { font-size: 1.6rem; }
+            .login-card .subtitle { font-size: 0.85rem; }
+            .form-group input,
+            .form-group select { padding: 10px 14px; font-size: 0.9rem; }
+            .btn-login,
+            .btn-guest { font-size: 1rem; padding: 14px; }
+            .social-btn { font-size: 0.9rem; padding: 12px; }
+            .modal-content { padding: 24px 20px; }
+        }
+        @media (max-width: 360px) {
+            .login-header { padding: 8px 12px; }
+            .login-card { padding: 16px 12px; }
+            .login-card h1 { font-size: 1.3rem; }
+            .btn-login { font-size: 0.9rem; padding: 12px; }
+        }
+</style>
+
+<!-- SINE.SHOP SKY SHOWCASE HEADER -->
+<style id="sineshop-sky-header-v2">
+.sine-header {
+    position: sticky !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,.48) 0 1px, transparent 2px),
+        radial-gradient(circle at 42% 62%, rgba(255,255,255,.55) 0 1.2px, transparent 2.4px),
+        radial-gradient(circle at 76% 24%, rgba(255,255,255,.48) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 72%, rgba(255,255,255,.42) 0 1.2px, transparent 2.4px),
+        linear-gradient(135deg, #8edcff 0%, #5fc7f5 45%, #78d8ff 100%) !important;
+    background-size: 170px 110px, 230px 150px, 190px 125px, 260px 170px, 100% 100% !important;
+    border-bottom: 1px solid rgba(255,255,255,.55) !important;
+    box-shadow: 0 8px 30px rgba(35,151,207,.22), inset 0 1px 0 rgba(255,255,255,.48) !important;
+    backdrop-filter: blur(14px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+}
+.sine-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.22), transparent 32%, rgba(255,255,255,.08) 62%, transparent 100%);
+    opacity: .9;
+}
+.sine-header::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -70px;
+    top: -155px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.20);
+    filter: blur(18px);
+    pointer-events: none;
+}
+.sine-header-stars {
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+.sine-header-stars span {
+    position: absolute !important;
+    width: 3px !important;
+    height: 3px !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 0 7px rgba(255,255,255,.95) !important;
+    animation: sineHeaderTwinkle 2.8s ease-in-out infinite alternate !important;
+}
+.sine-header-stars span:nth-child(2n) { width: 2px !important; height: 2px !important; animation-duration: 2.1s !important; }
+.sine-header-stars span:nth-child(3n) { width: 4px !important; height: 4px !important; animation-duration: 3.6s !important; }
+@keyframes sineHeaderTwinkle {
+    from { opacity: .35; transform: scale(.72); }
+    to { opacity: 1; transform: scale(1.18); }
+}
+.sine-header-brand, .sine-header-actions { position: relative !important; z-index: 3 !important; }
+.sine-header-brand .sine-word-1,
+.sine-header-brand .sine-word-3,
+.sine-header-brand span[style*="color:white"] {
+    color: #050505 !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,.35) !important;
+}
+/* Laisser SH et le cœur conserver leurs couleurs de l'identité SINE.SHOP. */
+.sine-header-brand .sine-word-2,
+.sine-header-brand .sine-heart {
+    position: relative;
+    z-index: 3;
+}
+</style>
+
+</head>
+<body class="sine-auth-page">
+
+    <div class="sky"></div>
+    <div class="stars-container" id="starsContainer"></div>
+    <div class="shooting-star"></div>
+
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions">
+        </div>
+    </header>
+
+    <div id="loginAlert"></div>
+
+    <main class="login-container">
+        <div class="login-card">
+            <h1 data-translate="auth.login_title">🔐 Connexion</h1>
+            <p class="subtitle" data-translate="auth.login_subtitle">Accédez à votre espace personnel SINE.SHOP.</p>
+
+            <!-- Le type de compte n'est plus demandé ici : le backend
+                 détermine seul le rôle du compte (email + mot de passe
+                 suffisent), et redirige automatiquement vers le bon espace.
+                 Les comptes à privilèges (admin/superadmin/moderator/support)
+                 passent en plus par la vérification du code de confidentialité
+                 ci-dessous, gérée automatiquement après la connexion. -->
+            <form id="loginForm" autocomplete="on">
+                <!-- Email ou téléphone -->
+                <div class="form-group">
+                    <label data-translate="auth.label_identifier">Email ou numéro de téléphone</label>
+                    <input type="text" id="loginEmail" placeholder="votre@email.com, téléphone ou pseudo" required autocomplete="username">
+                </div>
+
+                <!-- Mot de passe -->
+                <div class="form-group">
+                    <label data-translate="auth.label_password">Mot de passe</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" class="toggle-password" id="togglePassword" aria-label="Afficher le mot de passe">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div class="remember-row">
+                    <label>
+                        <input type="checkbox" id="remember"> <span data-translate="auth.remember">Se souvenir de moi</span>
+                    </label>
+                    <a href="#" id="forgotPasswordBtn" data-translate="auth.forgot">Mot de passe oublié ?</a>
+                </div>
+
+                <!-- Bouton connexion -->
+                <button type="submit" class="btn-login" id="btnLogin">
+                    <span class="spinner"></span>
+                    <span class="text"><i class="fa-solid fa-arrow-right-to-bracket"></i> <span data-translate="auth.btn_login">Se connecter</span></span>
+                </button>
+
+                <!-- Invité -->
+                <button type="button" class="btn-guest" id="btnGuest" data-translate="auth.btn_guest">
+                    Continuer sans se connecter
+                </button>
+            </form>
+
+            <div class="separator">
+                <span data-translate="auth.or">ou</span>
+            </div>
+
+            <button id="googleLogin" class="social-btn google" type="button">
+                <img src="../images/google-logo.webp" alt="Google" onerror="this.style.display='none'">
+                <span data-translate="auth.google">Continuer avec Google</span>
+            </button>
+
+            <button id="facebookLogin" class="social-btn facebook" type="button">
+                <img src="../images/facebook-logo.jpg" alt="Facebook" onerror="this.style.display='none'">
+                <span data-translate="auth.facebook">Continuer avec Facebook</span>
+            </button>
+
+            <div class="register-link">
+                <span data-translate="auth.register_link">Vous n'avez pas encore de compte ?</span> <a href="../html/seler-page.html" id="createAccountLink">Créer un compte</a>
+            </div>
+
+            <div style="text-align:center;margin-top:12px;font-size:0.8rem;color:#94a3b8;">
+                <span data-translate="auth.affiliate_link">Vous voulez devenir partenaire ?</span>
+                <a href="../html/registersineshopaffiliation.html" style="color:#2d73ff;font-weight:600;" data-translate="auth.affiliate_join">Rejoindre le programme d'affiliation</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL MOT DE PASSE OUBLIÉ (2 étapes : demande du code, puis nouveau mot de passe) -->
+    <div class="modal" id="forgotModal">
+        <div class="modal-content">
+            <!-- ÉTAPE 1 : demande du code -->
+            <div id="resetStep1">
+                <h2 data-translate="auth.reset_title">🔑 Réinitialisation</h2>
+                <p data-translate="auth.reset_desc">Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
+                <div class="form-group">
+                    <label data-translate="auth.label_identifier">Email ou numéro de téléphone</label>
+                    <input type="text" id="resetIdentifier" placeholder="votre@email.com, téléphone ou pseudo" required>
+                </div>
+                <button class="btn-submit" id="btnResetPassword">
+                    <span class="spinner"></span>
+                    <span class="text" data-translate="auth.reset_step1_btn">📧 Envoyer le code</span>
+                </button>
+                <button class="btn-cancel" id="btnCancelReset" data-translate="auth.btn_cancel">Annuler</button>
+            </div>
+
+            <!-- ÉTAPE 2 : code + nouveau mot de passe -->
+            <div id="resetStep2" style="display:none;">
+                <h2 data-translate="auth.reset_step2_title">🔑 Nouveau mot de passe</h2>
+                <p data-translate="auth.reset_step2_desc">Entrez le code reçu et votre nouveau mot de passe.</p>
+                <div class="form-group">
+                    <label data-translate="auth.label_code">Code reçu</label>
+                    <input type="text" id="resetCode" inputmode="numeric" maxlength="6" placeholder="••••••" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="auth.label_new_password">Nouveau mot de passe</label>
+                    <input type="password" id="resetNewPassword" placeholder="••••••••" required autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label data-translate="auth.label_confirm_password">Confirmer le mot de passe</label>
+                    <input type="password" id="resetConfirmPassword" placeholder="••••••••" required autocomplete="new-password">
+                </div>
+                <button class="btn-submit" id="btnConfirmReset">
+                    <span class="spinner"></span>
+                    <span class="text" data-translate="auth.reset_step2_btn">✅ Réinitialiser mon mot de passe</span>
+                </button>
+                <p style="text-align:center;margin-top:10px;">
+                    <a href="#" id="linkResendResetCode" style="font-size:0.85rem;color:#2d73ff;">📤 <span data-translate="auth.resend_code">Renvoyer le code</span></a>
+                </p>
+                <button class="btn-cancel" id="btnCancelReset2" data-translate="auth.btn_cancel">Annuler</button>
+            </div>
+
+            <div class="success-message" id="resetSuccess">
+                ✅ Un code de réinitialisation a été envoyé.
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VÉRIFICATION EMAIL (arrivée depuis le lien de l'email : ?verify=1&identifier=...) -->
+    <div class="modal" id="verifyEmailModal">
+        <div class="modal-content">
+            <h2>📧 Vérification de l'email</h2>
+            <p>Entrez le code reçu par email pour vérifier <strong id="verifyEmailIdentifier"></strong>.</p>
+            <div class="form-group">
+                <label>Code reçu</label>
+                <input type="text" id="verifyEmailCode" inputmode="numeric" maxlength="6" placeholder="••••••" required>
+            </div>
+            <button class="btn-submit" id="btnConfirmVerifyEmail">
+                <span class="spinner"></span>
+                <span class="text">✅ Vérifier mon email</span>
+            </button>
+            <p style="text-align:center;margin-top:10px;">
+                <a href="#" id="linkResendVerifyEmail" style="font-size:0.85rem;color:#2d73ff;">📤 Renvoyer le code</a>
+            </p>
+            <button class="btn-cancel" id="btnCancelVerifyEmail" data-translate="auth.btn_cancel">Annuler</button>
+        </div>
+    </div>
+
+    <!-- MODAL CODE DE CONFIDENTIALITÉ (comptes admin / superadmin / moderator / support / finance_admin) -->
+    <div class="modal" id="securityCodeModal">
+        <div class="modal-content">
+            <h2 data-translate="auth.security_code_title">🛡️ Code de confidentialité</h2>
+            <p data-translate="auth.security_code_desc">Ce compte est protégé par un code de confidentialité. Saisissez-le pour continuer.</p>
+            <div class="form-group">
+                <label data-translate="auth.label_security_code">Code de confidentialité</label>
+                <input type="password" id="securityCodeInput" inputmode="numeric" maxlength="8" placeholder="••••••" required autocomplete="off">
+            </div>
+            <button class="btn-submit" id="btnVerifySecurityCode">
+                <span class="spinner"></span>
+                <span class="text" data-translate="auth.btn_verify_code">Valider</span>
+            </button>
+            <p style="text-align:center;margin-top:10px;font-size:0.85rem;">
+                <a href="#" id="linkForgotSecurityCode" data-translate="auth.forgot_security_code">Code de confidentialité oublié ?</a>
+            </p>
+            <button class="btn-cancel" id="btnCancelSecurityCode" data-translate="auth.btn_cancel">Annuler</button>
+        </div>
+    </div>
+
+    <!-- MODAL OTP (4ᵉ étape — après le code de confidentialité, avant l'accès
+         réel au tableau de bord) -->
+    <div class="modal" id="securityOtpModal">
+        <div class="modal-content">
+            <h2 data-translate="auth.security_otp_title">📧 Vérification supplémentaire</h2>
+            <p data-translate="auth.security_otp_desc">Un code de sécurité vient d'être envoyé à votre adresse email administrative. Valable 5 minutes.</p>
+            <div class="form-group">
+                <label data-translate="auth.label_security_otp">Code reçu par email</label>
+                <input type="text" id="securityOtpInput" inputmode="numeric" maxlength="6" placeholder="••••••" required autocomplete="off">
+            </div>
+            <button class="btn-submit" id="btnVerifySecurityOtp">
+                <span class="spinner"></span>
+                <span class="text" data-translate="auth.btn_verify_otp">Vérifier</span>
+            </button>
+            <button class="btn-cancel" id="btnCancelSecurityOtp" data-translate="auth.btn_cancel">Annuler</button>
+        </div>
+    </div>
+
+    <!-- MODAL "CODE DE CONFIDENTIALITÉ OUBLIÉ" -->
+    <div class="modal" id="forgotSecurityCodeModal">
+        <div class="modal-content">
+            <h2 data-translate="auth.forgot_security_code_title">🔐 Code de confidentialité oublié</h2>
+            <p data-translate="auth.forgot_security_code_desc">Si ce compte est bien un compte à privilèges, un lien de réinitialisation valable 10 minutes sera envoyé à son adresse email administrative.</p>
+            <div class="form-group">
+                <label data-translate="auth.label_identifier">Email, téléphone ou pseudo</label>
+                <input type="text" id="forgotSecurityCodeIdentifier" required autocomplete="off">
+            </div>
+            <button class="btn-submit" id="btnSendForgotSecurityCode">
+                <span class="spinner"></span>
+                <span class="text" data-translate="auth.btn_send_link">Envoyer le lien</span>
+            </button>
+            <button class="btn-cancel" id="btnCancelForgotSecurityCode" data-translate="auth.btn_cancel">Annuler</button>
+        </div>
+    </div>
+
+    <!-- MODAL DÉFINIR UN NOUVEAU CODE (ouvert automatiquement depuis le lien
+         reçu par email — ?resetSecurityCode=1&uid=&exp=&sig= dans l'URL) -->
+    <div class="modal" id="setNewSecurityCodeModal">
+        <div class="modal-content">
+            <h2 data-translate="auth.new_security_code_title">🔐 Nouveau code de confidentialité</h2>
+            <p data-translate="auth.new_security_code_desc">Choisissez un nouveau code de confidentialité (4 à 8 chiffres).</p>
+            <div class="form-group">
+                <label data-translate="auth.label_new_security_code">Nouveau code</label>
+                <input type="password" id="newSecurityCodeInput" inputmode="numeric" maxlength="8" placeholder="••••••" required autocomplete="off">
+            </div>
+            <button class="btn-submit" id="btnSubmitNewSecurityCode">
+                <span class="spinner"></span>
+                <span class="text" data-translate="auth.btn_confirm">Confirmer</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="notification"></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            let currentLang = 'fr';
+
+            // Connexion en attente d'un code de confidentialité (comptes à privilèges)
+            let pendingLoginEmail = null;
+            let pendingRemember = false;
+
+            (function createStars() {
+                const container = document.getElementById('starsContainer');
+                if (!container) return;
+                const count = Math.min(80, Math.floor(window.innerWidth / 10));
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animationDelay = (Math.random() * 5) + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(star);
+                }
+            })();
+
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const input = document.getElementById('loginPassword');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fa-regular fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fa-regular fa-eye';
+                }
+            });
+
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            function showAlert(message, type) {
+                const alertEl = document.getElementById('loginAlert');
+                if (!alertEl) return;
+                alertEl.textContent = message;
+                alertEl.className = 'show';
+                if (type) alertEl.classList.add(type);
+                clearTimeout(alertEl._timeout);
+                alertEl._timeout = setTimeout(() => {
+                    alertEl.classList.remove('show');
+                }, 5000);
+            }
+
+            // =========================================================
+            // REDIRECTION SELON LE RÔLE — déterminé uniquement par le
+            // backend, plus aucun sélecteur côté frontend.
+            // =========================================================
+            const ROLE_PAGES = {
+                'client': '../html/client.html',
+                'seller': '../html/vendeur.html',
+                'livreur': '../html/livreur.html',
+                'affiliate': '../html/sineshopaffiliation.html',
+                'admin': '../html/administrateur.html',
+                'superadmin': '../html/superadministrateur.html',
+                'moderator': '../html/moderateur.html',
+                'support': '../html/support.html',
+                'finance_admin': '../html/admin-finance.html'
+            };
+
+            function getRedirectPage(role) {
+                return ROLE_PAGES[role] || '../html/index.html';
+            }
+
+            // Termine la connexion une fois la session obtenue (avec ou sans
+            // passage par le code de confidentialité).
+            function finishLogin(userData, email, remember) {
+                if (userData.timezone && window.SINE) window.SINE.setTimezone(userData.timezone);
+                if (userData.currency && window.SINE) window.SINE.setCurrency(userData.currency);
+                if (userData.language && window.SINE) window.SINE.applyLanguage(userData.language);
+
+                if (remember) {
+                    localStorage.setItem('rememberEmail', email);
+                } else {
+                    localStorage.removeItem('rememberEmail');
+                }
+
+                if (userData.mustSetSecurityCode) {
+                    const msg = window.SINE
+                        ? window.SINE.translate('auth.security_code_setup_notice', currentLang)
+                        : 'Pensez à configurer votre code de confidentialité depuis votre espace.';
+                    showNotification(msg, 'warning');
+                }
+
+                showAlert('Connexion réussie !', 'success');
+                showNotification('Connexion réussie ! Bienvenue sur SINE.SHOP !', 'success');
+
+                const redirectUrl = getRedirectPage(userData.role || 'client');
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, userData.mustSetSecurityCode ? 2600 : 1200);
+            }
+
+            // =========================================================
+            // CONNEXION
+            // =========================================================
+            const form = document.getElementById('loginForm');
+            const btnLogin = document.getElementById('btnLogin');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const identifier = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                const remember = document.getElementById('remember').checked;
+
+                // Accepte un email valide OU un numéro de téléphone plausible
+                // (chiffres, espaces, +, au moins 7 chiffres significatifs) —
+                // jusqu'ici seul le format email était accepté, ce qui
+                // bloquait toute tentative de connexion par téléphone alors
+                // que le compte a bien été créé avec un numéro.
+                const isEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(identifier);
+                const phoneDigits = identifier.replace(/[^0-9]/g, '');
+                const isPhoneFormat = phoneDigits.length >= 7 && phoneDigits.length <= 15;
+                if (!identifier || (!isEmailFormat && !isPhoneFormat)) {
+                    showAlert('Veuillez entrer une adresse email ou un numéro de téléphone valide.', 'warning');
+                    showNotification('Veuillez entrer une adresse email ou un numéro de téléphone valide.', 'warning');
+                    return;
+                }
+                if (!password || password.length < 6) {
+                    showAlert('Le mot de passe doit contenir au moins 6 caractères.', 'warning');
+                    showNotification('Le mot de passe doit contenir au moins 6 caractères.', 'warning');
+                    return;
+                }
+
+                btnLogin.classList.add('loading');
+                btnLogin.disabled = true;
+
+                try {
+                    const result = await window.SineAPI.login(identifier, password);
+
+                    // Compte à privilèges déjà protégé par un code de
+                    // confidentialité : le backend n'a pas délivré de
+                    // session, il faut d'abord valider ce code.
+                    if (result && result.securityCodeRequired) {
+                        btnLogin.classList.remove('loading');
+                        btnLogin.disabled = false;
+                        pendingLoginEmail = identifier;
+                        pendingRemember = remember;
+                        openSecurityCodeModal();
+                        return;
+                    }
+
+                    finishLogin(result, identifier, remember);
+
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    showAlert(error.message || 'Erreur lors de la connexion.', 'error');
+                    showNotification(error.message || 'Erreur lors de la connexion.', 'error');
+                    btnLogin.classList.remove('loading');
+                    btnLogin.disabled = false;
+                }
+            });
+
+            // =========================================================
+            // CODE DE CONFIDENTIALITÉ (2e étape, comptes à privilèges)
+            // =========================================================
+            const securityCodeModal = document.getElementById('securityCodeModal');
+            const btnVerifyCode = document.getElementById('btnVerifySecurityCode');
+            const btnCancelCode = document.getElementById('btnCancelSecurityCode');
+
+            function openSecurityCodeModal() {
+                document.getElementById('securityCodeInput').value = '';
+                securityCodeModal.classList.add('active');
+                setTimeout(() => document.getElementById('securityCodeInput').focus(), 100);
+            }
+
+            function closeSecurityCodeModal() {
+                securityCodeModal.classList.remove('active');
+                pendingLoginEmail = null;
+            }
+
+            btnCancelCode.addEventListener('click', closeSecurityCodeModal);
+            securityCodeModal.addEventListener('click', function(e) {
+                if (e.target === this) closeSecurityCodeModal();
+            });
+
+            btnVerifyCode.addEventListener('click', async function() {
+                const code = document.getElementById('securityCodeInput').value.trim();
+                if (!code) {
+                    showNotification('Veuillez saisir votre code de confidentialité.', 'warning');
+                    return;
+                }
+                if (!pendingLoginEmail) {
+                    closeSecurityCodeModal();
+                    return;
+                }
+
+                btnVerifyCode.classList.add('loading');
+                btnVerifyCode.disabled = true;
+
+                try {
+                    // Le code de confidentialité correct ne termine plus la
+                    // connexion directement — un OTP est désormais envoyé
+                    // par email (4ᵉ étape de sécurité, voir auth.controller.js
+                    // ::verifySecurityCode) et doit être vérifié à son tour.
+                    const result = await window.SineAPI.verifySecurityCode(pendingLoginEmail, code);
+                    closeSecurityCodeModal();
+                    if (result && result.securityOtpRequired) {
+                        openSecurityOtpModal();
+                    } else {
+                        // Repli — ne devrait normalement plus arriver, gardé
+                        // par sécurité si jamais le backend renvoie encore
+                        // l'ancien format directement.
+                        finishLogin(result, pendingLoginEmail, pendingRemember);
+                    }
+                } catch (error) {
+                    console.error('Erreur code confidentialité:', error);
+                    const msg = error.message || (window.SINE
+                        ? window.SINE.translate('auth.security_code_error', currentLang)
+                        : 'Code de confidentialité incorrect.');
+                    showNotification(msg, 'error');
+                } finally {
+                    btnVerifyCode.classList.remove('loading');
+                    btnVerifyCode.disabled = false;
+                }
+            });
+
+            document.getElementById('linkForgotSecurityCode').addEventListener('click', function(e) {
+                e.preventDefault();
+                closeSecurityCodeModal();
+                document.getElementById('forgotSecurityCodeIdentifier').value = pendingLoginEmail || '';
+                document.getElementById('forgotSecurityCodeModal').classList.add('active');
+            });
+
+            // =========================================================
+            // MODAL OTP — 4ᵉ et dernière étape de la connexion admin
+            // =========================================================
+            const securityOtpModal = document.getElementById('securityOtpModal');
+            const btnVerifyOtp = document.getElementById('btnVerifySecurityOtp');
+
+            function openSecurityOtpModal() {
+                document.getElementById('securityOtpInput').value = '';
+                securityOtpModal.classList.add('active');
+                setTimeout(() => document.getElementById('securityOtpInput').focus(), 100);
+            }
+            function closeSecurityOtpModal() {
+                securityOtpModal.classList.remove('active');
+            }
+            document.getElementById('btnCancelSecurityOtp').addEventListener('click', function() {
+                closeSecurityOtpModal();
+                pendingLoginEmail = null;
+            });
+            securityOtpModal.addEventListener('click', function(e) {
+                if (e.target === this) closeSecurityOtpModal();
+            });
+
+            btnVerifyOtp.addEventListener('click', async function() {
+                const otp = document.getElementById('securityOtpInput').value.trim();
+                if (!otp) {
+                    showNotification('Veuillez saisir le code reçu par email.', 'warning');
+                    return;
+                }
+                if (!pendingLoginEmail) {
+                    closeSecurityOtpModal();
+                    return;
+                }
+
+                btnVerifyOtp.classList.add('loading');
+                btnVerifyOtp.disabled = true;
+
+                try {
+                    const userData = await window.SineAPI.verifySecurityOtp(pendingLoginEmail, otp);
+                    const email = pendingLoginEmail;
+                    const remember = pendingRemember;
+                    closeSecurityOtpModal();
+                    finishLogin(userData, email, remember);
+                } catch (error) {
+                    console.error('Erreur OTP sécurité:', error);
+                    showNotification(error.message || 'Code invalide ou expiré.', 'error');
+                } finally {
+                    btnVerifyOtp.classList.remove('loading');
+                    btnVerifyOtp.disabled = false;
+                }
+            });
+
+            // =========================================================
+            // MODAL "CODE DE CONFIDENTIALITÉ OUBLIÉ"
+            // =========================================================
+            const forgotSecurityCodeModal = document.getElementById('forgotSecurityCodeModal');
+            document.getElementById('btnCancelForgotSecurityCode').addEventListener('click', function() {
+                forgotSecurityCodeModal.classList.remove('active');
+            });
+            forgotSecurityCodeModal.addEventListener('click', function(e) {
+                if (e.target === this) forgotSecurityCodeModal.classList.remove('active');
+            });
+
+            document.getElementById('btnSendForgotSecurityCode').addEventListener('click', async function() {
+                const btn = this;
+                const identifier = document.getElementById('forgotSecurityCodeIdentifier').value.trim();
+                if (!identifier) {
+                    showNotification('Veuillez renseigner votre identifiant.', 'warning');
+                    return;
+                }
+                btn.classList.add('loading');
+                btn.disabled = true;
+                try {
+                    await window.SineAPI.forgotSecurityCode(identifier);
+                    // Message TOUJOURS générique, quel que soit le résultat réel
+                    // côté serveur — ne révèle jamais si le compte existe ou
+                    // s'il s'agit d'un compte à privilèges (voir
+                    // auth.controller.js::forgotSecurityCode).
+                    showNotification('Si ce compte existe, un email de réinitialisation vient d\'être envoyé.', 'success');
+                    forgotSecurityCodeModal.classList.remove('active');
+                } catch (error) {
+                    showNotification('Si ce compte existe, un email de réinitialisation vient d\'être envoyé.', 'success');
+                    forgotSecurityCodeModal.classList.remove('active');
+                } finally {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                }
+            });
+
+            // =========================================================
+            // MODAL "NOUVEAU CODE DE CONFIDENTIALITÉ" — ouvert automatiquement
+            // si l'utilisateur arrive depuis le lien reçu par email
+            // (?resetSecurityCode=1&uid=...&exp=...&sig=...).
+            // =========================================================
+            (function checkResetSecurityCodeLink() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('resetSecurityCode') !== '1') return;
+
+                const uid = params.get('uid');
+                const exp = params.get('exp');
+                const sig = params.get('sig');
+                if (!uid || !exp || !sig) return;
+
+                const modal = document.getElementById('setNewSecurityCodeModal');
+                modal.classList.add('active');
+
+                document.getElementById('btnSubmitNewSecurityCode').addEventListener('click', async function() {
+                    const btn = this;
+                    const newCode = document.getElementById('newSecurityCodeInput').value.trim();
+                    if (!/^\d{4,8}$/.test(newCode)) {
+                        showNotification('Le code doit contenir entre 4 et 8 chiffres.', 'warning');
+                        return;
+                    }
+                    btn.classList.add('loading');
+                    btn.disabled = true;
+                    try {
+                        await window.SineAPI.resetSecurityCode(uid, exp, sig, newCode);
+                        showNotification('✅ Code de confidentialité réinitialisé. Vous pouvez maintenant vous connecter.', 'success');
+                        modal.classList.remove('active');
+                        // Nettoie l'URL pour ne pas garder le lien signé visible/réutilisable à l'écran.
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    } catch (error) {
+                        showNotification(error.message || 'Ce lien est invalide ou a expiré.', 'error');
+                    } finally {
+                        btn.classList.remove('loading');
+                        btn.disabled = false;
+                    }
+                });
+            })();
+
+            // =========================================================
+            // INVITÉ
+            // =========================================================
+            document.getElementById('btnGuest').addEventListener('click', function() {
+                window.location.href = '../html/index.html';
+            });
+
+            // =========================================================
+            // MODAL MOT DE PASSE OUBLIÉ — 2 étapes
+            // =========================================================
+            const forgotModal = document.getElementById('forgotModal');
+            const forgotBtn = document.getElementById('forgotPasswordBtn');
+            const resetStep1 = document.getElementById('resetStep1');
+            const resetStep2 = document.getElementById('resetStep2');
+            const resetSuccessMsg = document.getElementById('resetSuccess');
+            let pendingResetIdentifier = null;
+
+            function showResetStep1() {
+                resetStep1.style.display = '';
+                resetStep2.style.display = 'none';
+                resetSuccessMsg.classList.remove('show');
+            }
+
+            function showResetStep2(identifier) {
+                pendingResetIdentifier = identifier;
+                resetStep1.style.display = 'none';
+                resetStep2.style.display = '';
+                document.getElementById('resetCode').value = '';
+                document.getElementById('resetNewPassword').value = '';
+                document.getElementById('resetConfirmPassword').value = '';
+            }
+
+            forgotBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value.trim();
+                if (email) {
+                    document.getElementById('resetIdentifier').value = email;
+                }
+                showResetStep1();
+                forgotModal.classList.add('active');
+            });
+
+            document.getElementById('btnCancelReset').addEventListener('click', function() {
+                forgotModal.classList.remove('active');
+            });
+            document.getElementById('btnCancelReset2').addEventListener('click', function() {
+                forgotModal.classList.remove('active');
+            });
+
+            forgotModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    forgotModal.classList.remove('active');
+                }
+            });
+
+            // ÉTAPE 1 : envoyer le code
+            const resetBtn = document.getElementById('btnResetPassword');
+            resetBtn.addEventListener('click', async function() {
+                const identifier = document.getElementById('resetIdentifier').value.trim();
+
+                if (!identifier) {
+                    showNotification('Veuillez entrer votre email ou votre numéro de téléphone.', 'warning');
+                    return;
+                }
+
+                resetBtn.classList.add('loading');
+                resetBtn.disabled = true;
+
+                try {
+                    await window.SineAPI.forgotPassword(identifier);
+                    showResetStep2(identifier);
+                    showNotification('✅ Un code de réinitialisation a été envoyé.', 'success');
+                } catch (error) {
+                    console.error('Erreur reset:', error);
+                    showNotification(error.message || 'Erreur lors de l\'envoi.', 'error');
+                } finally {
+                    resetBtn.classList.remove('loading');
+                    resetBtn.disabled = false;
+                }
+            });
+
+            // ÉTAPE 2 : valider le code + nouveau mot de passe
+            const confirmResetBtn = document.getElementById('btnConfirmReset');
+            confirmResetBtn.addEventListener('click', async function() {
+                const code = document.getElementById('resetCode').value.trim();
+                const newPassword = document.getElementById('resetNewPassword').value;
+                const confirmPassword = document.getElementById('resetConfirmPassword').value;
+
+                if (!code || !newPassword || !confirmPassword) {
+                    showNotification('Veuillez remplir tous les champs.', 'warning');
+                    return;
+                }
+                if (newPassword !== confirmPassword) {
+                    const msg = window.SINE ? window.SINE.translate('auth.password_mismatch', currentLang) : 'Les deux mots de passe ne correspondent pas.';
+                    showNotification(msg, 'warning');
+                    return;
+                }
+
+                confirmResetBtn.classList.add('loading');
+                confirmResetBtn.disabled = true;
+
+                try {
+                    await window.SineAPI.resetPassword(pendingResetIdentifier, code, newPassword);
+
+                    resetStep2.style.display = 'none';
+                    resetSuccessMsg.classList.add('show');
+                    const msg = window.SINE ? window.SINE.translate('auth.reset_final_success', currentLang) : '✅ Mot de passe réinitialisé ! Vous pouvez vous connecter.';
+                    showNotification(msg, 'success');
+
+                    if (pendingResetIdentifier && pendingResetIdentifier.includes('@')) {
+                        document.getElementById('loginEmail').value = pendingResetIdentifier;
+                    }
+
+                    setTimeout(() => {
+                        forgotModal.classList.remove('active');
+                        showResetStep1();
+                    }, 2500);
+
+                } catch (error) {
+                    console.error('Erreur confirmation reset:', error);
+                    showNotification(error.message || 'Code invalide ou expiré.', 'error');
+                } finally {
+                    confirmResetBtn.classList.remove('loading');
+                    confirmResetBtn.disabled = false;
+                }
+            });
+
+            // Renvoyer le code (étape 2) — le bouton n'existait pas, la
+            // seule façon de recevoir un nouveau code était d'annuler et de
+            // tout recommencer depuis l'étape 1.
+            document.getElementById('linkResendResetCode').addEventListener('click', async function(e) {
+                e.preventDefault();
+                if (!pendingResetIdentifier) return;
+                this.style.pointerEvents = 'none';
+                try {
+                    await window.SineAPI.forgotPassword(pendingResetIdentifier);
+                    showNotification('📤 Nouveau code envoyé.', 'success');
+                } catch (error) {
+                    showNotification(error.message || 'Erreur lors du renvoi du code.', 'error');
+                } finally {
+                    this.style.pointerEvents = '';
+                }
+            });
+
+            // Fermeture au clic en dehors du contenu de la bannière (sur le
+            // fond semi-transparent) — n'existait pour aucun des 3 modals
+            // de cette page, seul le bouton Annuler explicite fermait.
+            document.querySelectorAll('.modal').forEach(function(modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) modal.classList.remove('active');
+                });
+            });
+
+            // Ouverture directe à l'étape 2 si on arrive depuis le lien de
+            // l'email (?reset=1&identifier=...) — le domaine sineshophome.com
+            // n'étant pas encore actif, ce lien ne fonctionnera pleinement
+            // qu'une fois FRONTEND_URL réellement accessible.
+            (function checkResetLinkParams() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('reset') === '1') {
+                    const identifier = params.get('identifier') || '';
+                    forgotModal.classList.add('active');
+                    showResetStep2(identifier);
+                }
+                if (params.get('verify') === '1') {
+                    const identifier = params.get('identifier') || '';
+                    document.getElementById('verifyEmailIdentifier').textContent = identifier;
+                    document.getElementById('verifyEmailModal').classList.add('active');
+                }
+            })();
+
+            // =========================================================
+            // VÉRIFICATION EMAIL — arrivée depuis le lien de l'email
+            // =========================================================
+            document.getElementById('btnConfirmVerifyEmail').addEventListener('click', async function() {
+                const identifier = document.getElementById('verifyEmailIdentifier').textContent.trim();
+                const code = document.getElementById('verifyEmailCode').value.trim();
+                if (!code) {
+                    showNotification('Veuillez entrer le code reçu par email.', 'warning');
+                    return;
+                }
+                const btn = this;
+                btn.classList.add('loading');
+                btn.disabled = true;
+                try {
+                    await window.SineAPI.verifyEmail(identifier, code);
+                    showAlert('✅ Email vérifié avec succès ! Vous pouvez vous connecter.', 'success');
+                    showNotification('✅ Email vérifié avec succès !', 'success');
+                    document.getElementById('verifyEmailModal').classList.remove('active');
+                    document.getElementById('loginEmail').value = identifier;
+                } catch (error) {
+                    showNotification(error.message || 'Code invalide. Veuillez réessayer.', 'error');
+                } finally {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                }
+            });
+
+            document.getElementById('linkResendVerifyEmail').addEventListener('click', async function(e) {
+                e.preventDefault();
+                const identifier = document.getElementById('verifyEmailIdentifier').textContent.trim();
+                try {
+                    await window.SineAPI.resendVerification(identifier);
+                    showNotification('📧 Nouveau code envoyé.', 'success');
+                } catch (error) {
+                    showNotification(error.message || 'Erreur lors du renvoi du code.', 'error');
+                }
+            });
+
+            document.getElementById('btnCancelVerifyEmail').addEventListener('click', function() {
+                document.getElementById('verifyEmailModal').classList.remove('active');
+            });
+
+            // =========================================================
+            // SOCIAL LOGIN — connexion réelle via Firebase Auth (popup
+            // Google/Facebook), puis vérification du jeton côté backend.
+            // =========================================================
+            async function initSocialLogin(provider) {
+                if (!window.SineFirebaseAuth) {
+                    showNotification('Le service de connexion ' + provider + ' n\'a pas pu se charger. Réessayez.', 'error');
+                    return;
+                }
+                try {
+                    const result = provider === 'Google'
+                        ? await window.SineFirebaseAuth.signInWithGoogle()
+                        : await window.SineFirebaseAuth.signInWithFacebook();
+
+                    // Sur mobile, signInWithGoogle/Facebook redirige la page
+                    // (résultat null immédiat) — la connexion se termine au
+                    // retour, voir finaliserConnexionSociale() plus bas.
+                    if (!result) return;
+
+                    await finaliserConnexionSociale(result.idToken);
+                } catch (error) {
+                    if (error.code === 'auth/popup-closed-by-user') return;
+                    console.error('Erreur connexion ' + provider + ':', error);
+                    showNotification(error.message || 'Erreur lors de la connexion avec ' + provider + '.', 'error');
+                }
+            }
+
+            async function finaliserConnexionSociale(idToken) {
+                const userData = await window.SineAPI.loginWithFirebase(idToken);
+
+                showAlert('Connexion réussie !', 'success');
+                showNotification('Connexion réussie ! Bienvenue sur SINE.SHOP !', 'success');
+
+                const redirectUrl = getRedirectPage(userData.role || 'client');
+                setTimeout(() => { window.location.href = redirectUrl; }, 1200);
+            }
+
+            // Au chargement de la page : si on revient tout juste d'une
+            // redirection Google/Facebook (mobile), termine la connexion.
+            (async function verifierRetourRedirectionSociale() {
+                if (!window.SineFirebaseAuth) return;
+                try {
+                    const result = await window.SineFirebaseAuth.completeRedirectSignIn();
+                    if (result) await finaliserConnexionSociale(result.idToken);
+                } catch (error) {
+                    console.error('Erreur finalisation connexion sociale:', error);
+                    showNotification(error.message || 'Erreur lors de la connexion.', 'error');
+                }
+            })();
+
+            document.getElementById('googleLogin').addEventListener('click', function() {
+                initSocialLogin('Google');
+            });
+
+            document.getElementById('facebookLogin').addEventListener('click', function() {
+                initSocialLogin('Facebook');
+            });
+
+            // =========================================================
+            // CRÉATION DE COMPTE
+            // =========================================================
+            document.getElementById('createAccountLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = '../html/seler-page.html';
+            });
+
+            // =========================================================
+            // LANGUE
+            // =========================================================
+            function applyLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('sineLang', lang);
+                if (window.SINE) window.SINE.applyDirection(lang);
+
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (window.SINE) {
+                        const translation = window.SINE.translate(key, lang);
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+                            el.placeholder = translation;
+                        } else {
+                            el.textContent = translation;
+                        }
+                    }
+                });
+            }
+
+            // =========================================================
+            // CHARGEMENT DES IDENTIFIANTS
+            // =========================================================
+            const rememberedEmail = localStorage.getItem('rememberEmail');
+            if (rememberedEmail) {
+                document.getElementById('loginEmail').value = rememberedEmail;
+                document.getElementById('remember').checked = true;
+            }
+
+            // =========================================================
+            // SWIPE NAVIGATION
+            // =========================================================
+            let touchStartX = 0;
+            let touchEndX = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (diff > 80) {
+                    window.location.href = '../html/index.html';
+                } else if (diff < -80) {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+            }, { passive: true });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    window.location.href = '../html/index.html';
+                }
+            });
+
+            // =========================================================
+            // INITIALISATION
+            // =========================================================
+            const savedLang = window.SINE ? window.SINE.detectLanguage() : 'fr';
+            applyLanguage(savedLang);
+
+            console.log('✅ Page de connexion SINE.SHOP - Version finale (sans sélecteur de type de compte)');
+            console.log('🌐 Langue:', currentLang);
+            console.log('🔗 API:', (window.SINE && window.SINE.config && window.SINE.config.API_URL) || 'non configurée');
+            console.log('🔑 Social Login: Google, Facebook');
+            console.log('🛡️ Code de confidentialité: activé pour admin / superadmin / moderator / support');
+
+            if (window.SineAPI && window.SineAPI.isAuthenticated()) {
+                window.SineAPI.verifySession().then(function(freshUser) {
+                    if (freshUser) {
+                        console.log('ℹ️ Utilisateur déjà connecté:', freshUser.role);
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

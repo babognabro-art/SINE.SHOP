@@ -1,0 +1,46 @@
+# =====================================================
+# SINE.SHOP — URLs propres (Option A : réécriture serveur)
+# =====================================================
+# Render Static Site supporte ce fichier nativement (même syntaxe que
+# Netlify) — DOIT être placé à la racine du dossier PUBLIÉ configuré dans
+# le tableau de bord Render (Settings > Publish Directory). Si ce dossier
+# est bien "frontend" (comme webDir dans capacitor.config.ts), ce fichier
+# est déjà au bon endroit. Sinon, à vérifier/ajuster côté Render.
+#
+# Chaque ligne réécrit une URL propre vers le VRAI fichier .html, SANS
+# changer l'URL affichée dans la barre d'adresse du navigateur (code 200,
+# pas une redirection 301/302 qui changerait l'URL) — aucun fichier
+# déplacé, aucun lien existant cassé, exactement l'Option A du document
+# ("le fichier reste cgu.html mais l'utilisateur voit /cgu").
+#
+# Format : /url-propre  /vrai/fichier.html  200
+
+# --- Pages légales ---
+/cgu                    /html/cgu.html                 200
+/cgv                     /html/cgv.html                  200
+/privacy                /html/privacy.html              200
+/cookies                /html/cookies.html              200
+
+# --- Authentification / inscription ---
+/login                  /html/login.html                200
+/register               /html/seler-page.html           200
+
+# --- Marketplace ---
+/collections            /html/collections.html          200
+/search                 /html/search.html               200
+/account                /html/client.html                200
+/pay                    /html/sinepay.html               200
+
+# --- Administration ---
+/admin/finance          /html/admin-finance.html         200
+
+# Note : pas de règle générique "/admin" — 4 espaces admin distincts
+# existent (superadministrateur.html / administrateur.html /
+# moderateur.html / support.html), le bon choix dépend du rôle de
+# l'utilisateur connecté, une décision que login.html gère déjà
+# lui-même après authentification — une réécriture statique ne peut
+# pas remplacer cette logique.
+
+# Toute autre URL non listée ci-dessus continue de fonctionner EXACTEMENT
+# comme avant (ex: /html/vendeur.html reste accessible tel quel) — ce
+# fichier n'ajoute que des raccourcis, il ne retire jamais rien.

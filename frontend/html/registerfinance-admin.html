@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0b1937">
+    <title>Administration Financière • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+
+    <script src="../js/config.js"></script>
+    <script src="../js/country-picker.js"></script>
+    <script src="../js/api.js"></script>
+
+    <style>
+        /* =========================================================
+           Header : IDENTITÉ INCHANGÉE — même bleu ciel étoilé que
+           partout ailleurs sur le site (règle constante rappelée
+           plusieurs fois par l'utilisateur). Seul le CORPS de la page
+           adopte un style volontairement plus sobre et "institutionnel",
+           cohérent avec la nature financière de cet espace — jamais le
+           header.
+           ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            /* Fond sobre navy — distinct du bleu ciel marketplace des
+               autres pages register, volontairement institutionnel. */
+            background: linear-gradient(180deg, #0b1937 0%, #10233f 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        .finance-container { max-width: 640px; margin: 50px auto; padding: 0 20px 60px; width: 100%; flex: 1; }
+        @media (max-width: 600px) { .finance-container { margin: 24px auto; padding: 0 14px 40px; } }
+
+        .institutional-card {
+            background: #0f1f3d;
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 20px;
+            padding: 36px 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        @media (max-width: 600px) { .institutional-card { padding: 26px 20px; } }
+
+        .institutional-header { text-align: center; margin-bottom: 28px; }
+        .institutional-header .badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 18px; border-radius: 30px;
+            background: rgba(212,175,55,0.12); border: 1px solid rgba(212,175,55,0.35);
+            color: #d4af37; font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .institutional-header h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.9rem; color: #f1f5f9; font-weight: 600;
+        }
+        .institutional-header p { font-size: 0.85rem; color: #8296b8; margin-top: 6px; }
+
+        .section-label {
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+            color: #d4af37; margin: 24px 0 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(212,175,55,0.2);
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #b8c6dc; margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px 16px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
+            color: #f1f5f9; font-size: 0.92rem; font-family: inherit; outline: none; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #d4af37; box-shadow: 0 0 0 3px rgba(212,175,55,0.12); background: rgba(255,255,255,0.06);
+        }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+        .phone-wrapper { display: flex; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+        .phone-wrapper input { border: none !important; background: transparent !important; flex: 1; }
+        .phone-wrapper .sine-country-picker .scp-display { border: none; border-right: 1px solid rgba(255,255,255,0.12); border-radius: 0; background: transparent; color: #f1f5f9; }
+
+        .confidentiality-note {
+            display: flex; gap: 10px; padding: 14px 16px; border-radius: 12px;
+            background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.25);
+            font-size: 0.8rem; color: #d4c896; margin: 20px 0;
+        }
+
+        .btn-institutional {
+            width: 100%; padding: 14px; border-radius: 14px; margin-top: 10px;
+            background: linear-gradient(135deg, #d4af37, #b8952e); color: #0b1937;
+            font-weight: 700; font-size: 0.95rem; letter-spacing: 0.5px; transition: 0.3s;
+        }
+        .btn-institutional:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.3); }
+        .btn-institutional:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .terms-group { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; font-size: 0.8rem; color: #8296b8; }
+        .terms-group input { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; }
+        .terms-group a { color: #d4af37; }
+
+        /* Écran "accès protégé" — affiché tant qu'aucune invitation valide
+           n'est détectée. AUCUN formulaire visible dans ce cas, exactement
+           l'exigence du document : "même si quelqu'un tape l'URL
+           directement, il ne doit pas pouvoir créer de compte". */
+        .protected-screen { text-align: center; padding: 30px 10px; }
+        .protected-screen .icon { font-size: 3rem; color: #d4af37; margin-bottom: 18px; }
+        .protected-screen h2 { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; color: #f1f5f9; margin-bottom: 10px; }
+        .protected-screen p { font-size: 0.88rem; color: #8296b8; line-height: 1.6; max-width: 400px; margin: 0 auto; }
+
+        .verification-section { display: none; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .verification-section.active { display: block; }
+        .code-row { display: flex; gap: 10px; margin: 12px 0; }
+        .code-row input { flex: 1; text-align: center; letter-spacing: 6px; font-size: 1.1rem; }
+        .btn-verify { padding: 12px 20px; border-radius: 12px; background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.35); color: #d4af37; font-weight: 700; white-space: nowrap; }
+        .status-message { font-size: 0.82rem; margin-top: 8px; min-height: 18px; }
+        .status-message.error { color: #f87171; }
+        .status-message.success { color: #4ade80; }
+        .resend-link { font-size: 0.8rem; color: #d4af37; cursor: pointer; }
+
+        #notification, #registerAlert {
+            position: fixed; left: 50%; transform: translateX(-50%); top: 80px; z-index: 999999;
+            background: rgba(15,31,61,0.95); color: #f1f5f9; padding: 12px 22px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600; box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            opacity: 0; pointer-events: none; transition: 0.4s; border: 1px solid rgba(212,175,55,0.2);
+        }
+        #notification.show, #registerAlert.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <!-- HEADER — identité STANDARD inchangée, jamais différente d'une autre page. -->
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span><span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span><span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span><span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span><span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart"><svg viewBox="0 0 24 24"><path d="M12 21s-6.7-4.35-9.3-8.1C.9 9.9 2 6.3 5.3 5.3c2-.6 4 .3 4.9 2 .9-1.7 2.9-2.6 4.9-2 3.3 1 4.4 4.6 2.6 7.6C18.7 16.65 12 21 12 21z"/></svg></span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions">
+            <a href="../html/login.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Connexion</a>
+        </div>
+    </header>
+
+    <div id="notification"></div>
+    <div id="registerAlert"></div>
+
+    <main class="finance-container">
+        <div class="institutional-card">
+
+            <!-- ÉCRAN PAR DÉFAUT — accès protégé (aucune invitation) -->
+            <div class="protected-screen" id="protectedScreen">
+                <div class="icon"><i class="fa-solid fa-lock"></i></div>
+                <h2>Accès protégé</h2>
+                <p>
+                    Cette page est réservée à la création de comptes
+                    <strong>Administration Financière</strong> SINE.SHOP,
+                    accessible uniquement sur invitation nominative.
+                    Veuillez utiliser le lien confidentiel reçu par email.
+                </p>
+            </div>
+
+            <!-- FORMULAIRE — affiché UNIQUEMENT après validation d'une
+                 invitation réelle (?invite=TOKEN vérifié côté serveur). -->
+            <form id="financeRegisterForm" style="display:none;">
+                <div class="institutional-header">
+                    <span class="badge"><i class="fa-solid fa-shield-halved"></i> Accès administrateur</span>
+                    <h1>Création d'un compte Finance</h1>
+                    <p>Administration financière SINE.SHOP</p>
+                </div>
+
+                <div class="section-label">Informations personnelles</div>
+                <div class="form-row">
+                    <div class="form-group"><label>Prénom</label><input type="text" id="prenom" required></div>
+                    <div class="form-group"><label>Nom</label><input type="text" id="nom" required></div>
+                </div>
+                <div class="form-group">
+                    <label>Email professionnel</label>
+                    <input type="email" id="email" required readonly>
+                </div>
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <div class="phone-wrapper">
+                        <select id="phoneCode"></select>
+                        <input type="tel" id="telephone" placeholder="00 00 00 00 00" required>
+                    </div>
+                </div>
+
+                <div class="section-label">Informations professionnelles</div>
+                <div class="form-group">
+                    <label>Fonction</label>
+                    <input type="text" id="fonction" placeholder="ex: Contrôleur financier, Comptable..." required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expérience financière</label>
+                        <select id="experience" required>
+                            <option value="">Sélectionnez</option>
+                            <option value="0-2">0 à 2 ans</option>
+                            <option value="3-5">3 à 5 ans</option>
+                            <option value="6-10">6 à 10 ans</option>
+                            <option value="11+">11 ans et plus</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Responsabilités envisagées</label>
+                        <input type="text" id="responsabilites" placeholder="ex: retraits, réconciliation...">
+                    </div>
+                </div>
+
+                <div class="section-label">Sécurité</div>
+                <div class="form-row">
+                    <div class="form-group"><label>Mot de passe</label><input type="password" id="password" minlength="8" required></div>
+                    <div class="form-group"><label>Confirmation</label><input type="password" id="passwordConfirm" minlength="8" required></div>
+                </div>
+
+                <div class="confidentiality-note">
+                    <i class="fa-solid fa-key"></i>
+                    <span>⚠️ Un code de confidentialité personnel vous sera demandé de configurer après validation de ce formulaire — il sera exigé à chaque connexion, en plus de votre mot de passe.</span>
+                </div>
+
+                <div class="terms-group">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <label for="acceptTerms">J'accepte les <a href="../html/cgu.html" target="_blank" rel="noopener">Conditions d'utilisation</a> et la <a href="../html/privacy.html" target="_blank" rel="noopener">Politique de confidentialité</a>.</label>
+                </div>
+
+                <button type="submit" class="btn-institutional" id="btnRegister"><i class="fa-solid fa-shield-halved"></i> Créer le compte</button>
+
+                <div class="verification-section" id="verificationSection">
+                    <h3 style="font-size:0.95rem;color:#f1f5f9;margin-bottom:6px;">📧 Vérification par email</h3>
+                    <p style="font-size:0.82rem;color:#8296b8;margin-bottom:10px;">Un code de vérification a été envoyé à <strong id="verifyEmailDisplay" style="color:#d4af37;"></strong>.</p>
+                    <div class="code-row">
+                        <input type="text" id="verificationCode" placeholder="123456" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                        <button type="button" class="btn-verify" id="btnVerifyCode">Vérifier</button>
+                    </div>
+                    <div class="status-message" id="verifyStatus"></div>
+                    <span class="resend-link" id="resendLink">📤 Renvoyer le code</span>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Verrou CGU — même mécanisme que les 5 autres pages register. -->
+    <div id="cguGateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:white;border-radius:24px;padding:0;max-width:520px;width:100%;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;">
+            <div style="padding:1.4rem 1.4rem 0.6rem;">
+                <h3 style="margin:0 0 4px;color:#0a2a44;">📄 Conditions Générales d'Utilisation</h3>
+                <p style="font-size:0.8rem;color:#94a3b8;margin:0;">Vous devez lire et accepter nos conditions pour créer votre compte SINE.SHOP.</p>
+            </div>
+            <iframe src="../html/cgu.html" style="flex:1;width:100%;border:none;min-height:340px;"></iframe>
+            <div style="padding:1rem 1.4rem;border-top:1px solid #eef2f6;display:flex;gap:0.6rem;">
+                <button type="button" id="btnCguRefuse" style="flex:1;padding:0.75rem;border-radius:14px;background:#f1f5f9;color:#475569;font-weight:600;">❌ Refuser</button>
+                <button type="button" id="btnCguAccept" style="flex:1;padding:0.75rem;border-radius:14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-weight:700;">✅ J'accepte</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.__cguAccepted = false;
+        window.ensureCguAccepted = function() {
+            return new Promise(function(resolve) {
+                if (window.__cguAccepted) { resolve(true); return; }
+                const modal = document.getElementById('cguGateModal');
+                modal.style.display = 'flex';
+                document.getElementById('btnCguAccept').onclick = function() {
+                    window.__cguAccepted = true;
+                    modal.style.display = 'none';
+                    resolve(true);
+                };
+                document.getElementById('btnCguRefuse').onclick = function() {
+                    modal.style.display = 'none';
+                    resolve(false);
+                };
+            });
+        };
+
+        (function() {
+            'use strict';
+
+            function showAlert(message, type) {
+                const el = document.getElementById('registerAlert');
+                el.textContent = message;
+                el.style.borderColor = type === 'error' ? 'rgba(248,113,113,0.4)' : type === 'success' ? 'rgba(74,222,128,0.4)' : 'rgba(212,175,55,0.3)';
+                el.classList.add('show');
+                clearTimeout(el._t);
+                el._t = setTimeout(() => el.classList.remove('show'), 4000);
+            }
+            function showNotification(message, type) {
+                const el = document.getElementById('notification');
+                el.textContent = message;
+                el.classList.add('show');
+                clearTimeout(el._t);
+                el._t = setTimeout(() => el.classList.remove('show'), 4000);
+            }
+
+            let userEmail = '';
+            let inviteData = null;
+
+            // =========================================================
+            // VERROU D'ACCÈS — invitation obligatoire, vérifiée côté
+            // serveur. Sans ?invite=TOKEN valide, le formulaire reste
+            // TOTALEMENT invisible (voir #protectedScreen par défaut).
+            // =========================================================
+            (async function detecterInvitation() {
+                const token = new URLSearchParams(window.location.search).get('invite');
+                if (!token) return; // reste sur l'écran "Accès protégé"
+
+                try {
+                    const invite = await window.SineAPI.getInviteByToken(token);
+                    if (invite.role !== 'finance_admin') {
+                        // Cette invitation existe mais concerne un autre rôle —
+                        // ne doit jamais donner accès à CE formulaire précis.
+                        return;
+                    }
+                    inviteData = invite;
+                    window.__sineInviteToken = token;
+
+                    document.getElementById('protectedScreen').style.display = 'none';
+                    document.getElementById('financeRegisterForm').style.display = 'block';
+                    if (invite.email) {
+                        document.getElementById('email').value = invite.email;
+                    } else {
+                        document.getElementById('email').readOnly = false;
+                    }
+                    window.SineAttachCountryPicker('phoneCode', { defaultIso2: 'CI' });
+                } catch (e) {
+                    // Lien invalide/expiré — reste sur l'écran protégé, avec un
+                    // message clair au lieu du texte générique par défaut.
+                    document.getElementById('protectedScreen').innerHTML = `
+                        <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h2>Lien invalide ou expiré</h2>
+                        <p>${e.message || 'Ce lien d\'invitation n\'est plus valable. Contactez la personne qui vous l\'a transmis pour en obtenir un nouveau.'}</p>
+                    `;
+                }
+            })();
+
+            document.getElementById('financeRegisterForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btnRegister = document.getElementById('btnRegister');
+                btnRegister.disabled = true;
+                btnRegister.textContent = '⏳ Création en cours...';
+
+                try {
+                    const prenom = document.getElementById('prenom').value.trim();
+                    const nom = document.getElementById('nom').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const phoneCode = document.getElementById('phoneCode').value;
+                    const telephoneLocal = document.getElementById('telephone').value.trim();
+                    const telephone = phoneCode + telephoneLocal;
+                    const password = document.getElementById('password').value;
+                    const passwordConfirm = document.getElementById('passwordConfirm').value;
+                    const acceptTerms = document.getElementById('acceptTerms').checked;
+                    const fonction = document.getElementById('fonction').value.trim();
+                    const experience = document.getElementById('experience').value;
+                    const responsabilites = document.getElementById('responsabilites').value.trim();
+
+                    if (!prenom || !nom || !fonction || !experience) {
+                        showAlert('Veuillez remplir tous les champs obligatoires.', 'warning');
+                        btnRegister.disabled = false; btnRegister.textContent = 'Créer le compte'; return;
+                    }
+                    if (password.length < 8) {
+                        showAlert('Le mot de passe doit contenir au moins 8 caractères.', 'warning');
+                        btnRegister.disabled = false; btnRegister.textContent = 'Créer le compte'; return;
+                    }
+                    if (password !== passwordConfirm) {
+                        showAlert('Les mots de passe ne correspondent pas.', 'warning');
+                        btnRegister.disabled = false; btnRegister.textContent = 'Créer le compte'; return;
+                    }
+                    if (!acceptTerms) {
+                        showAlert('Veuillez accepter les conditions générales.', 'warning');
+                        btnRegister.disabled = false; btnRegister.textContent = 'Créer le compte'; return;
+                    }
+
+                    // Verrou CGU obligatoire — même mécanisme que les autres
+                    // pages register (fenêtre CGU + clic explicite requis).
+                    const cguOk = await window.ensureCguAccepted();
+                    if (!cguOk) {
+                        showAlert('Vous devez accepter les Conditions Générales d\'Utilisation pour créer un compte.', 'warning');
+                        btnRegister.disabled = false; btnRegister.textContent = 'Créer le compte'; return;
+                    }
+
+                    userEmail = email;
+
+                    // Le rôle vient EXCLUSIVEMENT de l'invitation vérifiée côté
+                    // serveur (voir auth.controller.js) — jamais du formulaire,
+                    // et jamais de repli par code fixe pour ce rôle précis.
+                    await window.SineAPI.register({
+                        firstName: prenom,
+                        lastName: nom,
+                        email,
+                        phone: telephone,
+                        password,
+                        role: 'finance_admin',
+                        inviteToken: window.__sineInviteToken,
+                        jobTitle: fonction,
+                        financeExperience: experience,
+                        responsibilities: responsabilites,
+                    });
+
+                    const section = document.getElementById('verificationSection');
+                    section.classList.add('active');
+                    document.getElementById('verifyEmailDisplay').textContent = email;
+                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    btnRegister.textContent = '✅ Compte créé';
+                    showAlert('Code envoyé ! Vérifiez votre boîte mail.', 'success');
+                    showNotification('📧 Code de vérification envoyé.', 'success');
+                } catch (error) {
+                    console.error(error);
+                    showAlert(error.message || 'Erreur lors de la création du compte.', 'error');
+                    btnRegister.disabled = false;
+                    btnRegister.textContent = 'Créer le compte';
+                }
+            });
+
+            document.getElementById('btnVerifyCode').addEventListener('click', async function() {
+                const btn = this;
+                const code = document.getElementById('verificationCode').value.trim();
+                const statusDiv = document.getElementById('verifyStatus');
+
+                if (!code || code.length < 4) {
+                    statusDiv.textContent = '⚠️ Veuillez entrer le code de vérification.';
+                    statusDiv.className = 'status-message error';
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = '⏳...';
+
+                try {
+                    await window.SineAPI.verifyEmail(userEmail, code);
+                    statusDiv.textContent = '✅ Email vérifié ! Redirection vers votre espace...';
+                    statusDiv.className = 'status-message success';
+                    showNotification('🎉 Bienvenue dans l\'équipe SINE.SHOP !', 'success');
+
+                    // Redirige vers le centre financier déjà construit
+                    // (admin-finance.html) — l'espace naturel d'un finance_admin.
+                    setTimeout(() => {
+                        window.location.href = '../html/admin-finance.html';
+                    }, 1500);
+                } catch (error) {
+                    statusDiv.textContent = error.message || 'Code invalide. Veuillez réessayer.';
+                    statusDiv.className = 'status-message error';
+                    btn.disabled = false;
+                    btn.textContent = 'Vérifier';
+                }
+            });
+
+            document.getElementById('resendLink').addEventListener('click', async function() {
+                try {
+                    await window.SineAPI.resendVerification(userEmail);
+                    showNotification('📤 Nouveau code envoyé.', 'success');
+                } catch (error) {
+                    showAlert(error.message || 'Erreur lors du renvoi du code.', 'error');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

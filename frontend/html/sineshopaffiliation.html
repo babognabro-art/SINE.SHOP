@@ -1,0 +1,3595 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0b1937">
+    <title>SINE.SHOP Affiliation • Espace Partenaire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /* =========================================================
+           VARIABLES & THEMES
+           ========================================================= */
+        :root {
+            --bg-body: #f0f8ff;
+            --bg-card: rgba(255,255,255,0.88);
+            --bg-sidebar: rgba(10,42,68,0.95);
+            --bg-header: rgba(10,42,68,0.95);
+            --text-primary: #1a2a3a;
+            --text-secondary: #4a6a8a;
+            --text-muted: #8a9aad;
+            --border-color: rgba(0,0,0,0.08);
+            --accent: #2d73ff;
+            --accent-hover: #4da7ff;
+            --shadow: 0 8px 30px rgba(0,0,0,0.06);
+            --radius: 16px;
+            --transition: 0.3s ease;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gold: #facc15;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+        }
+
+        /* =========================================================
+           MODE SOMBRE — COMPLET
+           ========================================================= */
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: rgba(30,41,59,0.92);
+            --bg-sidebar: rgba(15,23,42,0.98);
+            --bg-header: rgba(15,23,42,0.95);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.06);
+            --shadow: 0 8px 30px rgba(0,0,0,0.4);
+            --gold: #fbbf24;
+        }
+
+        [data-theme="dark"] body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .affiliate-header {
+            background: var(--bg-header);
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .affiliate-sidebar {
+            background: var(--bg-sidebar);
+        }
+
+        [data-theme="dark"] .dashboard-card {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        [data-theme="dark"] .dashboard-card h3 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .kpi-card {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .kpi-card .value {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .kpi-card .label {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .form-group label {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group select,
+        [data-theme="dark"] .form-group textarea {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .form-group input:focus,
+        [data-theme="dark"] .form-group select:focus,
+        [data-theme="dark"] .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45,115,255,0.12);
+        }
+
+        [data-theme="dark"] .about-section {
+            background: var(--bg-body);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .about-section h4 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .about-section p {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .about-section .commission-scale .tier {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .about-section .commission-scale .tier .amount {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .code-display {
+            background: linear-gradient(135deg, #0a1f3d, #1a3a5a);
+        }
+
+        [data-theme="dark"] .code-display .code {
+            background: rgba(255,255,255,0.05);
+        }
+
+        [data-theme="dark"] .commission-table th {
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .commission-table td {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .commission-table .status-badge.completed {
+            background: rgba(34,197,94,0.15);
+            color: #4ade80;
+        }
+
+        [data-theme="dark"] .commission-table .status-badge.pending {
+            background: rgba(245,158,11,0.15);
+            color: #fbbf24;
+        }
+
+        [data-theme="dark"] .commission-table .status-badge.failed {
+            background: rgba(239,68,68,0.15);
+            color: #f87171;
+        }
+
+        [data-theme="dark"] .upload-area {
+            background: var(--bg-body);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .upload-area:hover {
+            border-color: var(--accent);
+        }
+
+        [data-theme="dark"] .upload-preview .preview-item {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .faq-item {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .faq-question {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .faq-answer {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .faq-answer a {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .faq-answer a:hover {
+            color: #93c5fd;
+        }
+
+        [data-theme="dark"] #contactModal > div {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] #contactModal h3 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] #contactModal p {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] #contactModal .form-group label {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] #contactModal .form-group input,
+        [data-theme="dark"] #contactModal .form-group select,
+        [data-theme="dark"] #contactModal .form-group textarea {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] #notificationToast {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        [data-theme="dark"] #notificationToast.success {
+            border-left-color: #22c55e;
+        }
+
+        [data-theme="dark"] #notificationToast.error {
+            border-left-color: #ef4444;
+        }
+
+        [data-theme="dark"] #notificationToast.warning {
+            border-left-color: #f59e0b;
+        }
+
+        [data-theme="dark"] .sidebar-stat {
+            background: rgba(255,255,255,0.04);
+        }
+
+        [data-theme="dark"] .sidebar-stat strong {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .sidebar-stat span {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .sidebar-profile-card h3 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .sidebar-profile-card p {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .affiliate-nav ul li a {
+            color: rgba(255,255,255,0.6);
+        }
+
+        [data-theme="dark"] .affiliate-nav ul li a:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+        }
+
+        [data-theme="dark"] .affiliate-nav ul li a.active {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+
+        [data-theme="dark"] .sidebar-shortcuts button {
+            color: rgba(255,255,255,0.6);
+        }
+
+        [data-theme="dark"] .sidebar-shortcuts button:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+        }
+
+        [data-theme="dark"] .page-header h2 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .page-header p {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .page-actions button {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .page-actions button:hover {
+            background: var(--bg-body);
+        }
+
+        [data-theme="dark"] .page-actions .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
+
+        [data-theme="dark"] .page-actions .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        [data-theme="dark"] .page-actions .btn-gold {
+            background: var(--gold);
+            color: #0a2a44;
+            border: none;
+        }
+
+        [data-theme="dark"] .page-actions .btn-gold:hover {
+            background: #eab308;
+        }
+
+        [data-theme="dark"] .page-actions .btn-danger {
+            background: #dc2626;
+            color: white;
+            border: none;
+        }
+
+        [data-theme="dark"] .page-actions .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        [data-theme="dark"] .header-search input {
+            background: rgba(255,255,255,0.06);
+            color: white;
+            border-color: rgba(255,255,255,0.08);
+        }
+
+        [data-theme="dark"] .header-search input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        [data-theme="dark"] .header-search input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45,115,255,0.15);
+        }
+
+        [data-theme="dark"] .header-search button {
+            background: var(--accent);
+            color: white;
+        }
+
+        [data-theme="dark"] .header-search button:hover {
+            background: var(--accent-hover);
+        }
+
+        [data-theme="dark"] .header-actions button {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        [data-theme="dark"] .header-actions button:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        [data-theme="dark"] .theme-toggle button {
+            color: rgba(255,255,255,0.5);
+        }
+
+        [data-theme="dark"] .theme-toggle button.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        [data-theme="dark"] .header-actions .lang-select {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        [data-theme="dark"] .header-actions .lang-select option {
+            background: #0a1f3d;
+            color: white;
+        }
+
+        [data-theme="dark"] .affiliate-mini-profile {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.06);
+            color: white;
+        }
+
+        [data-theme="dark"] .affiliate-mini-profile:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        [data-theme="dark"] .affiliate-mini-info small {
+            color: rgba(255,255,255,0.5);
+        }
+
+        [data-theme="dark"] .code-display .stats .stat-item .num {
+            color: var(--gold);
+        }
+
+        [data-theme="dark"] .sidebar-profile-card .level {
+            background: var(--gold);
+            color: #0a2a44;
+        }
+
+        [data-theme="dark"] .affiliate-mini-profile .profile-placeholder {
+            background: rgba(255,255,255,0.1);
+        }
+
+        [data-theme="dark"] .sidebar-profile-card .avatar-placeholder {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.5);
+        }
+        /* =========================================================
+   MODE SOMBRE — SINE.SHOP OFFICIEL
+   ========================================================= */
+[data-theme="dark"] {
+    --bg-body: #0f172a;
+    --bg-card: rgba(30,41,59,0.92);
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-color: rgba(255,255,255,0.06);
+    --shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] body {
+    background: var(--bg-body);
+    color: var(--text-primary);
+}
+
+/* HEADER */
+[data-theme="dark"] .official-header {
+    background: rgba(15,23,42,0.95);
+    border-bottom-color: var(--border-color);
+}
+[data-theme="dark"] .official-header .header-brand {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-header .header-brand span {
+    color: #60a5fa;
+}
+
+/* HEADER ACTIONS */
+[data-theme="dark"] .header-actions .lang-select {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .header-actions .lang-select option {
+    background: #1e293b;
+    color: var(--text-primary);
+}
+[data-theme="dark"] .header-actions .official-badge {
+    background: rgba(250,204,21,0.15);
+    color: #fbbf24;
+    border-color: rgba(250,204,21,0.15);
+}
+[data-theme="dark"] .header-actions .user-count {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .header-actions .btn-logout {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+    border-color: rgba(239,68,68,0.1);
+}
+[data-theme="dark"] .header-actions .btn-logout:hover {
+    background: rgba(239,68,68,0.25);
+}
+
+/* LOGIN OVERLAY */
+[data-theme="dark"] .official-login-overlay {
+    background: rgba(0,0,0,0.8);
+}
+[data-theme="dark"] .official-login-box {
+    background: #1e293b;
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-login-box .logo {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-login-box .logo span {
+    color: #60a5fa;
+}
+[data-theme="dark"] .official-login-box .subtitle {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .official-login-box .max-users {
+    color: var(--text-muted);
+}
+[data-theme="dark"] .official-login-box .max-users strong {
+    color: #fbbf24;
+}
+[data-theme="dark"] .official-login-box .form-group label {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .official-login-box .form-group input {
+    background: #0f172a;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .official-login-box .form-group input:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(245,158,11,0.12);
+}
+[data-theme="dark"] .official-login-box .security-note {
+    color: var(--text-muted);
+}
+[data-theme="dark"] .official-login-box .register-link {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .official-login-box .register-link a {
+    color: #60a5fa;
+}
+[data-theme="dark"] .official-login-box .register-link a:hover {
+    color: #93c5fd;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+[data-theme="dark"] .official-sidebar {
+    background: rgba(15,23,42,0.95);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-sidebar .user-info {
+    border-bottom-color: var(--border-color);
+}
+[data-theme="dark"] .official-sidebar .user-info .name {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-sidebar .user-info .role {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .official-sidebar .user-info .avatar {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+[data-theme="dark"] .official-sidebar .nav-item {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .official-sidebar .nav-item:hover {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-sidebar .nav-item.active {
+    background: rgba(250,204,21,0.15);
+    color: #fbbf24;
+    border-left-color: #f59e0b;
+}
+[data-theme="dark"] .official-sidebar .nav-item .badge {
+    background: #ef4444;
+    color: white;
+}
+
+/* =========================================================
+   CONTENU PRINCIPAL
+   ========================================================= */
+[data-theme="dark"] .official-content {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .official-content .page-title {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .official-content .page-title .live-badge {
+    background: #ef4444;
+    color: white;
+}
+[data-theme="dark"] .official-content .page-subtitle {
+    color: var(--text-secondary);
+}
+
+/* STAT CARDS */
+[data-theme="dark"] .stat-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .stat-card .number {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .stat-card .label {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .stat-card .icon {
+    color: #fbbf24;
+}
+
+/* TABLEAUX */
+[data-theme="dark"] .table-wrapper {
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .table-wrapper th {
+    background: rgba(255,255,255,0.03);
+    color: var(--text-secondary);
+    border-bottom-color: var(--border-color);
+}
+[data-theme="dark"] .table-wrapper td {
+    color: var(--text-primary);
+    border-bottom-color: var(--border-color);
+}
+[data-theme="dark"] .table-wrapper tr:hover td {
+    background: rgba(250,204,21,0.04);
+}
+
+/* STATUS BADGES */
+[data-theme="dark"] .table-wrapper .status.active {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+}
+[data-theme="dark"] .table-wrapper .status.pending {
+    background: rgba(245,158,11,0.15);
+    color: #fbbf24;
+}
+[data-theme="dark"] .table-wrapper .status.inactive {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+}
+
+/* ACTION BUTTONS */
+[data-theme="dark"] .action-btn.view {
+    background: rgba(59,130,246,0.15);
+    color: #60a5fa;
+}
+[data-theme="dark"] .action-btn.view:hover {
+    background: rgba(59,130,246,0.25);
+}
+[data-theme="dark"] .action-btn.edit {
+    background: rgba(245,158,11,0.15);
+    color: #fbbf24;
+}
+[data-theme="dark"] .action-btn.edit:hover {
+    background: rgba(245,158,11,0.25);
+}
+[data-theme="dark"] .action-btn.block {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+}
+[data-theme="dark"] .action-btn.block:hover {
+    background: rgba(239,68,68,0.25);
+}
+[data-theme="dark"] .action-btn.delete {
+    background: rgba(239,68,68,0.2);
+    color: #f87171;
+}
+[data-theme="dark"] .action-btn.delete:hover {
+    background: rgba(239,68,68,0.3);
+}
+[data-theme="dark"] .action-btn.pay {
+    background: rgba(59,130,246,0.15);
+    color: #60a5fa;
+}
+[data-theme="dark"] .action-btn.pay:hover {
+    background: rgba(59,130,246,0.25);
+}
+
+/* BOUTONS PRIMAIRES */
+[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #0f172a;
+}
+[data-theme="dark"] .btn-primary:hover {
+    box-shadow: 0 8px 25px rgba(245,158,11,0.25);
+}
+[data-theme="dark"] .btn-secondary {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .btn-secondary:hover {
+    background: rgba(255,255,255,0.12);
+}
+[data-theme="dark"] .btn-success {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+}
+[data-theme="dark"] .btn-success:hover {
+    background: rgba(34,197,94,0.25);
+}
+
+/* FORMULAIRES */
+[data-theme="dark"] .form-group label {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background: #0f172a;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(245,158,11,0.12);
+    background: #0f172a;
+}
+
+/* MODALES */
+[data-theme="dark"] .modal-overlay {
+    background: rgba(0,0,0,0.7);
+}
+[data-theme="dark"] .modal-content {
+    background: #1e293b;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+[data-theme="dark"] .modal-content .modal-title {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .modal-content .modal-subtitle {
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .modal-close {
+    color: var(--text-muted);
+}
+[data-theme="dark"] .modal-close:hover {
+    color: var(--text-primary);
+}
+
+/* ACTIVITY FEED */
+[data-theme="dark"] .activity-item {
+    border-bottom-color: var(--border-color);
+}
+[data-theme="dark"] .activity-item .content .text {
+    color: var(--text-primary);
+}
+[data-theme="dark"] .activity-item .content .time {
+    color: var(--text-muted);
+}
+[data-theme="dark"] .activity-item .icon.user {
+    background: rgba(59,130,246,0.15);
+    color: #60a5fa;
+}
+[data-theme="dark"] .activity-item .icon.order {
+    background: rgba(245,158,11,0.15);
+    color: #fbbf24;
+}
+[data-theme="dark"] .activity-item .icon.product {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+}
+[data-theme="dark"] .activity-item .icon.payment {
+    background: rgba(236,72,153,0.15);
+    color: #f472b6;
+}
+[data-theme="dark"] .activity-item .icon.alert {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+}
+
+/* SYSTEM STATUS CARDS */
+[data-theme="dark"] [style*="background:rgba(255,255,255,0.6)"] {
+    background: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+[data-theme="dark"] .stats-grid [style*="background:rgba(255,255,255,0.6)"] {
+    background: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+[data-theme="dark"] [style*="color:#22c55e"] {
+    color: #4ade80 !important;
+}
+[data-theme="dark"] [style*="color:#f59e0b"] {
+    color: #fbbf24 !important;
+}
+
+/* EMPTY STATE */
+[data-theme="dark"] .empty-state {
+    color: var(--text-muted);
+}
+
+/* NOTIFICATION TOAST */
+[data-theme="dark"] #notification {
+    background: rgba(15,23,42,0.95);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+/* SCROLLBAR */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(250,204,21,0.3);
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(250,204,21,0.5);
+}
+
+/* SKY BACKGROUND - mode sombre */
+[data-theme="dark"] .sky {
+    background: linear-gradient(180deg, #0a0f1a 0%, #0f172a 40%, #1a2332 70%, #0f172a 100%);
+}
+[data-theme="dark"] .sky::before {
+    background: radial-gradient(ellipse at 30% 20%, rgba(30,58,95,0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(30,58,95,0.15) 0%, transparent 50%);
+}
+
+/* STARS - plus brillantes en mode sombre */
+[data-theme="dark"] .star {
+    background: #e2e8f0;
+    box-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+[data-theme="dark"] .shooting-star {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+}
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        img { max-width: 100%; height: auto; display: block; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-body); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+        .affiliate-header {
+            background: var(--bg-header);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            height: var(--header-height);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-left .logo-link { display: flex; align-items: center; gap: 8px; color: white; }
+        .header-left .logo-link img { height: 40px; width: 40px; object-fit: contain; border-radius: 8px; }
+        .header-left .logo-link h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .header-left .logo-link h1 span { color: #72b6ff; }
+        .header-left .logo-link small { font-size: 0.6rem; color: rgba(255,255,255,0.5); display: block; }
+
+        .header-search { flex: 1; display: flex; gap: 8px; max-width: 400px; }
+        .header-search input {
+            flex: 1;
+            min-width: 0;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+        .header-search input::placeholder { color: rgba(255,255,255,0.4); }
+        .header-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,115,255,0.15); }
+        .header-search button {
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .header-search button:hover { background: var(--accent-hover); }
+
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .header-actions button {
+            padding: 8px 12px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+            font-size: 1rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+        }
+        .header-actions button:hover { background: rgba(255,255,255,0.12); color: white; }
+        .header-actions .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle {
+            display: flex;
+            gap: 2px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 30px;
+            padding: 2px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .theme-toggle button {
+            padding: 4px 8px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            border: none;
+            background: none;
+            transition: var(--transition);
+        }
+        .theme-toggle button.active { background: var(--accent); color: white; }
+
+        .header-actions .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .header-actions .lang-select option { background: #0a1f3d; color: white; }
+
+        .affiliate-mini-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 12px 4px 4px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: var(--transition);
+            color: white;
+        }
+        .affiliate-mini-profile:hover { background: rgba(255,255,255,0.12); }
+        .affiliate-mini-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .affiliate-mini-profile .profile-placeholder {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .affiliate-mini-info .name-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .affiliate-mini-info small { font-size: 0.65rem; color: rgba(255,255,255,0.5); display: block; }
+
+        /* =========================================================
+           LAYOUT
+           ========================================================= */
+        .affiliate-layout {
+            display: flex;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* =========================================================
+           SIDEBAR
+           ========================================================= */
+        .affiliate-sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            color: rgba(255,255,255,0.85);
+            padding: 16px 12px;
+            overflow-y: auto;
+            position: sticky;
+            top: var(--header-height);
+            height: calc(100vh - var(--header-height));
+            flex-shrink: 0;
+            transition: background 0.3s;
+            z-index: 50;
+        }
+        .affiliate-sidebar::-webkit-scrollbar { width: 4px; }
+        .affiliate-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+
+        .sidebar-profile-card {
+            text-align: center;
+            padding: 8px 0 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .sidebar-profile-card .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.1);
+            margin: 0 auto 8px;
+        }
+        .sidebar-profile-card .avatar-placeholder {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.08);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0 auto 8px;
+            color: rgba(255,255,255,0.5);
+        }
+        .sidebar-profile-card h3 { font-size: 0.95rem; font-weight: 600; }
+        .sidebar-profile-card p { font-size: 0.75rem; opacity: 0.5; }
+        .sidebar-profile-card .level {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 30px;
+            background: var(--gold);
+            color: #0a2a44;
+            font-size: 0.6rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .sidebar-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .sidebar-stat {
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            padding: 8px 6px;
+            text-align: center;
+        }
+        .sidebar-stat strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .sidebar-stat span { font-size: 0.55rem; opacity: 0.5; }
+
+        .affiliate-nav { padding: 8px 0; }
+        .affiliate-nav ul { list-style: none; }
+        .affiliate-nav ul li { margin-bottom: 2px; }
+        .affiliate-nav ul li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            transition: var(--transition);
+        }
+        .affiliate-nav ul li a:hover { background: rgba(255,255,255,0.06); color: white; }
+        .affiliate-nav ul li a.active {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        .affiliate-nav ul li a .menu-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: white;
+            font-size: 0.6rem;
+            padding: 1px 6px;
+            border-radius: 30px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .sidebar-shortcuts {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-shortcuts button {
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            text-align: left;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .sidebar-shortcuts button:hover { background: rgba(255,255,255,0.06); color: white; }
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
+        #affiliateMain {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(100vh - var(--header-height));
+        }
+
+        .affiliate-page { display: none; animation: fadeIn 0.3s ease; }
+        .affiliate-page.active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .page-header h2 { font-size: 1.4rem; font-weight: 700; }
+        .page-header p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .page-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .page-actions button {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        .page-actions button:hover { background: var(--bg-body); transform: translateY(-2px); }
+        .page-actions .btn-primary { background: var(--accent); color: white; border: none; }
+        .page-actions .btn-primary:hover { background: var(--accent-hover); }
+        .page-actions .btn-success { background: var(--success); color: white; border: none; }
+        .page-actions .btn-success:hover { background: #16a34a; }
+        .page-actions .btn-gold { background: var(--gold); color: #0a2a44; border: none; }
+        .page-actions .btn-gold:hover { background: #eab308; }
+
+        .dashboard-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .dashboard-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .kpi-grid .kpi-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+        .kpi-grid .kpi-card .icon { font-size: 1.5rem; margin-bottom: 4px; }
+        .kpi-grid .kpi-card .value { font-size: 1.5rem; font-weight: 700; }
+        .kpi-grid .kpi-card .label { font-size: 0.75rem; color: var(--text-secondary); }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-grid .full { grid-column: 1 / -1; }
+        .form-group { margin-bottom: 0; }
+
+        /* Zones d'upload */
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            background: var(--bg-body);
+        }
+        .upload-area:hover { border-color: var(--accent); }
+        .upload-area .icon { font-size: 2rem; color: var(--text-muted); display: block; }
+        .upload-area .file-input { display: none; }
+        .upload-preview { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .upload-preview .preview-item {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .upload-preview .preview-item img,
+        .upload-preview .preview-item video { width: 100%; height: 100%; object-fit: cover; }
+        .upload-preview .preview-item .remove {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(239,68,68,0.9);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            cursor: pointer;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45,115,255,0.12);
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+        /* =========================================================
+           CODE PROMO
+           ========================================================= */
+        .code-display {
+            background: linear-gradient(135deg, #0a2a44, #1a4a6a);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            color: white;
+            margin: 12px 0;
+        }
+        .code-display .code {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            font-family: monospace;
+            background: rgba(255,255,255,0.1);
+            padding: 12px 24px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 8px 0;
+            border: 2px dashed rgba(255,255,255,0.2);
+            user-select: all;
+        }
+        .code-display .copy-btn {
+            padding: 6px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            display: inline-block;
+            cursor: pointer;
+        }
+        .code-display .copy-btn:hover { background: rgba(255,255,255,0.25); }
+        .code-display .stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .code-display .stats .stat-item { text-align: center; }
+        .code-display .stats .stat-item .num { font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+        .code-display .stats .stat-item .label { font-size: 0.7rem; opacity: 0.6; }
+
+        /* =========================================================
+           COMMISSION TABLE
+           ========================================================= */
+        .commission-table { width: 100%; border-collapse: collapse; }
+        .commission-table th,
+        .commission-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .commission-table th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .commission-table .status-badge {
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .status-badge.completed { background: #dcfce7; color: #16a34a; }
+        .status-badge.pending { background: #fef3c7; color: #92400e; }
+        .status-badge.failed { background: #fee2e2; color: #991b1b; }
+
+        /* =========================================================
+           TOAST
+           ========================================================= */
+        #notificationToast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            z-index: 99999;
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            max-width: 400px;
+        }
+        #notificationToast.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        #notificationToast.success { border-left: 4px solid var(--success); }
+        #notificationToast.error { border-left: 4px solid var(--danger); }
+        #notificationToast.warning { border-left: 4px solid var(--warning); }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+        @media (max-width: 768px) {
+            .affiliate-header { flex-wrap: wrap; height: auto; padding: 10px 16px; gap: 8px; }
+            .header-search { max-width: 100%; }
+            .affiliate-layout { flex-direction: column; }
+            .affiliate-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                padding: 12px 16px;
+                max-height: 250px;
+                overflow-y: auto;
+            }
+            #affiliateMain { max-height: none; padding: 12px; }
+            .kpi-grid { grid-template-columns: 1fr 1fr; }
+            .page-header { flex-direction: column; align-items: stretch; }
+            .page-actions { justify-content: flex-start; }
+            .code-display .code { font-size: 1.8rem; letter-spacing: 2px; }
+            .code-display .stats { gap: 12px; }
+        }
+        @media (max-width: 480px) {
+            .kpi-grid { grid-template-columns: 1fr; }
+            .commission-table { font-size: 0.8rem; }
+            .commission-table th,
+            .commission-table td { padding: 6px 8px; }
+            .affiliate-mini-profile .affiliate-mini-info .name-row { font-size: 0.75rem; }
+        }
+
+        /* =========================================================
+           ABOUT SECTION
+           ========================================================= */
+        .about-section {
+            background: var(--bg-body);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .about-section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .about-section p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .about-section .highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .about-section .commission-scale {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        .about-section .commission-scale .tier {
+            background: var(--bg-card);
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .about-section .commission-scale .tier .amount { font-weight: 700; color: var(--text-primary); }
+        .about-section .commission-scale .tier .rate { color: var(--gold); font-weight: 700; }
+
+        @media (max-width: 500px) {
+            .about-section .commission-scale { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- VIDÉO DE BIENVENUE -->
+    <div id="welcomeVideoOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999999;align-items:center;justify-content:center;padding:20px;">
+        <div style="position:relative;max-width:640px;width:100%;">
+            <button id="btnCloseWelcomeVideo" style="position:absolute;top:-40px;right:0;background:rgba(255,255,255,0.15);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;">✕</button>
+            <video id="welcomeVideoPlayer" src="" controls autoplay style="width:100%;border-radius:16px;background:#000;"></video>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- HEADER -->
+    <!-- ========================================================= -->
+    <header class="affiliate-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <div class="header-left">
+            <a href="../html/index.html" class="logo-link">
+                <img src="../images/logo.png" alt="SINE.SHOP" onerror="this.src='../images/logo.png'">
+                <div>
+                    <h1><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart" style="color:red;">♡</span><span style="color:black;">P</span></h1>
+                    <small>Affiliation</small>
+                </div>
+            </a>
+        </div>
+        <div class="header-search">
+            <input type="search" id="globalSearch" placeholder="🔍 Rechercher...">
+            <button id="btnGlobalSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div class="header-actions">
+            <button id="btnNotifications" title="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <span class="badge" id="badgeNotifications">0</span>
+            </button>
+            <div class="theme-toggle" id="themeToggle">
+                <button data-theme="light" class="active"><i class="fa-regular fa-sun"></i></button>
+                <button data-theme="dark"><i class="fa-regular fa-moon"></i></button>
+                <button data-theme="system"><i class="fa-regular fa-desktop"></i></button>
+            </div>
+        </div>
+        <div class="affiliate-mini-profile" id="miniProfile">
+            <span class="profile-placeholder" id="profilePlaceholder">👤</span>
+            <img id="profileAvatar" src="" alt="Profil" style="display:none;">
+            <div class="affiliate-mini-info">
+                <div class="name-row">
+                    <span id="miniName">Partenaire</span>
+                    <span id="levelBadge" style="font-size:0.5rem;background:var(--gold);color:#0a2a44;padding:0 6px;border-radius:30px;">Bronze</span>
+                </div>
+                <small id="miniId">ID: ---</small>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================= -->
+    <!-- LAYOUT -->
+    <!-- ========================================================= -->
+    <div class="affiliate-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="affiliate-sidebar">
+            <div class="sidebar-profile-card">
+                <div class="avatar-placeholder" id="sidebarAvatarPlaceholder">👤</div>
+                <img class="avatar" id="sidebarAvatar" src="" alt="Profil" style="display:none;">
+                <h3 id="sidebarName">Partenaire</h3>
+                <p id="sidebarId">ID: ---</p>
+                <span class="level" id="sidebarLevel">Bronze</span>
+            </div>
+            <div class="sidebar-stats">
+                <div class="sidebar-stat"><strong id="sidebarBalance">0 FCFA</strong><span>Solde</span></div>
+                <div class="sidebar-stat"><strong id="sidebarReferrals">0</strong><span>Référents</span></div>
+                <div class="sidebar-stat"><strong id="sidebarEarnings">0 FCFA</strong><span>Gains</span></div>
+                <div class="sidebar-stat"><strong id="sidebarRank">#0</strong><span>Classement</span></div>
+            </div>
+            <nav class="affiliate-nav">
+                <ul>
+                    <li><a href="#" data-section="dashboard" class="active"><i class="fa-solid fa-house"></i><span data-translate="section.dashboard">Tableau de bord</span></a></li>
+                    <li><a href="#" data-section="codes"><i class="fa-solid fa-tag"></i><span data-translate="affiliate.promoCodes">Codes promo</span><span class="menu-badge" id="codeBadge">0</span></a></li>
+                    <li><a href="#" data-section="commissions"><i class="fa-solid fa-coins"></i><span data-translate="affiliate.commissions">Commissions</span></a></li>
+                    <li><a href="#" data-section="referrals"><i class="fa-solid fa-users"></i><span data-translate="affiliate.referrals">Référents</span></a></li>
+                    <li><a href="#" data-section="withdraw"><i class="fa-solid fa-arrow-up-right-from-square"></i><span data-translate="affiliate.withdraw">Retrait</span></a></li>
+                    <li><a href="#" data-section="profil"><i class="fa-solid fa-user"></i><span data-translate="section.profile">Mon profil</span></a></li>
+                    <li><a href="#" data-section="verification"><i class="fa-solid fa-id-card"></i><span data-translate="nav.verification">Vérification</span></a></li>
+                    <li><a href="#" data-section="parametres"><i class="fa-solid fa-gear"></i><span data-translate="nav.settings">Paramètres</span></a></li>
+                    <li><a href="#" data-section="about"><i class="fa-solid fa-circle-info"></i><span data-translate="affiliate.about">À propos</span></a></li>
+                </ul>
+            </nav>
+            <section class="sidebar-shortcuts">
+                <button id="btnSupport"><i class="fa-solid fa-headset"></i> Assistance</button>
+                <button id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+            </section>
+        </aside>
+
+        <!-- MAIN -->
+        <main id="affiliateMain">
+
+            <!-- ===== DASHBOARD ===== -->
+            <section id="dashboard" class="affiliate-page active-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="dashTitle">📊 <span data-translate="section.dashboard">Tableau de bord</span></h2>
+                        <p id="dashSubtitle" data-translate="affiliate.dashSubtitle">Bienvenue dans votre espace partenaire SINE.SHOP</p>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-gold" id="btnGenerateCode"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-translate="affiliate.generateCode">Générer un code</span></button>
+                        <button class="btn-primary" id="btnShare"><i class="fa-solid fa-share-nodes"></i> <span data-translate="affiliate.share">Partager</span></button>
+                    </div>
+                </div>
+
+                <div class="kpi-grid" id="kpiGrid">
+                    <div class="kpi-card"><span class="icon">💰</span><div class="value" id="kpiBalance">0 FCFA</div><div class="label" data-translate="affiliate.availableBalance">Solde disponible</div></div>
+                    <div class="kpi-card"><span class="icon">👥</span><div class="value" id="kpiReferrals">0</div><div class="label" data-translate="affiliate.referrals">Référents</div></div>
+                    <div class="kpi-card"><span class="icon">📈</span><div class="value" id="kpiEarnings">0 FCFA</div><div class="label" data-translate="affiliate.totalEarnings">Gains totaux</div></div>
+                    <div class="kpi-card"><span class="icon">🏆</span><div class="value" id="kpiRank">#0</div><div class="label" data-translate="affiliate.ranking">Classement</div></div>
+                    <div class="kpi-card"><span class="icon">📊</span><div class="value" id="kpiConversion">0%</div><div class="label" data-translate="affiliate.conversionRate">Taux de conversion</div></div>
+                    <div class="kpi-card"><span class="icon">⏳</span><div class="value" id="kpiActiveDays">0j</div><div class="label" data-translate="affiliate.activeDays">Jours actifs</div></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>📋 <span data-translate="affiliate.recentCommissions">Dernières commissions</span></h3>
+                    <div id="recentCommissions" style="min-height:100px;">
+                        <p class="text-muted" style="color:var(--text-muted);" data-translate="affiliate.noCommissionsYet">Aucune commission pour le moment</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🎯 <span data-translate="affiliate.monthlyGoals">Objectifs du mois</span></h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border-color);">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--gold);" id="targetReferrals">0/10</div>
+                            <div style="font-size:0.75rem;color:var(--text-secondary);" data-translate="affiliate.referrals">Référents</div>
+                            <div style="height:4px;background:var(--border-color);border-radius:4px;margin-top:6px;overflow:hidden;">
+                                <div id="targetReferralsBar" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width 0.6s ease;"></div>
+                            </div>
+                        </div>
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border-color);">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--gold);" id="targetEarnings">0/50000 FCFA</div>
+                            <div style="font-size:0.75rem;color:var(--text-secondary);" data-translate="affiliate.earnings">Gains</div>
+                            <div style="height:4px;background:var(--border-color);border-radius:4px;margin-top:6px;overflow:hidden;">
+                                <div id="targetEarningsBar" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width 0.6s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CODES PROMO ===== -->
+            <section id="codes" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="codesTitle">🏷️ <span data-translate="affiliate.promoCodes">Codes promo</span></h2>
+                        <p id="codesSubtitle" data-translate="affiliate.codesSubtitle">Générez et gérez vos codes promo</p>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-gold" id="btnGenerateNewCode"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-translate="affiliate.generate">Générer</span></button>
+                        <button class="btn-primary" id="btnAddCustomCode"><i class="fa-solid fa-plus"></i> <span data-translate="affiliate.customCode">Code personnalisé</span></button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>📋 <span data-translate="affiliate.myPromoCodes">Mes codes promo</span></h3>
+                    <div id="codesList" style="min-height:100px;">
+                        <p class="text-muted" style="color:var(--text-muted);" data-translate="affiliate.noPromoCodes">Aucun code promo généré</p>
+                    </div>
+                </div>
+
+                <!-- Modal code personnalisé -->
+                <div id="customCodeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+                    <div style="background:var(--bg-card);border-radius:20px;padding:24px;max-width:450px;width:100%;border:1px solid var(--border-color);">
+                        <h3 style="margin-bottom:12px;">✏️ <span data-translate="affiliate.customCode">Code personnalisé</span></h3>
+                        <div class="form-group" style="margin-bottom:12px;">
+                            <label data-translate="affiliate.enterPromoCode">Entrez votre code promo</label>
+                            <input type="text" id="customCodeInput" placeholder="Ex: PARTENAIRE2026" style="text-transform:uppercase;">
+                        </div>
+                        <div id="codeStatus" style="font-size:0.85rem;margin-bottom:8px;"></div>
+                        <div style="display:flex;gap:10px;">
+                            <button class="btn-primary" id="btnConfirmCustomCode" style="flex:1;"><span data-translate="affiliate.confirm">Confirmer</span></button>
+                            <button class="btn-secondary" id="btnCancelCustomCode" style="flex:1;background:var(--bg-body);color:var(--text-secondary);"><span data-translate="admin.cancel">Annuler</span></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== COMMISSIONS ===== -->
+            <section id="commissions" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="commTitle">💰 <span data-translate="affiliate.commissions">Commissions</span></h2>
+                        <p id="commSubtitle" data-translate="affiliate.commissionsHistory">Historique de vos commissions</p>
+                    </div>
+                    <div class="page-actions">
+                        <button id="btnExportCommissions"><i class="fa-solid fa-download"></i> <span data-translate="affiliate.export">Exporter</span></button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:16px;">
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--success);" id="commTotal">0 FCFA</div>
+                            <div style="font-size:0.7rem;color:var(--text-secondary);" data-translate="livreur.totalEarned">Total gagné</div>
+                        </div>
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--warning);" id="commPending">0 FCFA</div>
+                            <div style="font-size:0.7rem;color:var(--text-secondary);" data-translate="livreur.filterPending">En attente</div>
+                        </div>
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);" id="commPaid">0 FCFA</div>
+                            <div style="font-size:0.7rem;color:var(--text-secondary);" data-translate="affiliate.paid">Payé</div>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table class="commission-table">
+                            <thead>
+                                <tr>
+                                    <th data-translate="affiliate.date">Date</th>
+                                    <th data-translate="affiliate.source">Source</th>
+                                    <th data-translate="affiliate.amount">Montant</th>
+                                    <th data-translate="affiliate.status">Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commissionsList">
+                                <tr><td colspan="4" style="text-align:center;color:var(--text-muted);" data-translate="affiliate.noCommissions">Aucune commission</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== RÉFÉRENTS ===== -->
+            <section id="referrals" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="refTitle">👥 <span data-translate="affiliate.referrals">Référents</span></h2>
+                        <p id="refSubtitle" data-translate="affiliate.refSubtitle">Les utilisateurs qui utilisent vos codes promo</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;">
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);" id="refTotal">0</div>
+                            <div style="font-size:0.7rem;color:var(--text-secondary);" data-translate="affiliate.totalReferrals">Total référents</div>
+                        </div>
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--success);" id="refActive">0</div>
+                            <div style="font-size:0.7rem;color:var(--text-secondary);" data-translate="affiliate.active">Actifs</div>
+                        </div>
+                        <div style="background:var(--bg-body);border-radius:12px;padding:12px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:700;color:var(--gold);" id="refEarnings">0 FCFA</div>
+                            <div style="font-size:0.7rem;color:var(--text-secondary);" data-translate="affiliate.generatedEarnings">Gains générés</div>
+                        </div>
+                    </div>
+                    <div id="referralsList">
+                        <p class="text-muted" style="color:var(--text-muted);" data-translate="affiliate.noReferralsYet">Aucun référent pour le moment</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== RETRAIT ===== -->
+            <section id="withdraw" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="withdrawTitle">💳 <span data-translate="affiliate.withdraw">Retrait</span></h2>
+                        <p id="withdrawSubtitle" data-translate="affiliate.withdrawSubtitle">Retirez vos gains</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>💼 <span data-translate="affiliate.availableBalance">Solde disponible</span></h3>
+                    <div style="font-size:2.5rem;font-weight:700;color:var(--gold);margin:8px 0;" id="withdrawBalance">0 FCFA</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);">
+                        <span id="withdrawMin">Retrait minimum: 65 000 FCFA</span> • 
+                        <span id="withdrawFee" data-translate="affiliate.fees0">Frais: 0%</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>📋 <span data-translate="affiliate.withdrawConditions">Conditions de retrait</span></h3>
+                    <div style="font-size:0.9rem;color:var(--text-secondary);line-height:1.8;">
+                        <div>✅ <span id="condition1" data-translate="affiliate.condition1">Compte actif depuis au moins 90 jours</span></div>
+                        <div>✅ <span id="condition2" data-translate="affiliate.condition2">Minimum 6 référents actifs</span></div>
+                        <div>✅ <span id="condition3" data-translate="affiliate.condition3">Solde minimum: 65 000 FCFA</span></div>
+                        <div>✅ <span id="condition4" data-translate="affiliate.condition4">Retrait maximum: 20% du solde tous les 15 jours</span></div>
+                        <div>✅ <span id="condition5" data-translate="affiliate.condition5">Solde minimum requis: 32 500 FCFA</span></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🏦 <span data-translate="affiliate.withdrawMethod">Moyen de retrait</span></h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label data-translate="affiliate.method">Méthode</label>
+                            <select id="withdrawMethod">
+                                <option value="wave">🌊 Wave</option>
+                                <option value="mtn">📱 MTN MoMo</option>
+                                <option value="orange">🍊 Orange Money</option>
+                                <option value="paypal">💳 PayPal</option>
+                                <option value="bank" data-translate="affiliate.bankTransfer">🏦 Virement bancaire</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.numberEmail">Numéro / Email</label>
+                            <input type="text" id="withdrawAccount" placeholder="Ex: 07 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.amountToWithdraw">Montant à retirer</label>
+                            <input type="number" id="withdrawAmount" placeholder="0" min="0">
+                        </div>
+                        <div class="form-group" style="display:flex;align-items:flex-end;">
+                            <button class="btn-primary" id="btnWithdraw" style="width:100%;padding:12px;">📤 <span data-translate="affiliate.withdrawBtn">Retirer</span></button>
+                        </div>
+                    </div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;">
+                        <i class="fa-regular fa-clock"></i> <span data-translate="affiliate.processingNote">Les retraits sont traités sous 48h ouvrées</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PROFIL ===== -->
+            <section id="profil" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="profilTitle">👤 <span data-translate="section.profile">Mon profil</span> <span id="affiliateFlag"></span> <span id="verifiedBadge" style="display:none;color:var(--success);font-size:0.8rem;font-weight:700;">✔️ <span data-translate="seller.verified">Vérifié</span></span></h2>
+                        <p id="profilSubtitle" data-translate="affiliate.profilSubtitle">Gérez vos informations personnelles. Le nom et le téléphone deviennent définitifs une fois enregistrés. Le pays et la ville restent modifiables à tout moment.</p>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-primary" id="btnSaveProfile"><i class="fa-solid fa-floppy-disk"></i> <span data-translate="settings.save">Enregistrer</span></button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label data-translate="affiliate.profilePhoto">Photo de profil</label>
+                            <input type="file" id="profilePhotoInput" accept="image/*">
+                        </div>
+                        <div class="form-group"><label data-translate="livreur.lastName">Nom</label><input type="text" id="profileName"></div>
+                        <div class="form-group"><label data-translate="livreur.firstName">Prénom</label><input type="text" id="profileFirstName"></div>
+                        <div class="form-group"><label data-translate="settings.email">Email</label><input type="email" id="profileEmail" readonly></div>
+                        <div class="form-group"><label data-translate="seller.phone">Téléphone</label><input type="tel" id="profilePhone"></div>
+                        <div class="form-group">
+                            <label data-translate="seller.country">Pays</label>
+                            <select id="profileCountry">
+                                <option value="" data-translate="kyc.choose">Choisir</option>
+                                <option value="CI">🇨🇮 Côte d'Ivoire</option>
+                                <option value="SN">🇸🇳 Sénégal</option>
+                                <option value="MA">🇲🇦 Maroc</option>
+                                <option value="FR">🇫🇷 France</option>
+                                <option value="US">🇺🇸 États-Unis</option>
+                                <option value="GB">🇬🇧 Royaume-Uni</option>
+                                <option value="DE">🇩🇪 Allemagne</option>
+                                <option value="IT">🇮🇹 Italie</option>
+                                <option value="ES">🇪🇸 Espagne</option>
+                                <option value="PT">🇵🇹 Portugal</option>
+                                <option value="BE">🇧🇪 Belgique</option>
+                                <option value="CH">🇨🇭 Suisse</option>
+                                <option value="CA">🇨🇦 Canada</option>
+                                <option value="NG">🇳🇬 Nigeria</option>
+                                <option value="GH">🇬🇭 Ghana</option>
+                                <option value="CM">🇨🇲 Cameroun</option>
+                                <option value="BJ">🇧🇯 Bénin</option>
+                                <option value="TG">🇹🇬 Togo</option>
+                                <option value="BF">🇧🇫 Burkina Faso</option>
+                                <option value="ML">🇲🇱 Mali</option>
+                                <option value="NE">🇳🇪 Niger</option>
+                                <option value="GN">🇬🇳 Guinée</option>
+                                <option value="ZA">🇿🇦 Afrique du Sud</option>
+                                <option value="EG">🇪🇬 Égypte</option>
+                                <option value="AE">🇦🇪 Émirats Arabes Unis</option>
+                                <option value="SA">🇸🇦 Arabie Saoudite</option>
+                                <option value="IN">🇮🇳 Inde</option>
+                                <option value="CN">🇨🇳 Chine</option>
+                                <option value="JP">🇯🇵 Japon</option>
+                                <option value="BR">🇧🇷 Brésil</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="seller.city">Ville</label>
+                            <div style="display:flex;gap:0.5rem;">
+                                <input type="text" id="profileCity" style="flex:1;min-width:0;">
+                                <button type="button" id="btnDetecterLocalisationAffiliate" style="padding:0.5rem 0.8rem;border-radius:12px;background:var(--bg-body);border:1px solid var(--border-color);font-weight:600;font-size:0.8rem;white-space:nowrap;">📍</button>
+                            </div>
+                        </div>
+                        <div class="form-group"><label data-translate="seller.address">Adresse</label><input type="text" id="profileAddress"></div>
+                        <div class="form-group"><label><span data-translate="settings.currency">Devise préférée</span> <span style="font-weight:400;font-size:0.78rem;color:var(--text-muted);" data-translate="settings.currencyNote">(change automatiquement si vous mettez à jour votre pays)</span></label><select id="profileCurrency"><option value="XOF">FCFA</option><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="CAD">CAD</option><option value="MAD">MAD</option><option value="NGN">NGN</option></select></div>
+                        <div class="form-group"><label data-translate="affiliate.timezone">Fuseau horaire</label><input type="text" id="profileTimezone" readonly></div>
+                        <div class="form-group"><label><span data-translate="seller.pseudo">Pseudo</span> <span style="font-weight:400;font-size:0.78rem;color:var(--text-muted);" data-translate="seller.pseudoNote">(définitif une fois choisi)</span></label><input type="text" id="profilePseudo" placeholder="ex: mamadou_affilie"></div>
+                        <div class="form-group full"><label data-translate="livreur.bio">Bio</label><textarea id="profileBio" rows="2" placeholder="Une courte présentation de vous"></textarea></div>
+                    </div>
+                    <div style="margin-top:12px;padding:12px;background:var(--bg-body);border-radius:12px;border:1px solid var(--border-color);">
+                        <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:8px;">🔗 <span data-translate="seller.socialLinks">Réseaux sociaux</span></h4>
+                        <div class="form-grid">
+                            <div class="form-group"><label><i class="fa-brands fa-instagram"></i> Instagram</label><input type="text" id="profileInsta" placeholder="https://instagram.com/..."></div>
+                            <div class="form-group"><label><i class="fa-brands fa-facebook"></i> Facebook</label><input type="text" id="profileFb" placeholder="https://facebook.com/..."></div>
+                            <div class="form-group"><label><i class="fa-brands fa-tiktok"></i> TikTok</label><input type="text" id="profileTiktok" placeholder="https://tiktok.com/@..."></div>
+                            <div class="form-group"><label><i class="fa-brands fa-whatsapp"></i> WhatsApp</label><input type="text" id="profileWa" placeholder="+225 07 00 00 00"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px;padding:12px;background:var(--bg-body);border-radius:12px;border:1px solid var(--border-color);">
+                        <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:8px;">📱 <span data-translate="affiliate.receivingMethods">Moyens de réception</span></h4>
+                        <div class="form-grid">
+                            <div class="form-group"><label>MTN MoMo</label><input type="tel" id="profileMtn" placeholder="07 00 00 00 00"></div>
+                            <div class="form-group"><label>Orange Money</label><input type="tel" id="profileOrange" placeholder="07 00 00 00 00"></div>
+                            <div class="form-group"><label>Wave</label><input type="tel" id="profileWave" placeholder="07 00 00 00 00"></div>
+                            <div class="form-group"><label>PayPal</label><input type="email" id="profilePaypal" placeholder="email@paypal.com"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== VÉRIFICATION D'IDENTITÉ (KYC) ===== -->
+            <section id="verification" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2>🪪 <span data-translate="section.identityVerification">Vérification d'identité</span></h2>
+                        <p data-translate="affiliate.kycSubtitle">Confirmez votre identité pour obtenir le badge "✔️ Vérifié" — requis pour certains paliers de retrait.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card" id="kycStatusApproved" style="display:none;background:#dcfce7;text-align:center;">
+                    <div style="font-size:2rem;">✅</div>
+                    <p style="font-weight:700;color:#16a34a;margin-top:0.5rem;" data-translate="kyc.approved">Votre identité est vérifiée</p>
+                </div>
+
+                <div class="dashboard-card" id="kycStatusPending" style="display:none;background:#fef9c3;text-align:center;">
+                    <div style="font-size:2rem;">⏳</div>
+                    <p style="font-weight:700;color:#a16207;margin-top:0.5rem;" data-translate="kyc.pending">Votre vérification est en cours d'examen</p>
+                    <p style="font-size:0.85rem;color:#854d0e;" data-translate="kyc.pendingNote">Vous recevrez une réponse sous peu.</p>
+                </div>
+
+                <div class="dashboard-card" id="kycStatusRejected" style="display:none;background:#fee2e2;">
+                    <div style="font-size:2rem;text-align:center;">❌</div>
+                    <p style="font-weight:700;color:#dc2626;margin-top:0.5rem;text-align:center;" data-translate="kyc.rejected">Votre demande a été rejetée</p>
+                    <p id="kycRejectReason" style="font-size:0.85rem;color:#991b1b;text-align:center;"></p>
+                    <p style="font-size:0.85rem;color:#991b1b;text-align:center;" data-translate="kyc.rejectedNote">Vous pouvez soumettre une nouvelle demande ci-dessous.</p>
+                </div>
+
+                <div id="kycForm" class="dashboard-card">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label data-translate="kyc.docType">Type de pièce d'identité *</label>
+                            <select id="kycDocType">
+                                <option value="" data-translate="kyc.choose">Choisir</option>
+                                <option value="national_id" data-translate="kyc.nationalId">🪪 Carte nationale d'identité</option>
+                                <option value="passport" data-translate="kyc.passport">📘 Passeport</option>
+                                <option value="driver_license" data-translate="kyc.driverLicense">🚗 Permis de conduire</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label data-translate="kyc.front">Recto du document *</label>
+                            <div class="upload-area" id="kycFrontUpload">
+                                <span class="icon"><i class="fa-regular fa-image"></i></span>
+                                <p data-translate="kyc.dropFront">Déposez le recto ou cliquez ici</p>
+                                <input type="file" id="kycDocumentFront" accept="image/*" class="file-input">
+                                <div class="upload-preview" id="kycFrontPreview"></div>
+                            </div>
+                        </div>
+                        <div class="form-group full" id="kycBackGroup">
+                            <label data-translate="kyc.back">Verso du document *</label>
+                            <div class="upload-area" id="kycBackUpload">
+                                <span class="icon"><i class="fa-regular fa-image"></i></span>
+                                <p data-translate="kyc.dropBack">Déposez le verso ou cliquez ici</p>
+                                <input type="file" id="kycDocumentBack" accept="image/*" class="file-input">
+                                <div class="upload-preview" id="kycBackPreview"></div>
+                            </div>
+                        </div>
+                        <div class="form-group full">
+                            <label data-translate="kyc.selfie">Selfie (tenant votre pièce d'identité) *</label>
+                            <div class="upload-area" id="kycSelfieUpload">
+                                <span class="icon"><i class="fa-regular fa-face-smile"></i></span>
+                                <p data-translate="kyc.dropSelfie">Déposez votre selfie ou cliquez ici</p>
+                                <input type="file" id="kycSelfie" accept="image/*" class="file-input">
+                                <div class="upload-preview" id="kycSelfiePreview"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.78rem;color:var(--text-muted);" data-translate="kyc.securityNote">Vos documents sont transmis de façon sécurisée et ne sont utilisés que pour la vérification de votre identité.</p>
+                    <div class="page-actions">
+                        <button type="button" class="btn-primary" id="btnSubmitKyc"><i class="fa-solid fa-paper-plane"></i> <span data-translate="kyc.submit">Soumettre pour vérification</span></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PARAMÈTRES ===== -->
+            <section id="parametres" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2>⚙️ <span data-translate="nav.settings">Paramètres</span></h2>
+                        <p data-translate="affiliate.settingsSubtitle">Sécurité, langue et gestion de votre compte partenaire.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🌐 <span data-translate="settings.language">Langue</span></h3>
+                    <div class="form-group" style="max-width:260px;">
+                        <select id="langueAffiliate">
+                            <option value="fr">Français</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+                    <div class="page-actions" style="margin-top:8px;">
+                        <button class="btn-primary" id="btnSauvegarderLangue">💾 <span data-translate="settings.save">Enregistrer</span></button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🔐 <span data-translate="settings.security">Sécurité</span></h3>
+                    <div class="page-actions">
+                        <button id="btnModifierMotPasse">🔑 <span data-translate="settings.changePassword">Modifier le mot de passe</span></button>
+                        <button id="btnModifierEmail">✉️ <span data-translate="settings.changeEmail">Modifier mon email</span></button>
+                        <button id="btnDeconnecterTous">🚪 <span data-translate="settings.logoutAll">Déconnecter tous les appareils</span></button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>⚠️ <span data-translate="settings.accountManagement">Gestion du compte</span></h3>
+                    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.75rem;">
+                        Contrairement aux autres comptes SINE.SHOP, un compte affilié <strong>masqué temporairement et non réactivé dans les 30 jours est automatiquement supprimé</strong>, sans passer par un examen administrateur (les autres rôles restent en attente d'une décision humaine).
+                    </p>
+                    <div class="page-actions">
+                        <button id="btnMasquerCompte">👁️‍🗨️ Masquer temporairement mon compte</button>
+                        <button id="btnFermerCompte">🔒 Fermer mon compte</button>
+                        <button id="btnSupprimerCompte" class="btn-danger">🗑️ Supprimer définitivement mon compte</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🧭 <span data-translate="seller.myRoles">Mes rôles</span></h3>
+                    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;" data-translate="affiliate.myRolesNote">Un même compte peut aussi opérer comme vendeur et/ou livreur, sans créer de second compte. Jamais de bascule possible vers un espace administrateur.</p>
+                    <div id="rolesActifs" class="page-actions" style="margin-bottom:0.5rem;"></div>
+                    <div id="rolesAjoutables" class="page-actions"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>💬 <span data-translate="settings.helpCenter">Centre d'aide</span></h3>
+                    <div id="faqAccordion" style="display:flex;flex-direction:column;gap:0.5rem;">
+                        <div class="faq-item" style="border:1px solid var(--border-color);border-radius:14px;overflow:hidden;">
+                            <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:var(--bg-card);display:flex;justify-content:space-between;align-items:center;color:var(--text-primary);">
+                                <span>Comment devenir affilié ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:var(--text-secondary);">
+                                <p style="padding:0.8rem 0;">Vous recevez un code personnel à partager pour gagner des commissions sur les inscriptions et achats de vos filleuls.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item" style="border:1px solid var(--border-color);border-radius:14px;overflow:hidden;">
+                            <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:var(--bg-card);display:flex;justify-content:space-between;align-items:center;color:var(--text-primary);">
+                                <span>Combien puis-je gagner ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:var(--text-secondary);">
+                                <p style="padding:0.8rem 0;">Une commission sur chaque achat de vos filleuls, ainsi qu'un bonus pouvant aller jusqu'à 500$ par nouvelle inscription selon les conditions en vigueur.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item" style="border:1px solid var(--border-color);border-radius:14px;overflow:hidden;">
+                            <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:var(--bg-card);display:flex;justify-content:space-between;align-items:center;color:var(--text-primary);">
+                                <span>Comment retirer mes gains ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:var(--text-secondary);">
+                                <p style="padding:0.8rem 0;">Depuis votre tableau de bord, section Retraits, indiquez le montant et votre moyen de paiement.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item" style="border:1px solid var(--border-color);border-radius:14px;overflow:hidden;">
+                            <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:var(--bg-card);display:flex;justify-content:space-between;align-items:center;color:var(--text-primary);">
+                                <span>Comment contacter le service affiliation ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:var(--text-secondary);">
+                                <p style="padding:0.8rem 0;">Par email à <a href="mailto:serviceaffiliate@sineshophome.com">serviceaffiliate@sineshophome.com</a>, ou via le formulaire de contact ci-dessous.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-actions" style="margin-top:0.75rem;">
+                        <button id="btnOuvrirContact">✉️ Contacter le service affiliation</button>
+                        <button onclick="window.open('https://wa.me/2250546248319','_blank')">💬 WhatsApp</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>📜 <span data-translate="legal.sectionTitle">Informations légales</span></h3>
+                    <div class="page-actions">
+                        <button onclick="window.location.href='../html/conditions-affiliation.html'">🤝 <span data-translate="legalAffiliate.title">Conditions applicables aux affiliés</span></button>
+                        <button onclick="window.location.href='../html/cgu.html'">📄 CGU</button>
+                        <button onclick="window.location.href='../html/cgv.html'">📄 CGV</button>
+                        <button onclick="window.location.href='../html/privacy.html'">🔒 <span data-translate="legal.privacy">Confidentialité</span></button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🗑️ <span data-translate="account.management">Gestion du compte</span></h3>
+                    <div class="page-actions">
+                        <button id="btnFermerCompte">⏸️ <span data-translate="account.close">Fermer le compte</span></button>
+                        <button id="btnSupprimerCompte" style="color:#dc2626;">🗑️ <span data-translate="account.deletePermanently">Supprimer définitivement</span></button>
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">
+                        <i class="fa-solid fa-info-circle"></i> <span data-translate="affiliate.accountRequestNote">Une demande sera envoyée au support pour validation.</span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===== À PROPOS ===== -->
+            <section id="about" class="affiliate-page">
+                <div class="page-header">
+                    <div>
+                        <h2 id="aboutTitle">ℹ️ <span data-translate="affiliate.aboutProgram">À propos du programme</span></h2>
+                        <p id="aboutSubtitle" data-translate="affiliate.aboutSubtitle">Tout savoir sur le programme d'affiliation SINE.SHOP</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>📖 <span data-translate="affiliate.howItWorks">Comment ça marche ?</span></h3>
+                    <div class="about-section">
+                        <h4>1️⃣ <span data-translate="affiliate.step1Title">Générer un code promo</span></h4>
+                        <p data-translate="affiliate.step1Text">Créez vos codes promo uniques. Vous pouvez les générer automatiquement ou les personnaliser.</p>
+                    </div>
+                    <div class="about-section">
+                        <h4>2️⃣ <span data-translate="affiliate.step2Title">Partager vos codes</span></h4>
+                        <p data-translate="affiliate.step2Text">Partagez vos codes avec vos amis, famille ou sur vos réseaux sociaux. Chaque inscription valide vous rapporte une commission.</p>
+                    </div>
+                    <div class="about-section">
+                        <h4>3️⃣ <span data-translate="affiliate.step3Title">Gagner des commissions</span></h4>
+                        <p data-translate="affiliate.step3Text">Pour chaque utilisateur qui s'inscrit avec votre code et réalise un achat, vous gagnez une commission.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>💰 <span data-translate="affiliate.commissionScale">Barème des commissions</span></h3>
+                    <div class="about-section">
+                        <h4 data-translate="affiliate.purchaseCommission">Commission sur les achats</h4>
+                        <div class="commission-scale">
+                            <div class="tier"><div class="amount">1-49 999 FCFA</div><div class="rate">0,20%</div></div>
+                            <div class="tier"><div class="amount">50 000-999 999 FCFA</div><div class="rate">0,25%</div></div>
+                            <div class="tier"><div class="amount">1 000 000+ FCFA</div><div class="rate">0,35%</div></div>
+                        </div>
+                    </div>
+                    <div class="about-section">
+                        <h4 data-translate="affiliate.signupCommission">Commission par inscription</h4>
+                        <p><span class="highlight">50 FCFA</span> <span data-translate="affiliate.signupCommissionText">par nouvel utilisateur inscrit avec votre code promo</span></p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>📋 <span data-translate="affiliate.withdrawConditions">Conditions de retrait</span></h3>
+                    <div class="about-section">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <div style="background:var(--bg-body);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border-color);">
+                                <div style="font-weight:700;color:var(--accent);" data-translate="affiliate.ninetyDays">90 jours</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);" data-translate="affiliate.minSeniority">Ancienneté minimale</div>
+                            </div>
+                            <div style="background:var(--bg-body);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border-color);">
+                                <div style="font-weight:700;color:var(--accent);">6</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);" data-translate="affiliate.minActiveReferrals">Référents actifs minimum</div>
+                            </div>
+                            <div style="background:var(--bg-body);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border-color);">
+                                <div style="font-weight:700;color:var(--accent);">65 000 FCFA</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);" data-translate="affiliate.minWithdraw">Retrait minimum</div>
+                            </div>
+                            <div style="background:var(--bg-body);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border-color);">
+                                <div style="font-weight:700;color:var(--accent);">20% / 15j</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);" data-translate="affiliate.maxWithdraw">Retrait maximum</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">
+                        <i class="fa-regular fa-circle-question"></i> <span id="aboutMore" data-translate="affiliate.moreInfo">Pour plus d'informations, contactez le support</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TOAST -->
+    <!-- ========================================================= -->
+    <div id="notificationToast"></div>
+
+    <!-- ========================================================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================================================= -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            // =========================================================
+            // CONFIGURATION
+            // =========================================================
+            const SESSION_TIMEOUT = 14 * 60 * 60 * 1000; // 14 heures
+            const MIN_WITHDRAW = 65000; // FCFA
+            const MIN_BALANCE = 32500; // FCFA
+            const MIN_DAYS = 90;
+            const MIN_REFERRALS = 6;
+            const MAX_WITHDRAW_PERCENT = 0.20;
+            const WITHDRAW_INTERVAL_DAYS = 15;
+
+            let currentUser = null;
+            let currentKyc = null;
+            let affiliateStats = null;
+            let withdrawals = [];
+            let commissions = [];
+            let referrals = [];
+            let currentLang = 'fr';
+            let devise = 'FCFA';
+
+            // =========================================================
+            // DRAPEAU (à partir du code pays ISO à 2 lettres)
+            // =========================================================
+            function flagEmoji(countryCode) {
+                if (!countryCode || countryCode.length !== 2) return '';
+                return String.fromCodePoint(...[...countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt(0)));
+            }
+
+            // Sélection réelle des fichiers KYC
+            const mediaSelections = { kycDocumentFront: [], kycDocumentBack: [], kycSelfie: [] };
+
+            function setupUpload(areaId, inputId, previewId, maxCount, kind) {
+                const area = document.getElementById(areaId);
+                const input = document.getElementById(inputId);
+                const preview = document.getElementById(previewId);
+                if (!area || !input || !preview) return;
+
+                function renderPreview() {
+                    preview.innerHTML = '';
+                    mediaSelections[inputId].forEach((file, index) => {
+                        const url = URL.createObjectURL(file);
+                        const div = document.createElement('div');
+                        div.className = 'preview-item';
+                        div.innerHTML = kind === 'video'
+                            ? `<video src="${url}" muted></video><span class="remove">✕</span>`
+                            : `<img src="${url}" alt="${file.name}"><span class="remove">✕</span>`;
+                        div.querySelector('.remove').addEventListener('click', function() {
+                            mediaSelections[inputId].splice(index, 1);
+                            renderPreview();
+                        });
+                        preview.appendChild(div);
+                    });
+                }
+
+                function addFiles(fileList) {
+                    const incoming = Array.from(fileList);
+                    const availableSlots = maxCount - mediaSelections[inputId].length;
+                    if (availableSlots <= 0) {
+                        showToast(`Maximum ${maxCount} fichier(s).`, 'warning');
+                        return;
+                    }
+                    mediaSelections[inputId].push(...incoming.slice(0, availableSlots));
+                    renderPreview();
+                }
+
+                area.addEventListener('click', () => input.click());
+                area.addEventListener('dragover', e => { e.preventDefault();
+                    area.style.borderColor = 'var(--accent)'; });
+                area.addEventListener('dragleave', () => { area.style.borderColor = ''; });
+                area.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    area.style.borderColor = '';
+                    if (e.dataTransfer.files && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+                });
+                input.addEventListener('change', function() {
+                    if (this.files && this.files.length) addFiles(this.files);
+                    this.value = '';
+                });
+            }
+            setupUpload('kycFrontUpload', 'kycDocumentFront', 'kycFrontPreview', 1, 'image');
+            setupUpload('kycBackUpload', 'kycDocumentBack', 'kycBackPreview', 1, 'image');
+            setupUpload('kycSelfieUpload', 'kycSelfie', 'kycSelfiePreview', 1, 'image');
+
+            // =========================================================
+            // VÉRIFICATION D'IDENTITÉ (KYC)
+            // =========================================================
+            function resetKycSelections() {
+                mediaSelections.kycDocumentFront = [];
+                mediaSelections.kycDocumentBack = [];
+                mediaSelections.kycSelfie = [];
+                document.getElementById('kycFrontPreview').innerHTML = '';
+                document.getElementById('kycBackPreview').innerHTML = '';
+                document.getElementById('kycSelfiePreview').innerHTML = '';
+                document.getElementById('kycDocType').value = '';
+            }
+
+            function renderKycStatus() {
+                const approvedBox = document.getElementById('kycStatusApproved');
+                const pendingBox = document.getElementById('kycStatusPending');
+                const rejectedBox = document.getElementById('kycStatusRejected');
+                const form = document.getElementById('kycForm');
+                if (!approvedBox || !pendingBox || !rejectedBox || !form) return;
+
+                approvedBox.style.display = 'none';
+                pendingBox.style.display = 'none';
+                rejectedBox.style.display = 'none';
+                form.style.display = 'block';
+
+                if (!currentKyc) return;
+
+                if (currentKyc.status === 'approved') {
+                    approvedBox.style.display = 'block';
+                    form.style.display = 'none';
+                } else if (currentKyc.status === 'pending') {
+                    pendingBox.style.display = 'block';
+                    form.style.display = 'none';
+                } else if (currentKyc.status === 'rejected') {
+                    rejectedBox.style.display = 'block';
+                    document.getElementById('kycRejectReason').textContent = currentKyc.reviewNote || '';
+                }
+            }
+
+            // =========================================================
+            // MES RÔLES
+            // =========================================================
+            const ROLE_INFO = {
+                client: { label: '👤 Client', page: '../html/client.html' },
+                seller: { label: '🛍️ Vendeur', page: '../html/vendeur.html' },
+                livreur: { label: '🚚 Livreur', page: '../html/livreur.html' },
+                affiliate: { label: '🤝 Affiliation', page: '../html/sineshopaffiliation.html' },
+            };
+            const ADDABLE_ROLES = ['seller', 'livreur'];
+
+            function renderRolesPanel() {
+                const activeBox = document.getElementById('rolesActifs');
+                const addableBox = document.getElementById('rolesAjoutables');
+                if (!activeBox || !addableBox || !currentUser) return;
+
+                const myRoles = currentUser.roles && currentUser.roles.length ? currentUser.roles : [currentUser.role];
+
+                activeBox.innerHTML = '';
+                myRoles.forEach(function(role) {
+                    const info = ROLE_INFO[role];
+                    if (!info) return;
+                    const btn = document.createElement('button');
+                    if (role === currentUser.role) {
+                        btn.textContent = info.label + ' (actif)';
+                        btn.disabled = true;
+                        btn.className = 'btn-primary';
+                    } else {
+                        btn.textContent = '🔄 Basculer vers ' + info.label;
+                        btn.addEventListener('click', async function() {
+                            btn.disabled = true;
+                            try {
+                                currentUser = await window.SineAPI.switchRole(role);
+                                showToast('✅ Basculement effectué — redirection...', 'success');
+                                setTimeout(() => { window.location.href = info.page; }, 800);
+                            } catch (e) {
+                                showToast(e.message || 'Erreur lors du changement de rôle.', 'error');
+                                btn.disabled = false;
+                            }
+                        });
+                    }
+                    activeBox.appendChild(btn);
+                });
+
+                addableBox.innerHTML = '';
+                ADDABLE_ROLES.filter(r => !myRoles.includes(r)).forEach(function(role) {
+                    const info = ROLE_INFO[role];
+                    const btn = document.createElement('button');
+                    btn.textContent = '➕ Devenir aussi ' + info.label;
+                    btn.addEventListener('click', async function() {
+                        if (!confirm(`Ajouter le rôle "${info.label}" à votre compte actuel ?`)) return;
+                        btn.disabled = true;
+                        try {
+                            currentUser = await window.SineAPI.addRole({ role });
+                            showToast('✅ Rôle ajouté — redirection vers votre nouvel espace...', 'success');
+                            setTimeout(() => { window.location.href = info.page; }, 800);
+                        } catch (e) {
+                            showToast(e.message || 'Erreur lors de l\'ajout du rôle.', 'error');
+                            btn.disabled = false;
+                        }
+                    });
+                    addableBox.appendChild(btn);
+                });
+            }
+
+            // =========================================================
+            // DEVISE
+            // =========================================================
+            function getDevise() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredCurrency || 'XOF';
+            }
+
+            function getDeviseSymbole(dev) {
+                const symboles = { 'XOF': 'FCFA', 'FCFA': 'FCFA', 'EUR': '€', 'USD': '$', 'GBP': '£', 'CAD': 'CA$', 'MAD': 'MAD' };
+                return symboles[dev] || dev;
+            }
+
+            function formatPrix(montant) {
+                const d = getDevise();
+                const symbole = getDeviseSymbole(d);
+                return montant.toLocaleString('fr-FR') + ' ' + symbole;
+            }
+
+            function getLangue() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                return user.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+            }
+
+            // =========================================================
+            // TRADUCTIONS
+            // =========================================================
+            const TRADUCTIONS = {
+                fr: {
+                    dashboard: '📊 Tableau de bord',
+                    dashboard_sub: 'Bienvenue dans votre espace partenaire SINE.SHOP',
+                    balance: 'Solde disponible',
+                    referrals: 'Référents',
+                    earnings: 'Gains totaux',
+                    rank: 'Classement',
+                    conversion: 'Taux de conversion',
+                    active_days: 'Jours actifs',
+                    recent_commissions: '📋 Dernières commissions',
+                    monthly_goals: '🎯 Objectifs du mois',
+                    no_commissions: 'Aucune commission pour le moment',
+                    generate: 'Générer un code',
+                    share: 'Partager',
+                    codes_title: '🏷️ Codes promo',
+                    codes_sub: 'Générez et gérez vos codes promo',
+                    no_codes: 'Aucun code promo généré',
+                    custom_code: '✏️ Code personnalisé',
+                    code_placeholder: 'Ex: PARTENAIRE2026',
+                    confirm: 'Confirmer',
+                    cancel: 'Annuler',
+                    commissions_title: '💰 Commissions',
+                    commissions_sub: 'Historique de vos commissions',
+                    export: 'Exporter',
+                    total_earned: 'Total gagné',
+                    pending: 'En attente',
+                    paid: 'Payé',
+                    referrals_title: '👥 Référents',
+                    referrals_sub: 'Les utilisateurs qui utilisent vos codes promo',
+                    total_refs: 'Total référents',
+                    active_refs: 'Actifs',
+                    ref_earnings: 'Gains générés',
+                    no_refs: 'Aucun référent pour le moment',
+                    withdraw_title: '💳 Retrait',
+                    withdraw_sub: 'Retirez vos gains',
+                    withdraw_balance: 'Solde disponible',
+                    withdraw_min: 'Retrait minimum: 65 000 FCFA',
+                    withdraw_fee: 'Frais: 0%',
+                    withdraw_conditions: '📋 Conditions de retrait',
+                    condition1: 'Compte actif depuis au moins 90 jours',
+                    condition2: 'Minimum 6 référents actifs',
+                    condition3: 'Solde minimum: 65 000 FCFA',
+                    condition4: 'Retrait maximum: 20% du solde tous les 15 jours',
+                    condition5: 'Solde minimum requis: 32 500 FCFA',
+                    withdraw_method: '🏦 Moyen de retrait',
+                    method: 'Méthode',
+                    account: 'Numéro / Email',
+                    amount: 'Montant à retirer',
+                    withdraw_btn: '📤 Retirer',
+                    processing_time: 'Les retraits sont traités sous 48h ouvrées',
+                    profil_title: '👤 Mon profil',
+                    profil_sub: 'Gérez vos informations personnelles',
+                    save: 'Enregistrer',
+                    about_title: 'ℹ️ À propos du programme',
+                    about_sub: 'Tout savoir sur le programme d\'affiliation SINE.SHOP',
+                    about_more: 'Pour plus d\'informations, contactez le support',
+                    bronze: 'Bronze',
+                    silver: 'Argent',
+                    gold: 'Or',
+                    platinum: 'Platine',
+                    diamond: 'Diamant'
+                },
+                en: {
+                    dashboard: '📊 Dashboard',
+                    dashboard_sub: 'Welcome to your SINE.SHOP partner space',
+                    balance: 'Available balance',
+                    referrals: 'Referrals',
+                    earnings: 'Total earnings',
+                    rank: 'Ranking',
+                    conversion: 'Conversion rate',
+                    active_days: 'Active days',
+                    recent_commissions: '📋 Recent commissions',
+                    monthly_goals: '🎯 Monthly goals',
+                    no_commissions: 'No commissions yet',
+                    generate: 'Generate code',
+                    share: 'Share',
+                    codes_title: '🏷️ Promo codes',
+                    codes_sub: 'Generate and manage your promo codes',
+                    no_codes: 'No promo codes generated',
+                    custom_code: '✏️ Custom code',
+                    code_placeholder: 'Ex: PARTNER2026',
+                    confirm: 'Confirm',
+                    cancel: 'Cancel',
+                    commissions_title: '💰 Commissions',
+                    commissions_sub: 'Your commission history',
+                    export: 'Export',
+                    total_earned: 'Total earned',
+                    pending: 'Pending',
+                    paid: 'Paid',
+                    referrals_title: '👥 Referrals',
+                    referrals_sub: 'Users using your promo codes',
+                    total_refs: 'Total referrals',
+                    active_refs: 'Active',
+                    ref_earnings: 'Earnings generated',
+                    no_refs: 'No referrals yet',
+                    withdraw_title: '💳 Withdraw',
+                    withdraw_sub: 'Withdraw your earnings',
+                    withdraw_balance: 'Available balance',
+                    withdraw_min: 'Minimum withdrawal: 65 000 FCFA',
+                    withdraw_fee: 'Fee: 0%',
+                    withdraw_conditions: '📋 Withdrawal conditions',
+                    condition1: 'Account active for at least 90 days',
+                    condition2: 'Minimum 6 active referrals',
+                    condition3: 'Minimum balance: 65 000 FCFA',
+                    condition4: 'Maximum withdrawal: 20% every 15 days',
+                    condition5: 'Minimum required balance: 32 500 FCFA',
+                    withdraw_method: '🏦 Withdrawal method',
+                    method: 'Method',
+                    account: 'Number / Email',
+                    amount: 'Amount to withdraw',
+                    withdraw_btn: '📤 Withdraw',
+                    processing_time: 'Withdrawals are processed within 48 business hours',
+                    profil_title: '👤 My profile',
+                    profil_sub: 'Manage your personal information',
+                    save: 'Save',
+                    about_title: 'ℹ️ About the program',
+                    about_sub: 'Everything about the SINE.SHOP affiliate program',
+                    about_more: 'For more information, contact support',
+                    bronze: 'Bronze',
+                    silver: 'Silver',
+                    gold: 'Gold',
+                    platinum: 'Platinum',
+                    diamond: 'Diamond'
+                },
+                es: {
+                    dashboard: '📊 Panel de control',
+                    dashboard_sub: 'Bienvenido a tu espacio de socio SINE.SHOP',
+                    balance: 'Saldo disponible',
+                    referrals: 'Referidos',
+                    earnings: 'Ganancias totales',
+                    rank: 'Clasificación',
+                    conversion: 'Tasa de conversión',
+                    active_days: 'Días activos',
+                    recent_commissions: '📋 Comisiones recientes',
+                    monthly_goals: '🎯 Objetivos del mes',
+                    no_commissions: 'Aún no hay comisiones',
+                    generate: 'Generar código',
+                    share: 'Compartir',
+                    codes_title: '🏷️ Códigos promocionales',
+                    codes_sub: 'Genera y gestiona tus códigos promocionales',
+                    no_codes: 'No se han generado códigos promocionales',
+                    custom_code: '✏️ Código personalizado',
+                    code_placeholder: 'Ej: SOCIO2026',
+                    confirm: 'Confirmar',
+                    cancel: 'Cancelar',
+                    commissions_title: '💰 Comisiones',
+                    commissions_sub: 'Historial de tus comisiones',
+                    export: 'Exportar',
+                    total_earned: 'Total ganado',
+                    pending: 'Pendiente',
+                    paid: 'Pagado',
+                    referrals_title: '👥 Referidos',
+                    referrals_sub: 'Usuarios que usan tus códigos promocionales',
+                    total_refs: 'Total referidos',
+                    active_refs: 'Activos',
+                    ref_earnings: 'Ganancias generadas',
+                    no_refs: 'Aún no hay referidos',
+                    withdraw_title: '💳 Retirar',
+                    withdraw_sub: 'Retira tus ganancias',
+                    withdraw_balance: 'Saldo disponible',
+                    withdraw_min: 'Retiro mínimo: 65 000 FCFA',
+                    withdraw_fee: 'Comisión: 0%',
+                    withdraw_conditions: '📋 Condiciones de retiro',
+                    condition1: 'Cuenta activa por al menos 90 días',
+                    condition2: 'Mínimo 6 referidos activos',
+                    condition3: 'Saldo mínimo: 65 000 FCFA',
+                    condition4: 'Retiro máximo: 20% cada 15 días',
+                    condition5: 'Saldo mínimo requerido: 32 500 FCFA',
+                    withdraw_method: '🏦 Método de retiro',
+                    method: 'Método',
+                    account: 'Número / Email',
+                    amount: 'Monto a retirar',
+                    withdraw_btn: '📤 Retirar',
+                    processing_time: 'Los retiros se procesan en 48 horas hábiles',
+                    profil_title: '👤 Mi perfil',
+                    profil_sub: 'Gestiona tu información personal',
+                    save: 'Guardar',
+                    about_title: 'ℹ️ Sobre el programa',
+                    about_sub: 'Todo sobre el programa de afiliados de SINE.SHOP',
+                    about_more: 'Para más información, contacta soporte',
+                    bronze: 'Bronce',
+                    silver: 'Plata',
+                    gold: 'Oro',
+                    platinum: 'Platino',
+                    diamond: 'Diamante'
+                },
+                ar: {
+                    dashboard: '📊 لوحة التحكم',
+                    dashboard_sub: 'مرحباً في مساحة شريك SINE.SHOP الخاصة بك',
+                    balance: 'الرصيد المتاح',
+                    referrals: 'المُحالون',
+                    earnings: 'إجمالي الأرباح',
+                    rank: 'الترتيب',
+                    conversion: 'معدل التحويل',
+                    active_days: 'أيام النشاط',
+                    recent_commissions: '📋 آخر العمولات',
+                    monthly_goals: '🎯 أهداف الشهر',
+                    no_commissions: 'لا توجد عمولات حتى الآن',
+                    generate: 'إنشاء رمز',
+                    share: 'مشاركة',
+                    codes_title: '🏷️ الرموز الترويجية',
+                    codes_sub: 'أنشئ وأدر رموزك الترويجية',
+                    no_codes: 'لم يتم إنشاء أي رمز ترويجي',
+                    custom_code: '✏️ رمز مخصص',
+                    code_placeholder: 'مثال: PARTENAIRE2026',
+                    confirm: 'تأكيد',
+                    cancel: 'إلغاء',
+                    commissions_title: '💰 العمولات',
+                    commissions_sub: 'سجل عمولاتك',
+                    export: 'تصدير',
+                    total_earned: 'إجمالي الأرباح',
+                    pending: 'قيد الانتظار',
+                    paid: 'مدفوع',
+                    referrals_title: '👥 المُحالون',
+                    referrals_sub: 'المستخدمون الذين يستخدمون رموزك الترويجية',
+                    total_refs: 'إجمالي المُحالين',
+                    active_refs: 'نشطون',
+                    ref_earnings: 'الأرباح المحققة',
+                    no_refs: 'لا يوجد مُحالون حتى الآن',
+                    withdraw_title: '💳 السحب',
+                    withdraw_sub: 'اسحب أرباحك',
+                    withdraw_balance: 'الرصيد المتاح',
+                    withdraw_min: 'الحد الأدنى للسحب: 65,000 FCFA',
+                    withdraw_fee: 'الرسوم: 0%',
+                    withdraw_conditions: '📋 شروط السحب',
+                    condition1: 'حساب نشط منذ 90 يوماً على الأقل',
+                    condition2: 'الحد الأدنى 6 مُحالين نشطين',
+                    condition3: 'الحد الأدنى للرصيد: 65,000 FCFA',
+                    condition4: 'الحد الأقصى للسحب: 20% من الرصيد كل 15 يوماً',
+                    condition5: 'الحد الأدنى المطلوب للرصيد: 32,500 FCFA',
+                    withdraw_method: '🏦 وسيلة السحب',
+                    method: 'الطريقة',
+                    account: 'الرقم / البريد الإلكتروني',
+                    amount: 'المبلغ المطلوب سحبه',
+                    withdraw_btn: '📤 سحب',
+                    processing_time: 'تتم معالجة عمليات السحب خلال 48 ساعة عمل',
+                    profil_title: '👤 ملفي الشخصي',
+                    profil_sub: 'إدارة معلوماتك الشخصية',
+                    save: 'حفظ',
+                    about_title: 'ℹ️ حول البرنامج',
+                    about_sub: 'كل ما تحتاج معرفته عن برنامج شراكة SINE.SHOP',
+                    about_more: 'لمزيد من المعلومات، تواصل مع الدعم',
+                    bronze: 'برونزي',
+                    silver: 'فضي',
+                    gold: 'ذهبي',
+                    platinum: 'بلاتيني',
+                    diamond: 'ماسي'
+                }
+            };
+
+            function t(key) {
+                const lang = getLangue();
+                return TRADUCTIONS[lang]?.[key] || TRADUCTIONS.fr[key] || key;
+            }
+
+            // =========================================================
+            // APPLIQUER LANGUE
+            // =========================================================
+            function appliquerLangue() {
+                const lang = getLangue();
+                document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    el.textContent = t(key);
+                });
+
+                if (window.SINE) window.SINE.applyLanguage(lang);
+            }
+
+            // =========================================================
+            // NOTIFICATION
+            // =========================================================
+            function showToast(message, type) {
+                const toast = document.getElementById('notificationToast');
+                if (!toast) return;
+                toast.textContent = message;
+                toast.className = 'notification-toast show ' + (type || '');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => toast.classList.remove('show'), 4000);
+            }
+
+            // =========================================================
+            // VÉRIFICATION DE SESSION
+            // =========================================================
+            function checkSession() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                const isLoggedIn = localStorage.getItem('isLoggedIn');
+                const lastActivity = localStorage.getItem('lastActivity');
+
+                if (!user || !isLoggedIn || isLoggedIn !== 'true') {
+                    window.location.href = '../html/login.html?redirect=sineshopaffiliation';
+                    return false;
+                }
+
+                if (lastActivity) {
+                    const elapsed = Date.now() - parseInt(lastActivity);
+                    if (elapsed > SESSION_TIMEOUT) {
+                        localStorage.removeItem('sineUser');
+                        localStorage.removeItem('isLoggedIn');
+                        localStorage.removeItem('lastActivity');
+                        window.location.href = '../html/login.html?redirect=sineshopaffiliation&expired=1';
+                        return false;
+                    }
+                }
+
+                localStorage.setItem('lastActivity', Date.now().toString());
+
+                if (!currentUser) currentUser = user;
+                return true;
+            }
+
+            // =========================================================
+            // CHARGER DONNÉES
+            // =========================================================
+            async function loadData() {
+                if (!checkSession()) return;
+
+                devise = getDevise();
+
+                try {
+                    const freshUser = await window.SineAPI.verifySession();
+                    if (freshUser) currentUser = freshUser;
+                } catch (e) { /* on garde la version locale */ }
+
+                const [statsRes, referralsRes, withdrawalsRes, kycRes] = await Promise.allSettled([
+                    window.SineAPI.getAffiliateStats(),
+                    window.SineAPI.getAffiliateReferrals(),
+                    window.SineAPI.getMyWithdrawals(),
+                    window.SineAPI.getMyKyc(),
+                ]);
+
+                affiliateStats = statsRes.status === 'fulfilled' ? statsRes.value : null;
+                referrals = referralsRes.status === 'fulfilled' ? (referralsRes.value.referrals || []) : [];
+                withdrawals = withdrawalsRes.status === 'fulfilled' ? (withdrawalsRes.value.withdrawals || []) : [];
+                currentKyc = kycRes.status === 'fulfilled' ? kycRes.value : null;
+
+                commissions = [
+                    ...referrals.map(r => ({
+                        source: r.user?.firstName ? `Filleul - ${r.user.firstName} ${r.user.lastName}` : 'Commission',
+                        amount: r.commission || 0,
+                        status: r.status === 'paid' ? 'paid' : (r.status === 'cancelled' ? 'failed' : 'pending'),
+                        date: r.date,
+                    })),
+                    ...withdrawals.map(w => ({
+                        source: 'Retrait - ' + w.method,
+                        amount: -w.amount,
+                        status: w.status === 'completed' ? 'paid' : (w.status === 'rejected' ? 'failed' : 'pending'),
+                        date: w.createdAt,
+                    })),
+                ].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                updateUI();
+                renderCodes();
+                renderCommissions();
+                renderReferrals();
+                renderProfile();
+                renderKycStatus();
+                renderRolesPanel();
+                updateKPIs();
+            }
+
+            // =========================================================
+            // METTRE À JOUR L'INTERFACE
+            // =========================================================
+            function updateUI() {
+                if (!currentUser) return;
+
+                const displayName = `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || 'Partenaire';
+
+                // Mini profil
+                document.getElementById('miniName').textContent = displayName;
+                document.getElementById('miniId').textContent = 'Code: ' + (affiliateStats?.code || '---');
+                document.getElementById('levelBadge').textContent = affiliateStats?.status === 'active' ? 'Actif' : (affiliateStats?.status || '—');
+
+                if (currentUser.profilePicture) {
+                    document.getElementById('profileAvatar').src = currentUser.profilePicture;
+                    document.getElementById('profileAvatar').style.display = 'block';
+                    document.getElementById('profilePlaceholder').style.display = 'none';
+                }
+
+                // Sidebar
+                document.getElementById('sidebarName').textContent = displayName;
+                document.getElementById('sidebarId').textContent = 'Code: ' + (affiliateStats?.code || '---');
+                document.getElementById('sidebarLevel').textContent = affiliateStats?.status === 'active' ? 'Actif' : (affiliateStats?.status || '—');
+
+                // Balance
+                const balance = affiliateStats?.balance || 0;
+                document.getElementById('sidebarBalance').textContent = formatPrix(balance);
+                document.getElementById('sidebarEarnings').textContent = formatPrix(affiliateStats?.totalCommission || 0);
+                document.getElementById('sidebarReferrals').textContent = referrals.length;
+                document.getElementById('sidebarRank').textContent = '—';
+
+                appliquerLangue();
+            }
+
+            // =========================================================
+            // KPI
+            // =========================================================
+            function updateKPIs() {
+                const balance = affiliateStats?.balance || 0;
+                const totalEarnings = affiliateStats?.totalCommission || 0;
+                const totalReferrals = referrals.length;
+                const paidReferrals = referrals.filter(r => r.status === 'paid').length;
+                const daysActive = affiliateStats?.createdAt
+                    ? Math.floor((Date.now() - new Date(affiliateStats.createdAt).getTime()) / (1000 * 60 * 60 * 24))
+                    : 0;
+
+                document.getElementById('kpiBalance').textContent = formatPrix(balance);
+                document.getElementById('kpiReferrals').textContent = totalReferrals;
+                document.getElementById('kpiEarnings').textContent = formatPrix(totalEarnings);
+                document.getElementById('kpiRank').textContent = '—';
+                document.getElementById('kpiConversion').textContent = totalReferrals > 0 ?
+                    Math.round((paidReferrals / totalReferrals) * 100) + '%' :
+                    '0%';
+                document.getElementById('kpiActiveDays').textContent = daysActive + 'j';
+
+                const targetReferrals = 10;
+                const targetEarnings = 50000;
+                document.getElementById('targetReferrals').textContent = totalReferrals + '/' + targetReferrals;
+                document.getElementById('targetEarnings').textContent = formatPrix(totalEarnings) + '/' + formatPrix(targetEarnings);
+                document.getElementById('targetReferralsBar').style.width = Math.min(100, (totalReferrals / targetReferrals) * 100) + '%';
+                document.getElementById('targetEarningsBar').style.width = Math.min(100, (totalEarnings / targetEarnings) * 100) + '%';
+
+                const recent = commissions.slice(-5).reverse();
+                const container = document.getElementById('recentCommissions');
+                if (recent.length === 0) {
+                    container.innerHTML = '<p class="text-muted" style="color:var(--text-muted);">' + t('no_commissions') + '</p>';
+                } else {
+                    container.innerHTML = recent.map(c => `
+                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);font-size:0.9rem;">
+                            <span>${c.source || 'Commission'}</span>
+                            <span style="font-weight:700;color:${c.status === 'paid' ? 'var(--success)' : c.status === 'pending' ? 'var(--warning)' : 'var(--text-secondary)'};">${formatPrix(c.amount || 0)}</span>
+                            <span style="font-size:0.7rem;color:var(--text-muted);">${new Date(c.date).toLocaleDateString()}</span>
+                        </div>
+                    `).join('');
+                }
+
+                document.getElementById('withdrawBalance').textContent = formatPrix(balance);
+                document.getElementById('withdrawMin').textContent = 'Retrait minimum: ' + formatPrix(MIN_WITHDRAW);
+            }
+
+            // =========================================================
+            // CODES PROMO
+            // =========================================================
+            function renderCodes() {
+                const container = document.getElementById('codesList');
+                const code = affiliateStats?.code;
+                if (!code) {
+                    container.innerHTML = '<p class="text-muted" style="color:var(--text-muted);">' + t('no_codes') + '</p>';
+                    document.getElementById('codeBadge').textContent = '0';
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div style="background:var(--bg-body);border-radius:12px;padding:12px 16px;margin-bottom:8px;border:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                        <div>
+                            <div style="font-weight:700;font-family:monospace;font-size:1.1rem;letter-spacing:1px;color:var(--accent);">${code}</div>
+                            <div style="font-size:0.7rem;color:var(--text-muted);">Votre code de parrainage unique</div>
+                        </div>
+                        <div style="display:flex;gap:6px;">
+                            <button onclick="window.copyCode('${code}')" style="padding:4px 12px;border-radius:30px;background:var(--bg-card);font-size:0.75rem;border:1px solid var(--border-color);">📋 Copier</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('codeBadge').textContent = 1;
+            }
+
+            // =========================================================
+            // GÉNÉRER CODE
+            // =========================================================
+            window.generateNewCode = function() {
+                showToast('Un seul code par compte pour l\'instant — génération de codes supplémentaires à venir.', 'warning');
+            };
+
+            window.copyCode = function(code) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showToast('📋 Code copié !', 'success');
+                }).catch(() => {
+                    showToast('📋 Code: ' + code, 'info');
+                });
+            };
+
+            // =========================================================
+            // CODE PERSONNALISÉ
+            // =========================================================
+            function showCustomCodeModal() {
+                showToast('Les codes personnalisés arrivent bientôt.', 'warning');
+            }
+
+            function confirmCustomCode() {
+                document.getElementById('customCodeModal').style.display = 'none';
+            }
+
+            // =========================================================
+            // COMMISSIONS
+            // =========================================================
+            function renderCommissions() {
+                const container = document.getElementById('commissionsList');
+                if (commissions.length === 0) {
+                    container.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">' + t('no_commissions') + '</td></tr>';
+                    return;
+                }
+
+                const total = commissions.reduce((s, c) => s + (c.status === 'paid' ? c.amount : 0), 0);
+                const pending = commissions.reduce((s, c) => s + (c.status === 'pending' ? c.amount : 0), 0);
+                const paid = commissions.reduce((s, c) => s + (c.status === 'paid' ? c.amount : 0), 0);
+
+                document.getElementById('commTotal').textContent = formatPrix(total);
+                document.getElementById('commPending').textContent = formatPrix(pending);
+                document.getElementById('commPaid').textContent = formatPrix(paid);
+
+                container.innerHTML = commissions.slice().reverse().map(c => `
+                    <tr>
+                        <td>${new Date(c.date).toLocaleDateString()}</td>
+                        <td>${c.source || 'Commission'}</td>
+                        <td>${formatPrix(c.amount || 0)}</td>
+                        <td><span class="status-badge ${c.status || 'pending'}">${c.status === 'paid' ? '✅ Payé' : c.status === 'pending' ? '⏳ En attente' : '❌ Échoué'}</span></td>
+                    </tr>
+                `).join('');
+            }
+
+            // =========================================================
+            // RÉFÉRENTS
+            // =========================================================
+            function renderReferrals() {
+                const container = document.getElementById('referralsList');
+                const total = referrals.length;
+                const paid = referrals.filter(r => r.status === 'paid').length;
+                const earnings = referrals.reduce((s, r) => s + (r.commission || 0), 0);
+
+                document.getElementById('refTotal').textContent = total;
+                document.getElementById('refActive').textContent = paid;
+                document.getElementById('refEarnings').textContent = formatPrix(earnings);
+
+                if (referrals.length === 0) {
+                    container.innerHTML = '<p class="text-muted" style="color:var(--text-muted);">' + t('no_refs') + '</p>';
+                    return;
+                }
+
+                container.innerHTML = referrals.map(r => `
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);align-items:center;flex-wrap:wrap;gap:6px;">
+                        <div>
+                            <div style="font-weight:600;">${r.user?.firstName ? `${r.user.firstName} ${r.user.lastName}` : 'Utilisateur'}</div>
+                            <div style="font-size:0.7rem;color:var(--text-muted);">${r.user?.email || ''}</div>
+                        </div>
+                        <div>
+                            <span style="font-size:0.8rem;color:${r.status === 'paid' ? 'var(--success)' : 'var(--text-muted)'};">${r.status === 'paid' ? '✅ Payée' : r.status === 'cancelled' ? '❌ Annulée' : '⏳ En attente'}</span>
+                            <span style="font-size:0.8rem;margin-left:12px;font-weight:700;">${formatPrix(r.commission || 0)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // =========================================================
+            // PROFIL
+            // =========================================================
+            function renderProfile() {
+                if (!currentUser) return;
+
+                document.getElementById('profileName').value = currentUser.lastName || '';
+                document.getElementById('profileFirstName').value = currentUser.firstName || '';
+                document.getElementById('profileEmail').value = currentUser.email || '';
+                document.getElementById('profilePhone').value = currentUser.phone || '';
+                document.getElementById('profileCity').value = currentUser.address?.city || '';
+                document.getElementById('profileAddress').value = currentUser.address?.street || '';
+                document.getElementById('profileCountry').value = currentUser.address?.country || '';
+                document.getElementById('profileCurrency').value = currentUser.preferredCurrency || 'XOF';
+                document.getElementById('profileCurrency').disabled = !!currentUser.preferredCurrency;
+                document.getElementById('profileMtn').value = affiliateStats?.payoutMethods?.mtn || '';
+                document.getElementById('profileOrange').value = affiliateStats?.payoutMethods?.orange || '';
+                document.getElementById('profileWave').value = affiliateStats?.payoutMethods?.wave || '';
+                document.getElementById('profilePaypal').value = affiliateStats?.payoutMethods?.paypal || '';
+
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.getElementById('profileTimezone').value = tz;
+                document.getElementById('profilePseudo').value = currentUser.pseudo || '';
+                document.getElementById('profilePseudo').disabled = !!currentUser.pseudo;
+                document.getElementById('profileBio').value = currentUser.bio || '';
+                document.getElementById('profileInsta').value = currentUser.socialLinks?.instagram || '';
+                document.getElementById('profileFb').value = currentUser.socialLinks?.facebook || '';
+                document.getElementById('profileTiktok').value = currentUser.socialLinks?.tiktok || '';
+                document.getElementById('profileWa').value = currentUser.socialLinks?.whatsapp || '';
+
+                document.getElementById('profileName').disabled = !!currentUser.lastName;
+                document.getElementById('profileFirstName').disabled = !!currentUser.firstName;
+                document.getElementById('profilePhone').disabled = !!currentUser.phone;
+                document.getElementById('btnDetecterLocalisationAffiliate').style.display =
+                    (currentUser.address?.country && currentUser.address?.city) ? 'none' : '';
+
+                document.getElementById('affiliateFlag').textContent = flagEmoji(currentUser.address?.country);
+                document.getElementById('verifiedBadge').style.display = currentUser.isStoreVerified ? 'inline' : 'none';
+
+                document.getElementById('langueAffiliate').value = currentUser.preferredLanguage || getLangue();
+            }
+
+            async function saveProfile() {
+                try {
+                    currentUser = await window.SineAPI.updateProfile({
+                        lastName: document.getElementById('profileName').value,
+                        firstName: document.getElementById('profileFirstName').value,
+                        phone: document.getElementById('profilePhone').value,
+                        address: {
+                            city: document.getElementById('profileCity').value,
+                            street: document.getElementById('profileAddress').value,
+                            country: document.getElementById('profileCountry').value,
+                        },
+                        preferredCurrency: document.getElementById('profileCurrency').value,
+                        pseudo: document.getElementById('profilePseudo').value.trim() || undefined,
+                        bio: document.getElementById('profileBio').value,
+                        socialLinks: {
+                            instagram: document.getElementById('profileInsta').value,
+                            facebook: document.getElementById('profileFb').value,
+                            tiktok: document.getElementById('profileTiktok').value,
+                            whatsapp: document.getElementById('profileWa').value,
+                        },
+                    });
+
+                    await window.SineAPI.updatePayoutMethods({
+                        mtn: document.getElementById('profileMtn').value,
+                        orange: document.getElementById('profileOrange').value,
+                        wave: document.getElementById('profileWave').value,
+                        paypal: document.getElementById('profilePaypal').value,
+                    });
+                    affiliateStats = await window.SineAPI.getAffiliateStats();
+
+                    updateUI();
+                    if (currentUser.lockedFieldsIgnored && currentUser.lockedFieldsIgnored.length) {
+                        showToast('✅ Profil enregistré (certains champs déjà définitifs n\'ont pas été modifiés)', 'success');
+                    } else {
+                        showToast('✅ Profil enregistré', 'success');
+                    }
+                } catch (e) {
+                    showToast(e.message || 'Erreur lors de l\'enregistrement.', 'error');
+                }
+            }
+
+            // =========================================================
+            // RETRAIT
+            // =========================================================
+            async function processWithdraw() {
+                const method = document.getElementById('withdrawMethod').value;
+                const account = document.getElementById('withdrawAccount').value.trim();
+                const amount = parseFloat(document.getElementById('withdrawAmount').value);
+
+                if (!account) {
+                    showToast('❌ Veuillez entrer votre numéro ou email', 'error');
+                    return;
+                }
+                if (!amount || amount <= 0) {
+                    showToast('❌ Veuillez entrer un montant valide', 'error');
+                    return;
+                }
+                if (method === 'paypal' && !account.includes('@')) {
+                    showToast('❌ Email PayPal invalide', 'error');
+                    return;
+                }
+                if (method === 'bank') {
+                    showToast('⏳ Virement bancaire bientôt disponible', 'warning');
+                    return;
+                }
+                if (method === 'mtn' || method === 'orange' || method === 'wave') {
+                    const cleanNumber = account.replace(/\s/g, '');
+                    if (!/^[0-9]{8,15}$/.test(cleanNumber)) {
+                        showToast('❌ Numéro de téléphone invalide', 'error');
+                        return;
+                    }
+                }
+
+                try {
+                    await window.SineAPI.createWithdrawal({ amount, method, account });
+
+                    const [statsRes, withdrawalsRes] = await Promise.all([
+                        window.SineAPI.getAffiliateStats(),
+                        window.SineAPI.getMyWithdrawals(),
+                    ]);
+                    affiliateStats = statsRes;
+                    withdrawals = withdrawalsRes.withdrawals || [];
+                    commissions = [
+                        ...referrals.map(r => ({
+                            source: r.user?.firstName ? `Filleul - ${r.user.firstName} ${r.user.lastName}` : 'Commission',
+                            amount: r.commission || 0,
+                            status: r.status === 'paid' ? 'paid' : (r.status === 'cancelled' ? 'failed' : 'pending'),
+                            date: r.date,
+                        })),
+                        ...withdrawals.map(w => ({
+                            source: 'Retrait - ' + w.method,
+                            amount: -w.amount,
+                            status: w.status === 'completed' ? 'paid' : (w.status === 'rejected' ? 'failed' : 'pending'),
+                            date: w.createdAt,
+                        })),
+                    ].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                    updateUI();
+                    renderCommissions();
+                    updateKPIs();
+                    showToast('✅ Demande de retrait envoyée !', 'success');
+
+                    document.getElementById('withdrawAmount').value = '';
+                    document.getElementById('withdrawAccount').value = '';
+                } catch (e) {
+                    showToast('❌ ' + (e.message || 'Erreur lors de la demande de retrait.'), 'error');
+                }
+            }
+
+            // =========================================================
+            // NAVIGATION
+            // =========================================================
+            function initNavigation() {
+                const links = document.querySelectorAll('.affiliate-nav a');
+                const pages = document.querySelectorAll('.affiliate-page');
+
+                function showSection(sectionId) {
+                    console.log('📂 showSection appelé avec:', sectionId);
+                    
+                    const target = document.getElementById(sectionId);
+                    if (!target) {
+                        console.error('❌ Section introuvable:', sectionId);
+                        return;
+                    }
+
+                    const isCurrentlyActive = target.classList.contains('active-page');
+
+                    // Cache toutes les pages
+                    pages.forEach(p => p.classList.remove('active-page'));
+                    links.forEach(l => l.classList.remove('active'));
+
+                    if (isCurrentlyActive) {
+                        console.log('🔒 Fermeture de:', sectionId);
+                        return;
+                    }
+
+                    // Affiche la section ciblée
+                    target.classList.add('active-page');
+                    const activeLink = document.querySelector(`.affiliate-nav a[data-section="${sectionId}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                    
+                    console.log('✅ Section ouverte:', sectionId);
+                }
+
+                links.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const section = this.dataset.section;
+                        if (section) showSection(section);
+                    });
+                });
+
+                window.showAffiliateSection = showSection;
+            }
+
+            // =========================================================
+            // THÈME
+            // =========================================================
+            function setTheme(theme) {
+                const effective = theme === 'system' ? getSystemTheme() : theme;
+                document.documentElement.setAttribute('data-theme', effective);
+                localStorage.setItem('sineTheme', theme);
+                document.querySelectorAll('#themeToggle button').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === theme);
+                });
+                const header = document.querySelector('.affiliate-header');
+                if (header) {
+                    header.style.background = effective === 'dark' ? 'var(--bg-header)' : '';
+                }
+                console.log('🎨 Thème appliqué:', effective);
+            }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            // =========================================================
+            // INIT
+            // =========================================================
+            async function ensureAffiliateRoleActive() {
+                const userData = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!userData || userData.role === 'affiliate') return true;
+
+                const myRoles = userData.roles && userData.roles.length ? userData.roles : [userData.role];
+                if (myRoles.includes('affiliate')) {
+                    try {
+                        currentUser = await window.SineAPI.switchRole('affiliate');
+                        return true;
+                    } catch (e) {
+                        window.location.href = '../html/login.html';
+                        return false;
+                    }
+                }
+
+                const pages = {
+                    'client': '../html/client.html',
+                    'seller': '../html/vendeur.html',
+                    'livreur': '../html/livreur.html',
+                    'admin': '../html/administrateur.html',
+                    'superadmin': '../html/superadministrateur.html',
+                    'moderator': '../html/moderateur.html',
+                    'support': '../html/support.html'
+                };
+                window.location.href = pages[userData.role] || '../html/login.html';
+                return false;
+            }
+
+            // =========================================================
+            // AFFICHAGE PAR DÉFAUT — AUCUNE SECTION OUVERTE
+            // =========================================================
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.affiliate-page').forEach(p => p.classList.remove('active-page'));
+                document.querySelectorAll('.affiliate-nav a').forEach(l => l.classList.remove('active'));
+            });
+
+            document.addEventListener('DOMContentLoaded', async function() {
+                if (!(await ensureAffiliateRoleActive())) return;
+
+                loadData();
+                initNavigation();
+
+                // Thème
+                const savedTheme = localStorage.getItem('sineTheme') || 'system';
+                setTheme(savedTheme);
+                document.querySelectorAll('#themeToggle button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        setTheme(this.dataset.theme);
+                    });
+                });
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                    if (localStorage.getItem('sineTheme') === 'system') setTheme('system');
+                });
+                window.addEventListener('storage', function(e) {
+                    if (e.key === 'sineTheme' && e.newValue) setTheme(e.newValue);
+                });
+
+                // =========================================================
+                // CENTRE D'AIDE — ACCORDÉON FAQ & CONTACT
+                // =========================================================
+                document.querySelectorAll('.faq-question').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const answer = this.nextElementSibling;
+                        const icon = this.querySelector('i');
+                        const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+                        document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '0px');
+                        document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                        if (!isOpen) {
+                            answer.style.maxHeight = answer.scrollHeight + 'px';
+                            icon.style.transform = 'rotate(180deg)';
+                        }
+                    });
+                });
+
+                // --- Bouton Contact ---
+                document.getElementById('btnOuvrirContact')?.addEventListener('click', function() {
+                    document.getElementById('contactModal').style.display = 'flex';
+                });
+
+                // --- Annuler Contact ---
+                document.getElementById('btnAnnulerContact')?.addEventListener('click', function() {
+                    document.getElementById('contactModal').style.display = 'none';
+                });
+
+                // --- Fermer Contact sur clic extérieur ---
+                document.getElementById('contactModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) this.style.display = 'none';
+                });
+
+                // --- Envoyer Contact ---
+                document.getElementById('btnEnvoyerContact')?.addEventListener('click', async function() {
+                    const btn = this;
+                    const subject = document.getElementById('contactSubject').value.trim();
+                    const motif = document.getElementById('contactMotif').value;
+                    const message = document.getElementById('contactMessage').value.trim();
+                    
+                    if (!subject || !message) {
+                        showToast('Veuillez renseigner l\'objet et le message.', 'warning');
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append('subject', subject);
+                    formData.append('motif', motif);
+                    formData.append('message', message);
+                    
+                    ['contactFile1', 'contactFile2', 'contactFile3'].forEach((id, i) => {
+                        const file = document.getElementById(id).files[0];
+                        if (file) formData.append(`attachment${i + 1}`, file);
+                    });
+
+                    btn.disabled = true;
+                    try {
+                        await window.SineAPI.createTicket(formData);
+                        showToast('✅ Votre message a bien été envoyé', 'success');
+                        document.getElementById('contactModal').style.display = 'none';
+                        document.getElementById('contactSubject').value = '';
+                        document.getElementById('contactMessage').value = '';
+                        ['contactFile1', 'contactFile2', 'contactFile3'].forEach(id => {
+                            document.getElementById(id).value = '';
+                        });
+                    } catch (e) {
+                        showToast('❌ ' + (e.message || 'Erreur lors de l\'envoi.'), 'error');
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+
+                // Boutons
+                document.getElementById('btnGenerateCode').addEventListener('click', window.generateNewCode);
+                document.getElementById('btnGenerateNewCode').addEventListener('click', window.generateNewCode);
+                document.getElementById('btnAddCustomCode').addEventListener('click', showCustomCodeModal);
+                document.getElementById('btnConfirmCustomCode').addEventListener('click', confirmCustomCode);
+                document.getElementById('btnCancelCustomCode').addEventListener('click', function() {
+                    document.getElementById('customCodeModal').style.display = 'none';
+                });
+                document.getElementById('btnSaveProfile').addEventListener('click', saveProfile);
+
+                // Export CSV des commissions
+                document.getElementById('btnExportCommissions').addEventListener('click', function() {
+                    if (!commissions.length) {
+                        showToast('Aucune commission à exporter.', 'warning');
+                        return;
+                    }
+                    const header = 'Source;Montant;Statut;Date\n';
+                    const rows = commissions.map(c => {
+                        const dateStr = c.date ? new Date(c.date).toLocaleDateString('fr-FR') : '';
+                        const statutLabel = { paid: 'Payé', pending: 'En attente', failed: 'Échoué' }[c.status] || c.status;
+                        return `"${(c.source || '').replace(/"/g, '""')}";${c.amount};${statutLabel};${dateStr}`;
+                    }).join('\n');
+                    const csv = '\uFEFF' + header + rows;
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `commissions-sineshop-${new Date().toISOString().slice(0, 10)}.csv`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+
+                // Photo de profil
+                document.getElementById('profilePhotoInput').addEventListener('change', async function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    try {
+                        const res = await window.SineAPI.uploadFile(file, 'avatars');
+                        currentUser = await window.SineAPI.updateProfile({ profilePicture: res.url });
+                        const avatar = document.getElementById('profileAvatar');
+                        avatar.src = res.url;
+                        avatar.style.display = 'block';
+                        showToast('✅ Photo de profil mise à jour', 'success');
+                    } catch (err) {
+                        showToast(err.message || 'Erreur lors de l\'upload de la photo.', 'error');
+                    }
+                });
+
+                // ===== VÉRIFICATION D'IDENTITÉ (KYC) =====
+                document.getElementById('kycDocType').addEventListener('change', function() {
+                    document.getElementById('kycBackGroup').style.display = this.value === 'passport' ? 'none' : '';
+                });
+
+                document.getElementById('btnSubmitKyc').addEventListener('click', async function() {
+                    const docType = document.getElementById('kycDocType').value;
+                    if (!docType) { showToast('Veuillez choisir un type de pièce d\'identité.', 'warning'); return; }
+                    if (!mediaSelections.kycDocumentFront.length) { showToast('Le recto du document est obligatoire.', 'warning'); return; }
+                    if (docType !== 'passport' && !mediaSelections.kycDocumentBack.length) { showToast('Le verso du document est obligatoire pour ce type de pièce.', 'warning'); return; }
+                    if (!mediaSelections.kycSelfie.length) { showToast('Le selfie est obligatoire.', 'warning'); return; }
+
+                    const btn = this;
+                    btn.disabled = true;
+                    try {
+                        const formData = new FormData();
+                        formData.append('documentType', docType);
+                        formData.append('documentFront', mediaSelections.kycDocumentFront[0]);
+                        if (mediaSelections.kycDocumentBack.length) formData.append('documentBack', mediaSelections.kycDocumentBack[0]);
+                        formData.append('selfie', mediaSelections.kycSelfie[0]);
+
+                        currentKyc = await window.SineAPI.submitKyc(formData);
+                        resetKycSelections();
+                        renderKycStatus();
+                        showToast('✅ Demande de vérification envoyée !', 'success');
+                    } catch (e) {
+                        showToast(e.message || 'Erreur lors de l\'envoi de la vérification.', 'error');
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+
+                // ===== DÉTECTION AUTOMATIQUE PAYS / VILLE =====
+                document.getElementById('btnDetecterLocalisationAffiliate').addEventListener('click', async function() {
+                    const btn = this;
+                    btn.disabled = true;
+                    try {
+                        const response = await fetch('https://ipapi.co/json/');
+                        if (!response.ok) throw new Error('Service indisponible');
+                        const geo = await response.json();
+                        if (geo.country_code) document.getElementById('profileCountry').value = geo.country_code;
+                        if (geo.city) document.getElementById('profileCity').value = geo.city;
+                        document.getElementById('affiliateFlag').textContent = flagEmoji(geo.country_code);
+                        showToast('📍 Localisation détectée — vérifiez et enregistrez.', 'success');
+                    } catch (err) {
+                        showToast('Détection automatique indisponible, merci de choisir manuellement.', 'warning');
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+
+                // ===== LANGUE =====
+                document.getElementById('btnSauvegarderLangue').addEventListener('click', async function() {
+                    const lang = document.getElementById('langueAffiliate').value;
+                    try {
+                        currentUser = await window.SineAPI.updateProfile({ preferredLanguage: lang });
+                        appliquerLangue();
+                        showToast('✅ Langue mise à jour', 'success');
+                    } catch (e) {
+                        showToast(e.message || 'Erreur lors de la mise à jour.', 'error');
+                    }
+                });
+
+                // ===== SÉCURITÉ =====
+                document.getElementById('btnModifierMotPasse').addEventListener('click', async function() {
+                    const currentPassword = prompt('Mot de passe actuel :');
+                    if (!currentPassword) return;
+                    const newPass = prompt('Nouveau mot de passe (minimum 8 caractères) :');
+                    if (!newPass) return;
+                    if (newPass.length < 8) { showToast('❌ Minimum 8 caractères', 'error'); return; }
+                    const confirmPass = prompt('Confirmez le nouveau mot de passe :');
+                    if (newPass !== confirmPass) { showToast('❌ Les mots de passe ne correspondent pas', 'error'); return; }
+                    try {
+                        await window.SineAPI.updatePassword(currentPassword, newPass);
+                        showToast('✅ Mot de passe mis à jour', 'success');
+                    } catch (e) {
+                        showToast((e.message || 'Mot de passe actuel incorrect.') + ' Utilisez "Mot de passe oublié" depuis la page de connexion si besoin.', 'error');
+                    }
+                });
+
+                document.getElementById('btnModifierEmail').addEventListener('click', async function() {
+                    const newEmail = prompt('Nouvelle adresse email :', '');
+                    if (!newEmail || !newEmail.includes('@')) return;
+                    try {
+                        await window.SineAPI.requestEmailChange(newEmail);
+                        showToast('📧 Code de validation envoyé à votre nouvelle adresse.', 'success');
+                        const code = prompt('Code reçu par email :');
+                        if (!code) return;
+                        await window.SineAPI.confirmEmailChange(code);
+                        showToast('✅ Email modifié et authentifié avec succès.', 'success');
+                    } catch (e) {
+                        showToast(e.message || 'Erreur lors du changement d\'email.', 'error');
+                    }
+                });
+
+                // =========================================================
+                // GESTION DU COMPTE
+                // =========================================================
+                window.envoyerDemandeCompte = async function(requestType, messageConfirm, messageSucces) {
+                    if (!confirm(messageConfirm)) return;
+                    const raison = prompt('Un motif à préciser (facultatif) :', '') || '';
+                    try {
+                        await window.SineAPI.submitAccountActionRequest(requestType, raison);
+                        showToast(messageSucces, 'success');
+                        if (requestType === 'delete_permanent' || requestType === 'hide_temporary') {
+                            setTimeout(() => { window.location.href = '../html/login.html'; }, 1500);
+                        }
+                    } catch (e) {
+                        showToast('❌ ' + (e.message || 'Erreur lors de l\'envoi de la demande.'), 'error');
+                    }
+                };
+
+                document.getElementById('btnMasquerCompte').addEventListener('click', function() {
+                    window.envoyerDemandeCompte('hide_temporary',
+                        '👁️‍🗨️ Envoyer une demande de masquage temporaire de votre compte affilié ? Vous serez déconnecté immédiatement. Sans reconnexion de votre part sous 30 jours, le compte sera automatiquement supprimé.',
+                        '✅ Compte masqué — vous allez être déconnecté. Reconnectez-vous dans les 30 jours pour annuler, sinon le compte sera supprimé automatiquement.');
+                });
+
+                document.getElementById('btnFermerCompte').addEventListener('click', function() {
+                    window.envoyerDemandeCompte('close',
+                        '⏸️ Envoyer une demande de fermeture de votre compte affilié ?',
+                        '✅ Demande de fermeture envoyée — un administrateur va l\'examiner.');
+                });
+
+                document.getElementById('btnSupprimerCompte').addEventListener('click', function() {
+                    window.envoyerDemandeCompte('delete_permanent',
+                        '⚠️ Envoyer une demande de suppression définitive de votre compte affilié ? Vous serez déconnecté immédiatement. Cette action est irréversible une fois traitée par notre équipe.',
+                        '✅ Demande de suppression envoyée. Vous allez être déconnecté...');
+                });
+
+                document.getElementById('btnDeconnecterTous').addEventListener('click', function() {
+                    if (confirm('Déconnecter tous les appareils ?')) {
+                        window.SineAPI.logout();
+                    }
+                });
+
+                document.getElementById('btnWithdraw').addEventListener('click', processWithdraw);
+
+                document.getElementById('customCodeInput').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') confirmCustomCode();
+                });
+
+                document.getElementById('withdrawAmount').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') processWithdraw();
+                });
+
+                document.getElementById('btnGlobalSearch').addEventListener('click', function() {
+                    const val = document.getElementById('globalSearch').value.trim();
+                    if (val) {
+                        showToast('🔍 Recherche: "' + val + '"', 'info');
+                    }
+                });
+
+                document.getElementById('btnSupport').addEventListener('click', function() {
+                    window.open('../html/support.html', '_blank');
+                });
+
+                document.getElementById('btnLogout').addEventListener('click', function() {
+                    if (confirm('Se déconnecter ?')) {
+                        localStorage.removeItem('lastActivity');
+                        window.SineAPI.logout();
+                    }
+                });
+
+                document.getElementById('btnShare').addEventListener('click', function() {
+                    const url = window.location.href;
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'SINE.SHOP Affiliation',
+                            text: 'Devenez partenaire SINE.SHOP et gagnez des commissions !',
+                            url: url
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(url).then(() => {
+                            showToast('📋 Lien copié !', 'success');
+                        }).catch(() => {
+                            showToast('🔗 ' + url, 'info');
+                        });
+                    }
+                });
+
+                document.getElementById('btnNotifications').addEventListener('click', function() {
+                    showToast('🔔 Vous avez 0 notification', 'info');
+                });
+
+                setInterval(() => {
+                    loadData();
+                }, 60000);
+
+                // Vidéo de bienvenue
+                (async function afficherVideoBienvenue() {
+                    try {
+                        const uid = currentUser?.id || currentUser?._id;
+                        if (!uid) return;
+                        const key = `sineWelcomeVideoShown:${uid}`;
+                        if (localStorage.getItem(key) === '1') return;
+                        const settings = await window.SineAPI.getAppSettings();
+                        if (!settings?.welcomeVideoEnabled || !settings?.welcomeVideoUrl) return;
+                        const overlay = document.getElementById('welcomeVideoOverlay');
+                        const player = document.getElementById('welcomeVideoPlayer');
+                        player.src = settings.welcomeVideoUrl;
+                        overlay.style.display = 'flex';
+                        document.getElementById('btnCloseWelcomeVideo').addEventListener('click', function() {
+                            overlay.style.display = 'none';
+                            player.pause();
+                            localStorage.setItem(key, '1');
+                        }, { once: true });
+                        localStorage.setItem(key, '1');
+                    } catch (e) { /* silencieux */ }
+                })();
+
+                console.log('✅ SINE.SHOP Affiliation chargé');
+                console.log('👤 Utilisateur:', currentUser?.email);
+                console.log('💱 Devise:', getDevise());
+                console.log('🌐 Langue:', getLangue());
+            });
+
+        })();
+    </script>
+
+    <!-- ========================================================= -->
+    <!-- FORMULAIRE DE CONTACT -->
+    <!-- ========================================================= -->
+    <div id="contactModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:white;border-radius:24px;padding:1.5rem;max-width:480px;width:100%;max-height:85vh;overflow-y:auto;">
+            <h3 style="margin-bottom:4px;">✉️ Contacter le service affiliation</h3>
+            <p style="font-size:0.8rem;color:#94a3b8;margin-bottom:1rem;">Nous répondons généralement sous 24 à 48h.</p>
+            <div class="form-group">
+                <label>Objet</label>
+                <input type="text" id="contactSubject" placeholder="Résumez votre demande en quelques mots" required>
+            </div>
+            <div class="form-group">
+                <label>Motif</label>
+                <select id="contactMotif">
+                    <option value="probleme_commande">Problème de commande</option>
+                    <option value="probleme_paiement">Problème de paiement</option>
+                    <option value="probleme_livraison">Problème de livraison</option>
+                    <option value="probleme_compte">Problème de compte</option>
+                    <option value="probleme_produit">Problème de produit</option>
+                    <option value="signalement_abus">Signalement d'abus</option>
+                    <option value="question_generale" selected>Question générale</option>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="contactMessage" rows="4" placeholder="Détaillez votre demande..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Pièces jointes (photo, vidéo ou fichier — 3 maximum)</label>
+                <input type="file" id="contactFile1" accept="image/*,video/*,.pdf,.doc,.docx">
+                <input type="file" id="contactFile2" accept="image/*,video/*,.pdf,.doc,.docx" style="margin-top:0.4rem;">
+                <input type="file" id="contactFile3" accept="image/*,video/*,.pdf,.doc,.docx" style="margin-top:0.4rem;">
+            </div>
+            <div class="actions-group" style="margin-top:1rem;">
+                <button id="btnAnnulerContact" type="button">Annuler</button>
+                <button id="btnEnvoyerContact" class="btn-primary" type="button">Envoyer</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

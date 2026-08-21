@@ -1,0 +1,429 @@
+                                             /* ===================================================== */
+/* BLOC A2 : STYLE GÉNÉRAL */
+/* ===================================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+}
+
+
+
+body{
+
+    background:#f4f6fb;
+
+    color:#222;
+
+}
+
+
+
+/* ========================================= */
+/* HEADER */
+/* ========================================= */
+
+.header-admin{
+
+    background:#0f172a;
+
+    color:white;
+
+    text-align:center;
+
+    padding:30px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+
+
+.header-admin h1{
+
+    font-size:34px;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.header-admin p{
+
+    opacity:.9;
+
+}
+
+
+
+/* ========================================= */
+/* CONTENEUR */
+/* ========================================= */
+
+.admin-container{
+
+    width:95%;
+
+    max-width:1400px;
+
+    margin:30px auto;
+
+}
+
+
+
+/* ========================================= */
+/* CARTES */
+/* ========================================= */
+
+.card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+.card h2{
+
+    margin-bottom:20px;
+
+    color:#0f172a;
+
+    border-bottom:2px solid #ececec;
+
+    padding-bottom:10px;
+
+}
+
+
+/* ===================================================== */
+/* BLOC A2 : STYLE GÉNÉRAL */
+/* ===================================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+}
+
+
+
+body{
+
+    background:#f4f6fb;
+
+    color:#222;
+
+}
+
+
+
+/* ========================================= */
+/* HEADER */
+/* ========================================= */
+
+.header-admin{
+
+    background:#0f172a;
+
+    color:white;
+
+    text-align:center;
+
+    padding:30px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+
+
+.header-admin h1{
+
+    font-size:34px;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.header-admin p{
+
+    opacity:.9;
+
+}
+
+
+
+/* ========================================= */
+/* CONTENEUR */
+/* ========================================= */
+
+.admin-container{
+
+    width:95%;
+
+    max-width:1400px;
+
+    margin:30px auto;
+
+}
+
+
+
+/* ========================================= */
+/* CARTES */
+/* ========================================= */
+
+.card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+.card h2{
+
+    margin-bottom:20px;
+
+    color:#0f172a;
+
+    border-bottom:2px solid #ececec;
+
+    padding-bottom:10px;
+
+}
+
+
+
+/* ===================================================== */
+/* BLOC A4 : FIN DU CSS + DÉBUT DU BODY */
+/* ===================================================== */
+
+
+/* ========================================= */
+/* DÉTAIL D'UNE COMMANDE */
+/* ========================================= */
+
+#detailCommande{
+
+    min-height:180px;
+
+    line-height:1.8;
+
+}
+
+
+
+/* ========================================= */
+/* TABLEAUX */
+/* ========================================= */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:15px;
+
+}
+
+
+
+th,
+
+td{
+
+    border:1px solid #ddd;
+
+    padding:12px;
+
+    text-align:left;
+
+}
+
+
+
+th{
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
+
+
+/* ========================================= */
+/* RESPONSIVE */
+/* ========================================= */
+
+@media(max-width:768px){
+
+    .commande{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .commande img{
+
+        width:150px;
+
+        height:150px;
+
+    }
+
+    .actions{
+
+        flex-direction:column;
+
+    }
+
+    .actions button{
+
+        width:100%;
+
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+
+
+
+/*=========================================================
+    QUICK PANEL GLOBAL
+=========================================================*/
+
+.quick-panel{
+
+    position:fixed;
+
+    top:0;
+
+    right:-430px;
+
+    width:420px;
+
+    max-width:100%;
+
+    height:100vh;
+
+    background:#ffffff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    box-shadow:-12px 0 40px rgba(0,0,0,.15);
+
+    transition:.35s;
+
+    z-index:2500;
+
+}
+
+.quick-panel.open{
+
+    right:0;
+
+}
+
+.quick-panel-header{
+
+    padding:22px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.quick-panel-body{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.quick-panel-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:2400;
+
+}
+
+.quick-panel-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}

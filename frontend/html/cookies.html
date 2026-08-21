@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#4a8ab5">
+    <title>Politique de cookies • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /*=========================================================
+        RESET & BASE – FOND BLEU CIEL MOYEN (plus profond)
+        =========================================================*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Outfit", sans-serif;
+            background: #4a8ab5;
+            color: #1a2a3a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+            touch-action: manipulation;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Ciel étoilé (dégradé bleu moyen → ciel) */
+        .sky {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, #3a7aaa 0%, #5b9bd5 40%, #87CEEB 70%, #b8dff0 100%);
+        }
+        .sky::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.2) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .stars-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 6px rgba(255,255,255,0.5);
+        }
+        .star:nth-child(odd) { animation-duration: 2.5s; }
+        .star:nth-child(3n) { animation-duration: 4s; }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        .shooting-star {
+            position: fixed;
+            top: -80px;
+            left: -200px;
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(255,255,255,0.3));
+            border-radius: 100px;
+            transform: rotate(-25deg);
+            z-index: 0;
+            opacity: 0;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
+            animation: shootingStar 8s linear infinite;
+        }
+        @keyframes shootingStar {
+            0% { opacity: 0; transform: translate(-200px, -80px) rotate(-25deg); }
+            5% { opacity: 1; }
+            20% { opacity: 1; }
+            25% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); }
+            100% { opacity: 0; transform: translate(1200px, 600px) rotate(-25deg); }
+        }
+
+        /*=========================================================
+        HEADER – TRANSPARENT (sans bouton retour)
+        =========================================================*/
+        .cookies-header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .header-brand span {
+            color: #e0f0ff;
+        }
+
+        /*=========================================================
+        CONTENU – CARTES CLAIRES
+        =========================================================*/
+        .cookies-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            width: 100%;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .cookies-container h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .cookies-container .subtitle {
+            color: #e0ecf5;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding-bottom: 20px;
+        }
+        .cookies-container .last-update {
+            color: #d0dce8;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .cookies-section {
+            margin-bottom: 32px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: 0.3s;
+        }
+        .cookies-section:hover {
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+        }
+        .cookies-section h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0a2a4a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cookies-section h2 .icon {
+            color: #2d73ff;
+            font-size: 1.1rem;
+        }
+        .cookies-section p {
+            color: #1a2a3a;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .cookies-section ul {
+            margin-top: 10px;
+            padding-left: 8px;
+        }
+        .cookies-section ul li {
+            color: #1a2a3a;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            padding: 4px 0 4px 24px;
+            position: relative;
+        }
+        .cookies-section ul li::before {
+            content: "•";
+            color: #2d73ff;
+            position: absolute;
+            left: 4px;
+            font-weight: 700;
+        }
+
+        .cookies-section .highlight-box {
+            background: rgba(45,115,255,0.06);
+            border-left: 3px solid #2d73ff;
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 12px;
+        }
+        .cookies-section .highlight-box p {
+            color: #1a2a3a;
+            font-size: 0.9rem;
+        }
+
+        /*=========================================================
+        FOOTER LINKS
+        =========================================================*/
+        .footer-links {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+        .footer-links a {
+            color: #e0ecf5;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 30px;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.05);
+        }
+        .footer-links a:hover {
+            color: white;
+            background: rgba(255,255,255,0.15);
+        }
+
+        /*=========================================================
+        NOTIFICATION
+        =========================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(10,42,68,0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /*=========================================================
+        INDICATEUR DE SWIPE (optionnel)
+        =========================================================*/
+        .swipe-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.7rem;
+            background: rgba(0,0,0,0.15);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            pointer-events: none;
+            animation: pulseHint 2s ease-in-out infinite;
+        }
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /*=========================================================
+        RESPONSIVE
+        =========================================================*/
+        @media (max-width: 768px) {
+            .cookies-header {
+                padding: 12px 16px;
+            }
+            .cookies-container {
+                padding: 20px 16px 60px;
+            }
+            .cookies-section {
+                padding: 18px;
+            }
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-links a {
+                width: 100%;
+                text-align: center;
+            }
+            .swipe-hint {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-brand {
+                font-size: 1.3rem;
+            }
+            .cookies-section h2 {
+                font-size: 1rem;
+            }
+            .cookies-section p,
+            .cookies-section ul li {
+                font-size: 0.88rem;
+            }
+        }
+
+        /* =========================================================
+           MODE SOMBRE — n'existait pas du tout sur cette page (voir
+           cgu.html pour le même correctif). Suit automatiquement la
+           préférence déjà choisie ailleurs sur le site.
+           ========================================================= */
+        [data-theme="dark"] body { background: linear-gradient(180deg, #0a1420 0%, #0f1c2e 100%); color: #dbe6f2; }
+        [data-theme="dark"] .cookies-container h1 { color: #e8f0fa; }
+        [data-theme="dark"] .cookies-container .subtitle { color: #8ba5c4; border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .cookies-container .last-update { color: #7893b3; }
+        [data-theme="dark"] .cookies-section { background: rgba(15,28,46,0.85); border-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .cookies-section h2 { color: #cfe0f5; }
+        [data-theme="dark"] .cookies-section p, [data-theme="dark"] .cookies-section li { color: #b7c8dc; }
+        [data-theme="dark"] .cookies-section .highlight-box { background: rgba(45,115,255,0.12); }
+        [data-theme="dark"] .cookies-section .highlight-box p { color: #dbe6f2; }
+        /* =========================================================
+   MODE SOMBRE — CORRECTION COMPLÈTE
+   ========================================================= */
+[data-theme="dark"] body { 
+    background: linear-gradient(180deg, #0a1420 0%, #0f1c2e 100%); 
+    color: #dbe6f2; 
+}
+[data-theme="dark"] .cookies-container h1 { 
+    color: #e8f0fa; 
+}
+[data-theme="dark"] .cookies-container .subtitle { 
+    color: #8ba5c4; 
+    border-bottom-color: rgba(255,255,255,0.08); 
+}
+[data-theme="dark"] .cookies-container .last-update { 
+    color: #7893b3; 
+}
+[data-theme="dark"] .cookies-section { 
+    background: rgba(15,28,46,0.85); 
+    border-color: rgba(255,255,255,0.06); 
+}
+[data-theme="dark"] .cookies-section h2 { 
+    color: #cfe0f5; 
+}
+[data-theme="dark"] .cookies-section p, 
+[data-theme="dark"] .cookies-section ul li { 
+    color: #b7c8dc; 
+}
+[data-theme="dark"] .cookies-section .highlight-box { 
+    background: rgba(45,115,255,0.12); 
+}
+[data-theme="dark"] .cookies-section .highlight-box p { 
+    color: #dbe6f2; 
+}
+[data-theme="dark"] .footer-links { 
+    background: rgba(255,255,255,0.03); 
+}
+[data-theme="dark"] .footer-links a { 
+    color: #94a3b8; 
+}
+[data-theme="dark"] .footer-links a:hover { 
+    color: #e8f0fa; 
+    background: rgba(255,255,255,0.06); 
+}
+[data-theme="dark"] .sine-header {
+    background: rgba(10,20,40,0.95) !important;
+    border-bottom-color: rgba(255,255,255,0.06) !important;
+}
+[data-theme="dark"] .sine-header .sine-word-1,
+[data-theme="dark"] .sine-header .sine-word-3 {
+    color: #e8f0fa !important;
+}
+[data-theme="dark"] .swipe-hint {
+    color: rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.2);
+}
+[data-theme="dark"] #notification {
+    background: rgba(10,20,40,0.95);
+    color: #e8f0fa;
+    border-color: rgba(255,255,255,0.08);
+}
+    </style>
+    <script>
+        (function() {
+            const saved = localStorage.getItem('sineTheme') || 'system';
+            const effective = saved === 'system'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : saved;
+            document.documentElement.setAttribute('data-theme', effective);
+        })();
+    </script>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- CIEL ÉTOILÉ (dégradé bleu moyen) -->
+    <!-- ===================================================== -->
+    <div class="sky"></div>
+    <div class="stars-container" id="starsContainer"></div>
+    <div class="shooting-star"></div>
+
+    <!-- ===================================================== -->
+    <!-- HEADER (sans bouton retour) -->
+    <!-- ===================================================== -->
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions"></div>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- CONTENU -->
+    <!-- ===================================================== -->
+    <main class="cookies-container">
+
+        <h1>Politique de cookies</h1>
+        <p>Cette politique vous informe sur l'utilisation des cookies sur SINE.SHOP et sur la manière de les gérer.</p>
+
+        <!-- Section 1 -->
+        <div class="cookies-section">
+            <h2><span class="icon">1.</span> Qu'est-ce qu'un cookie ?</h2>
+            <p>Un cookie est un petit fichier texte déposé sur votre appareil lors de la visite d'un site web. Il permet de stocker des informations relatives à votre navigation afin d'améliorer votre expérience utilisateur.</p>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="cookies-section">
+            <h2><span class="icon">2.</span> Cookies utilisés sur SINE.SHOP</h2>
+            <p>Nous utilisons différents types de cookies :</p>
+            <ul>
+                <li><strong>Cookies essentiels :</strong> Nécessaires au bon fonctionnement du site (connexion, panier, sécurité).</li>
+                <li><strong>Cookies de performance :</strong> Nous aident à analyser l'utilisation du site et à améliorer ses performances.</li>
+                <li><strong>Cookies de fonctionnalité :</strong> Mémorisent vos préférences (langue, devise, thème).</li>
+                <li><strong>Cookies de ciblage :</strong> Permettent de vous proposer des contenus et offres personnalisés.</li>
+            </ul>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="cookies-section">
+            <h2><span class="icon">3.</span> Durée de conservation</h2>
+            <p>Les cookies sont conservés pour une durée maximale de 13 mois à compter de leur dépôt sur votre appareil. Passé ce délai, ils sont automatiquement supprimés.</p>
+            <div class="highlight-box">
+                <p><i class="fa-solid fa-clock" style="color:#2d73ff;margin-right:8px;"></i> <strong>Durée :</strong> Les cookies de session sont supprimés à la fermeture de votre navigateur. Les cookies persistants restent jusqu'à leur date d'expiration.</p>
+            </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="cookies-section">
+            <h2><span class="icon">4.</span> Gestion des cookies</h2>
+            <p>Vous pouvez à tout moment gérer vos préférences en matière de cookies :</p>
+            <ul>
+                <li>Via les paramètres de votre navigateur (Chrome, Firefox, Safari, Edge).</li>
+                <li>En utilisant notre outil de gestion des cookies (disponible dans les paramètres du compte).</li>
+                <li>En refusant les cookies non essentiels lors de votre première visite.</li>
+            </ul>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="cookies-section">
+            <h2><span class="icon">5.</span> Vos droits</h2>
+            <p>Conformément à la réglementation, vous disposez des droits suivants :</p>
+            <ul>
+                <li>Droit d'accès aux données collectées</li>
+                <li>Droit de rectification de vos informations</li>
+                <li>Droit d'opposition à l'utilisation de vos données</li>
+                <li>Droit à la suppression de vos données (sous réserve des obligations légales)</li>
+            </ul>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="cookies-section">
+            <h2><span class="icon">6.</span> Cookies tiers</h2>
+            <p>Certains cookies sont déposés par des services tiers intégrés à la plateforme :</p>
+            <ul>
+                <li><strong>Google Analytics :</strong> Analyse de l'audience et des performances.</li>
+                <li><strong>Services de paiement :</strong> Wave, MTN MoMo, Orange Money.</li>
+                <li><strong>Réseaux sociaux :</strong> Boutons de partage (Facebook, Instagram).</li>
+            </ul>
+            <div class="highlight-box">
+                <p><i class="fa-solid fa-shield-halved" style="color:#2d73ff;margin-right:8px;"></i> <strong>Confidentialité :</strong> Nous ne partageons pas vos données personnelles avec ces tiers sans votre consentement explicite.</p>
+            </div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="footer-links">
+            <a href="../html/index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="../html/privacy.html"><i class="fa-solid fa-user-shield"></i> Confidentialité</a>
+            <a href="../html/cgu.html"><i class="fa-solid fa-file-contract"></i> CGU</a>
+            <a href="../html/cgv.html"><i class="fa-solid fa-file-invoice"></i> CGV</a>
+        </div>
+
+        <p class="last-update"><strong>Dernière mise à jour :</strong> Août 2026</p>
+
+    </main>
+
+    <!-- ===================================================== -->
+    <!-- INDICATEUR DE SWIPE -->
+    <!-- ===================================================== -->
+    <div class="swipe-hint"><i class="fa-solid fa-arrow-left"></i> Balayez pour revenir</div>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS -->
+    <!-- ===================================================== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================================================
+            // ÉTOILES
+            // =====================================================
+            (function createStars() {
+                const container = document.getElementById('starsContainer');
+                if (!container) return;
+                const count = Math.min(60, Math.floor(window.innerWidth / 12));
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animationDelay = (Math.random() * 5) + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(star);
+                }
+            })();
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' : '4px solid #f59e0b';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(function() {
+                    notif.classList.remove('show');
+                }, 4000);
+            }
+
+            // =====================================================
+            // SWIPE NAVIGATION (retour vers la page précédente)
+            // =====================================================
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isSwiping = false;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+                isSwiping = true;
+            }, { passive: true });
+
+            document.addEventListener('touchmove', function(e) {
+                if (!isSwiping) return;
+                // On pourrait ajouter un indicateur visuel pendant le swipe
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                if (!isSwiping) return;
+                isSwiping = false;
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+
+                // Swipe de gauche à droite (retour arrière)
+                if (diff < -60) {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+                // Swipe de droite à gauche (aller à l'accueil)
+                else if (diff > 60) {
+                    window.location.href = '../html/index.html';
+                }
+            }, { passive: true });
+
+            // =====================================================
+            // KEYBOARD (touche Échap pour retour)
+            // =====================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+            });
+
+            // =====================================================
+            // VÉRIFICATION DE L'ÉTAT DES COOKIES
+            // =====================================================
+            const cookiesPref = localStorage.getItem('cookiesPref');
+            if (cookiesPref === 'all') {
+                console.log('✅ Cookies acceptés');
+            } else if (cookiesPref === 'essentials') {
+                console.log('⚠️ Cookies essentiels uniquement');
+            }
+
+            console.log('✅ Politique de cookies SINE.SHOP chargée – swipe activé');
+        })();
+    </script>
+
+</body>
+</html>

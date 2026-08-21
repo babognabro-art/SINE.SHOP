@@ -1,0 +1,268 @@
+    /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+        body { background: #f4f7fc; color: #1e293b; display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        hr { border: none; border-top: 1px solid #e2e8f0; margin: 1.5rem 0; }
+        button { cursor: pointer; border: none; background: none; }
+
+        /* HEADER */
+        header { background: #0f172a; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo { font-size: 1.6rem; font-weight: 700; }
+        header > div:last-child { background: #1e293b; padding: 0.4rem 1.2rem; border-radius: 40px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+
+        /* LAYOUT */
+        .client-container { display: flex; gap: 2rem; padding: 2rem; max-width: 1600px; margin: 0 auto; width: 100%; flex: 1; }
+        aside { background: white; border-radius: 24px; padding: 1.5rem 1rem; width: 260px; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.02); border: 1px solid #eef2f6; height: fit-content; position: sticky; top: 2rem; }
+        aside ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+        aside ul li a { display: flex; align-items: center; gap: 12px; padding: 0.7rem 1rem; border-radius: 14px; transition: 0.2s; font-weight: 500; color: #334155; }
+        aside ul li a:hover { background: #f1f5f9; color: #0f172a; }
+        aside .btn-assistant { display: block; margin-top: 2rem; background: #0f172a; color: white; padding: 0.9rem 1.2rem; border-radius: 40px; text-align: center; font-weight: 600; transition: 0.2s; border: none; width: 100%; }
+        aside .btn-assistant:hover { background: #1e293b; }
+        aside .btn-achat { display: block; margin-top: 0.8rem; background: #facc15; color: #0f172a; padding: 0.7rem; border-radius: 40px; text-align: center; font-weight: 600; }
+
+        /* MAIN */
+        main { flex: 1; min-width: 0; }
+        .card { background: white; border-radius: 28px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); border: 1px solid #eef2f6; }
+        .card h2 { font-size: 1.8rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 10px; }
+        .card > p { color: #64748b; margin-bottom: 1.5rem; }
+
+        /* STATS */
+        .stats-client, .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1.2rem; margin: 1.2rem 0; }
+        .stat-box { background: #f8fafc; border-radius: 18px; padding: 1.2rem 0.8rem; text-align: center; border: 1px solid #e9edf2; }
+        .stat-box h3 { font-size: 2rem; font-weight: 700; color: #0f172a; }
+        .stat-box p { color: #475569; font-weight: 500; margin-top: 4px; }
+
+        /* ACTIONS */
+        .actions-rapides { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 0.8rem 0 1.2rem; }
+        .actions-rapides button, .page-actions button { background: #f1f5f9; border: none; padding: 0.6rem 1.4rem; border-radius: 40px; font-weight: 600; transition: 0.2s; font-size: 0.95rem; }
+        .actions-rapides button:hover, .page-actions button:hover { background: #e2e8f0; }
+
+        /* CATALOGUE */
+        .catalogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 1.5rem; margin-top: 1.2rem; }
+        .produit-card { background: #fafcff; border-radius: 20px; border: 1px solid #eef2f6; padding: 1rem; transition: 0.2s; cursor: pointer; }
+        .produit-card:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(0,0,0,0.04); }
+        .produit-card img { width: 100%; height: 140px; object-fit: contain; background: #f1f5f9; border-radius: 14px; }
+        .produit-card h4 { margin: 0.6rem 0 0.2rem; font-size: 1rem; }
+        .produit-card .prix { font-weight: 700; color: #0f172a; }
+        .produit-card .vendeur { font-size: 0.8rem; color: #64748b; }
+
+        /* OUTILS */
+        .catalogue-outils, .favoris-outils, .commande-outils, .paiement-outils, .notifications-outils {
+            display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem;
+        }
+        .catalogue-outils input, .catalogue-outils select,
+        .favoris-outils input, .favoris-outils select,
+        .commande-outils input, .commande-outils select,
+        .paiement-outils input, .paiement-outils select,
+        .notifications-outils input, .notifications-outils select {
+            padding: 0.6rem 1rem; border-radius: 40px; border: 1px solid #d1d9e6; background: white; font-size: 0.95rem; flex: 1 1 160px;
+        }
+        .prix-filtre { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 0.8rem 0; }
+        .prix-filtre label { font-weight: 500; }
+        .prix-filtre input { width: 100px; padding: 0.4rem 0.8rem; border-radius: 30px; border: 1px solid #d1d9e6; }
+        .optionsCatalogue { display: flex; flex-wrap: wrap; gap: 1.2rem; margin: 0.8rem 0; }
+
+        /* PANIER */
+        .liste-panier { display: flex; flex-direction: column; gap: 1rem; }
+        .panier-item { display: flex; align-items: center; gap: 1.2rem; padding: 0.8rem 1rem; background: #fafcff; border-radius: 18px; border: 1px solid #eef2f6; flex-wrap: wrap; }
+        .panier-item img { width: 60px; height: 60px; object-fit: contain; background: #f1f5f9; border-radius: 12px; }
+        .panier-item .info { flex: 1; }
+        .panier-item .prix { font-weight: 700; }
+        .recap-panier { background: #f8fafc; padding: 1.2rem; border-radius: 20px; max-width: 380px; }
+        .recap-panier p { display: flex; justify-content: space-between; margin: 0.4rem 0; }
+        .code-promo { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .code-promo input { flex: 1; padding: 0.6rem 1rem; border-radius: 40px; border: 1px solid #d1d9e6; }
+        .actions-panier { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.2rem; }
+        .actions-panier button { padding: 0.7rem 2rem; border-radius: 40px; border: none; font-weight: 600; }
+        .btnCommander { background: #0f172a; color: white; }
+        .btnReserver { background: #facc15; color: #0f172a; }
+
+        /* FICHE PRODUIT */
+        .fiche-produit { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0; }
+        .image-principale { width: 100%; max-height: 400px; object-fit: contain; background: #f1f5f9; border-radius: 20px; }
+        .miniatures-produit { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+        .miniatures-produit img { width: 60px; height: 60px; object-fit: contain; background: #f1f5f9; border-radius: 12px; cursor: pointer; }
+        .actions-fiche-produit { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+        .actions-fiche-produit button { padding: 0.6rem 1.4rem; border-radius: 40px; border: none; font-weight: 600; background: #f1f5f9; }
+        .actions-fiche-produit button:first-child { background: #0f172a; color: white; }
+
+        /* MESSAGERIE - STYLE ALIBABA */
+        .chat-layout { display: grid; grid-template-columns: 320px 1fr; gap: 0; min-height: 600px; border-radius: 24px; overflow: hidden; border: 1px solid #eef2f6; background: white; }
+        .conversation-sidebar { background: #f8fafc; padding: 0; border-right: 1px solid #eef2f6; display: flex; flex-direction: column; }
+        .conversation-header { padding: 1rem; border-bottom: 1px solid #eef2f6; background: white; }
+        .conversation-header input { width: 100%; padding: 0.6rem 1rem; border-radius: 30px; border: 1px solid #e2e8f0; background: #f1f5f9; font-size: 0.9rem; }
+        .conversation-list { flex: 1; overflow-y: auto; padding: 0.5rem 0; }
+        .conv-item { display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #f1f5f9; }
+        .conv-item:hover { background: #f1f5f9; }
+        .conv-item.active { background: #eef2f6; }
+        .conv-item img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: #e2e8f0; }
+        .conv-item .conv-info { flex: 1; min-width: 0; }
+        .conv-item .conv-info h4 { font-size: 0.95rem; margin-bottom: 2px; }
+        .conv-item .conv-info p { font-size: 0.8rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .conv-item .conv-time { font-size: 0.7rem; color: #94a3b8; }
+        .conv-item .conv-badge { background: #ef4444; color: white; font-size: 0.6rem; padding: 0.1rem 0.5rem; border-radius: 30px; }
+
+        .conversation-panel { display: flex; flex-direction: column; background: white; }
+        .conversation-top { display: flex; justify-content: space-between; padding: 0.8rem 1.5rem; border-bottom: 1px solid #eef2f6; align-items: center; background: white; }
+        .conversation-user { display: flex; align-items: center; gap: 1rem; }
+        .conversation-user img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #e2e8f0; }
+        .conversation-actions { display: flex; gap: 0.3rem; }
+        .conversation-actions button { background: #f1f5f9; border: none; padding: 0.4rem 0.7rem; border-radius: 30px; font-size: 1rem; transition: 0.2s; }
+        .conversation-actions button:hover { background: #e2e8f0; }
+
+        .chat-messages { flex: 1; padding: 1.5rem; overflow-y: auto; background: #fafcff; min-height: 350px; max-height: 500px; }
+        .chat-messages .msg { margin-bottom: 1rem; max-width: 70%; }
+        .chat-messages .msg.sent { margin-left: auto; text-align: right; }
+        .chat-messages .msg .bubble { display: inline-block; padding: 0.6rem 1rem; border-radius: 18px; background: #f1f5f9; position: relative; word-break: break-word; }
+        .chat-messages .msg.sent .bubble { background: #0f172a; color: white; }
+        .chat-messages .msg .time { font-size: 0.65rem; color: #94a3b8; margin-top: 2px; display: block; }
+        .chat-messages .msg .msg-actions { font-size: 0.7rem; color: #94a3b8; margin-top: 2px; display: flex; gap: 8px; justify-content: flex-end; }
+        .chat-messages .msg .msg-actions button { background: none; border: none; color: #94a3b8; font-size: 0.7rem; padding: 0 4px; }
+        .chat-messages .msg .msg-actions button:hover { color: #0f172a; }
+
+        .chat-bottom { padding: 0.8rem 1.5rem 1.2rem; border-top: 1px solid #eef2f6; display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; background: white; }
+        .chat-tools { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+        .chat-tools button, .chat-tools label { background: #f1f5f9; border: none; padding: 0.4rem 0.7rem; border-radius: 30px; cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        .chat-tools button:hover, .chat-tools label:hover { background: #e2e8f0; }
+        #messageInput { flex: 1; min-width: 140px; padding: 0.6rem 1rem; border-radius: 30px; border: 1px solid #e2e8f0; resize: none; font-size: 0.95rem; background: #f8fafc; }
+        .chat-send button { background: #0f172a; color: white; padding: 0.6rem 1.8rem; border-radius: 30px; border: none; font-weight: 600; }
+
+        /* MODAL LIVREUR */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 28px; padding: 2rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .modal-content h2 { margin-bottom: 1rem; }
+        .livreur-card { display: flex; align-items: center; gap: 1rem; padding: 0.8rem; border: 1px solid #eef2f6; border-radius: 16px; margin-bottom: 0.8rem; cursor: pointer; transition: 0.2s; }
+        .livreur-card:hover { background: #f1f5f9; }
+        .livreur-card img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #e2e8f0; }
+        .livreur-card .info { flex: 1; }
+        .livreur-card .info h4 { font-size: 0.95rem; }
+        .livreur-card .info p { font-size: 0.8rem; color: #64748b; }
+        .livreur-card .status { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 30px; }
+        .status.disponible { background: #dcfce7; color: #16a34a; }
+        .status.occupe { background: #fef3c7; color: #d97706; }
+
+        /* PROFIL */
+        .profil-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; }
+        .profil-grid label { font-weight: 500; display: block; margin-bottom: 4px; }
+        .profil-grid input, .profil-grid textarea { width: 100%; padding: 0.6rem 1rem; border-radius: 14px; border: 1px solid #d1d9e6; }
+        .photo-profil { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; background: #e2e8f0; }
+        .profil-header { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .banniere-profil { width: 100%; height: 150px; object-fit: cover; border-radius: 16px; background: #e2e8f0; }
+
+        /* PARAMÈTRES */
+        .parametres-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; margin: 0.8rem 0; }
+        .options-parametres label { display: block; margin: 0.3rem 0; }
+        .actions-parametres { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 0.8rem 0; }
+        .actions-parametres button { padding: 0.5rem 1.2rem; border-radius: 40px; border: 1px solid #d1d9e6; background: white; font-weight: 500; transition: 0.2s; }
+        .actions-parametres button:hover { background: #f1f5f9; }
+        .btn-warning { border-color: #f59e0b !important; color: #b45309; }
+        .btn-danger { border-color: #ef4444 !important; color: #b91c1c; }
+        .note-suspension { background: #fffbeb; padding: 1rem; border-radius: 16px; border-left: 4px solid #f59e0b; }
+        .verification-ok { color: #16a34a; font-weight: 600; }
+        .verification-attente { color: #d97706; font-weight: 600; }
+
+        /* FOOTER */
+        .footer-client { background: white; padding: 2rem; border-top: 1px solid #eef2f6; margin-top: 2rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 2rem; }
+        .footer-actions { display: flex; justify-content: flex-end; margin-top: 1rem; }
+        .footer-actions button { padding: 0.6rem 2rem; border-radius: 40px; border: none; font-weight: 600; }
+
+        /* MODAL DECONNEXION */
+        .modal-confirmation { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 999; }
+        .modal-confirmation.active { display: flex; }
+        .modal-box { background: white; border-radius: 32px; padding: 2.4rem; max-width: 420px; width: 90%; box-shadow: 0 24px 48px rgba(0,0,0,0.1); }
+        .modal-actions { display: flex; gap: 1rem; margin-top: 1.8rem; justify-content: flex-end; }
+        .modal-actions button { padding: 0.6rem 1.8rem; border-radius: 40px; border: none; font-weight: 600; }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .client-container { flex-direction: column; padding: 1rem; }
+            aside { width: 100%; position: static; }
+            .fiche-produit { grid-template-columns: 1fr; }
+            .chat-layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            header { flex-direction: column; align-items: stretch; text-align: center; }
+            .catalogue-grid { grid-template-columns: 1fr 1fr; }
+            .chat-messages .msg { max-width: 90%; }
+        }
+
+        /* BADGES */
+        .badge { background: #e2e8f0; padding: 0.2rem 0.8rem; border-radius: 40px; font-size: 0.75rem; }
+        .indisponible { background: #fef3c7; color: #92400e; }
+
+        /* MISC */
+        .moyens-paiement-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 1rem; }
+        .paiement-card { background: #fafcff; border-radius: 16px; padding: 1rem; text-align: center; border: 1px solid #eef2f6; }
+        .paiement-card img { width: 50px; height: 50px; object-fit: contain; margin: 0 auto 0.5rem; }
+        .paiement-card button { margin-top: 0.5rem; padding: 0.3rem 1rem; border-radius: 30px; background: #f1f5f9; }
+        .paiement-card button:disabled { opacity: 0.5; }
+        .preferences-notifications { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+        .preferences-notifications label { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+        .resume-reservations, .resume-commandes { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 1rem; margin-top: 1rem; }
+        .page-section { padding: 0; }
+        .livreur-info { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; }
+        .photo-livreur { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #e2e8f0; }
+        .carte-livraison { background: #f1f5f9; border-radius: 16px; padding: 2rem; text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center; color: #64748b; }
+        .conversation-item { padding: 0.6rem; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .conversation-item:hover { background: #f1f5f9; }
+        .faq-container details { padding: 0.8rem 0; border-bottom: 1px solid #eef2f6; }
+        .faq-container summary { font-weight: 600; cursor: pointer; }
+        .faq-container p { margin-top: 0.5rem; color: #475569; padding-left: 1rem; }
+        .settings-links { display: flex; flex-direction: column; gap: 0.5rem; }
+        .settings-links a { display: flex; align-items: center; gap: 10px; padding: 0.5rem 0.8rem; border-radius: 12px; transition: 0.2s; }
+        .settings-links a:hover { background: #f1f5f9; }
+        .vendeur-produit { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; }
+        .photo-vendeur { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; background: #e2e8f0; }
+        .actions-vendeur { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .actions-vendeur button, .actions-livreur button { padding: 0.3rem 1rem; border-radius: 30px; background: #f1f5f9; font-weight: 500; }
+        .actions-paiement { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1rem 0; }
+        .actions-paiement button { padding: 0.5rem 1.2rem; border-radius: 40px; border: 1px solid #d1d9e6; background: white; font-weight: 500; }
+        .actions-profil { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1rem 0; }
+        .actions-profil button { padding: 0.5rem 1.5rem; border-radius: 40px; border: 1px solid #d1d9e6; background: white; font-weight: 500; }
+        .panier-outils { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem; }
+        .panier-outils button { padding: 0.4rem 1.2rem; border-radius: 30px; background: #f1f5f9; font-weight: 500; }
+        .options-panier { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 0.8rem 0; }
+        .options-panier label { display: flex; align-items: center; gap: 6px; }
+        .reservation-outils, .livraison-outils { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem; }
+        .reservation-outils input, .reservation-outils select,
+        .livraison-outils input, .livraison-outils select { padding: 0.6rem 1rem; border-radius: 40px; border: 1px solid #d1d9e6; flex: 1 1 160px; }
+        .modal-actions .btn-danger { background: #ef4444; color: white; }
+        .footer-actions .btn-danger { background: #ef4444; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .poser-question { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+        .poser-question textarea { padding: 0.8rem; border-radius: 14px; border: 1px solid #d1d9e6; resize: vertical; }
+        .poser-question button { padding: 0.5rem 1.5rem; border-radius: 30px; background: #0f172a; color: white; font-weight: 600; align-self: flex-start; }
+        .alertes-favoris { display: flex; flex-direction: column; gap: 0.5rem; }
+        .alertes-favoris label { display: flex; align-items: center; gap: 8px; }
+        .wallet-resume { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 1rem; }
+        .verification-compte p { padding: 0.3rem 0; }
+        .footer-grid ul { list-style: none; padding: 0; }
+        .footer-grid ul li { padding: 0.2rem 0; }
+        .footer-grid ul li a { color: #475569; }
+        .footer-grid ul li a:hover { color: #0f172a; }
+
+        /* Upload caché */
+        .hidden-upload { display: none; }
+
+        /* Notification toast */
+        .notification-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0f172a;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+            max-width: 400px;
+            font-size: 0.95rem;
+        }
+        .notification-toast.show { display: block; }
+        .notification-toast.success { border-left: 4px solid #22c55e; }
+        .notification-toast.error { border-left: 4px solid #ef4444; }
+        .notification-toast.warning { border-left: 4px solid #f59e0b; }
+    

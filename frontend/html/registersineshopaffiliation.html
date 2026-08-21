@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0b1937">
+    <title>Devenir Partenaire • SINE.SHOP Affiliation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    
+    <!-- CONFIG GLOBALE -->
+    <script src="../js/config.js"></script>
+    <script src="../js/country-picker.js"></script>
+    <script src="../js/api.js"></script>
+    <script type="module" src="../js/firebase-config.js"></script>
+    
+    <style>
+        /* =========================================================
+           RESET & BASE
+           ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #06142b;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+            background: linear-gradient(180deg, #06142b 0%, #0a1f3d 50%, #06142b 100%);
+        }
+        .bg-glow::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: -200px;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(114,182,255,0.06), transparent 70%);
+            filter: blur(80px);
+        }
+
+        .register-header {
+            background: rgba(10,42,68,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-brand {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 2px;
+        }
+        .header-brand span { color: #72b6ff; }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-actions .btn-back {
+            padding: 6px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.06);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.12); color: white; }
+        .header-actions .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .header-actions .lang-select option { background: #0a1f3d; color: white; }
+
+        .register-container {
+            max-width: 750px;
+            margin: 30px auto 60px;
+            padding: 0 20px;
+            width: 100%;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .register-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 40px 36px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .register-card .badge-partner {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 30px;
+            background: rgba(250,204,21,0.15);
+            color: #facc15;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .register-card h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            color: white;
+            margin-bottom: 4px;
+        }
+        .register-card .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .progress-steps::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255,255,255,0.06);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        .progress-steps .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            z-index: 1;
+            flex: 1;
+        }
+        .progress-steps .step .circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 2px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+        .progress-steps .step.active .circle {
+            background: #2d73ff;
+            border-color: #2d73ff;
+            color: white;
+            box-shadow: 0 0 20px rgba(45,115,255,0.3);
+        }
+        .progress-steps .step.completed .circle {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: white;
+        }
+        .progress-steps .step .label {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.3);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        .progress-steps .step.active .label { color: white; }
+        .progress-steps .step.completed .label { color: #22c55e; }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .form-step.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        .form-group label .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+            background: rgba(255,255,255,0.04);
+            color: white;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.08);
+            background: rgba(255,255,255,0.06);
+        }
+        .form-group select option { background: #0a1f3d; color: white; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+        .password-wrapper { position: relative; }
+        .password-wrapper input { padding-right: 48px; }
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.3);
+            padding: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .password-wrapper .toggle-password:hover { color: rgba(255,255,255,0.6); }
+
+        .password-strength {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            align-items: center;
+        }
+        .password-strength .bar {
+            flex: 1;
+            height: 3px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.06);
+            transition: 0.3s;
+        }
+        .password-strength .bar.active.weak { background: #ef4444; }
+        .password-strength .bar.active.medium { background: #f59e0b; }
+        .password-strength .bar.active.strong { background: #22c55e; }
+        .password-strength .text {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.3);
+            min-width: 60px;
+        }
+
+        /* =========================================================
+           VÉRIFICATION PAR EMAIL
+           ========================================================= */
+        .verification-section {
+            background: #f1f8fe;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px 0;
+            border: 1px solid #d4e8f5;
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+        .verification-section.active { display: block; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .verification-section .code-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .verification-section .code-row input {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #d4e8f5;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 4px;
+            font-weight: 700;
+            background: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        .verification-section .code-row input:focus {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.15);
+        }
+        .verification-section .code-row .btn-verify {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .verification-section .code-row .btn-verify:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34,197,94,0.3);
+        }
+        .verification-section .status-message { font-size: 0.85rem; margin-top: 8px; min-height: 1.2em; }
+        .verification-section .status-message.error { color: #ef4444; }
+        .verification-section .status-message.success { color: #16a34a; }
+        .verification-section .resend-link {
+            color: #2d73ff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .verification-section .resend-link:hover { text-decoration: underline; }
+
+        .terms-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 18px 0 22px;
+        }
+        .terms-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: #72b6ff;
+            flex-shrink: 0;
+        }
+        .terms-group label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .terms-group a { color: #72b6ff; font-weight: 600; }
+        .terms-group a:hover { text-decoration: underline; }
+
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4da7ff, #2d73ff);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 8px 30px rgba(60,120,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(60,120,255,0.4);
+        }
+        .btn-register:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-register .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-register.loading .spinner { display: block; }
+        .btn-register.loading .text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn-next, .btn-prev {
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #4da7ff, #2d73ff);
+            color: white;
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(60,120,255,0.3); }
+        .btn-prev {
+            background: rgba(255,255,255,0.06);
+            color: #94a3b8;
+        }
+        .btn-prev:hover { background: rgba(255,255,255,0.12); color: white; }
+
+        .form-nav {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+        .separator span {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: white;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .social-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        .social-btn img { width: 24px; height: 24px; object-fit: contain; }
+        .social-btn.google { border-color: rgba(234,67,53,0.3); }
+        .social-btn.google:hover { background: rgba(234,67,53,0.1); }
+        .social-btn.facebook { border-color: rgba(24,119,242,0.3); }
+        .social-btn.facebook:hover { background: rgba(24,119,242,0.1); }
+        .social-btn.apple { border-color: rgba(255,255,255,0.1); }
+        .social-btn.apple:hover { background: rgba(255,255,255,0.05); }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .login-link a { color: #72b6ff; font-weight: 600; }
+        .login-link a:hover { text-decoration: underline; }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 500px) { .benefits-grid { grid-template-columns: 1fr; } }
+        .benefit-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .benefit-item .icon { font-size: 1.2rem; }
+        .benefit-item .text { font-size: 0.8rem; color: #94a3b8; }
+
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        #registerAlert {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(239,68,68,0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(239,68,68,0.3);
+            z-index: 999998;
+            opacity: 0;
+            transition: 0.4s ease;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        #registerAlert.show { opacity: 1; pointer-events: auto; }
+        #registerAlert.success { background: rgba(34,197,94,0.95); }
+        #registerAlert.warning { background: rgba(245,158,11,0.95); }
+
+        @media (max-width: 768px) {
+            .register-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; }
+            .register-container { padding: 0 14px; margin: 20px auto 40px; }
+            .register-card { padding: 28px 20px; border-radius: 20px; }
+            .progress-steps .step .label { font-size: 0.5rem; }
+            .progress-steps .step .circle { width: 26px; height: 26px; font-size: 0.6rem; }
+            .form-nav { flex-direction: column; }
+            .form-nav .btn-next,
+            .form-nav .btn-prev { width: 100%; justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .header-brand { font-size: 1.4rem; }
+            .register-card h1 { font-size: 1.6rem; }
+            .register-card .subtitle { font-size: 0.85rem; }
+            .form-group input,
+            .form-group select,
+            .form-group textarea { padding: 10px 14px; font-size: 0.9rem; }
+            .btn-register { font-size: 1rem; padding: 14px; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+        .phone-wrapper {
+            display: flex ;
+            gap: 0;
+            color: black;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+        .phone-wrapper:focus-within {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 4px rgba(114,182,255,0.15);
+            background: 0 0 0 4px rgba(114,182,255,0.15);
+        }
+        .phone-wrapper input { border: none !important; box-shadow: none !important; flex: 1; }
+        .phone-wrapper .sine-country-picker .scp-display { border: none; border-right: 1px solid rgba(0,0,0,0.08); border-radius: 0; }
+</style>
+
+<!-- SINE.SHOP SKY SHOWCASE HEADER -->
+<style id="sineshop-sky-header-v2">
+.sine-header {
+    position: sticky !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,.48) 0 1px, transparent 2px),
+        radial-gradient(circle at 42% 62%, rgba(255,255,255,.55) 0 1.2px, transparent 2.4px),
+        radial-gradient(circle at 76% 24%, rgba(255,255,255,.48) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 72%, rgba(255,255,255,.42) 0 1.2px, transparent 2.4px),
+        linear-gradient(135deg, #8edcff 0%, #5fc7f5 45%, #78d8ff 100%) !important;
+    background-size: 170px 110px, 230px 150px, 190px 125px, 260px 170px, 100% 100% !important;
+    border-bottom: 1px solid rgba(255,255,255,.55) !important;
+    box-shadow: 0 8px 30px rgba(35,151,207,.22), inset 0 1px 0 rgba(255,255,255,.48) !important;
+    backdrop-filter: blur(14px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+}
+.sine-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.22), transparent 32%, rgba(255,255,255,.08) 62%, transparent 100%);
+    opacity: .9;
+}
+.sine-header::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -70px;
+    top: -155px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.20);
+    filter: blur(18px);
+    pointer-events: none;
+}
+.sine-header-stars {
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+.sine-header-stars span {
+    position: absolute !important;
+    width: 3px !important;
+    height: 3px !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 0 7px rgba(255,255,255,.95) !important;
+    animation: sineHeaderTwinkle 2.8s ease-in-out infinite alternate !important;
+}
+.sine-header-stars span:nth-child(2n) { width: 2px !important; height: 2px !important; animation-duration: 2.1s !important; }
+.sine-header-stars span:nth-child(3n) { width: 4px !important; height: 4px !important; animation-duration: 3.6s !important; }
+@keyframes sineHeaderTwinkle {
+    from { opacity: .35; transform: scale(.72); }
+    to { opacity: 1; transform: scale(1.18); }
+}
+.sine-header-brand, .sine-header-actions { position: relative !important; z-index: 3 !important; }
+.sine-header-brand .sine-word-1,
+.sine-header-brand .sine-word-3,
+.sine-header-brand span[style*="color:white"] {
+    color: #050505 !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,.35) !important;
+}
+/* Laisser SH et le cœur conserver leurs couleurs de l'identité SINE.SHOP. */
+.sine-header-brand .sine-word-2,
+.sine-header-brand .sine-heart {
+    position: relative;
+    z-index: 3;
+}
+</style>
+
+</head>
+<body class="sine-auth-page">
+
+    <div class="bg-glow"></div>
+
+    <header class="sine-header">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span class="sine-word-3">P</span></a>
+        <div class="sine-header-actions">
+        </div>
+    </header>
+
+    <div id="registerAlert"></div>
+
+    <main class="register-container">
+        <div class="register-card">
+
+            <span class="badge-partner">🤝 Programme d'affiliation</span>
+            <h1 data-translate="affiliate.title">Devenir Partenaire SINE.SHOP</h1>
+            <p class="subtitle" data-translate="affiliate.subtitle">Rejoignez le programme d'affiliation et gagnez des commissions sur chaque achat réalisé via vos codes promo.</p>
+
+            <div class="benefits-grid">
+                <div class="benefit-item"><span class="icon">💰</span><span class="text" data-translate="affiliate.benefit1">Gagnez jusqu'à 0,35% sur les achats</span></div>
+                <div class="benefit-item"><span class="icon">👥</span><span class="text" data-translate="affiliate.benefit2">Gagnez jusqu'à 500$ par nouvelle inscription</span></div>
+                <div class="benefit-item"><span class="icon">📈</span><span class="text" data-translate="affiliate.benefit3">Suivi en temps réel de vos gains</span></div>
+                <div class="benefit-item"><span class="icon">🏆</span><span class="text" data-translate="affiliate.benefit4">Programme de fidélité et bonus</span></div>
+            </div>
+
+            <div class="progress-steps" id="progressSteps">
+                <div class="step active" data-step="1">
+                    <div class="circle">1</div>
+                    <div class="label" data-translate="affiliate.step1">Infos perso</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="circle">2</div>
+                    <div class="label" data-translate="affiliate.step2">Compte</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="circle">3</div>
+                    <div class="label" data-translate="affiliate.step3">Paiement</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="circle">4</div>
+                    <div class="label" data-translate="affiliate.step4">Confirmation</div>
+                </div>
+            </div>
+
+            <form id="registerForm" autocomplete="on">
+
+                <!-- ===== STEP 1: INFOS PERSONNELLES ===== -->
+                <div class="form-step active" data-step="1">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_lastname">Nom <span class="required">*</span></label>
+                            <input type="text" id="lastName" placeholder="Dupont" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_firstname">Prénom <span class="required">*</span></label>
+                            <input type="text" id="firstName" placeholder="Jean" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_email">Adresse e-mail <span class="required">*</span></label>
+                            <input type="email" id="email" placeholder="partenaire@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_phone">Téléphone <span class="required">*</span></label>
+                            <div class="phone-wrapper">
+                                <select id="phoneCode"></select>
+                                <input type="tel" id="phone" placeholder="00 00 00 00 00" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_country">Pays <span class="required">*</span></label>
+                            <select id="country" required>
+                                <option value="" data-translate="affiliate.select_country">Sélectionner</option>
+                                <option value="CI">🇨🇮 Côte d'Ivoire</option>
+                                <option value="SN">🇸🇳 Sénégal</option>
+                                <option value="MA">🇲🇦 Maroc</option>
+                                <option value="FR">🇫🇷 France</option>
+                                <option value="US">🇺🇸 États-Unis</option>
+                                <option value="GB">🇬🇧 Royaume-Uni</option>
+                                <option value="DE">🇩🇪 Allemagne</option>
+                                <option value="IT">🇮🇹 Italie</option>
+                                <option value="ES">🇪🇸 Espagne</option>
+                                <option value="PT">🇵🇹 Portugal</option>
+                                <option value="BE">🇧🇪 Belgique</option>
+                                <option value="CH">🇨🇭 Suisse</option>
+                                <option value="CA">🇨🇦 Canada</option>
+                                <option value="NG">🇳🇬 Nigeria</option>
+                                <option value="GH">🇬🇭 Ghana</option>
+                                <option value="CM">🇨🇲 Cameroun</option>
+                                <option value="BJ">🇧🇯 Bénin</option>
+                                <option value="TG">🇹🇬 Togo</option>
+                                <option value="BF">🇧🇫 Burkina Faso</option>
+                                <option value="ML">🇲🇱 Mali</option>
+                                <option value="NE">🇳🇪 Niger</option>
+                                <option value="GN">🇬🇳 Guinée</option>
+                                <option value="ZA">🇿🇦 Afrique du Sud</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_city">Ville <span class="required">*</span></label>
+                            <input type="text" id="city" placeholder="Abidjan" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-translate="affiliate.label_address">Adresse complète</label>
+                        <input type="text" id="address" placeholder="Rue, quartier, résidence">
+                    </div>
+
+                    <div class="form-group">
+                        <label data-translate="affiliate.label_birthdate">Date de naissance <span class="required">*</span></label>
+                        <input type="date" id="birthdate" min="1900-01-01" required>
+                        <!-- max (17 ans minimum) fixé dynamiquement en JS ci-dessous. -->
+                    </div>
+
+                    <div class="form-group">
+                        <label data-translate="affiliate.label_timezone">Fuseau horaire</label>
+                        <input type="text" id="timezone" readonly>
+                    </div>
+
+                    <div class="form-nav">
+                        <span></span>
+                        <button type="button" class="btn-next" data-next="2" data-translate="affiliate.btn_next">Étape suivante →</button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 2: COMPTE ===== -->
+                <div class="form-step" data-step="2">
+                    <div class="form-group">
+                        <label data-translate="affiliate.label_username">Nom d'utilisateur (pseudo) <span class="required">*</span></label>
+                        <input type="text" id="username" placeholder="partenaire_officiel" required>
+                        <div style="font-size:0.75rem;color:#64748b;margin-top:4px;">
+                            <i class="fa-regular fa-info-circle"></i> <span data-translate="affiliate.username_info">Unique, 3-20 caractères, lettres et chiffres uniquement</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_password">Mot de passe <span class="required">*</span></label>
+                            <div class="password-wrapper">
+                                <input type="password" id="password" placeholder="••••••••" required minlength="8" autocomplete="new-password">
+                                <button type="button" class="toggle-password" id="togglePassword">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="bar" id="strengthBar1"></div>
+                                <div class="bar" id="strengthBar2"></div>
+                                <div class="bar" id="strengthBar3"></div>
+                                <div class="bar" id="strengthBar4"></div>
+                                <span class="text" id="strengthText">⚠️ Faible</span>
+                            </div>
+                            <div style="font-size:0.7rem;color:#64748b;margin-top:4px;">
+                                <span data-translate="affiliate.password_info">8-16 caractères, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_confirm">Confirmer le mot de passe <span class="required">*</span></label>
+                            <div class="password-wrapper">
+                                <input type="password" id="passwordConfirm" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password" id="togglePasswordConfirm">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terms-group">
+                        <input type="checkbox" id="acceptTerms" required>
+                        <label for="acceptTerms">
+                            J’accepte les <a href="../html/cgu.html" target="_blank" rel="noopener">Conditions d’utilisation</a>,
+                            la <a href="../html/privacy.html" target="_blank" rel="noopener">Politique de confidentialité</a>,
+                            la <a href="../html/cookies.html" target="_blank" rel="noopener">Politique relative aux cookies</a>
+                            et la <a href="../html/cgv.html" target="_blank" rel="noopener">Charte du partenaire</a>.
+                        </label>
+                    </div>
+
+                    <div class="form-nav">
+                        <button type="button" class="btn-prev" data-prev="1" data-translate="affiliate.btn_prev">← Précédent</button>
+                        <button type="button" class="btn-next" data-next="3" data-translate="affiliate.btn_next">Étape suivante →</button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 3: PAIEMENT ===== -->
+                <div class="form-step" data-step="3">
+                    <p style="color:#94a3b8;font-size:0.9rem;margin-bottom:16px;" data-translate="affiliate.payment_info">
+                        Configurez vos moyens de réception pour vos commissions.
+                    </p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_mtn">MTN MoMo</label>
+                            <input type="tel" id="mtnNumber" placeholder="07 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_orange">Orange Money</label>
+                            <input type="tel" id="orangeNumber" placeholder="07 00 00 00 00">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_wave">Wave</label>
+                            <input type="tel" id="waveNumber" placeholder="07 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label data-translate="affiliate.label_paypal">PayPal</label>
+                            <input type="email" id="paypalEmail" placeholder="partenaire@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-translate="affiliate.label_bank">Virement bancaire (bientôt disponible)</label>
+                        <input type="text" id="bankInfo" placeholder="IBAN, BIC..." disabled style="opacity:0.5;">
+                        <div style="font-size:0.75rem;color:#64748b;margin-top:4px;">
+                            <i class="fa-regular fa-clock"></i> <span data-translate="affiliate.bank_info">Disponible prochainement</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-translate="affiliate.label_referral_code">Code promo (optionnel)</label>
+                        <input type="text" id="referralCode" placeholder="Entrez un code promo si vous en avez un">
+                        <div style="font-size:0.75rem;color:#64748b;margin-top:4px;">
+                            <i class="fa-regular fa-info-circle"></i> <span data-translate="affiliate.referral_info">Si vous avez été invité par un partenaire, entrez son code</span>
+                        </div>
+                    </div>
+
+                    <div class="form-nav">
+                        <button type="button" class="btn-prev" data-prev="2" data-translate="affiliate.btn_prev">← Précédent</button>
+                        <button type="button" class="btn-next" data-next="4" data-translate="affiliate.btn_next">Étape suivante →</button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 4: CONFIRMATION ===== -->
+                <div class="form-step" data-step="4">
+                    <div style="text-align:center;margin-bottom:20px;">
+                        <span style="font-size:3rem;display:block;margin-bottom:8px;">🤝</span>
+                        <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:white;" data-translate="affiliate.confirm_title">Prêt à rejoindre l'aventure !</h2>
+                        <p style="color:#94a3b8;font-size:0.9rem;" data-translate="affiliate.confirm_subtitle">Vérifiez vos informations avant de finaliser votre inscription.</p>
+                    </div>
+
+                    <div id="confirmSummary" style="background:rgba(255,255,255,0.03);border-radius:14px;padding:16px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.04);">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+                            <input type="checkbox" id="acceptPartnerTerms" style="width:18px;height:18px;margin-top:2px;accent-color:#72b6ff;">
+                            <span style="font-size:0.85rem;color:#94a3b8;line-height:1.5;" data-translate="affiliate.partner_terms">
+                                Je certifie que les informations fournies sont exactes. Je m'engage à respecter la charte du partenaire SINE.SHOP et à promouvoir la plateforme de manière éthique.
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="form-nav" style="justify-content:space-between;">
+                        <button type="button" class="btn-prev" data-prev="3" data-translate="affiliate.btn_prev">← Précédent</button>
+                        <button type="submit" class="btn-register" id="btnRegister">
+                            <span class="spinner"></span>
+                            <span class="text" data-translate="affiliate.btn_register"><i class="fa-solid fa-rocket"></i> Devenir partenaire</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- VÉRIFICATION PAR EMAIL -->
+                <!-- ========================================================= -->
+                <div class="verification-section" id="verificationSection">
+                    <h3 style="font-size:1rem;margin-bottom:8px;">📧 Vérification par email</h3>
+                    <p style="font-size:0.9rem;color:#4a6a8a;margin-bottom:12px;">
+                        Un code de vérification a été envoyé à <strong id="verifyEmailDisplay"></strong>.
+                    </p>
+                    <p style="font-size:0.85rem;color:#6a8aaa;margin-bottom:8px;">
+                        <i class="fa-regular fa-envelope"></i> Entrez le code ci-dessous pour valider votre inscription :
+                    </p>
+                    <div class="code-row">
+                        <input type="text" id="verificationCode" placeholder="123456" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                        <button type="button" class="btn-verify" id="btnVerifyCode">✅ Vérifier</button>
+                    </div>
+                    <div class="status-message" id="verifyStatus"></div>
+                    <span class="resend-link" id="resendLink">📤 Renvoyer le code</span>
+                    <span style="color:#6a8aaa;font-size:0.8rem;margin-left:12px;" id="countdownTimer"></span>
+                </div>
+
+            </form>
+
+            <div class="separator">
+                <span data-translate="affiliate.or">ou</span>
+            </div>
+
+            <button id="googleLogin" class="social-btn google" type="button">
+                <img src="../images/google-logo.webp" alt="Google" onerror="this.style.display='none'">
+                <span data-translate="affiliate.google">Continuer avec Google</span>
+            </button>
+
+            <button id="facebookLogin" class="social-btn facebook" type="button">
+                <img src="../images/facebook-logo.jpg" alt="Facebook" onerror="this.style.display='none'">
+                <span data-translate="affiliate.facebook">Continuer avec Facebook</span>
+            </button>
+
+            <div class="login-link">
+                <span data-translate="affiliate.login_link">Vous avez déjà un compte ?</span> <a href="../html/login.html">Se connecter</a>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="notification"></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Empêche physiquement de sélectionner une date faisant moins de
+            // 17 ans dans le calendrier — calculée dynamiquement.
+            (function setMaxBirthdate() {
+                const input = document.getElementById('birthdate');
+                if (!input) return;
+                const d = new Date();
+                d.setFullYear(d.getFullYear() - 17);
+                input.max = d.toISOString().split('T')[0];
+            })();
+
+            let currentLang = 'fr';
+            let currentStep = 1;
+            const totalSteps = 4;
+
+            // Sélecteur de pays/indicatif recherchable (150+ pays).
+            window.SineAttachCountryPicker('phoneCode', { defaultIso2: 'CI' });
+
+            // =========================================================
+            // FUSEAU HORAIRE
+            // =========================================================
+            function detectTimezone() {
+                try {
+                    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    document.getElementById('timezone').value = tz || 'Africa/Dakar';
+                    return tz;
+                } catch (e) {
+                    document.getElementById('timezone').value = 'Africa/Dakar';
+                    return 'Africa/Dakar';
+                }
+            }
+            detectTimezone();
+
+            // =========================================================
+            // TOGGLE PASSWORD
+            // =========================================================
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const input = document.getElementById('password');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fa-regular fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fa-regular fa-eye';
+                }
+            });
+
+            document.getElementById('togglePasswordConfirm').addEventListener('click', function() {
+                const input = document.getElementById('passwordConfirm');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'fa-regular fa-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'fa-regular fa-eye';
+                }
+            });
+
+            // =========================================================
+            // VALIDATION PASSWORD
+            // =========================================================
+            function validatePassword(password) {
+                const checks = {
+                    length: password.length >= 8 && password.length <= 16,
+                    upper: /[A-Z]/.test(password),
+                    lower: /[a-z]/.test(password),
+                    number: /\d/.test(password),
+                    special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+                };
+                const allValid = Object.values(checks).every(v => v === true);
+                return { checks, allValid };
+            }
+
+            function updatePasswordStrength(password) {
+                const result = validatePassword(password);
+                const bars = [
+                    document.getElementById('strengthBar1'),
+                    document.getElementById('strengthBar2'),
+                    document.getElementById('strengthBar3'),
+                    document.getElementById('strengthBar4')
+                ];
+                const text = document.getElementById('strengthText');
+
+                const validCount = Object.values(result.checks).filter(v => v).length;
+                const total = Object.values(result.checks).length;
+                const ratio = validCount / total;
+
+                bars.forEach((bar, index) => {
+                    bar.className = 'bar';
+                    if (index < validCount) {
+                        bar.classList.add('active');
+                        if (ratio < 0.5) bar.classList.add('weak');
+                        else if (ratio < 0.8) bar.classList.add('medium');
+                        else bar.classList.add('strong');
+                    }
+                });
+
+                if (password.length === 0) {
+                    text.textContent = '⚠️ Faible';
+                } else if (ratio < 0.5) {
+                    text.textContent = '⚠️ Faible';
+                } else if (ratio < 0.8) {
+                    text.textContent = '🔶 Moyen';
+                } else {
+                    text.textContent = '✅ Fort';
+                }
+
+                return result.allValid;
+            }
+
+            document.getElementById('password').addEventListener('input', function() {
+                updatePasswordStrength(this.value);
+            });
+
+            // =========================================================
+            // NOTIFICATIONS
+            // =========================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            function showAlert(message, type) {
+                const alertEl = document.getElementById('registerAlert');
+                if (!alertEl) return;
+                alertEl.textContent = message;
+                alertEl.className = 'show';
+                if (type) alertEl.classList.add(type);
+                clearTimeout(alertEl._timeout);
+                alertEl._timeout = setTimeout(() => {
+                    alertEl.classList.remove('show');
+                }, 5000);
+            }
+
+            // =========================================================
+            // GESTION UTILISATEURS
+            // =========================================================
+            // Gestion des utilisateurs déléguée au backend via window.SineAPI
+
+            // =========================================================
+            // NAVIGATION STEPS
+            // =========================================================
+            function goToStep(step) {
+                if (step < 1 || step > totalSteps) return;
+
+                if (step > currentStep && !validateStep(currentStep)) {
+                    return;
+                }
+
+                currentStep = step;
+
+                document.querySelectorAll('.form-step').forEach(el => {
+                    el.classList.remove('active');
+                    if (parseInt(el.dataset.step) === step) {
+                        el.classList.add('active');
+                    }
+                });
+
+                document.querySelectorAll('.progress-steps .step').forEach(el => {
+                    const s = parseInt(el.dataset.step);
+                    el.classList.remove('active', 'completed');
+                    if (s === step) el.classList.add('active');
+                    if (s < step) el.classList.add('completed');
+                });
+
+                if (step === 4) {
+                    updateConfirmSummary();
+                }
+            }
+
+            function validateStep(step) {
+                if (step === 1) {
+                    const email = document.getElementById('email').value.trim();
+                    const phone = document.getElementById('phone').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const country = document.getElementById('country').value;
+                    const city = document.getElementById('city').value.trim();
+                    const birthdate = document.getElementById('birthdate').value;
+
+                    if (!lastName || !firstName) {
+                        showAlert('Veuillez remplir votre prénom et votre nom.', 'warning');
+                        return false;
+                    }
+                    if (!email || !email.includes('@')) {
+                        showAlert('Veuillez entrer une adresse email valide.', 'warning');
+                        return false;
+                    }
+                    if (!phone || phone.length < 4) {
+                        showAlert('Veuillez entrer un numéro de téléphone valide.', 'warning');
+                        return false;
+                    }
+                    if (!country || !city) {
+                        showAlert('Veuillez remplir votre pays et votre ville.', 'warning');
+                        return false;
+                    }
+                    if (!birthdate) {
+                        showAlert('Veuillez entrer votre date de naissance.', 'warning');
+                        return false;
+                    }
+                    const age = Math.floor((Date.now() - new Date(birthdate).getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+                    if (age < 17) {
+                        showAlert('Vous devez avoir au moins 17 ans.', 'warning');
+                        return false;
+                    }
+                    return true;
+                }
+
+                if (step === 2) {
+                    const username = document.getElementById('username').value.trim();
+                    const password = document.getElementById('password').value;
+                    const passwordConfirm = document.getElementById('passwordConfirm').value;
+                    const acceptTerms = document.getElementById('acceptTerms').checked;
+
+                    if (!username || username.length < 3) {
+                        showAlert('Veuillez choisir un nom d\'utilisateur.', 'warning');
+                        return false;
+                    }
+                    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+                        showAlert('3-20 caractères, lettres et chiffres uniquement.', 'warning');
+                        return false;
+                    }
+                    if (password.length < 8) {
+                        showAlert('Le mot de passe doit contenir au moins 8 caractères.', 'warning');
+                        return false;
+                    }
+                    const pwdValid = updatePasswordStrength(password);
+                    if (!pwdValid) {
+                        showAlert('Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.', 'warning');
+                        return false;
+                    }
+                    if (password !== passwordConfirm) {
+                        showAlert('Les mots de passe ne correspondent pas.', 'warning');
+                        return false;
+                    }
+                    if (!acceptTerms) {
+                        showAlert('Veuillez accepter les conditions.', 'warning');
+                        return false;
+                    }
+                    return true;
+                }
+
+                if (step === 3) {
+                    return true;
+                }
+
+                return true;
+            }
+
+            document.querySelectorAll('.btn-next').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const next = parseInt(this.dataset.next);
+                    goToStep(next);
+                });
+            });
+
+            document.querySelectorAll('.btn-prev').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const prev = parseInt(this.dataset.prev);
+                    goToStep(prev);
+                });
+            });
+
+            // =========================================================
+            // CONFIRMATION SUMMARY
+            // =========================================================
+            function updateConfirmSummary() {
+                const summary = document.getElementById('confirmSummary');
+                const data = {
+                    'Nom': document.getElementById('lastName').value,
+                    'Prénom': document.getElementById('firstName').value,
+                    'Email': document.getElementById('email').value,
+                    'Téléphone': document.getElementById('phone').value,
+                    'Pays': document.getElementById('country').value,
+                    'Ville': document.getElementById('city').value,
+                    'Username': document.getElementById('username').value,
+                    'MTN MoMo': document.getElementById('mtnNumber').value || 'Non renseigné',
+                    'Orange Money': document.getElementById('orangeNumber').value || 'Non renseigné',
+                    'Wave': document.getElementById('waveNumber').value || 'Non renseigné',
+                    'PayPal': document.getElementById('paypalEmail').value || 'Non renseigné',
+                    'Code promo': document.getElementById('referralCode').value || 'Aucun'
+                };
+
+                summary.innerHTML = Object.entries(data).map(([key, value]) => `
+                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.85rem;">
+                        <span style="color:#94a3b8;">${key}</span>
+                        <span style="color:white;font-weight:500;">${value || '-'}</span>
+                    </div>
+                `).join('');
+            }
+
+            // =========================================================
+            // INSCRIPTION
+            // =========================================================
+            document.getElementById('registerForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                if (!document.getElementById('acceptPartnerTerms').checked) {
+                    showAlert('Veuillez accepter la charte du partenaire.', 'warning');
+                    return;
+                }
+
+                const btn = document.getElementById('btnRegister');
+                btn.classList.add('loading');
+                btn.disabled = true;
+
+                try {
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const phoneCode = document.getElementById('phoneCode').value;
+                    const phoneLocal = document.getElementById('phone').value.trim();
+                    // Numéro complet stocké AVEC son indicatif — indispensable pour
+                    // que le login/reset par téléphone retrouve le compte quelle
+                    // que soit la façon dont le numéro est ressaisi ensuite.
+                    const phone = phoneCode + phoneLocal;
+                    const country = document.getElementById('country').value;
+                    const city = document.getElementById('city').value.trim();
+                    const address = document.getElementById('address').value.trim();
+                    const birthdate = document.getElementById('birthdate').value;
+                    const username = document.getElementById('username').value.trim();
+                    const password = document.getElementById('password').value;
+                    const timezone = document.getElementById('timezone').value;
+                    const mtn = document.getElementById('mtnNumber').value.trim();
+                    const orange = document.getElementById('orangeNumber').value.trim();
+                    const wave = document.getElementById('waveNumber').value.trim();
+                    const paypal = document.getElementById('paypalEmail').value.trim();
+                    const referralCode = document.getElementById('referralCode').value.trim().toUpperCase();
+
+                    let referrerAffiliate = null;
+                    if (referralCode) {
+                        try {
+                            const found = await window.SineAPI.getAffiliateByCode(referralCode);
+                            referrerAffiliate = found && found.affiliate ? found.affiliate : found;
+                        } catch (err) {
+                            showAlert('⚠️ Code promo invalide.', 'warning');
+                            btn.classList.remove('loading');
+                            btn.disabled = false;
+                            return;
+                        }
+                    }
+
+                    // Payload aligné sur le vrai schéma backend/models/User.js
+                    // NB: username et méthodes de paiement (MTN/Orange/Wave/PayPal)
+                    // n'existent toujours pas dans le schéma backend — non envoyés.
+                    // birthdate, lui, existe désormais (voir User.js) — ajouté.
+                    const payload = {
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        password,
+                        role: 'affiliate',
+                        birthdate,
+                        timezone: timezone || 'Africa/Dakar',
+                        address: { city, country, street: address },
+                        referralCode: referralCode || undefined,
+                    };
+
+                    // Verrou CGU obligatoire — le compte n'est créé et le
+                    // code de vérification envoyé QUE si l'utilisateur
+                    // clique explicitement sur "Accepter" dans la fenêtre
+                    // CGU qui s'ouvre ici. "Refuser" bloque tout.
+                    const cguOk = await window.ensureCguAccepted();
+                    if (!cguOk) {
+                        showAlert('Vous devez accepter les Conditions Générales d\'Utilisation pour créer un compte.', 'warning');
+                        btn.classList.remove('loading');
+                        btn.disabled = false;
+                        return;
+                    }
+
+                    // 1) Inscription réelle
+                    await window.SineAPI.register(payload);
+
+                    // 2) Création réelle du profil affilié (code, taux de commission) via /api/affiliate/create
+                    const affiliate = await window.SineAPI.createAffiliate();
+
+                    if (window.SINE) {
+                        window.SINE.setTimezone(timezone || 'Africa/Dakar');
+                    }
+
+                    userEmail = email;
+                    const section = document.getElementById('verificationSection');
+                    section.classList.add('active');
+                    document.getElementById('verifyEmailDisplay').textContent = email;
+                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    btn.classList.remove('loading');
+                    btn.disabled = true;
+                    btn.querySelector('.text').textContent = '✅ Compte créé';
+
+                    showAlert('Code envoyé ! Vérifiez votre boîte mail. Votre code partenaire : ' + (affiliate.code || ''), 'success');
+                    showNotification('📧 Code de vérification envoyé à votre email.', 'success');
+
+                    startCountdown(60);
+
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    showAlert(error.message || 'Erreur lors de la création du compte.', 'error');
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                }
+            });
+
+            // =========================================================
+            // VÉRIFICATION DU CODE — vrai appel à /api/auth/verify
+            // =========================================================
+            let resendCooldown = 0;
+            let userEmail = '';
+            let countdownInterval = null;
+
+            document.getElementById('btnVerifyCode').addEventListener('click', async function() {
+                const btn = this;
+                const codeInput = document.getElementById('verificationCode');
+                const code = codeInput.value.trim();
+                const statusDiv = document.getElementById('verifyStatus');
+
+                if (!code || code.length < 4) {
+                    statusDiv.textContent = '⚠️ Veuillez entrer le code de vérification.';
+                    statusDiv.className = 'status-message error';
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = '⏳ Vérification...';
+
+                try {
+                    await window.SineAPI.verifyEmail(userEmail, code);
+
+                    statusDiv.textContent = '✅ Email vérifié avec succès ! Redirection...';
+                    statusDiv.className = 'status-message success';
+
+                    showAlert('✅ Compte partenaire créé et vérifié avec succès !', 'success');
+                    showNotification('🎉 Bienvenue dans le programme d\'affiliation !', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = '../html/sineshopaffiliation.html';
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    statusDiv.textContent = error.message || 'Code invalide. Veuillez réessayer.';
+                    statusDiv.className = 'status-message error';
+                    btn.disabled = false;
+                    btn.textContent = '✅ Vérifier';
+                    showAlert(error.message || 'Code invalide.', 'error');
+                }
+            });
+
+            // =========================================================
+            // RENVOYER LE CODE — vrai appel à /api/auth/resend-verification
+            // =========================================================
+            document.getElementById('resendLink').addEventListener('click', async function() {
+                if (resendCooldown > 0) {
+                    showNotification('⏳ Veuillez patienter ' + resendCooldown + 's avant de renvoyer.', 'warning');
+                    return;
+                }
+                try {
+                    await window.SineAPI.resendVerification(userEmail);
+                    showNotification('📧 Nouveau code envoyé à ' + userEmail, 'success');
+                    startCountdown(60);
+                } catch (error) {
+                    showNotification(error.message || 'Erreur lors du renvoi du code.', 'error');
+                }
+            });
+
+            // =========================================================
+            // COMPTE À REBOURS
+            // =========================================================
+            function startCountdown(seconds) {
+                if (countdownInterval) clearInterval(countdownInterval);
+                resendCooldown = seconds;
+                const timerEl = document.getElementById('countdownTimer');
+                countdownInterval = setInterval(() => {
+                    resendCooldown--;
+                    if (resendCooldown <= 0) {
+                        clearInterval(countdownInterval);
+                        timerEl.textContent = '';
+                        return;
+                    }
+                    timerEl.textContent = '⏳ ' + resendCooldown + 's';
+                }, 1000);
+            }
+
+            // =========================================================
+            // SOCIAL LOGIN
+            // Pas encore connecté à un vrai fournisseur OAuth (voir la note
+            // dans login.html). On ne simule plus une inscription réussie.
+            // =========================================================
+            async function initSocialLogin(provider) {
+                if (!window.SineFirebaseAuth) {
+                    showNotification('Le service ' + provider + ' n\'a pas pu se charger. Réessayez.', 'error');
+                    return;
+                }
+                try {
+                    const { idToken } = provider === 'Google'
+                        ? await window.SineFirebaseAuth.signInWithGoogle()
+                        : await window.SineFirebaseAuth.signInWithFacebook();
+
+                    await window.SineAPI.loginWithFirebase(idToken, 'affiliate');
+
+                    try {
+                        await window.SineAPI.createAffiliate();
+                    } catch (e) {
+                        // Le profil affilié existe peut-être déjà (compte relié à une inscription précédente)
+                    }
+
+                    showNotification('✅ Compte créé avec succès !', 'success');
+                    setTimeout(() => { window.location.href = '../html/sineshopaffiliation.html'; }, 1200);
+                } catch (error) {
+                    if (error.code === 'auth/popup-closed-by-user') return;
+                    console.error('Erreur ' + provider + ':', error);
+                    showNotification(error.message || 'Erreur lors de l\'inscription avec ' + provider + '.', 'error');
+                }
+            }
+
+            document.getElementById('googleLogin').addEventListener('click', function() {
+                initSocialLogin('Google');
+            });
+            document.getElementById('facebookLogin').addEventListener('click', function() {
+                initSocialLogin('Facebook');
+            });
+
+            // =========================================================
+            // LANGUE
+            // =========================================================
+            function applyLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('sineLang', lang);
+                if (window.SINE) window.SINE.applyDirection(lang);
+
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (window.SINE) {
+                        const translation = window.SINE.translate(key, lang);
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+                            el.placeholder = translation;
+                        } else {
+                            el.textContent = translation;
+                        }
+                    }
+                });
+            }
+
+            // =========================================================
+            // SWIPE
+            // =========================================================
+            let touchStartX = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                const diff = touchStartX - e.changedTouches[0].screenX;
+                if (diff > 80) {
+                    const next = document.querySelector(`.btn-next[data-next="${currentStep + 1}"]`);
+                    if (next) next.click();
+                } else if (diff < -80) {
+                    const prev = document.querySelector(`.btn-prev[data-prev="${currentStep - 1}"]`);
+                    if (prev) prev.click();
+                }
+            }, { passive: true });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    window.location.href = '../html/seler-page.html';
+                }
+                if (e.key === 'ArrowRight' && e.ctrlKey) {
+                    e.preventDefault();
+                    const next = document.querySelector(`.btn-next[data-next="${currentStep + 1}"]`);
+                    if (next) next.click();
+                }
+                if (e.key === 'ArrowLeft' && e.ctrlKey) {
+                    e.preventDefault();
+                    const prev = document.querySelector(`.btn-prev[data-prev="${currentStep - 1}"]`);
+                    if (prev) prev.click();
+                }
+            });
+
+            // =========================================================
+            // INIT
+            // =========================================================
+            const savedLang = window.SINE ? window.SINE.detectLanguage() : 'fr';
+            applyLanguage(savedLang);
+            goToStep(1);
+
+            console.log('✅ Inscription affiliation SINE.SHOP - Complet');
+
+        })();
+    </script>
+
+
+    <!-- =========================================================
+         VERROU CGU — une vraie page/fenêtre CGU doit s'ouvrir et
+         l'utilisateur DOIT cliquer sur "Accepter" avant que le compte
+         soit créé et le code de vérification envoyé. "Refuser" bloque
+         entièrement la création de compte (demande explicite). -->
+    <div id="cguGateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:white;border-radius:24px;padding:0;max-width:520px;width:100%;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;">
+            <div style="padding:1.4rem 1.4rem 0.6rem;">
+                <h3 style="margin:0 0 4px;">📄 Conditions Générales d'Utilisation</h3>
+                <p style="font-size:0.8rem;color:#94a3b8;margin:0;">Vous devez lire et accepter nos conditions pour créer votre compte SINE.SHOP.</p>
+            </div>
+            <iframe src="../html/cgu.html" style="flex:1;width:100%;border:none;min-height:340px;"></iframe>
+            <div style="padding:1rem 1.4rem;border-top:1px solid #eef2f6;display:flex;gap:0.6rem;">
+                <button type="button" id="btnCguRefuse" style="flex:1;padding:0.75rem;border-radius:14px;background:#f1f5f9;color:#475569;font-weight:600;">❌ Refuser</button>
+                <button type="button" id="btnCguAccept" style="flex:1;padding:0.75rem;border-radius:14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-weight:700;">✅ J'accepte</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Verrou CGU réutilisable — voir commentaire ci-dessus. Reste valable
+        // uniquement pour CETTE session de page (pas de mémorisation entre
+        // deux visites : on redemande à chaque nouvelle tentative d'inscription).
+        window.__cguAccepted = false;
+        window.ensureCguAccepted = function() {
+            return new Promise(function(resolve) {
+                if (window.__cguAccepted) { resolve(true); return; }
+                const modal = document.getElementById('cguGateModal');
+                modal.style.display = 'flex';
+                document.getElementById('btnCguAccept').onclick = function() {
+                    window.__cguAccepted = true;
+                    modal.style.display = 'none';
+                    resolve(true);
+                };
+                document.getElementById('btnCguRefuse').onclick = function() {
+                    modal.style.display = 'none';
+                    resolve(false);
+                };
+            });
+        };
+    </script>
+
+</body>
+</html>

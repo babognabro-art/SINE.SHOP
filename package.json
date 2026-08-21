@@ -1,0 +1,21 @@
+{
+  "name": "sineshop-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Couche mobile Capacitor de SINE.SHOP — encapsule frontend/ (HTML/CSS/JS existant) en application Android/iOS. Indépendant de backend/package.json : ce fichier ne concerne QUE l'outillage mobile (Capacitor, Android Studio, Xcode), jamais le serveur Node.js.",
+  "scripts": {
+    "cap:sync": "npx cap sync",
+    "cap:android": "npx cap open android",
+    "cap:ios": "npx cap open ios",
+    "cap:sync:android": "npx cap sync android",
+    "cap:sync:ios": "npx cap sync ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/cli": "^8.5.0",
+    "@capacitor/core": "^8.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

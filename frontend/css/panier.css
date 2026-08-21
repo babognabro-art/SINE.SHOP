@@ -1,0 +1,597 @@
+/* =====================================================
+   SINE.SHOP
+   PANIER CSS
+===================================================== */
+
+
+/* ==========================
+   RESET GENERAL
+========================== */
+
+* {
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+
+body {
+
+    font-family:
+    "Poppins",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    background:#f5f8fc;
+
+    color:#222;
+
+}
+
+
+
+/* ==========================
+   HEADER
+========================== */
+
+
+.header-panier {
+
+    width:100%;
+
+    min-height:100px;
+
+    background:#87CEEB;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:20px 40px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.15);
+
+}
+
+
+
+.header-centre {
+
+    text-align:center;
+
+}
+
+
+.header-centre h1 {
+
+    font-family:
+    "Montserrat",
+    "Segoe UI",
+    sans-serif;
+
+    font-size:32px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    color:#073b66;
+
+}
+
+
+
+.header-centre p {
+
+    margin-top:8px;
+
+    color:#16445e;
+
+}
+
+
+
+.btn-retour {
+
+    text-decoration:none;
+
+    background:white;
+
+    color:#0077b6;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+
+
+.btn-retour:hover {
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/* ==========================
+   ID PANIER
+========================== */
+
+
+.panier-id {
+
+    background:white;
+
+    padding:12px 20px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    color:#555;
+
+}
+
+
+
+.panier-id strong {
+
+    color:#0077b6;
+
+}
+
+
+
+/* ==========================
+   RESUME RAPIDE
+========================== */
+
+
+.resume-haut {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:20px;
+
+    padding:25px;
+
+}
+
+
+
+.resume-box {
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+.resume-box h2 {
+
+    margin-top:10px;
+
+    color:#0077b6;
+
+}
+
+
+
+/* ==========================
+   STRUCTURE PRINCIPALE
+========================== */
+
+
+.conteneur-panier {
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 350px;
+
+    gap:25px;
+
+    padding:25px;
+
+}
+
+
+
+/* ==========================
+   LISTE PRODUITS
+========================== */
+
+
+.liste-produits {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+
+/* Carte produit miniature */
+
+
+.carte-panier {
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:15px;
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:center;
+
+    box-shadow:
+
+    0 5px 18px rgba(0,0,0,.08);
+
+}
+
+
+
+.carte-panier img {
+
+    width:120px;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+}
+
+
+
+.info-produit {
+
+    flex:1;
+
+}
+
+
+
+.info-produit h3 {
+
+    color:#073b66;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.prix-produit {
+
+    font-weight:bold;
+
+    color:#008000;
+
+}
+
+
+
+/* boutons produits */
+
+
+.actions-produit button {
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    margin:3px;
+
+}
+
+
+
+.btn-modifier {
+
+    background:#87CEEB;
+
+}
+
+
+
+.btn-supprimer {
+
+    background:#ffdddd;
+
+    color:#b00000;
+
+}
+
+
+
+/* ==========================
+   RESUME DROITE
+========================== */
+
+
+.recapitulatif {
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    height:max-content;
+
+    box-shadow:
+
+    0 5px 20px rgba(0,0,0,.1);
+
+}
+
+
+
+.recapitulatif h2 {
+
+    color:#073b66;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.ligne {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:15px 0;
+
+}
+
+
+
+.total {
+
+    font-size:20px;
+
+}
+
+
+
+.recapitulatif button {
+
+    width:100%;
+
+    padding:14px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#0077b6;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}
+
+
+
+.recapitulatif button:hover {
+
+    opacity:.85;
+
+}
+
+
+
+/* ==========================
+   POPUP MODIFICATION
+========================== */
+
+
+.popup {
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.5);
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+
+.popup-contenu {
+
+    background:white;
+
+    width:90%;
+
+    max-width:500px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+}
+
+
+
+#fermerPopup {
+
+    float:right;
+
+    cursor:pointer;
+
+    font-size:25px;
+
+}
+
+
+
+/* ==========================
+   NOTIFICATION
+========================== */
+
+
+#notification {
+
+    position:fixed;
+
+    bottom:20px;
+
+    right:20px;
+
+    background:#0077b6;
+
+    color:white;
+
+    padding:15px 25px;
+
+    border-radius:15px;
+
+    display:none;
+
+}
+
+
+
+/* ==========================
+   RESPONSIVE TABLETTE
+========================== */
+
+
+@media(max-width:900px){
+
+
+.header-panier {
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+.conteneur-panier {
+
+    grid-template-columns:1fr;
+
+}
+
+
+.resume-haut {
+
+    grid-template-columns:1fr;
+
+}
+
+
+}
+
+
+
+/* ==========================
+   RESPONSIVE MOBILE
+========================== */
+
+
+@media(max-width:600px){
+
+
+.header-centre h1 {
+
+    font-size:24px;
+
+}
+
+
+
+.carte-panier {
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+
+
+.carte-panier img {
+
+    width:150px;
+
+    height:150px;
+
+}
+
+
+
+.resume-haut {
+
+    padding:15px;
+
+}
+
+
+
+.conteneur-panier {
+
+    padding:15px;
+
+}
+
+
+}

@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0b1937">
+    <title>Choisir votre type de compte • SINE.SHOP</title>
+    <!-- ===================================================== -->
+    <!-- BLOC CSS UNIQUE - SELLER-PAGE (IDENTITÉ CONSERVÉE) -->
+    <!-- ===================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+
+    <!-- CONFIG GLOBALE + CONNEXION BACKEND — absents jusqu'ici, ce qui
+         empêchait tout appel réel au backend depuis cette page (formulaire
+         admin y compris : window.SineAPI n'existait pas). -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <style>
+        /*=========================================================
+        RESET & BASE - CONSERVÉ
+        =========================================================*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Outfit", sans-serif;
+            background: #06142b;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+            touch-action: manipulation;
+        }
+
+        /*=========================================================
+        BACKGROUND EFFECTS - CONSERVÉ
+        =========================================================*/
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+            background: linear-gradient(180deg, #06142b 0%, #0a1f3d 50%, #06142b 100%);
+        }
+        .bg-glow::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: -300px;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 900px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(114,182,255,0.08), transparent 70%);
+            filter: blur(80px);
+        }
+
+        /*=========================================================
+        CONTAINER - CONSERVÉ
+        =========================================================*/
+        .choice-container {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 48px 36px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            text-align: center;
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .choice-container .logo {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+        .choice-container .logo span {
+            color: #72b6ff;
+        }
+        .choice-container h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            color: white;
+            margin-bottom: 8px;
+        }
+        .choice-container .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        /*=========================================================
+        HEADER ACTIONS - CONSERVÉ
+        =========================================================*/
+        .choice-header-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        .choice-header-actions .lang-select {
+            padding: 6px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+        .choice-header-actions .lang-select option { background: #0a1f3d; color: white; }
+        .choice-header-actions .btn-back {
+            padding: 6px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.06);
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.06);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .choice-header-actions .btn-back:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+
+        /*=========================================================
+        CHOIX - CONSERVÉ
+        =========================================================*/
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 768px) {
+            .choice-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 500px) {
+            .choice-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .choice-card {
+            background: rgba(255,255,255,0.04);
+            border-radius: 20px;
+            padding: 20px 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: 0.35s;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        .choice-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(114,182,255,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .choice-card .icon {
+            font-size: 2.2rem;
+            display: block;
+        }
+        .choice-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+        .choice-card p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+        .choice-card .badge {
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: 30px;
+            background: rgba(114,182,255,0.15);
+            color: #87c8ff;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .choice-card .badge.affiliation {
+            background: rgba(250,204,21,0.15);
+            color: #facc15;
+        }
+        .choice-card .badge.admin {
+            background: rgba(239,68,68,0.15);
+            color: #f87171;
+        }
+        .choice-card .badge.popular {
+            background: rgba(34,197,94,0.15);
+            color: #4ade80;
+        }
+        .choice-card .badge.partner {
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+        }
+        .choice-card .badge.pro {
+            background: rgba(168,85,247,0.15);
+            color: #c084fc;
+        }
+
+        .choice-card.admin-card {
+            border-color: rgba(239,68,68,0.2);
+        }
+        .choice-card.admin-card .lock-icon {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: #f87171;
+            opacity: 0.6;
+        }
+        .choice-card.admin-card:hover {
+            border-color: rgba(239,68,68,0.4);
+        }
+
+        .choice-card.selected {
+            background: rgba(114,182,255,0.12);
+            border-color: #72b6ff;
+            box-shadow: 0 0 30px rgba(114,182,255,0.08);
+        }
+        .choice-card.selected .badge {
+            background: rgba(114,182,255,0.25);
+            color: white;
+        }
+        .choice-card.admin-card.selected {
+            border-color: #ef4444;
+            background: rgba(239,68,68,0.08);
+            box-shadow: 0 0 30px rgba(239,68,68,0.08);
+        }
+
+        /*=========================================================
+        BOUTON CONTINUER - CONSERVÉ
+        =========================================================*/
+        .btn-continue {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4da7ff, #2d73ff);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 8px 30px rgba(60,120,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .btn-continue:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(60,120,255,0.4);
+        }
+        .btn-continue:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /*=========================================================
+        FOOTER LINKS - CONSERVÉ
+        =========================================================*/
+        .footer-links {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+        .footer-links a {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .footer-links a:hover {
+            color: #94a3b8;
+        }
+
+        /*=========================================================
+        MODAL ADMIN - FORMULAIRE COMPLET
+        =========================================================*/
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #0a1f3d;
+            border-radius: 28px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            animation: fadeUp 0.4s ease;
+        }
+        .modal-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(114,182,255,0.3);
+            border-radius: 10px;
+        }
+
+        .modal-content .modal-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .modal-content h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.6rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .modal-content .modal-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-content .form-section {
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .modal-content .form-section h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-content .form-section h3 .section-icon {
+            font-size: 1.1rem;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 12px;
+        }
+        .modal-content .form-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .modal-content .form-group label .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+        .modal-content .form-group input,
+        .modal-content .form-group select,
+        .modal-content .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .modal-content .form-group input:focus,
+        .modal-content .form-group select:focus,
+        .modal-content .form-group textarea:focus {
+            border-color: #72b6ff;
+            box-shadow: 0 0 0 3px rgba(114,182,255,0.1);
+        }
+        .modal-content .form-group select option {
+            background: #0a1f3d;
+            color: white;
+        }
+        .modal-content .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .modal-content .form-group .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border: 1px dashed rgba(255,255,255,0.15);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-content .form-group .file-upload:hover {
+            border-color: rgba(114,182,255,0.3);
+            background: rgba(255,255,255,0.04);
+        }
+        .modal-content .form-group .file-upload input[type="file"] {
+            display: none;
+        }
+        .modal-content .form-group .file-upload .file-info {
+            flex: 1;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .modal-content .form-group .file-upload .file-icon {
+            font-size: 1.2rem;
+            color: #72b6ff;
+        }
+        .modal-content .form-group .file-upload .file-name {
+            font-size: 0.75rem;
+            color: #4ade80;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-content .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 500px) {
+            .modal-content .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modal-content .success-message {
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 12px;
+            padding: 12px;
+            color: #4ade80;
+            font-weight: 600;
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+        }
+        .modal-content .success-message.show {
+            display: block;
+        }
+        .modal-content .error-message {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: 12px;
+            padding: 12px;
+            color: #f87171;
+            font-weight: 600;
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+        }
+        .modal-content .error-message.show {
+            display: block;
+        }
+
+        .modal-content .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .modal-content .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        .modal-content .modal-actions .btn-cancel {
+            background: rgba(255,255,255,0.06);
+            color: #94a3b8;
+        }
+        .modal-content .modal-actions .btn-cancel:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .modal-content .modal-actions .btn-send {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .modal-content .modal-actions .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239,68,68,0.3);
+        }
+        .modal-content .modal-actions .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /*=========================================================
+        NOTIFICATION - CONSERVÉ
+        =========================================================*/
+        #notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 1vw, 1rem);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999999;
+            max-width: 90%;
+        }
+        #notification.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /*=========================================================
+        RESPONSIVE - CONSERVÉ
+        =========================================================*/
+        @media (max-width: 600px) {
+            .choice-container {
+                padding: 32px 20px;
+                border-radius: 24px;
+            }
+            .choice-container .logo {
+                font-size: 1.8rem;
+            }
+            .choice-card {
+                padding: 16px 12px;
+            }
+            .choice-card .icon {
+                font-size: 1.8rem;
+            }
+            .choice-card h3 {
+                font-size: 0.9rem;
+            }
+            .btn-continue {
+                font-size: 1rem;
+                padding: 14px;
+            }
+            .modal-content {
+                padding: 20px 16px;
+            }
+            .modal-content .form-row {
+                grid-template-columns: 1fr;
+            }
+            .modal-content .modal-actions {
+                flex-direction: column;
+            }
+            .modal-content .form-section {
+                padding: 12px 14px;
+            }
+        }
+        @media (max-width: 400px) {
+            .choice-container {
+                padding: 24px 16px;
+            }
+            .choice-container h1 {
+                font-size: 1.6rem;
+            }
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- BACKGROUND -->
+    <!-- ===================================================== -->
+    <div class="bg-glow"></div>
+
+    <!-- ===================================================== -->
+    <!-- CHOICE CONTAINER -->
+    <!-- ===================================================== -->
+    <div class="choice-container">
+
+        <div class="logo"><span style="color:white;">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:white;">P</span></div>
+        <h1 data-key="title">Bienvenue sur SINE.SHOP</h1>
+        <p class="subtitle" data-key="subtitle">Choisissez le type de compte que vous souhaitez créer pour commencer votre expérience.</p>
+
+        <!-- Choice Grid -->
+        <div class="choice-grid" id="choiceGrid">
+
+            <!-- Client -->
+            <div class="choice-card" data-type="client" data-page="registerclient.html">
+                <span class="icon">👤</span>
+                <h3 data-key="client_title">Client</h3>
+                <p data-key="client_desc">Achetez et découvrez des milliers de produits.</p>
+                <span class="badge popular" data-key="client_badge">Populaire</span>
+            </div>
+
+            <!-- Vendeur -->
+            <div class="choice-card" data-type="vendeur" data-page="registervendeur.html">
+                <span class="icon">🛍️</span>
+                <h3 data-key="seller_title">Vendeur</h3>
+                <p data-key="seller_desc">Vendez vos produits et gérez votre boutique.</p>
+                <span class="badge pro" data-key="seller_badge">Professionnel</span>
+            </div>
+
+            <!-- Livreur -->
+            <div class="choice-card" data-type="livreur" data-page="registerdelivery.html">
+                <span class="icon">🚚</span>
+                <h3 data-key="delivery_title">Livreur</h3>
+                <p data-key="delivery_desc">Effectuez des livraisons et gagnez de l'argent.</p>
+                <span class="badge partner" data-key="delivery_badge">Partenaires</span>
+            </div>
+
+            <!-- Affiliation SINE.SHOP -->
+            <div class="choice-card" data-type="affiliation" data-page="registersineshopaffiliation.html">
+                <span class="icon">🤝</span>
+                <h3 data-key="affiliation_title">SINE.SHOP Affiliation</h3>
+                <p data-key="affiliation_desc">Devenez partenaire et gagnez des commissions.</p>
+                <span class="badge affiliation" data-key="affiliation_badge">Recommandé</span>
+            </div>
+
+            <!-- Administrateur -->
+            <div class="choice-card admin-card" data-type="administrateur" data-page="registeradministrateur.html">
+                <span class="lock-icon"><i class="fa-solid fa-lock"></i></span>
+                <span class="icon">🛡️</span>
+                <h3 data-key="admin_title">Administrateur</h3>
+                <p data-key="admin_desc">Gérez la plateforme et les utilisateurs.</p>
+                <span class="badge admin" data-key="admin_badge">Équipe</span>
+            </div>
+
+            <!-- Espace vide pour alignement -->
+            <div style="visibility:hidden;"></div>
+
+        </div>
+
+        <!-- Bouton Continuer -->
+        <button id="btnContinuer" class="btn-continue" disabled>
+            <i class="fa-solid fa-arrow-right"></i> <span data-key="continue">Continuer</span>
+        </button>
+
+        <!-- Footer Links -->
+        <div class="footer-links">
+            <a href="../html/cgu.html" data-key="cgu">Conditions Générales</a>
+            <a href="../html/privacy.html" data-key="privacy">Confidentialité</a>
+            <a href="../html/cookies.html" data-key="cookies">Cookies</a>
+            <a href="../html/login.html" data-key="login">Déjà un compte ?</a>
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- MODAL SÉLECTEUR — TYPE D'ACCÈS ADMINISTRATEUR -->
+    <!-- Le clic sur "Administrateur" ouvre D'ABORD ce sélecteur avant le
+         formulaire de candidature — le backend (AdminApplication.
+         requestedRole) supportait déjà ces 4 valeurs, mais rien côté
+         frontend ne les proposait jusqu'ici : la candidature partait
+         toujours en 'admin' par défaut, sans jamais demander quel type
+         d'accès la personne visait réellement. -->
+    <!-- ===================================================== -->
+    <div class="modal" id="adminTypeModal">
+        <div class="modal-content" style="max-width:480px;">
+            <span class="modal-icon">🛡️</span>
+            <h2>Type d'accès administrateur</h2>
+            <p class="modal-subtitle">Choisissez le type d'accès administrateur souhaité — votre candidature sera examinée en conséquence.</p>
+
+            <div style="display:flex;flex-direction:column;gap:10px;margin:1.2rem 0;">
+                <button type="button" class="admin-type-option" data-role="admin">
+                    <span class="icon">👑</span>
+                    <span class="text"><strong>Administration générale</strong><br><small>Gestion globale de SINE.SHOP</small></span>
+                </button>
+                <button type="button" class="admin-type-option" data-role="superadmin">
+                    <span class="icon">🌟</span>
+                    <span class="text"><strong>Super Administrateur</strong><br><small>Contrôle total — y compris la gestion des autres administrateurs</small></span>
+                </button>
+                <button type="button" class="admin-type-option" data-role="finance_admin">
+                    <span class="icon">💰</span>
+                    <span class="text"><strong>Administration financière</strong><br><small>Paiements, retraits, comptabilité</small></span>
+                </button>
+                <button type="button" class="admin-type-option" data-role="moderator">
+                    <span class="icon">🛡️</span>
+                    <span class="text"><strong>Modération</strong><br><small>Sécurité, contenus, signalements</small></span>
+                </button>
+                <button type="button" class="admin-type-option" data-role="support">
+                    <span class="icon">🎧</span>
+                    <span class="text"><strong>Support</strong><br><small>Assistance aux utilisateurs</small></span>
+                </button>
+            </div>
+
+            <button class="btn-cancel" id="btnCancelAdminType">Annuler</button>
+        </div>
+    </div>
+    <style>
+        .admin-type-option {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px; border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08); background: white;
+            text-align: left; cursor: pointer; transition: 0.2s;
+            font-family: inherit;
+        }
+        .admin-type-option:hover { border-color: #2d73ff; background: #f1f5fb; transform: translateY(-2px); }
+        .admin-type-option .icon { font-size: 1.6rem; flex-shrink: 0; }
+        .admin-type-option .text small { color: #94a3b8; font-weight: 400; }
+    </style>
+
+    <!-- ===================================================== -->
+    <!-- MODAL ADMIN - FORMULAIRE COMPLET -->
+    <!-- ===================================================== -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+
+            <span class="modal-icon">🛡️</span>
+            <h2 data-key="modal_title">Demande d'accès Administrateur</h2>
+            <p class="modal-subtitle" data-key="modal_desc">Veuillez remplir ce formulaire complet pour soumettre votre candidature.</p>
+
+            <!-- SECTION 1: INFORMATIONS PERSONNELLES -->
+            <div class="form-section">
+                <h3><span class="section-icon">👤</span> <span data-key="section_personal">Informations personnelles</span></h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="label_lastname">Nom <span class="required">*</span></label>
+                        <input type="text" id="adminLastName" placeholder="Votre nom">
+                    </div>
+                    <div class="form-group">
+                        <label data-key="label_firstname">Prénom <span class="required">*</span></label>
+                        <input type="text" id="adminFirstName" placeholder="Votre prénom">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="label_email">Adresse e-mail <span class="required">*</span></label>
+                        <input type="email" id="adminEmail" placeholder="votre@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label data-key="label_phone">Téléphone <span class="required">*</span></label>
+                        <input type="tel" id="adminPhone" placeholder="+225 00 00 00 00">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="label_birthdate">Date de naissance <span class="required">*</span></label>
+                        <input type="date" id="adminBirthdate">
+                    </div>
+                    <div class="form-group">
+                        <label data-key="label_gender">Sexe <span class="required">*</span></label>
+                        <select id="adminGender">
+                            <option value="">Sélectionner</option>
+                            <option value="homme">Homme</option>
+                            <option value="femme">Femme</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="label_marital">Situation matrimoniale</label>
+                        <select id="adminMarital">
+                            <option value="">Sélectionner</option>
+                            <option value="celibataire">Célibataire</option>
+                            <option value="marie">Marié(e)</option>
+                            <option value="divorce">Divorcé(e)</option>
+                            <option value="veuf">Veuf/Veuve</option>
+                            <option value="pacse">Pacsé(e)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-key="label_children">Nombre d'enfants</label>
+                        <input type="number" id="adminChildren" placeholder="0" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: ADRESSE -->
+            <div class="form-section">
+                <h3><span class="section-icon">📍</span> <span data-key="section_address">Adresse</span></h3>
+
+                <div class="form-group">
+                    <label data-key="label_address">Adresse complète <span class="required">*</span></label>
+                    <input type="text" id="adminAddress" placeholder="Rue, quartier, résidence">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="label_city">Ville <span class="required">*</span></label>
+                        <input type="text" id="adminCity" placeholder="Ville">
+                    </div>
+                    <div class="form-group">
+                        <label data-key="label_country">Pays <span class="required">*</span></label>
+                        <select id="adminCountry">
+                            <option value="">Sélectionner</option>
+                            <option value="CI">Côte d'Ivoire</option>
+                            <option value="SN">Sénégal</option>
+                            <option value="MA">Maroc</option>
+                            <option value="FR">France</option>
+                            <option value="US">États-Unis</option>
+                            <option value="GB">Royaume-Uni</option>
+                            <option value="DE">Allemagne</option>
+                            <option value="IT">Italie</option>
+                            <option value="ES">Espagne</option>
+                            <option value="PT">Portugal</option>
+                            <option value="BE">Belgique</option>
+                            <option value="CH">Suisse</option>
+                            <option value="CA">Canada</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="GH">Ghana</option>
+                            <option value="CM">Cameroun</option>
+                            <option value="BJ">Bénin</option>
+                            <option value="TG">Togo</option>
+                            <option value="BF">Burkina Faso</option>
+                            <option value="ML">Mali</option>
+                            <option value="NE">Niger</option>
+                            <option value="GN">Guinée</option>
+                            <option value="ZA">Afrique du Sud</option>
+                            <option value="EG">Égypte</option>
+                            <option value="AE">Émirats Arabes Unis</option>
+                            <option value="SA">Arabie Saoudite</option>
+                            <option value="IN">Inde</option>
+                            <option value="CN">Chine</option>
+                            <option value="JP">Japon</option>
+                            <option value="BR">Brésil</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: PROFESSIONNEL -->
+            <div class="form-section">
+                <h3><span class="section-icon">💼</span> <span data-key="section_professional">Parcours professionnel</span></h3>
+
+                <div class="form-group">
+                    <label data-key="label_education">Niveau d'études <span class="required">*</span></label>
+                    <select id="adminEducation">
+                        <option value="">Sélectionner</option>
+                        <option value="aucun">Aucun</option>
+                        <option value="primaire">Primaire</option>
+                        <option value="secondaire">Secondaire</option>
+                        <option value="bac">Baccalauréat</option>
+                        <option value="licence">Licence (Bac+3)</option>
+                        <option value="master">Master (Bac+5)</option>
+                        <option value="doctorat">Doctorat</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-key="label_experience">Expérience professionnelle (années) <span class="required">*</span></label>
+                    <select id="adminExperience">
+                        <option value="">Sélectionner</option>
+                        <option value="0">Moins d'1 an</option>
+                        <option value="1">1-2 ans</option>
+                        <option value="3">3-5 ans</option>
+                        <option value="6">6-10 ans</option>
+                        <option value="11">11-15 ans</option>
+                        <option value="16">Plus de 15 ans</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-key="label_skills">Compétences clés</label>
+                    <input type="text" id="adminSkills" placeholder="Ex: Gestion d'équipe, Marketing digital, Développement, Support client...">
+                </div>
+
+                <div class="form-group">
+                    <label data-key="label_motivation">Pourquoi souhaitez-vous devenir administrateur ? <span class="required">*</span></label>
+                    <textarea id="adminMotivation" rows="3" placeholder="Expliquez votre motivation en détail..."></textarea>
+                </div>
+            </div>
+
+            <!-- SECTION 4: DOCUMENTS -->
+            <div class="form-section">
+                <h3><span class="section-icon">📄</span> <span data-key="section_documents">Documents à fournir</span></h3>
+
+                <!-- CV -->
+                <div class="form-group">
+                    <label>CV <span class="required">*</span></label>
+                    <div class="file-upload" id="cvUpload">
+                        <span class="file-icon">📄</span>
+                        <span class="file-info" id="cvInfo">Déposer votre CV (PDF, DOC, DOCX)</span>
+                        <span class="file-name" id="cvName"></span>
+                        <input type="file" id="adminCV" accept=".pdf,.doc,.docx">
+                    </div>
+                </div>
+
+                <!-- Lettre de motivation -->
+                <div class="form-group">
+                    <label>Lettre de motivation</label>
+                    <div class="file-upload" id="letterUpload">
+                        <span class="file-icon">✉️</span>
+                        <span class="file-info" id="letterInfo">Déposer votre lettre de motivation (PDF, DOC, DOCX)</span>
+                        <span class="file-name" id="letterName"></span>
+                        <input type="file" id="adminLetter" accept=".pdf,.doc,.docx">
+                    </div>
+                </div>
+
+                <!-- Pièce d'identité -->
+                <div class="form-group">
+                    <label>Pièce d'identité ou Passeport <span class="required">*</span></label>
+                    <div class="file-upload" id="idUpload">
+                        <span class="file-icon">🪪</span>
+                        <span class="file-info" id="idInfo">Déposer votre CNI ou Passeport (PNG, JPG, PDF)</span>
+                        <span class="file-name" id="idName"></span>
+                        <input type="file" id="adminId" accept=".pdf,.png,.jpg,.jpeg">
+                    </div>
+                    <div style="font-size:0.7rem;color:#64748b;margin-top:4px;">
+                        <i class="fa-solid fa-info-circle"></i> Formats acceptés: PNG, JPG, PDF. Poids max: 5MB
+                    </div>
+                </div>
+
+                <!-- Justificatif de domicile -->
+                <div class="form-group">
+                    <label>Justificatif de domicile</label>
+                    <div class="file-upload" id="proofUpload">
+                        <span class="file-icon">🏠</span>
+                        <span class="file-info" id="proofInfo">Déposer un justificatif de domicile (PDF, PNG, JPG)</span>
+                        <span class="file-name" id="proofName"></span>
+                        <input type="file" id="adminProof" accept=".pdf,.png,.jpg,.jpeg">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: DÉCLARATION -->
+            <div class="form-section">
+                <h3><span class="section-icon">⚖️</span> <span data-key="section_declaration">Déclaration</span></h3>
+
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+                        <input type="checkbox" id="adminTerms" style="width:18px;height:18px;margin-top:2px;accent-color:#72b6ff;">
+                        <span style="font-size:0.85rem;color:#94a3b8;line-height:1.5;">
+                            <span data-key="declaration_text1">Je certifie que les informations fournies sont exactes et complètes.</span><br>
+                            <span data-key="declaration_text2">J'accepte que mes données soient traitées dans le cadre de cette candidature.</span><br>
+                            <span data-key="declaration_text3">Je m'engage à respecter la charte de confidentialité de SINE.SHOP.</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="success-message" id="adminSuccess">
+                ✅ Votre demande a été envoyée à l'équipe SINE.SHOP. Vous serez contacté sous 48h.
+            </div>
+            <div class="error-message" id="adminError">
+                ❌ Veuillez remplir tous les champs obligatoires et accepter les conditions.
+            </div>
+
+            <!-- Actions -->
+            <div class="modal-actions">
+                <button class="btn-cancel" id="adminCancel" data-key="modal_cancel">Annuler</button>
+                <button type="button" class="btn-send" id="adminSend" data-key="modal_send">📧 Envoyer la demande</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- NOTIFICATION -->
+    <!-- ===================================================== -->
+    <div id="notification"></div>
+
+    <!-- ===================================================== -->
+    <!-- SCRIPTS - REFONTE COMPLÈTE -->
+    <!-- ===================================================== -->
+    <script>
+        (function() {
+            'use strict';
+
+            let selectedType = null;
+            let selectedPage = null;
+
+            // =====================================================
+            // LANGUE
+            // =====================================================
+            const TRADUCTIONS = {
+                fr: {
+                    back: 'Retour',
+                    title: 'Bienvenue sur SINE.SHOP',
+                    subtitle: 'Choisissez le type de compte que vous souhaitez créer pour commencer votre expérience.',
+                    client_title: 'Client',
+                    client_desc: 'Achetez et découvrez des milliers de produits.',
+                    client_badge: 'Populaire',
+                    seller_title: 'Vendeur',
+                    seller_desc: 'Vendez vos produits et gérez votre boutique.',
+                    seller_badge: 'Professionnel',
+                    delivery_title: 'Livreur',
+                    delivery_desc: 'Effectuez des livraisons et gagnez de l\'argent.',
+                    delivery_badge: 'Partenaires',
+                    affiliation_title: 'SINE.SHOP Affiliation',
+                    affiliation_desc: 'Devenez partenaire et gagnez des commissions.',
+                    affiliation_badge: 'Recommandé',
+                    admin_title: 'Administrateur',
+                    admin_desc: 'Gérez la plateforme et les utilisateurs.',
+                    admin_badge: 'Équipe',
+                    continue: 'Continuer',
+                    cgu: 'Conditions Générales',
+                    privacy: 'Confidentialité',
+                    cookies: 'Cookies',
+                    login: 'Déjà un compte ?',
+                    modal_title: 'Demande d\'accès Administrateur',
+                    modal_desc: 'Veuillez remplir ce formulaire complet pour soumettre votre candidature.',
+                    section_personal: 'Informations personnelles',
+                    label_lastname: 'Nom',
+                    label_firstname: 'Prénom',
+                    label_email: 'Adresse e-mail',
+                    label_phone: 'Téléphone',
+                    label_birthdate: 'Date de naissance',
+                    label_gender: 'Sexe',
+                    label_marital: 'Situation matrimoniale',
+                    label_children: 'Nombre d\'enfants',
+                    section_address: 'Adresse',
+                    label_address: 'Adresse complète',
+                    label_city: 'Ville',
+                    label_country: 'Pays',
+                    section_professional: 'Parcours professionnel',
+                    label_education: 'Niveau d\'études',
+                    label_experience: 'Expérience professionnelle',
+                    label_skills: 'Compétences clés',
+                    label_motivation: 'Pourquoi souhaitez-vous devenir administrateur ?',
+                    section_documents: 'Documents à fournir',
+                    section_declaration: 'Déclaration',
+                    declaration_text1: 'Je certifie que les informations fournies sont exactes et complètes.',
+                    declaration_text2: 'J\'accepte que mes données soient traitées dans le cadre de cette candidature.',
+                    declaration_text3: 'Je m\'engage à respecter la charte de confidentialité de SINE.SHOP.',
+                    modal_cancel: 'Annuler',
+                    modal_send: '📧 Envoyer la demande',
+                    select_prompt: 'Veuillez sélectionner un type de compte.',
+                    admin_success: '✅ Demande envoyée avec succès !',
+                    admin_error: '❌ Veuillez remplir tous les champs obligatoires.',
+                    admin_email_subject: 'Demande d\'accès administrateur SINE.SHOP',
+                    admin_email_body: 'Demande d\'accès administrateur\n\n--- INFORMATIONS PERSONNELLES ---\nNom: {lastname}\nPrénom: {firstname}\nEmail: {email}\nTéléphone: {phone}\nDate de naissance: {birthdate}\nSexe: {gender}\nSituation matrimoniale: {marital}\nNombre d\'enfants: {children}\n\n--- ADRESSE ---\nAdresse: {address}\nVille: {city}\nPays: {country}\n\n--- PARCOURS PROFESSIONNEL ---\nNiveau d\'études: {education}\nExpérience: {experience}\nCompétences: {skills}\nMotivation: {motivation}\n\n--- DOCUMENTS ---\nCV: {cv}\nLettre de motivation: {letter}\nPièce d\'identité: {id}\nJustificatif de domicile: {proof}\n\n--- DECLARATION ---\nAcceptation des conditions: Oui'
+                },
+                en: {
+                    back: 'Back',
+                    title: 'Welcome to SINE.SHOP',
+                    subtitle: 'Choose the type of account you want to create.',
+                    client_title: 'Client',
+                    client_desc: 'Buy and discover thousands of products.',
+                    client_badge: 'Popular',
+                    seller_title: 'Seller',
+                    seller_desc: 'Sell your products and manage your store.',
+                    seller_badge: 'Professional',
+                    delivery_title: 'Delivery',
+                    delivery_desc: 'Make deliveries and earn money.',
+                    delivery_badge: 'Partners',
+                    affiliation_title: 'SINE.SHOP Affiliation',
+                    affiliation_desc: 'Become a partner and earn commissions.',
+                    affiliation_badge: 'Recommended',
+                    admin_title: 'Administrator',
+                    admin_desc: 'Manage the platform and users.',
+                    admin_badge: 'Team',
+                    continue: 'Continue',
+                    cgu: 'Terms & Conditions',
+                    privacy: 'Privacy',
+                    cookies: 'Cookies',
+                    login: 'Already have an account?',
+                    modal_title: 'Administrator Access Request',
+                    modal_desc: 'Please fill out this complete form to submit your application.',
+                    section_personal: 'Personal Information',
+                    label_lastname: 'Last Name',
+                    label_firstname: 'First Name',
+                    label_email: 'Email Address',
+                    label_phone: 'Phone',
+                    label_birthdate: 'Date of Birth',
+                    label_gender: 'Gender',
+                    label_marital: 'Marital Status',
+                    label_children: 'Number of Children',
+                    section_address: 'Address',
+                    label_address: 'Full Address',
+                    label_city: 'City',
+                    label_country: 'Country',
+                    section_professional: 'Professional Background',
+                    label_education: 'Education Level',
+                    label_experience: 'Professional Experience',
+                    label_skills: 'Key Skills',
+                    label_motivation: 'Why do you want to become an administrator?',
+                    section_documents: 'Documents',
+                    section_declaration: 'Declaration',
+                    declaration_text1: 'I certify that the information provided is accurate and complete.',
+                    declaration_text2: 'I accept that my data will be processed for this application.',
+                    declaration_text3: 'I commit to respecting the SINE.SHOP confidentiality charter.',
+                    modal_cancel: 'Cancel',
+                    modal_send: '📧 Send request',
+                    select_prompt: 'Please select an account type.',
+                    admin_success: '✅ Request sent successfully!',
+                    admin_error: '❌ Please fill in all required fields.',
+                    admin_email_subject: 'SINE.SHOP Administrator Access Request',
+                    admin_email_body: 'Administrator Access Request\n\n--- PERSONAL INFORMATION ---\nLast Name: {lastname}\nFirst Name: {firstname}\nEmail: {email}\nPhone: {phone}\nDate of Birth: {birthdate}\nGender: {gender}\nMarital Status: {marital}\nChildren: {children}\n\n--- ADDRESS ---\nAddress: {address}\nCity: {city}\nCountry: {country}\n\n--- PROFESSIONAL BACKGROUND ---\nEducation: {education}\nExperience: {experience}\nSkills: {skills}\nMotivation: {motivation}\n\n--- DOCUMENTS ---\nCV: {cv}\nCover Letter: {letter}\nID: {id}\nProof of Address: {proof}\n\n--- DECLARATION ---\nTerms Accepted: Yes'
+                },
+                es: {
+                    back: 'Volver',
+                    title: 'Bienvenido a SINE.SHOP',
+                    subtitle: 'Elige el tipo de cuenta que deseas crear.',
+                    client_title: 'Cliente',
+                    client_desc: 'Compra y descubre miles de productos.',
+                    client_badge: 'Popular',
+                    seller_title: 'Vendedor',
+                    seller_desc: 'Vende tus productos y gestiona tu tienda.',
+                    seller_badge: 'Profesional',
+                    delivery_title: 'Repartidor',
+                    delivery_desc: 'Realiza entregas y gana dinero.',
+                    delivery_badge: 'Socios',
+                    affiliation_title: 'Afiliación SINE.SHOP',
+                    affiliation_desc: 'Conviértete en socio y gana comisiones.',
+                    affiliation_badge: 'Recomendado',
+                    admin_title: 'Administrador',
+                    admin_desc: 'Gestiona la plataforma y los usuarios.',
+                    admin_badge: 'Equipo',
+                    continue: 'Continuar',
+                    cgu: 'Términos y Condiciones',
+                    privacy: 'Privacidad',
+                    cookies: 'Cookies',
+                    login: '¿Ya tienes una cuenta?',
+                    modal_title: 'Solicitud de acceso de Administrador',
+                    modal_desc: 'Por favor completa este formulario para enviar tu solicitud.',
+                    section_personal: 'Información personal',
+                    label_lastname: 'Apellido',
+                    label_firstname: 'Nombre',
+                    label_email: 'Correo electrónico',
+                    label_phone: 'Teléfono',
+                    label_birthdate: 'Fecha de nacimiento',
+                    label_gender: 'Sexo',
+                    label_marital: 'Estado civil',
+                    label_children: 'Número de hijos',
+                    section_address: 'Dirección',
+                    label_address: 'Dirección completa',
+                    label_city: 'Ciudad',
+                    label_country: 'País',
+                    section_professional: 'Trayectoria profesional',
+                    label_education: 'Nivel de estudios',
+                    label_experience: 'Experiencia profesional',
+                    label_skills: 'Habilidades clave',
+                    label_motivation: '¿Por qué quieres ser administrador?',
+                    section_documents: 'Documentos',
+                    section_declaration: 'Declaración',
+                    declaration_text1: 'Certifico que la información proporcionada es exacta y completa.',
+                    declaration_text2: 'Acepto que mis datos sean tratados para esta solicitud.',
+                    declaration_text3: 'Me comprometo a respetar la carta de confidencialidad de SINE.SHOP.',
+                    modal_cancel: 'Cancelar',
+                    modal_send: '📧 Enviar solicitud',
+                    select_prompt: 'Por favor selecciona un tipo de cuenta.',
+                    admin_success: '✅ ¡Solicitud enviada con éxito!',
+                    admin_error: '❌ Por favor completa todos los campos obligatorios.',
+                    admin_email_subject: 'Solicitud de acceso de administrador SINE.SHOP',
+                    admin_email_body: 'Solicitud de acceso de administrador\n\n--- INFORMACIÓN PERSONAL ---\nApellido: {lastname}\nNombre: {firstname}\nEmail: {email}\nTeléfono: {phone}\nFecha de nacimiento: {birthdate}\nSexo: {gender}\nEstado civil: {marital}\nHijos: {children}\n\n--- DIRECCIÓN ---\nDirección: {address}\nCiudad: {city}\nPaís: {country}\n\n--- TRAYECTORIA PROFESIONAL ---\nEstudios: {education}\nExperiencia: {experience}\nHabilidades: {skills}\nMotivación: {motivation}\n\n--- DOCUMENTOS ---\nCV: {cv}\nCarta de presentación: {letter}\nIdentificación: {id}\nComprobante de domicilio: {proof}\n\n--- DECLARACIÓN ---\nCondiciones aceptadas: Sí'
+                },
+                ar: {
+                    back: 'رجوع',
+                    title: 'مرحباً بك في SINE.SHOP',
+                    subtitle: 'اختر نوع الحساب الذي تريد إنشاءه لبدء تجربتك.',
+                    client_title: 'عميل',
+                    client_desc: 'تسوّق واكتشف آلاف المنتجات.',
+                    client_badge: 'شائع',
+                    seller_title: 'بائع',
+                    seller_desc: 'بع منتجاتك وأدر متجرك.',
+                    seller_badge: 'احترافي',
+                    delivery_title: 'موصّل',
+                    delivery_desc: 'قم بالتوصيل واكسب المال.',
+                    delivery_badge: 'شركاء',
+                    affiliation_title: 'شراكة SINE.SHOP',
+                    affiliation_desc: 'كن شريكاً واكسب عمولات.',
+                    affiliation_badge: 'موصى به',
+                    admin_title: 'مسؤول',
+                    admin_desc: 'أدر المنصة والمستخدمين.',
+                    admin_badge: 'الفريق',
+                    continue: 'متابعة',
+                    cgu: 'الشروط العامة',
+                    privacy: 'الخصوصية',
+                    cookies: 'ملفات تعريف الارتباط',
+                    login: 'لديك حساب بالفعل؟',
+                    modal_title: 'طلب الوصول كمسؤول',
+                    modal_desc: 'يرجى ملء هذا النموذج بالكامل لتقديم طلبك.',
+                    section_personal: 'المعلومات الشخصية',
+                    label_lastname: 'اسم العائلة',
+                    label_firstname: 'الاسم الأول',
+                    label_email: 'البريد الإلكتروني',
+                    label_phone: 'الهاتف',
+                    label_birthdate: 'تاريخ الميلاد',
+                    label_gender: 'الجنس',
+                    label_marital: 'الحالة الاجتماعية',
+                    label_children: 'عدد الأطفال',
+                    section_address: 'العنوان',
+                    label_address: 'العنوان الكامل',
+                    label_city: 'المدينة',
+                    label_country: 'البلد',
+                    section_professional: 'المسار المهني',
+                    label_education: 'المستوى التعليمي',
+                    label_experience: 'الخبرة المهنية',
+                    label_skills: 'المهارات الرئيسية',
+                    label_motivation: 'لماذا تريد أن تصبح مسؤولاً؟',
+                    section_documents: 'الوثائق المطلوبة',
+                    section_declaration: 'الإقرار',
+                    declaration_text1: 'أشهد أن المعلومات المقدمة صحيحة وكاملة.',
+                    declaration_text2: 'أوافق على معالجة بياناتي في إطار هذا الطلب.',
+                    declaration_text3: 'ألتزم باحترام ميثاق خصوصية SINE.SHOP.',
+                    modal_cancel: 'إلغاء',
+                    modal_send: '📧 إرسال الطلب',
+                    select_prompt: 'يرجى اختيار نوع الحساب.',
+                    admin_success: '✅ تم إرسال الطلب بنجاح!',
+                    admin_error: '❌ يرجى ملء جميع الحقول المطلوبة.',
+                    admin_email_subject: 'طلب وصول مسؤول SINE.SHOP',
+                    admin_email_body: 'طلب وصول مسؤول\n\n--- المعلومات الشخصية ---\nاسم العائلة: {lastname}\nالاسم الأول: {firstname}\nالبريد الإلكتروني: {email}\nالهاتف: {phone}\nتاريخ الميلاد: {birthdate}\nالجنس: {gender}\nالحالة الاجتماعية: {marital}\nعدد الأطفال: {children}\n\n--- العنوان ---\nالعنوان: {address}\nالمدينة: {city}\nالبلد: {country}\n\n--- المسار المهني ---\nالمستوى التعليمي: {education}\nالخبرة: {experience}\nالمهارات: {skills}\nالدافع: {motivation}\n\n--- الوثائق ---\nالسيرة الذاتية: {cv}\nخطاب التحفيز: {letter}\nبطاقة الهوية: {id}\nإثبات السكن: {proof}\n\n--- الإقرار ---\nقبول الشروط: نعم'
+                }
+            };
+
+            let currentLang = 'fr';
+            let filesData = {};
+
+            function t(key) {
+                return TRADUCTIONS[currentLang]?.[key] || TRADUCTIONS.fr[key] || key;
+            }
+
+            function appliquerLangue(lang) {
+                currentLang = lang;
+                document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = currentLang;
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    el.textContent = t(key);
+                });
+                // Mise à jour des titres de cartes
+                document.querySelectorAll('.choice-card[data-type] h3').forEach(el => {
+                    const type = el.closest('.choice-card').dataset.type;
+                    const keyMap = {
+                        'client': 'client_title',
+                        'vendeur': 'seller_title',
+                        'livreur': 'delivery_title',
+                        'affiliation': 'affiliation_title',
+                        'administrateur': 'admin_title'
+                    };
+                    el.textContent = t(keyMap[type] || '');
+                });
+                document.querySelectorAll('.choice-card[data-type] p').forEach(el => {
+                    const type = el.closest('.choice-card').dataset.type;
+                    const keyMap = {
+                        'client': 'client_desc',
+                        'vendeur': 'seller_desc',
+                        'livreur': 'delivery_desc',
+                        'affiliation': 'affiliation_desc',
+                        'administrateur': 'admin_desc'
+                    };
+                    el.textContent = t(keyMap[type] || '');
+                });
+                document.querySelectorAll('.choice-card .badge').forEach(el => {
+                    const type = el.closest('.choice-card').dataset.type;
+                    const keyMap = {
+                        'client': 'client_badge',
+                        'vendeur': 'seller_badge',
+                        'livreur': 'delivery_badge',
+                        'affiliation': 'affiliation_badge',
+                        'administrateur': 'admin_badge'
+                    };
+                    el.textContent = t(keyMap[type] || '');
+                });
+            }
+
+            // =====================================================
+            // NOTIFICATION
+            // =====================================================
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'warning' ? '4px solid #f59e0b' :
+                    type === 'error' ? '4px solid #ef4444' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            // =====================================================
+            // GESTION DES FICHIERS
+            // =====================================================
+            function setupFileUpload(inputId, infoId, nameId) {
+                const input = document.getElementById(inputId);
+                const info = document.getElementById(infoId);
+                const nameEl = document.getElementById(nameId);
+                const container = input.closest('.file-upload');
+
+                // Le clic sur la zone visible doit ouvrir le sélecteur de
+                // fichier natif — jusqu'ici rien ne le déclenchait : l'input
+                // réel est display:none (caché par design), et aucun
+                // gestionnaire n'appelait input.click(). La zone avait
+                // cursor:pointer (donc visuellement cliquable) mais aucun
+                // clic n'ouvrait jamais le sélecteur de fichier.
+                container.addEventListener('click', function(e) {
+                    if (e.target !== input) input.click();
+                });
+
+                input.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        nameEl.textContent = file.name;
+                        nameEl.style.display = 'inline';
+                        info.textContent = file.size > 1024 * 1024 ?
+                            (file.size / (1024 * 1024)).toFixed(1) + ' MB' :
+                            (file.size / 1024).toFixed(0) + ' KB';
+                        filesData[inputId] = file;
+                    } else {
+                        nameEl.textContent = '';
+                        nameEl.style.display = 'none';
+                        info.textContent = input.closest('.file-upload').querySelector('.file-info').dataset
+                        .defaultText || 'Aucun fichier';
+                        delete filesData[inputId];
+                    }
+                });
+
+                // Drag and drop
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.style.borderColor = '#72b6ff';
+                    this.style.background = 'rgba(114,182,255,0.05)';
+                });
+                container.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.style.borderColor = 'rgba(255,255,255,0.15)';
+                    this.style.background = 'rgba(255,255,255,0.02)';
+                });
+                container.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.style.borderColor = 'rgba(255,255,255,0.15)';
+                    this.style.background = 'rgba(255,255,255,0.02)';
+                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                        input.files = e.dataTransfer.files;
+                        input.dispatchEvent(new Event('change'));
+                    }
+                });
+
+                // Stocker le texte par défaut
+                info.dataset.defaultText = info.textContent;
+            }
+
+            setupFileUpload('adminCV', 'cvInfo', 'cvName');
+            setupFileUpload('adminLetter', 'letterInfo', 'letterName');
+            setupFileUpload('adminId', 'idInfo', 'idName');
+            setupFileUpload('adminProof', 'proofInfo', 'proofName');
+
+            // =====================================================
+            // SÉLECTION
+            // =====================================================
+            const cards = document.querySelectorAll('.choice-card');
+            const btnContinuer = document.getElementById('btnContinuer');
+            const adminModal = document.getElementById('adminModal');
+
+            cards.forEach(function(card) {
+                card.addEventListener('click', function() {
+                    cards.forEach(function(c) {
+                        c.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedType = this.dataset.type;
+                    selectedPage = this.dataset.page;
+
+                    if (selectedType === 'administrateur') {
+                        btnContinuer.disabled = true;
+                        // Le sélecteur de type s'ouvre D'ABORD — le vrai
+                        // formulaire de candidature (adminModal) ne s'ouvre
+                        // qu'après le choix d'un type précis (voir plus bas).
+                        document.getElementById('adminTypeModal').classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                        return;
+                    }
+
+                    btnContinuer.disabled = false;
+                });
+            });
+
+            // =====================================================
+            // SÉLECTEUR DE TYPE D'ACCÈS ADMINISTRATEUR
+            // =====================================================
+            document.getElementById('btnCancelAdminType').addEventListener('click', function() {
+                document.getElementById('adminTypeModal').classList.remove('active');
+                document.body.style.overflow = '';
+                cards.forEach(function(c) { c.classList.remove('selected'); });
+            });
+            document.getElementById('adminTypeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            document.querySelectorAll('.admin-type-option').forEach(function(option) {
+                option.addEventListener('click', function() {
+                    // Le rôle choisi est stocké pour être envoyé avec la
+                    // candidature (voir plus bas, adminSend) — le champ
+                    // requestedRole existait déjà côté backend
+                    // (AdminApplication.js) mais n'était jamais renseigné.
+                    window.__selectedAdminRole = this.dataset.role;
+                    document.getElementById('adminTypeModal').classList.remove('active');
+
+                    adminModal.classList.add('active');
+                    const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                    if (user) {
+                        if (user.email) document.getElementById('adminEmail').value = user.email;
+                        if (user.firstName) document.getElementById('adminFirstName').value = user.firstName;
+                        if (user.lastName) document.getElementById('adminLastName').value = user.lastName;
+                        if (user.phone) document.getElementById('adminPhone').value = user.phone;
+                        if (user.city) document.getElementById('adminCity').value = user.city;
+                        if (user.country) document.getElementById('adminCountry').value = user.country;
+                    }
+                });
+            });
+
+            // =====================================================
+            // MODAL ADMIN - ENVOI
+            // =====================================================
+            const adminCancel = document.getElementById('adminCancel');
+            const adminSend = document.getElementById('adminSend');
+            const adminSuccess = document.getElementById('adminSuccess');
+            const adminError = document.getElementById('adminError');
+
+            function fermerModalAdmin() {
+                adminModal.classList.remove('active');
+                document.body.style.overflow = '';
+                adminSuccess.classList.remove('show');
+                adminError.classList.remove('show');
+                cards.forEach(function(c) {
+                    if (c.dataset.type === 'administrateur') {
+                        c.classList.remove('selected');
+                    }
+                });
+                selectedType = null;
+                selectedPage = null;
+            }
+
+            adminCancel.addEventListener('click', fermerModalAdmin);
+            adminModal.addEventListener('click', function(e) {
+                if (e.target === this) fermerModalAdmin();
+            });
+
+            adminSend.addEventListener('click', async function() {
+                // Récupérer toutes les valeurs
+                const lastName = document.getElementById('adminLastName').value.trim();
+                const firstName = document.getElementById('adminFirstName').value.trim();
+                const email = document.getElementById('adminEmail').value.trim();
+                const phone = document.getElementById('adminPhone').value.trim();
+                const birthdate = document.getElementById('adminBirthdate').value;
+                const gender = document.getElementById('adminGender').value;
+                const marital = document.getElementById('adminMarital').value;
+                const children = document.getElementById('adminChildren').value || '0';
+                const address = document.getElementById('adminAddress').value.trim();
+                const city = document.getElementById('adminCity').value.trim();
+                const country = document.getElementById('adminCountry').value;
+                const education = document.getElementById('adminEducation').value;
+                const experience = document.getElementById('adminExperience').value;
+                const skills = document.getElementById('adminSkills').value.trim();
+                const motivation = document.getElementById('adminMotivation').value.trim();
+                const terms = document.getElementById('adminTerms').checked;
+
+                // Vérification des champs obligatoires
+                const required = [lastName, firstName, email, phone, birthdate, gender, address, city, country, education,
+                    experience, motivation
+                ];
+
+                let missingFields = false;
+                if (required.some(f => !f)) missingFields = true;
+                if (!terms) missingFields = true;
+                if (!filesData['adminCV']) missingFields = true;
+                if (!filesData['adminId']) missingFields = true;
+
+                if (missingFields) {
+                    adminError.classList.add('show');
+                    adminSuccess.classList.remove('show');
+                    setTimeout(() => adminError.classList.remove('show'), 4000);
+                    return;
+                }
+
+                // Vérification de la taille des fichiers (5 Mo max, alignée sur l'UI)
+                const MAX_SIZE = 5 * 1024 * 1024;
+                const oversized = ['adminCV', 'adminLetter', 'adminId', 'adminProof']
+                    .filter(id => filesData[id] && filesData[id].size > MAX_SIZE);
+                if (oversized.length) {
+                    showNotification('Un ou plusieurs fichiers dépassent 5 Mo. Merci de les réduire.', 'error');
+                    return;
+                }
+
+                adminError.classList.remove('show');
+                adminSend.disabled = true;
+                const originalLabel = adminSend.textContent;
+                adminSend.textContent = '⏳ Envoi en cours...';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('firstName', firstName);
+                    formData.append('lastName', lastName);
+                    formData.append('email', email);
+                    formData.append('phone', phone);
+                    formData.append('birthdate', birthdate);
+                    formData.append('gender', gender);
+                    formData.append('marital', marital);
+                    formData.append('children', children);
+                    formData.append('address', address);
+                    formData.append('city', city);
+                    formData.append('country', country);
+                    formData.append('education', education);
+                    formData.append('experience', experience);
+                    formData.append('skills', skills);
+                    formData.append('motivation', motivation);
+                    formData.append('terms', terms ? 'true' : 'false');
+                    // Type d'accès choisi dans le sélecteur (voir plus haut) —
+                    // repli sur 'admin' si jamais absent (comportement par
+                    // défaut déjà existant côté backend).
+                    formData.append('requestedRole', window.__selectedAdminRole || 'admin');
+
+                    // Les fichiers réels (pas juste leur nom) — reçus et
+                    // téléversés vers Cloudinary par le backend.
+                    formData.append('cv', filesData['adminCV']);
+                    if (filesData['adminLetter']) formData.append('letter', filesData['adminLetter']);
+                    formData.append('idDocument', filesData['adminId']);
+                    if (filesData['adminProof']) formData.append('proof', filesData['adminProof']);
+
+                    const result = await window.SineAPI.submitAdminApplication(formData);
+
+                    // Le backend enregistre toujours la candidature. En revanche,
+                    // il signale maintenant explicitement si la notification interne
+                    // vers contact@sineshophome.com a bien été transmise.
+                    if (result && result.notificationEmailSent === false) {
+                        adminSuccess.textContent = '⚠️ Votre demande a bien été enregistrée, mais la notification interne n’a pas pu être transmise. L’équipe technique doit vérifier le service e-mail.';
+                        adminSuccess.classList.add('show');
+                        showNotification('Demande enregistrée, mais notification e-mail non transmise.', 'warning');
+                    } else {
+                        adminSuccess.textContent = '✅ Votre demande a été envoyée à l’équipe SINE.SHOP. Vous serez contacté sous 48h.';
+                        adminSuccess.classList.add('show');
+                        showNotification(t('admin_success'), 'success');
+                    }
+
+                    // Réinitialisation propre après confirmation visuelle.
+                    setTimeout(() => {
+                        fermerModalAdmin();
+                        window.location.href = '../html/index.html';
+                    }, 2500);
+
+                } catch (error) {
+                    console.error('Erreur envoi candidature admin:', error);
+                    showNotification(error.message || 'Erreur lors de l\'envoi de la candidature.', 'error');
+                    adminError.classList.add('show');
+                    setTimeout(() => adminError.classList.remove('show'), 4000);
+                } finally {
+                    adminSend.disabled = false;
+                    adminSend.textContent = originalLabel;
+                }
+            });
+
+            // =====================================================
+            // CONTINUER
+            // =====================================================
+            btnContinuer.addEventListener('click', function() {
+                if (!selectedType || !selectedPage) {
+                    showNotification(t('select_prompt'), 'warning');
+                    return;
+                }
+
+                window.location.href = '../html/' + selectedPage;
+            });
+
+            // =====================================================
+            // KEYBOARD NAVIGATION
+            // =====================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (adminModal.classList.contains('active')) {
+                        fermerModalAdmin();
+                    } else {
+                        window.location.href = '../html/index.html';
+                    }
+                }
+                if (e.key === 'Enter' && !btnContinuer.disabled && !adminModal.classList.contains('active')) {
+                    btnContinuer.click();
+                }
+                if (e.key === 'Enter' && adminModal.classList.contains('active') &&
+                    document.activeElement === document.getElementById('adminMotivation')) {
+                    adminSend.click();
+                }
+
+                const allCards = document.querySelectorAll('.choice-card:not(.admin-card)');
+                const current = document.querySelector('.choice-card.selected');
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    let nextIndex = 0;
+                    if (current) {
+                        const index = Array.from(allCards).indexOf(current);
+                        nextIndex = (index + 1) % allCards.length;
+                    }
+                    allCards[nextIndex].click();
+                }
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    let prevIndex = allCards.length - 1;
+                    if (current) {
+                        const index = Array.from(allCards).indexOf(current);
+                        prevIndex = (index - 1 + allCards.length) % allCards.length;
+                    }
+                    allCards[prevIndex].click();
+                }
+            });
+
+            // =====================================================
+            // SWIPE NAVIGATION
+            // =====================================================
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (diff > 80 && !adminModal.classList.contains('active')) {
+                    window.location.href = '../html/index.html';
+                } else if (diff < -80 && !adminModal.classList.contains('active')) {
+                    const referrer = document.referrer || '../html/index.html';
+                    window.location.href = referrer;
+                }
+            }, { passive: true });
+
+            // =====================================================
+            // INITIALISATION
+            // =====================================================
+            const savedLang = window.SINE ? window.SINE.detectLanguage() : 'fr';
+            appliquerLangue(savedLang);
+
+            console.log('✅ Page de choix SINE.SHOP refondue avec formulaire complet');
+            console.log('🌐 Langue:', savedLang);
+            console.log('📌 Nouveau type de compte: SINE.SHOP Affiliation');
+            console.log('📄 Formulaire administrateur avec upload de fichiers');
+
+        })();
+    </script>
+
+</body>
+</html>

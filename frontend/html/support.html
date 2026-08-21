@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a2a44">
+    <title>Support • SINE.SHOP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-header.css">
+    <style>
+        /* =========================================================
+           CSS UNIQUE - SUPPORT (inchangé)
+           ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Outfit", sans-serif; background: #f0f8ff; color: #1a2a3a; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; touch-action: manipulation; }
+
+        .admin-header { background: rgba(10,42,68,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 14px 30px; border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header-brand { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 700; color: white; letter-spacing: 2px; }
+        .header-brand span { color: #72b6ff; }
+        .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .header-actions .btn-back { padding: 6px 16px; border-radius: 30px; background: rgba(255,255,255,0.08); color: #94a3b8; font-weight: 500; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(255,255,255,0.04); display: inline-flex; align-items: center; gap: 6px; }
+        .header-actions .btn-back:hover { background: rgba(255,255,255,0.15); color: white; }
+        .header-actions .btn-logout { padding: 6px 16px; border-radius: 30px; background: rgba(239,68,68,0.15); color: #f87171; font-weight: 500; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(239,68,68,0.1); display: inline-flex; align-items: center; gap: 6px; }
+        .header-actions .btn-logout:hover { background: rgba(239,68,68,0.25); }
+
+        .admin-container { max-width: 1400px; margin: 30px auto; padding: 0 24px 60px; width: 100%; flex: 1; }
+
+        .profile-header { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 28px; padding: 30px 32px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 30px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
+        .profile-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 3px solid #8b5cf6; flex-shrink: 0; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-avatar .avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 600; color: #0a2a44; background: #d6ecf5; }
+        .profile-info h1 { font-family: "Cormorant Garamond", serif; font-size: 2rem; color: #0a2a44; }
+        .profile-info .badge { display: inline-block; padding: 2px 12px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; background: #dcfce7; color: #16a34a; margin-left: 8px; }
+        .profile-info .email { color: #4a6a8a; font-size: 0.95rem; margin-top: 2px; }
+        .profile-stats { display: flex; gap: 30px; margin-left: auto; flex-wrap: wrap; }
+        .profile-stats .stat { text-align: center; }
+        .profile-stats .stat .number { font-size: 1.8rem; font-weight: 700; color: #0a2a44; }
+        .profile-stats .stat .label { font-size: 0.75rem; color: #6a8aaa; font-weight: 500; }
+        @media (max-width: 768px) {
+            .profile-header { flex-direction: column; text-align: center; padding: 24px 20px; }
+            .profile-stats { margin-left: 0; justify-content: center; width: 100%; }
+            .profile-avatar { width: 80px; height: 80px; }
+            .profile-info h1 { font-size: 1.6rem; }
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 16px; text-align: center; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); transition: 0.3s; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .stat-card .icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+        .stat-card .number { font-size: 1.6rem; font-weight: 700; color: #0a2a44; }
+        .stat-card .label { font-size: 0.8rem; color: #6a8aaa; font-weight: 500; }
+
+        .section-title { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; color: #0a2a44; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title .sub { font-size: 0.85rem; color: #6a8aaa; font-family: "Outfit", sans-serif; font-weight: 400; }
+        .admin-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 18px; padding: 20px 24px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); margin-bottom: 24px; }
+        .admin-card h3 { font-size: 1.1rem; font-weight: 600; color: #0a2a44; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+        .empty-state { text-align: center; padding: 40px 20px; color: #8a9aad; font-size: 0.95rem; }
+        .empty-state .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; opacity: 0.6; }
+
+        .badge-status { display: inline-block; padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .badge-active { background: #dcfce7; color: #16a34a; }
+        .badge-inactive { background: #fee2e2; color: #991b1b; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+
+        .quick-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+        .quick-actions button { padding: 12px 24px; border-radius: 16px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.02); }
+        .quick-actions button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .quick-actions .btn-primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; }
+        .quick-actions .btn-primary:hover { box-shadow: 0 8px 25px rgba(59,130,246,0.3); }
+        .quick-actions .btn-success { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; }
+        .quick-actions .btn-success:hover { box-shadow: 0 8px 25px rgba(34,197,94,0.3); }
+
+        #notification { position: fixed; top: 25px; right: 25px; background: rgba(10,42,68,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: white; padding: 16px 24px; border-radius: 14px; font-weight: 600; font-size: clamp(0.9rem, 1vw, 1rem); box-shadow: 0 12px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: translateY(-20px) scale(0.95); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 999999; max-width: 90%; }
+        #notification.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        @media (max-width: 600px) {
+            .admin-header { padding: 10px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; }
+            .admin-container { padding: 16px 12px 40px; margin: 16px auto; }
+            .profile-header { padding: 20px 16px; border-radius: 20px; }
+            .profile-stats { gap: 16px; }
+            .profile-stats .stat .number { font-size: 1.4rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .section-title { font-size: 1.3rem; }
+            .quick-actions { flex-direction: column; }
+            .quick-actions button { width: 100%; justify-content: center; }
+            .admin-card { padding: 16px; }
+            table { font-size: 0.8rem; }
+            table th, table td { padding: 6px 8px; }
+        }
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .profile-stats { flex-direction: column; gap: 8px; }
+        }
+        .modal-profil-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10,15,25,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-profil-overlay.open { display: flex; }
+        .modal-profil {
+            background: white;
+            border-radius: 20px;
+            padding: 1.6rem;
+            max-width: 380px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+        .modal-profil h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .modal-profil .form-group { margin-bottom: 0.8rem; }
+        .modal-profil .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 4px;
+        }
+        .modal-profil .form-group input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        .modal-profil .btn-primary { padding: 0.7rem; border-radius: 12px; font-weight: 700; }
+
+        [data-theme="dark"] body { background: #0f172a; color: #e2e8f0; }
+        [data-theme="dark"] .profile-header,
+        [data-theme="dark"] .stat-card,
+        [data-theme="dark"] .admin-card,
+        [data-theme="dark"] .modal-profil {
+            background: rgba(26,36,54,0.9);
+            border-color: #263447;
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .profile-info h1,
+        [data-theme="dark"] .stat-card .number { color: #f1f5f9; }
+        [data-theme="dark"] .profile-info .email,
+        [data-theme="dark"] .stat-card .label { color: #94a3b8; }
+        [data-theme="dark"] input,
+        [data-theme="dark"] select,
+        [data-theme="dark"] textarea {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] table { color: #e2e8f0; }
+        [data-theme="dark"] th { color: #94a3b8; border-color: #263447; }
+        [data-theme="dark"] td { border-color: #263447; }
+        [data-theme="dark"] .empty-state { color: #64748b; }
+    </style>
+
+</head>
+<body>
+
+    <header class="sine-header sine-header-bg">
+        <div class="sine-header-stars">
+            <span style="top:15%;left:10%;"></span>
+            <span style="top:30%;left:25%;animation-delay:0.5s;"></span>
+            <span style="top:20%;left:45%;animation-delay:1s;"></span>
+            <span style="top:60%;left:15%;animation-delay:0.3s;"></span>
+            <span style="top:70%;left:35%;animation-delay:1.5s;"></span>
+            <span style="top:25%;left:65%;animation-delay:0.8s;"></span>
+            <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
+            <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
+        </div>
+        <a href="../html/index.html" class="sine-header-brand"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
+            style="color:red;">♡</span><span style="color:black;">P</span></a>
+        <div class="sine-header-actions">
+            <a href="../html/index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Accueil</a>
+            <select id="themeSelectorHeader" style="padding:0.4rem 0.8rem;border-radius:30px;border:1px solid #e2e8f0;font-size:0.8rem;font-weight:600;background:white;color:#1a2a3a;">
+                <option value="light">☀️ Clair</option>
+                <option value="dark">🌙 Sombre</option>
+                <option value="system">💻 Système</option>
+            </select>
+            <button id="btnLogout" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <div class="avatar-placeholder" id="avatarPlaceholder">SU</div>
+                <img id="avatarImage" style="display:none;" alt="Photo de profil">
+            </div>
+            <div class="profile-info">
+                <h1 id="profileName">Support <span class="badge">💬 Support</span></h1>
+                <div class="email" id="profileEmail">support@sine.shop</div>
+                <button id="btnOuvrirProfil" style="margin-top:10px;padding:0.4rem 1.1rem;border-radius:30px;background:#f1f5f9;font-weight:600;font-size:0.8rem;"><i class="fa-solid fa-pen"></i> Modifier mon profil</button>
+            </div>
+            <div class="profile-stats">
+                <div class="stat"><div class="number" id="statUsers">0</div><div class="label" data-translate="admin.users">Utilisateurs</div></div>
+                <div class="stat"><div class="number" id="statProducts">0</div><div class="label" data-translate="nav.products">Produits</div></div>
+                <div class="stat"><div class="number" id="statOrders">0</div><div class="label" data-translate="nav.orders">Commandes</div></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><span class="icon">💬</span><div class="number" id="statTickets">0</div><div class="label" data-translate="support.openTickets">Tickets ouverts</div></div>
+            <div class="stat-card"><span class="icon">⏳</span><div class="number" id="statEnAttente">0</div><div class="label" data-translate="livreur.filterPending">En attente</div></div>
+            <div class="stat-card"><span class="icon">✅</span><div class="number" id="statResolus">0</div><div class="label" data-translate="support.resolved">Résolus</div></div>
+            <div class="stat-card"><span class="icon">⭐</span><div class="number" id="statSatisfaction">0%</div><div class="label" data-translate="support.satisfaction">Satisfaction</div></div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="btn-primary" id="btnTickets"><i class="fa-solid fa-ticket"></i> <span data-translate="support.allTickets">Tous les tickets</span></button>
+            <button class="btn-success" id="btnNewTicket"><i class="fa-solid fa-plus"></i> <span data-translate="support.newTicket">Nouveau ticket</span></button>
+            <button id="btnFAQ"><i class="fa-solid fa-question-circle"></i> FAQ</button>
+            <button id="btnKnowledge"><i class="fa-solid fa-book"></i> <span data-translate="support.knowledgeBase">Base de connaissances</span></button>
+            <button id="btnSettings"><i class="fa-solid fa-gear"></i> <span data-translate="nav.settings">Paramètres</span></button>
+        </div>
+
+        <div class="section-title">🎫 <span data-translate="support.recentTickets">Tickets récents</span></div>
+        <div class="admin-card"><div id="ticketsRecents"><div class="empty-state"><span class="icon">🎫</span><span data-translate="support.noRecentTickets">Aucun ticket récent.</span></div></div></div>
+
+        <div class="section-title">📊 <span data-translate="support.assistanceRequests">Demandes d'assistance</span></div>
+        <div class="admin-card"><div id="demandesAssistance"><div class="empty-state"><span class="icon">📧</span><span data-translate="support.noAssistanceRequests">Aucune demande d'assistance.</span></div></div></div>
+
+        <div class="section-title">⚙️ <span data-translate="nav.settings">Paramètres</span> <span class="sub" id="sectionParametresToggleHint"></span></div>
+        <div class="admin-card" id="sectionParametresAdmin" style="display:none;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🌐 <span data-translate="settings.language">Langue</span></h4>
+            <div class="form-group" style="max-width:260px;">
+                <select id="langueAdminSection">
+                    <option value="fr">Français</option>
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="ar">العربية</option>
+                </select>
+            </div>
+            <div class="actions-group" style="margin-top:0.5rem;">
+                <button id="btnSauvegarderLangueAdmin" class="btn-primary">💾 <span data-translate="settings.save">Enregistrer</span></button>
+            </div>
+            <hr style="margin:1rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🔐 <span data-translate="settings.security">Sécurité</span></h4>
+            <div class="actions-group">
+                <button id="btnDeconnecterTousAdmin" class="btn-danger">🚪 <span data-translate="settings.logoutAll">Déconnecter tous les appareils</span></button>
+            </div>
+            <hr style="margin:1rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🗑️ <span data-translate="account.management">Gestion du compte</span></h4>
+            <div class="actions-group">
+                <button id="btnMasquerCompteAdmin">👁️‍🗨️ <span data-translate="account.hideTemporarily">Masquer temporairement</span></button>
+                <button id="btnFermerCompteAdmin" style="color:#d97706;">⏸️ <span data-translate="account.close">Fermer le compte</span></button>
+                <button id="btnSupprimerCompteAdmin" class="btn-danger">🗑️ <span data-translate="account.deletePermanently">Supprimer définitivement</span></button>
+            </div>
+            <p style="font-size:0.8rem;color:#94a3b8;margin-top:0.5rem;"><i class="fa-solid fa-info-circle"></i> <span data-translate="account.managementNote">Une demande sera envoyée à notre équipe pour validation — rien n'est appliqué immédiatement, sauf la suppression définitive qui met fin à votre session sur-le-champ (le compte reste néanmoins actif tant que la demande n'est pas traitée).</span></p>
+        </div>
+
+        <div class="section-title">📚 <span data-translate="support.knowledgeBase">Base de connaissances</span> <span class="sub" id="faqToggleHint"></span></div>
+        <div class="admin-card" id="sectionFaqSupport" style="display:none;">
+            <div class="actions-group">
+                <input type="text" id="faqSearchInput" placeholder="🔍 Rechercher une question..." style="padding:0.6rem 1rem;border-radius:40px;border:1px solid #e2e8f0;flex:1;min-width:150px;">
+                <button id="btnFaqSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <div id="faqCategoriesList" class="actions-group" style="margin-top:0.6rem;"></div>
+            <div id="faqEntriesList" style="margin-top:0.8rem;display:flex;flex-direction:column;gap:0.5rem;"></div>
+        </div>
+
+        <div class="section-title">📜 <span data-translate="legal.sectionTitle">Informations légales</span></div>
+        <div class="admin-card">
+            <div class="actions-group">
+                <button onclick="window.location.href='../html/conditions-admin.html'">🛡️ <span data-translate="legalAdmin.title">Conditions applicables aux équipes d'administration</span></button>
+                <button onclick="window.location.href='../html/cgu.html'">📄 CGU</button>
+                <button onclick="window.location.href='../html/cgv.html'">📄 CGV</button>
+                <button onclick="window.location.href='../html/privacy.html'">🔒 <span data-translate="legal.privacy">Confidentialité</span></button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODIFIER MON PROFIL -->
+    <div class="modal-profil-overlay" id="modalProfilOverlay">
+        <div class="modal-profil">
+            <h3>✏️ <span data-translate="admin.editProfile">Modifier mon profil</span></h3>
+            <div style="display:flex;align-items:center;gap:1rem;margin:1rem 0;">
+                <img id="profilModalAvatarPreview" src="" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover;background:#e2e8f0;display:none;">
+                <div id="profilModalAvatarPlaceholder" class="avatar-placeholder" style="width:64px;height:64px;border-radius:50%;font-size:1.6rem;">--</div>
+                <button id="btnChangerPhotoAdmin" style="padding:0.4rem 1rem;border-radius:30px;background:#f1f5f9;font-weight:600;font-size:0.8rem;">📷 <span data-translate="admin.change">Changer</span></button>
+                <input type="file" id="inputPhotoAdmin" accept="image/*" style="display:none;">
+            </div>
+            <div class="form-group"><label data-translate="livreur.firstName">Prénom</label><input type="text" id="profilModalFirstName"></div>
+            <div class="form-group"><label data-translate="livreur.lastName">Nom</label><input type="text" id="profilModalLastName"></div>
+            <div class="form-group"><label data-translate="seller.phone">Téléphone</label><input type="tel" id="profilModalPhone"></div>
+            <button id="btnEnregistrerProfilAdmin" class="btn-primary" style="width:100%;margin-top:0.6rem;">💾 <span data-translate="settings.save">Enregistrer</span></button>
+
+            <hr style="margin:1.4rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">🔒 <span data-translate="settings.changePassword">Changer le mot de passe</span></h4>
+            <div class="form-group"><label data-translate="admin.currentPassword">Mot de passe actuel</label><input type="password" id="profilModalCurrentPwd"></div>
+            <div class="form-group"><label data-translate="admin.newPassword">Nouveau mot de passe</label><input type="password" id="profilModalNewPwd"></div>
+            <button id="btnChangerMdpAdmin" style="width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;margin-top:0.4rem;"><span data-translate="settings.changePassword">Changer le mot de passe</span></button>
+
+            <button id="btnFermerModalProfil" style="width:100%;margin-top:1rem;padding:0.6rem;border-radius:12px;color:#94a3b8;font-weight:600;"><span data-translate="admin.close">Fermer</span></button>
+        </div>
+    </div>
+
+    <!-- MODAL DÉTAIL TICKET — répondre + changer le statut, jusqu'ici
+         totalement absent : les tickets n'étaient visibles qu'en lecture
+         seule (aperçu des 5 derniers), le bouton "Tous les tickets"
+         affichait un message "à venir". -->
+    <div class="modal-profil-overlay" id="modalTicketOverlay">
+        <div class="modal-profil" style="max-width:520px;max-height:85vh;overflow-y:auto;">
+            <h3>🎫 <span data-translate="support.ticketDetail">Détail du ticket</span> <span id="ticketModalRef" style="color:#94a3b8;font-weight:400;font-size:0.85rem;"></span></h3>
+            <p id="ticketModalSubject" style="font-weight:600;margin-top:0.4rem;"></p>
+            <p id="ticketModalUser" style="font-size:0.85rem;color:#64748b;"></p>
+
+            <div class="form-group" style="margin-top:0.8rem;">
+                <label data-translate="support.status">Statut</label>
+                <select id="ticketModalStatus">
+                    <option value="open" data-translate="support.statusOpen">Ouvert</option>
+                    <option value="in_progress" data-translate="support.statusInProgress">En cours</option>
+                    <option value="resolved" data-translate="support.statusResolved">Résolu</option>
+                    <option value="closed" data-translate="support.statusClosed">Fermé</option>
+                </select>
+                <button id="btnUpdateTicketStatus" style="width:100%;margin-top:0.4rem;padding:0.5rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.85rem;"><span data-translate="support.updateStatus">Mettre à jour le statut</span></button>
+            </div>
+
+            <hr style="margin:1rem 0;">
+            <h4 style="font-size:0.9rem;margin-bottom:0.6rem;">💬 <span data-translate="support.conversation">Échanges</span></h4>
+            <div id="ticketModalResponses" style="display:flex;flex-direction:column;gap:0.6rem;max-height:240px;overflow-y:auto;margin-bottom:0.8rem;"></div>
+
+            <div class="form-group">
+                <label data-translate="support.yourResponse">Votre réponse</label>
+                <textarea id="ticketModalReply" rows="3" placeholder="Écrire une réponse..."></textarea>
+            </div>
+            <button id="btnSendTicketResponse" class="btn-primary" style="width:100%;margin-top:0.4rem;">✉️ <span data-translate="support.sendResponse">Envoyer la réponse</span></button>
+
+            <button id="btnFermerModalTicket" style="width:100%;margin-top:1rem;padding:0.6rem;border-radius:12px;color:#94a3b8;font-weight:600;"><span data-translate="admin.close">Fermer</span></button>
+        </div>
+    </div>
+
+
+    <div id="notification"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            const API_BASE = '';
+
+            function showNotification(message, type) {
+                const notif = document.getElementById('notification');
+                if (!notif) return;
+                notif.textContent = message;
+                notif.style.borderLeft = type === 'success' ? '4px solid #22c55e' :
+                    type === 'error' ? '4px solid #ef4444' :
+                    type === 'warning' ? '4px solid #f59e0b' : '4px solid #3b82f6';
+                notif.classList.add('show');
+                clearTimeout(notif._timeout);
+                notif._timeout = setTimeout(() => notif.classList.remove('show'), 5000);
+            }
+
+            function checkAuth() {
+                const token = localStorage.getItem('sineToken');
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!token || !user || user.role !== 'support') {
+                    window.location.href = '../html/login.html';
+                    return false;
+                }
+
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            function applyTheme(pref) {
+                const effective = pref === 'system' ? getSystemTheme() : pref;
+                document.documentElement.setAttribute('data-theme', effective);
+                const select = document.getElementById('themeSelectorHeader');
+                if (select) select.value = pref;
+            }
+            function initTheme() {
+                const saved = localStorage.getItem('sineTheme') || 'system';
+                applyTheme(saved);
+                // Synchronisation en temps réel entre onglets déjà ouverts — l'événement
+                // "storage" du navigateur se déclenche automatiquement dans TOUS les
+                // autres onglets du même site dès que le thème change dans l'un d'eux.
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'sineTheme' && e.newValue) applyTheme(e.newValue);
+                });
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if ((localStorage.getItem('sineTheme') || 'system') === 'system') applyTheme('system');
+                });
+                document.getElementById('themeSelectorHeader')?.addEventListener('change', function() {
+                    localStorage.setItem('sineTheme', this.value);
+                    applyTheme(this.value);
+                });
+            }
+            initTheme();
+                document.getElementById('profileName').innerHTML = (user.firstName || 'Support') + ' ' + (user.lastName || '') +
+                    ' <span class="badge">💬 Support</span>';
+                document.getElementById('profileEmail').textContent = user.email || 'support@sine.shop';
+                return true;
+            }
+
+            // =========================================================
+            // MODIFIER MON PROFIL — jusqu'ici, cet espace n'avait aucun
+            // moyen de changer son propre nom, sa photo, ou son mot de
+            // passe : la carte d'en-tête était purement en lecture.
+            // =========================================================
+            function ouvrirModalProfil() {
+                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
+                if (!user) return;
+                document.getElementById('profilModalFirstName').value = user.firstName || '';
+                document.getElementById('profilModalLastName').value = user.lastName || '';
+                document.getElementById('profilModalPhone').value = user.phone || '';
+                if (user.profilePicture) {
+                    document.getElementById('profilModalAvatarPreview').src = user.profilePicture;
+                    document.getElementById('profilModalAvatarPreview').style.display = 'block';
+                    document.getElementById('profilModalAvatarPlaceholder').style.display = 'none';
+                }
+                document.getElementById('modalProfilOverlay').classList.add('open');
+            }
+
+            document.getElementById('btnOuvrirProfil').addEventListener('click', ouvrirModalProfil);
+            document.getElementById('btnFermerModalProfil').addEventListener('click', function() {
+                document.getElementById('modalProfilOverlay').classList.remove('open');
+            });
+
+            // =====================================================
+            // MODAL DÉTAIL TICKET — voir, répondre, changer le statut
+            // =====================================================
+            let currentTicketId = null;
+            const TICKET_STATUS_LABELS = { open: 'Ouvert', in_progress: 'En cours', resolved: 'Résolu', closed: 'Fermé' };
+
+            window.openTicketModal = async function(id) {
+                try {
+                    const ticket = await window.SineAPI.getTicket(id);
+                    currentTicketId = ticket._id;
+
+                    document.getElementById('ticketModalRef').textContent = '#' + ticket._id.slice(-6).toUpperCase();
+                    document.getElementById('ticketModalSubject').textContent = ticket.subject;
+                    document.getElementById('ticketModalUser').textContent =
+                        (ticket.user?.firstName ? `${ticket.user.firstName} ${ticket.user.lastName}` : 'Utilisateur') + ' · ' + (ticket.user?.email || '');
+                    document.getElementById('ticketModalStatus').value = ticket.status;
+
+                    const responsesContainer = document.getElementById('ticketModalResponses');
+                    const allMessages = [{ user: ticket.user, message: ticket.message, createdAt: ticket.createdAt, isOriginal: true }]
+                        .concat(ticket.responses || []);
+                    responsesContainer.innerHTML = allMessages.map(r => `
+                        <div style="background:${r.isOriginal ? '#f8fafc' : '#eff6ff'};border-radius:12px;padding:0.6rem 0.8rem;">
+                            <div style="font-size:0.78rem;font-weight:600;color:#334155;">${r.user?.firstName || 'Utilisateur'} ${r.isOriginal ? '' : (['support','admin','superadmin'].includes(r.user?.role) ? '(équipe)' : '')}</div>
+                            <div style="font-size:0.85rem;margin-top:2px;">${r.message}</div>
+                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:2px;">${r.createdAt ? new Date(r.createdAt).toLocaleString() : ''}</div>
+                        </div>
+                    `).join('');
+
+                    document.getElementById('modalTicketOverlay').classList.add('open');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur de chargement du ticket.'), 'error');
+                }
+            };
+
+            document.getElementById('btnFermerModalTicket').addEventListener('click', function() {
+                document.getElementById('modalTicketOverlay').classList.remove('open');
+                currentTicketId = null;
+            });
+
+            document.getElementById('btnUpdateTicketStatus').addEventListener('click', async function() {
+                if (!currentTicketId) return;
+                const status = document.getElementById('ticketModalStatus').value;
+                try {
+                    await window.SineAPI.updateTicketStatus(currentTicketId, status);
+                    showNotification('✅ Statut mis à jour : ' + (TICKET_STATUS_LABELS[status] || status), 'success');
+                    document.getElementById('btnTickets').click();
+                    loadDashboard();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la mise à jour du statut.'), 'error');
+                }
+            });
+
+            document.getElementById('btnSendTicketResponse').addEventListener('click', async function() {
+                if (!currentTicketId) return;
+                const message = document.getElementById('ticketModalReply').value.trim();
+                if (!message) {
+                    showNotification('⚠️ Écrivez une réponse avant d\'envoyer.', 'warning');
+                    return;
+                }
+                try {
+                    await window.SineAPI.addTicketResponse(currentTicketId, message);
+                    document.getElementById('ticketModalReply').value = '';
+                    showNotification('✅ Réponse envoyée.', 'success');
+                    window.openTicketModal(currentTicketId);
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de l\'envoi de la réponse.'), 'error');
+                }
+            });
+
+            document.getElementById('btnChangerPhotoAdmin').addEventListener('click', () => document.getElementById('inputPhotoAdmin').click());
+            document.getElementById('inputPhotoAdmin').addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const res = await window.SineAPI.uploadFile(file, 'avatars');
+                    const updated = await window.SineAPI.updateProfile({ profilePicture: res.url });
+                    localStorage.setItem('sineUser', JSON.stringify(updated));
+                    document.getElementById('profilModalAvatarPreview').src = res.url;
+                    document.getElementById('profilModalAvatarPreview').style.display = 'block';
+                    document.getElementById('profilModalAvatarPlaceholder').style.display = 'none';
+                    showNotification('✅ Photo mise à jour', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de l\'upload de la photo.', 'error');
+                }
+            });
+
+            document.getElementById('btnEnregistrerProfilAdmin').addEventListener('click', async function() {
+                try {
+                    const updated = await window.SineAPI.updateProfile({
+                        firstName: document.getElementById('profilModalFirstName').value,
+                        lastName: document.getElementById('profilModalLastName').value,
+                        phone: document.getElementById('profilModalPhone').value,
+                    });
+                    localStorage.setItem('sineUser', JSON.stringify(updated));
+                    checkAuth();
+                    showNotification('✅ Profil mis à jour', 'success');
+                    document.getElementById('modalProfilOverlay').classList.remove('open');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de la mise à jour.', 'error');
+                }
+            });
+
+            document.getElementById('btnChangerMdpAdmin').addEventListener('click', async function() {
+                const currentPwd = document.getElementById('profilModalCurrentPwd').value;
+                const newPwd = document.getElementById('profilModalNewPwd').value;
+                if (!currentPwd || !newPwd) {
+                    showNotification('Renseignez les deux champs.', 'warning');
+                    return;
+                }
+                if (newPwd.length < 8) {
+                    showNotification('Le nouveau mot de passe doit contenir au moins 8 caractères.', 'warning');
+                    return;
+                }
+                try {
+                    await window.SineAPI.updatePassword(currentPwd, newPwd);
+                    document.getElementById('profilModalCurrentPwd').value = '';
+                    document.getElementById('profilModalNewPwd').value = '';
+                    showNotification('✅ Mot de passe changé avec succès', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur — vérifiez votre mot de passe actuel.', 'error');
+                }
+            });
+
+            async function loadDashboard() {
+                try {
+                    const dashboard = await window.SineAPI.getAdminDashboard();
+                    document.getElementById('statUsers').textContent = dashboard.users?.total || 0;
+                    document.getElementById('statProducts').textContent = dashboard.products || 0;
+                    document.getElementById('statOrders').textContent = dashboard.orders?.total || 0;
+                } catch (e) {
+                    console.warn('Dashboard global non accessible:', e.message);
+                }
+
+                try {
+                    const stats = await window.SineAPI.getTicketStats();
+                    document.getElementById('statTickets').textContent = stats.total || 0;
+                    document.getElementById('statEnAttente').textContent = stats.pending || 0;
+                    document.getElementById('statResolus').textContent = stats.resolved || 0;
+                    // NB: aucune mesure de satisfaction n'est collectée côté backend actuellement.
+                    document.getElementById('statSatisfaction').textContent = '—';
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur de chargement des tickets.'), 'error');
+                }
+
+                try {
+                    const ticketsData = await window.SineAPI.getAllTickets({ limit: 5 });
+                    const tickets = ticketsData.tickets || [];
+                    const ticketsContainer = document.getElementById('ticketsRecents');
+                    if (tickets.length === 0) {
+                        ticketsContainer.innerHTML = `<div class="empty-state"><span class="icon">🎫</span>Aucun ticket</div>`;
+                    } else {
+                        ticketsContainer.innerHTML = `
+                            <table>
+                                <thead><tr><th>#Ticket</th><th>Utilisateur</th><th>Sujet</th><th>Statut</th><th>Date</th></tr></thead>
+                                <tbody>
+                                    ${tickets.map(t => `
+                                        <tr onclick="window.openTicketModal('${t._id}')" style="cursor:pointer;">
+                                            <td><strong>#${t._id.slice(-6).toUpperCase()}</strong></td>
+                                            <td>${t.user?.firstName ? `${t.user.firstName} ${t.user.lastName}` : 'Utilisateur'}</td>
+                                            <td>${t.subject}</td>
+                                            <td><span class="badge-status ${t.status === 'resolved' || t.status === 'closed' ? 'badge-active' : t.status === 'in_progress' ? 'badge-pending' : 'badge-inactive'}">${
+                                                { open: 'Ouvert', in_progress: 'En cours', resolved: 'Résolu', closed: 'Fermé' }[t.status] || t.status
+                                            }</span></td>
+                                            <td>${new Date(t.createdAt).toLocaleDateString()}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                } catch (e) {
+                    console.error('Erreur chargement tickets:', e);
+                }
+
+                // Section "Demandes d'assistance" — tickets ouverts pas
+                // encore pris en charge par un agent (assignedTo vide).
+                // Même bug que celui trouvé sur "Commandes" de client.html :
+                // le conteneur existait dans le HTML mais rien ne le remplissait.
+                try {
+                    const openTicketsData = await window.SineAPI.getAllTickets({ status: 'open', limit: 50 });
+                    const unassigned = (openTicketsData.tickets || []).filter(t => !t.assignedTo);
+                    const container = document.getElementById('demandesAssistance');
+                    if (unassigned.length === 0) {
+                        container.innerHTML = `<div class="empty-state"><span class="icon">✅</span>Aucune demande en attente de prise en charge.</div>`;
+                    } else {
+                        container.innerHTML = `
+                            <table>
+                                <thead><tr><th>#Ticket</th><th>Utilisateur</th><th>Sujet</th><th>Date</th></tr></thead>
+                                <tbody>
+                                    ${unassigned.map(t => `
+                                        <tr onclick="window.openTicketModal('${t._id}')" style="cursor:pointer;">
+                                            <td><strong>#${t._id.slice(-6).toUpperCase()}</strong></td>
+                                            <td>${t.user?.firstName ? `${t.user.firstName} ${t.user.lastName}` : 'Utilisateur'}</td>
+                                            <td>${t.subject}</td>
+                                            <td>${new Date(t.createdAt).toLocaleDateString()}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                } catch (e) {
+                    console.error('Erreur chargement demandes d\'assistance:', e);
+                }
+            }
+
+            document.getElementById('btnTickets').addEventListener('click', async () => {
+                try {
+                    const ticketsData = await window.SineAPI.getAllTickets({ limit: 50 });
+                    const tickets = ticketsData.tickets || [];
+                    const ticketsContainer = document.getElementById('ticketsRecents');
+                    if (tickets.length === 0) {
+                        ticketsContainer.innerHTML = `<div class="empty-state"><span class="icon">🎫</span>Aucun ticket</div>`;
+                        return;
+                    }
+                    ticketsContainer.innerHTML = `
+                        <table>
+                            <thead><tr><th>#Ticket</th><th>Utilisateur</th><th>Sujet</th><th>Statut</th><th>Date</th></tr></thead>
+                            <tbody>
+                                ${tickets.map(t => `
+                                    <tr onclick="window.openTicketModal('${t._id}')" style="cursor:pointer;">
+                                        <td><strong>#${t._id.slice(-6).toUpperCase()}</strong></td>
+                                        <td>${t.user?.firstName ? `${t.user.firstName} ${t.user.lastName}` : 'Utilisateur'}</td>
+                                        <td>${t.subject}</td>
+                                        <td><span class="badge-status ${t.status === 'resolved' || t.status === 'closed' ? 'badge-active' : t.status === 'in_progress' ? 'badge-pending' : 'badge-inactive'}">${
+                                            { open: 'Ouvert', in_progress: 'En cours', resolved: 'Résolu', closed: 'Fermé' }[t.status] || t.status
+                                        }</span></td>
+                                        <td>${new Date(t.createdAt).toLocaleDateString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur de chargement des tickets.'), 'error');
+                }
+            });
+            document.getElementById('btnNewTicket').addEventListener('click', async () => {
+                const subject = prompt('Sujet du ticket :');
+                if (!subject) return;
+                const message = prompt('Description :');
+                if (!message) return;
+                try {
+                    await window.SineAPI.createTicket(subject, message);
+                    showNotification('✅ Ticket créé', 'success');
+                    loadDashboard();
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la création du ticket.'), 'error');
+                }
+            });
+            window.toggleFaqSection = async function() {
+                const section = document.getElementById('sectionFaqSupport');
+                const nowVisible = section.style.display === 'none';
+                section.style.display = nowVisible ? 'block' : 'none';
+                if (nowVisible) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    await loadFaqPopular();
+                    await loadFaqCategories();
+                }
+            };
+            document.getElementById('btnFAQ').addEventListener('click', window.toggleFaqSection);
+            document.getElementById('btnKnowledge').addEventListener('click', window.toggleFaqSection);
+
+            async function loadFaqPopular() {
+                try {
+                    const entries = await window.SineAPI.getPopularFaq();
+                    renderFaqEntries(entries);
+                } catch (e) {
+                    console.error('Erreur chargement FAQ populaires:', e);
+                }
+            }
+
+            async function loadFaqCategories() {
+                try {
+                    const categories = await window.SineAPI.getFaqCategories();
+                    const container = document.getElementById('faqCategoriesList');
+                    container.innerHTML = categories.map(c => `
+                        <button onclick="window.loadFaqCategory('${c._id}')" style="font-size:0.8rem;">${c._id} (${c.count})</button>
+                    `).join('');
+                } catch (e) {
+                    console.error('Erreur chargement catégories FAQ:', e);
+                }
+            }
+
+            window.loadFaqCategory = async function(category) {
+                try {
+                    const entries = await window.SineAPI.getFaqByCategory(category);
+                    renderFaqEntries(entries);
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors du chargement.'), 'error');
+                }
+            };
+
+            function renderFaqEntries(entries) {
+                const container = document.getElementById('faqEntriesList');
+                if (!entries || entries.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">📚</span>Aucun résultat</div>';
+                    return;
+                }
+                container.innerHTML = entries.map(e => `
+                    <div style="background:#f8fafc;border-radius:12px;padding:0.7rem 0.9rem;">
+                        <div style="font-weight:600;font-size:0.88rem;">${e.question}</div>
+                        <div style="font-size:0.83rem;color:#475569;margin-top:4px;">${e.answer}</div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('btnFaqSearch').addEventListener('click', async function() {
+                const query = document.getElementById('faqSearchInput').value.trim();
+                if (!query) { loadFaqPopular(); return; }
+                try {
+                    const entries = await window.SineAPI.searchFaq(query);
+                    renderFaqEntries(entries);
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la recherche.'), 'error');
+                }
+            });
+            document.getElementById('faqSearchInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') document.getElementById('btnFaqSearch').click();
+            });
+            // =====================================================
+            // PARAMÈTRES — langue, sécurité, gestion du compte
+            // (jusqu'ici : bouton "Paramètres" affichait juste un message
+            // "arrive bientôt", aucune vraie fonctionnalité derrière)
+            // =====================================================
+            document.getElementById('btnSettings').addEventListener('click', () => {
+                const section = document.getElementById('sectionParametresAdmin');
+                const nowVisible = section.style.display === 'none';
+                section.style.display = nowVisible ? 'block' : 'none';
+                if (nowVisible) {
+                    const savedUser = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                    document.getElementById('langueAdminSection').value = savedUser.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            document.getElementById('btnSauvegarderLangueAdmin').addEventListener('click', async function() {
+                const langue = document.getElementById('langueAdminSection').value;
+                try {
+                    await window.SineAPI.updateProfile({ preferredLanguage: langue });
+                    const savedUser = JSON.parse(localStorage.getItem('sineUser') || '{}');
+                    savedUser.preferredLanguage = langue;
+                    localStorage.setItem('sineUser', JSON.stringify(savedUser));
+                    if (window.SINE) window.SINE.applyLanguage(langue);
+                    showNotification('✅ Langue mise à jour.', 'success');
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de la mise à jour.'), 'error');
+                }
+            });
+
+            document.getElementById('btnDeconnecterTousAdmin').addEventListener('click', function() {
+                if (confirm('Déconnecter tous les appareils ?')) {
+                    window.SineAPI.logout();
+                    window.location.href = '../html/login.html';
+                }
+            });
+
+            window.envoyerDemandeCompteAdmin = async function(requestType, messageConfirm, messageSucces) {
+                if (!confirm(messageConfirm)) return;
+                const raison = prompt('Un motif à préciser (facultatif) :', '') || '';
+                try {
+                    await window.SineAPI.submitAccountActionRequest(requestType, raison);
+                    showNotification(messageSucces, 'success');
+                    if (requestType === 'delete_permanent') {
+                        setTimeout(() => { window.location.href = '../html/login.html'; }, 1500);
+                    }
+                } catch (e) {
+                    showNotification('❌ ' + (e.message || 'Erreur lors de l\'envoi de la demande.'), 'error');
+                }
+            };
+
+            document.getElementById('btnMasquerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('hide_temporary',
+                    '👁️‍🗨️ Envoyer une demande de masquage temporaire de votre compte ?',
+                    '✅ Demande de masquage envoyée — votre compte reste actif en attendant le traitement.');
+            });
+
+            document.getElementById('btnFermerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('close',
+                    '⏸️ Envoyer une demande de fermeture de votre compte ?',
+                    '✅ Demande de fermeture envoyée — votre compte reste actif en attendant le traitement.');
+            });
+
+            document.getElementById('btnSupprimerCompteAdmin').addEventListener('click', function() {
+                window.envoyerDemandeCompteAdmin('delete_permanent',
+                    '⚠️ Envoyer une demande de suppression définitive de votre compte ? Vous serez déconnecté immédiatement. Cette action est irréversible une fois traitée par notre équipe.',
+                    '✅ Demande de suppression envoyée. Vous allez être déconnecté...');
+            });
+
+            document.getElementById('btnLogout').addEventListener('click', function() {
+                if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                    window.SineAPI.logout();
+                }
+            });
+
+            if (checkAuth()) {
+                loadDashboard();
+            }
+
+            console.log('✅ Support SINE.SHOP connecté au backend');
+        })();
+    </script>
+
+</body>
+</html>

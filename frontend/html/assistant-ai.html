@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/shared-header.css">
     <style>
         /* =========================================================
-           STYLES COMPLETS — AI-SINE.SHOP v4.0 (Backend-Connecté)
+           STYLES COMPLETS — AI-SINE.SHOP v4.1 (Backend-Connecté)
            ========================================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         
@@ -824,7 +824,7 @@
             <img src="../images/logo.png" alt="SINE.SHOP" onerror="this.src='../images/logo.png'">
             <div>
                 <a class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a><h1>AI</h1>
-                <small>Copilote intelligent connecté au backend</small>
+                <small>Copilote intelligent • Connaît vos habitudes</small>
             </div>
         </div>
         <div class="header-actions">
@@ -1057,9 +1057,10 @@
             let contextData = null;
             let memoryData = null;
             let isProcessing = false;
+            let userProfile = {};
 
             // =========================================================
-            // 1. BASE DE CONNAISSANCES COMPLÈTE (200+ entrées)
+            // 1. BASE DE CONNAISSANCES COMPLÈTE (280+ entrées enrichies)
             //    Intégrée directement — pas d'appel externe
             // =========================================================
             const KNOWLEDGE_BASE = [
@@ -1239,6 +1240,15 @@
                 { id: 'kb272', cat: 'paiement', kw: ['frais', 'transaction', 'caché'], q: 'Y a-t-il des frais cachés lors du paiement ?', a: 'Non, le montant affiché avant validation (articles + livraison + taxes) est exactement ce que vous payez, sans surprise.' },
                 { id: 'kb273', cat: 'vendeur_ventes', kw: ['taxes', 'impôts', 'déclaration', 'revenus'], q: 'Dois-je déclarer mes revenus de vente ?', a: 'Les obligations fiscales relèvent de votre responsabilité personnelle selon la législation de votre pays — SINE.SHOP fournit vos factures comme justificatifs.' },
                 { id: 'kb274', cat: 'general', kw: ['siège', 'bureaux', 'localisation', 'entreprise'], q: 'Où est basé SINE.SHOP ?', a: 'SINE.SHOP est basé à Abidjan, Côte d\'Ivoire.' },
+                // Nouveaux apprentissages pour mieux connaître l'utilisateur
+                { id: 'kb275', cat: 'personnalisation', kw: ['préférences', 'habitudes', 'choisir', 'aimer'], q: 'Je vais mémoriser vos préférences', a: 'Je note vos préférences pour vous offrir une expérience personnalisée. Dites-moi ce que vous aimez, vos habitudes, vos centres d\'intérêt, et je m\'en souviendrai.' },
+                { id: 'kb276', cat: 'personnalisation', kw: ['vêtements', 'taille', 'pointure', 'préféré'], q: 'Je peux mémoriser vos tailles et pointures', a: 'Dites-moi vos tailles (vêtements, chaussures) et je les retiendrai pour vous suggérer des produits adaptés lors de vos recherches.' },
+                { id: 'kb277', cat: 'personnalisation', kw: ['favoris', 'marques', 'préférées', 'styles'], q: 'Je retiens vos marques et styles préférés', a: 'Partagez avec moi vos marques et styles préférés, je pourrai ainsi vous recommander des produits qui vous correspondent.' },
+                { id: 'kb278', cat: 'personnalisation', kw: ['adresse', 'livraison', 'préférée'], q: 'Je mémorise vos adresses de livraison', a: 'Si vous me partagez votre adresse principale, je pourrai vous aider plus rapidement lors de vos commandes.' },
+                { id: 'kb279', cat: 'personnalisation', kw: ['horaire', 'disponibilité', 'préféré'], q: 'Je retiens vos horaires préférés', a: 'Dites-moi à quels moments vous êtes le plus disponible, je pourrai adapter mes suggestions et notifications.' },
+                { id: 'kb280', cat: 'personnalisation', kw: ['budget', 'prix', 'max', 'dépenser'], q: 'Je retiens votre budget préféré', a: 'Si vous me partagez votre fourchette de prix préférée, je pourrai vous suggérer des produits adaptés à votre budget.' },
+                { id: 'kb281', cat: 'personnalisation', kw: ['couleurs', 'préférées', 'design'], q: 'Je retiens vos couleurs et designs préférés', a: 'Dites-moi quelles couleurs ou designs vous attirent, je pourrai personnaliser mes suggestions de produits.' },
+                { id: 'kb282', cat: 'personnalisation', kw: ['sport', 'hobby', 'passion', 'intérêt'], q: 'Je retiens vos passions et hobbies', a: 'Partagez avec moi vos passions (sport, musique, lecture, etc.) et je pourrai vous recommander des produits et contenus en lien.' },
             ];
 
             // =========================================================
@@ -1295,7 +1305,7 @@
                 return bestScore >= 2 ? { entry: best, score: bestScore } : null;
             }
 
-            function findRelatedEntries(query, limit = 3, excludeId = null) {
+            function findRelatedEntries(query, limit = 4, excludeId = null) {
                 const queryNormalized = normalize(query);
                 const queryWords = significantWords(query);
                 return KNOWLEDGE_BASE
@@ -1336,8 +1346,8 @@
             // 4. ANALYSE DE SENTIMENT
             // =========================================================
             function analyzeSentiment(text) {
-                const positive = ['bon', 'bien', 'excellent', 'super', 'génial', 'parfait', 'top', 'satisfait', 'content', 'merci', 'rapide', 'recommande', 'parfait'];
-                const negative = ['mauvais', 'nul', 'déçu', 'lent', 'problème', 'cassé', 'arnaque', 'horrible', 'jamais', 'annuler', 'remboursement', 'insatisfait'];
+                const positive = ['bon', 'bien', 'excellent', 'super', 'génial', 'parfait', 'top', 'satisfait', 'content', 'merci', 'rapide', 'recommande', 'parfait', 'j adore', 'j\'adore', 'génial'];
+                const negative = ['mauvais', 'nul', 'déçu', 'lent', 'problème', 'cassé', 'arnaque', 'horrible', 'jamais', 'annuler', 'remboursement', 'insatisfait', 'dégouté'];
                 const lower = text.toLowerCase();
                 let score = 0;
                 positive.forEach(w => { if (lower.includes(w)) score += 1; });
@@ -1384,8 +1394,8 @@
             function loadMemoryLocal() {
                 try {
                     const data = localStorage.getItem('sine_ai_memory');
-                    return data ? JSON.parse(data) : { memories: [], interactions: 0, firstSeen: new Date().toISOString() };
-                } catch { return { memories: [], interactions: 0, firstSeen: new Date().toISOString() }; }
+                    return data ? JSON.parse(data) : { memories: [], interactions: 0, firstSeen: new Date().toISOString(), userProfile: {} };
+                } catch { return { memories: [], interactions: 0, firstSeen: new Date().toISOString(), userProfile: {} }; }
             }
 
             function saveMemoryLocal(memory) {
@@ -1399,9 +1409,31 @@
                     const topics = memory.memories.map(m => m.topic).join(', ');
                     document.getElementById('memoryText').textContent = '🧠 Je me souviens de ' + memory.memories.length + ' sujets : ' + topics.slice(0, 60) + (topics.length > 60 ? '…' : '');
                 } else {
-                    document.getElementById('memoryText').textContent = '🧠 Assistant connecté au backend';
+                    document.getElementById('memoryText').textContent = '🧠 Assistant connecté — je mémorise vos préférences';
                 }
                 document.getElementById('contextMemoryCount').textContent = '🧠 ' + memory.memories.length;
+                if (memory.firstSeen) {
+                    const date = new Date(memory.firstSeen);
+                    document.getElementById('memorySince').textContent = 'Première interaction le ' + date.toLocaleDateString('fr-FR');
+                }
+                // Mettre à jour le profil local
+                userProfile = memory.userProfile || {};
+            }
+
+            function memorizeUserInfo(topic, info) {
+                const memory = loadMemoryLocal();
+                // Éviter les doublons
+                const existing = memory.memories.find(m => m.topic === topic);
+                if (existing) {
+                    existing.info = info;
+                    existing.updatedAt = new Date().toISOString();
+                } else {
+                    memory.memories.push({ topic, info, createdAt: new Date().toISOString() });
+                }
+                memory.interactions = (memory.interactions || 0) + 1;
+                saveMemoryLocal(memory);
+                updateMemoryUI();
+                return memory;
             }
 
             // =========================================================
@@ -1416,6 +1448,11 @@
                         document.getElementById('headerAvatar').src = userData.profilePicture || '../images/profil.png';
                         document.getElementById('modalAvatar').src = userData.profilePicture || '../images/profil.png';
                         document.getElementById('chatName').textContent = 'AI-SINE.SHOP';
+                        // Charger le profil utilisateur depuis la mémoire
+                        const memory = loadMemoryLocal();
+                        if (memory.userProfile) {
+                            userProfile = memory.userProfile;
+                        }
                     }
                 } catch (e) {
                     console.warn('Erreur chargement utilisateur:', e);
@@ -1435,15 +1472,14 @@
                     document.getElementById('contextMessagesCount').textContent = contextData.notifications?.length || 0;
                     document.getElementById('contextTime').textContent = '⏱️ ' + new Date().toLocaleTimeString();
 
-                    // Suggestions proactives
                     if (data.suggestions) {
                         renderProactiveSuggestions(data.suggestions);
                     }
 
-                    // Mémoire
                     if (data.memory) {
                         const memory = loadMemoryLocal();
                         memory.memories = data.memory.memories || memory.memories;
+                        memory.userProfile = data.memory.userProfile || memory.userProfile || {};
                         saveMemoryLocal(memory);
                         updateMemoryUI();
                     }
@@ -1451,7 +1487,6 @@
                     return data;
                 } catch (error) {
                     console.warn('Erreur chargement contexte:', error);
-                    // Fallback: utiliser les données locales
                     return null;
                 }
             }
@@ -1465,7 +1500,6 @@
                     conversations = data.data?.conversations || [];
 
                     if (conversations.length === 0) {
-                        // Créer une conversation locale en attendant
                         const now = new Date().toISOString();
                         const conv = {
                             id: 'local_' + Date.now(),
@@ -1473,15 +1507,11 @@
                             messages: [{
                                 id: 'msg_welcome_' + Date.now(),
                                 from: 'ai',
-                                text: 'Bonjour ! Je suis AI-SINE.SHOP, votre assistant connecté au backend. Je m\'adapte à votre langue, je mémorise nos échanges et je peux accéder à vos données réelles (commandes, panier, etc.). Que puis-je faire pour vous ?',
+                                text: 'Bonjour ! Je suis AI-SINE.SHOP, votre assistant qui apprend à vous connaître. Je m\'adapte à votre langue, je mémorise vos préférences (tailles, marques, budgets, passions) et je peux accéder à vos données réelles (commandes, panier, etc.). Que puis-je faire pour vous ?',
                                 time: now,
-                                intent: 'Accueil',
-                                suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Aide']
-                            }],
-                            createdAt: now,
-                            updatedAt: now,
-                            pinned: false,
-                            archived: false
+                                intent: 'Accueil personnalisé',
+                                suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Je retiens mes tailles']
+                            }]
                         };
                         conversations.push(conv);
                     }
@@ -1493,7 +1523,6 @@
                     return conversations;
                 } catch (error) {
                     console.warn('Erreur chargement conversations:', error);
-                    // Fallback: conversation locale
                     const now = new Date().toISOString();
                     const conv = {
                         id: 'local_' + Date.now(),
@@ -1501,7 +1530,7 @@
                         messages: [{
                             id: 'msg_welcome_' + Date.now(),
                             from: 'ai',
-                            text: 'Bonjour ! Je suis AI-SINE.SHOP. Je me connecte au backend pour récupérer vos données. Que puis-je faire pour vous ?',
+                            text: 'Bonjour ! Je suis AI-SINE.SHOP. Je me connecte au backend pour récupérer vos données. Je mémorise vos préférences pour une expérience personnalisée.',
                             time: now,
                             intent: 'Accueil',
                             suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Aide']
@@ -1566,7 +1595,7 @@
                     return;
                 }
 
-                document.getElementById('chatStatusText').textContent = '🧠 ' + (conv.messages.length || 0) + ' messages • Contexte enrichi';
+                document.getElementById('chatStatusText').textContent = '🧠 ' + (conv.messages.length || 0) + ' messages • Contexte enrichi • Je vous connais de mieux en mieux';
 
                 if (conv.messages.length === 0) {
                     renderWelcomeScreen(container);
@@ -1634,7 +1663,11 @@
                     compte: { label: 'Mon compte', icon: 'fa-user' },
                     kyc: { label: 'Vérification', icon: 'fa-id-card' },
                     general: { label: 'Général', icon: 'fa-circle-info' },
+                    personnalisation: { label: 'Mes préférences', icon: 'fa-sliders-h' },
                 };
+
+                const memory = loadMemoryLocal();
+                const knownTopics = memory.memories.length > 0 ? memory.memories.map(m => m.topic).join(', ') : 'Je ne vous connais pas encore';
 
                 container.innerHTML = `
                     <div style="text-align:center;padding:0.5rem 0 1.5rem;">
@@ -1642,7 +1675,8 @@
                             <i class="fa-solid fa-sparkles"></i>
                         </div>
                         <h2 style="color:var(--text-primary);">Comment puis-je vous aider ?</h2>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Je suis connecté au backend pour accéder à vos données réelles.</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Je mémorise vos préférences pour des suggestions personnalisées.</p>
+                        <p style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">🧠 Je sais déjà : ${knownTopics}</p>
                     </div>
                     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:1.2rem;">
                         ${Object.entries(categories).map(([key, c]) => `
@@ -1653,13 +1687,13 @@
                         `).join('')}
                     </div>
                     <div style="font-size:0.7rem;color:var(--text-secondary);text-align:center;">
-                        <i class="fa-solid fa-brain"></i> Je mémorise vos préférences et je me connecte à vos données.
+                        <i class="fa-solid fa-brain"></i> Je mémorise vos préférences pour mieux vous servir. Dites-moi vos tailles, marques préférées, budget...
                     </div>
                 `;
             }
 
             // =========================================================
-            // 13. ENVOYER UN MESSAGE (backend + local)
+            // 13. ENVOYER UN MESSAGE (backend + local) avec apprentissage
             // =========================================================
             window.sendMessage = function(text, media) { return sendMessage(text, media); };
             async function sendMessage(text, media = null) {
@@ -1667,6 +1701,56 @@
                 if (isProcessing) {
                     showToast('Veuillez attendre la fin du traitement en cours.', 'warning');
                     return;
+                }
+
+                // Détection de préférences personnelles pour apprentissage
+                const lowerText = text.toLowerCase();
+                const memory = loadMemoryLocal();
+                let learnedSomething = false;
+
+                // Détection de taille
+                const tailleMatch = lowerText.match(/(taille|pointure)\s*[:]?\s*([\d\s]+)/);
+                if (tailleMatch) {
+                    const taille = tailleMatch[2].trim();
+                    memorizeUserInfo('tailles', taille);
+                    learnedSomething = true;
+                    showToast('📝 J\'ai retenu votre taille/pointure : ' + taille, 'info');
+                }
+
+                // Détection de marque préférée
+                const marqueMatch = lowerText.match(/marque\s*[:]?\s*([a-z\s]+)/);
+                if (marqueMatch) {
+                    const marque = marqueMatch[1].trim();
+                    memorizeUserInfo('marques préférées', marque);
+                    learnedSomething = true;
+                    showToast('📝 J\'ai retenu votre marque préférée : ' + marque, 'info');
+                }
+
+                // Détection de budget
+                const budgetMatch = lowerText.match(/(budget|prix|dépenser)\s*[:]?\s*(\d+)/);
+                if (budgetMatch) {
+                    const budget = budgetMatch[2].trim();
+                    memorizeUserInfo('budget', budget + ' FCFA');
+                    learnedSomething = true;
+                    showToast('📝 J\'ai retenu votre budget : ' + budget + ' FCFA', 'info');
+                }
+
+                // Détection de passion/hobby
+                const passionMatch = lowerText.match(/(passion|hobby|aime|adore|sport|musique|lecture)\s*[:]?\s*([a-z\s]+)/);
+                if (passionMatch) {
+                    const passion = passionMatch[2].trim();
+                    memorizeUserInfo('passions', passion);
+                    learnedSomething = true;
+                    showToast('📝 J\'ai retenu votre passion : ' + passion, 'info');
+                }
+
+                // Détection de couleur préférée
+                const couleurMatch = lowerText.match(/(couleur|coloris)\s*[:]?\s*([a-z\s]+)/);
+                if (couleurMatch) {
+                    const couleur = couleurMatch[2].trim();
+                    memorizeUserInfo('couleurs préférées', couleur);
+                    learnedSomething = true;
+                    showToast('📝 J\'ai retenu votre couleur préférée : ' + couleur, 'info');
                 }
 
                 const conv = conversations.find(c => c.id === currentConvId);
@@ -1677,7 +1761,7 @@
 
                 isProcessing = true;
 
-                // Message utilisateur (optimiste)
+                // Message utilisateur
                 const msgUser = {
                     id: 'msg_' + Date.now() + '_user',
                     from: 'user',
@@ -1700,18 +1784,19 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
-                    // Préparer le contexte
                     const history = conv.messages.slice(-10).map(m => ({ from: m.from, text: m.text }));
                     
-                    // Appel au backend
                     const payload = {
                         message: text.trim(),
-                        conversationId: conv.id,
+                        conversationId: conv.id.startsWith('local_') ? undefined : conv.id,
                         media: media || null,
-                        context: { lastMessages: history }
+                        context: { 
+                            lastMessages: history,
+                            userProfile: userProfile,
+                            memory: memory.memories
+                        }
                     };
 
-                    // Si l'ID commence par 'local_', on ne l'envoie pas au backend
                     if (conv.id.startsWith('local_')) {
                         delete payload.conversationId;
                     }
@@ -1721,20 +1806,18 @@
 
                     typingDiv.remove();
 
-                    // Message AI
                     const msgAI = {
                         id: 'msg_' + Date.now() + '_ai',
                         from: 'ai',
                         text: result.response || 'Je n\'ai pas pu générer une réponse.',
                         time: new Date().toISOString(),
-                        intent: result.intent || 'Général',
+                        intent: result.intent || (learnedSomething ? 'Apprentissage' : 'Général'),
                         suggestions: result.suggestions || [],
                         media: null
                     };
                     conv.messages.push(msgAI);
                     conv.updatedAt = new Date().toISOString();
                     
-                    // Si le backend a retourné un vrai conversationId, mettre à jour
                     if (result.conversationId && !conv.id.startsWith('local_')) {
                         conv.id = result.conversationId;
                     }
@@ -1742,34 +1825,30 @@
                     renderMessages(currentConvId);
                     renderConversationList();
 
-                    // Mettre à jour les suggestions proactives
                     if (result.suggestions) {
                         renderProactiveSuggestions(result.suggestions);
                     }
 
-                    // Mettre à jour le contexte
                     if (result.context) {
                         contextData = result.context;
                         document.getElementById('contextOrdersCount').textContent = result.context.orders || 0;
                         document.getElementById('contextCartCount').textContent = result.context.cartItems || 0;
                     }
 
-                    // Mettre à jour la mémoire
                     updateMemoryUI();
 
                 } catch (error) {
                     typingDiv.remove();
                     console.error('Erreur API:', error);
                     
-                    // Fallback: traitement local
-                    const fallbackResult = processLocalQuery(text.trim());
+                    const fallbackResult = processLocalQuery(text.trim(), learnedSomething);
                     
                     const msgAI = {
                         id: 'msg_' + Date.now() + '_ai_fallback',
                         from: 'ai',
                         text: fallbackResult.response,
                         time: new Date().toISOString(),
-                        intent: fallbackResult.intent || 'Général',
+                        intent: fallbackResult.intent || (learnedSomething ? 'Apprentissage' : 'Général'),
                         suggestions: fallbackResult.suggestions || [],
                         media: null
                     };
@@ -1778,15 +1857,15 @@
                     renderMessages(currentConvId);
                     renderConversationList();
                     
-                     finally {
+                } finally {
                     isProcessing = false;
                 }
             }
 
             // =========================================================
-            // 14. TRAITEMENT LOCAL (fallback)
+            // 14. TRAITEMENT LOCAL (fallback) avec personnalisation
             // =========================================================
-            function processLocalQuery(query) {
+            function processLocalQuery(query, learnedSomething = false) {
                 const cleanQuery = String(query || '').trim();
                 if (!cleanQuery) {
                     return { response: 'Veuillez écrire un message.', suggestions: [], intent: 'Erreur' };
@@ -1797,9 +1876,17 @@
                 let intent = 'Général';
                 let suggestions = [];
 
+                // Ajout des préférences mémorisées dans la réponse si pertinent
+                const memory = loadMemoryLocal();
+                const userInfo = memory.memories.length > 0 ? memory.memories.map(m => `• ${m.topic}: ${m.info}`).join('\n') : '';
+
                 if (match) {
                     response = match.entry.a;
                     intent = match.entry.cat || 'Général';
+                    // Ajout d'une note personnalisée si l'utilisateur a partagé des préférences
+                    if (userInfo && (match.entry.cat === 'produit' || match.entry.cat === 'vendeur_conseil')) {
+                        response += '\n\n💡 Je me souviens de vos préférences :\n' + userInfo;
+                    }
                     const related = findRelatedEntries(cleanQuery, 3, match.entry.id);
                     suggestions = related.map(r => r.entry.q);
                     if (suggestions.length < 2) {
@@ -1813,7 +1900,8 @@
                             "\n\nSinon, reformulez votre question ou contactez le support.";
                         suggestions = related.map(r => r.entry.q);
                     } else {
-                        response = "Je n'ai pas encore de réponse précise à cette question. N'hésitez pas à la reformuler, ou contactez notre support à support@sineshophome.com.";
+                        response = "Je n'ai pas encore de réponse précise à cette question. N'hésitez pas à la reformuler, ou contactez notre support à support@sineshophome.com.\n\n" +
+                            (userInfo ? '📝 Je me souviens de vos préférences :\n' + userInfo : '');
                         suggestions = ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Contacter le support'];
                     }
                     intent = 'Non reconnu';
@@ -1827,12 +1915,16 @@
             // =========================================================
             function renderProactiveSuggestions(suggestions) {
                 const container = document.getElementById('proactiveSuggestions');
+                const memory = loadMemoryLocal();
+                const userInfo = memory.memories.length > 0 ? '📝 Je connais vos préférences' : '📝 Dites-moi vos préférences';
+                
                 if (!suggestions || suggestions.length === 0) {
                     container.innerHTML = `
-                        <span style="font-size:0.7rem;color:var(--text-secondary);">💡 Des suggestions apparaîtront ici</span>
+                        <span style="font-size:0.7rem;color:var(--text-secondary);">${userInfo}</span>
                         <button class="suggestion-chip" onclick="window.sendMessage('Aide')">❓ Aide</button>
                         <button class="suggestion-chip" onclick="window.sendMessage('Voir mes commandes')">📦 Commandes</button>
                         <button class="suggestion-chip" onclick="window.sendMessage('Devenir vendeur')">🏪 Vendre</button>
+                        <button class="suggestion-chip" onclick="window.sendMessage('Je retiens mes préférences')">📝 Apprendre</button>
                     `;
                     return;
                 }
@@ -1877,18 +1969,19 @@
                     showToast('Nouvelle conversation créée', 'success');
                     loadContext();
                 } catch (error) {
-                    // Fallback local
                     const now = new Date().toISOString();
+                    const memory = loadMemoryLocal();
+                    const userInfo = memory.memories.length > 0 ? 'Je me souviens de vos préférences : ' + memory.memories.map(m => m.topic + ': ' + m.info).join(', ') : 'Je vais apprendre à vous connaître.';
                     const conv = {
                         id: 'local_' + Date.now(),
                         title: 'Nouvelle discussion',
                         messages: [{
                             id: 'msg_welcome_' + Date.now(),
                             from: 'ai',
-                            text: 'Bonjour ! Je suis AI-SINE.SHOP. Je suis prêt à vous aider.',
+                            text: 'Bonjour ! Je suis AI-SINE.SHOP. ' + userInfo + ' Que puis-je faire pour vous ?',
                             time: now,
-                            intent: 'Accueil',
-                            suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Aide']
+                            intent: 'Accueil personnalisé',
+                            suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Aide', 'Je retiens mes tailles']
                         }],
                         createdAt: now,
                         updatedAt: now,
@@ -2034,20 +2127,13 @@
             // =========================================================
             document.addEventListener('DOMContentLoaded', async function() {
                 try {
-                    // Charger l'utilisateur
                     await loadUserData();
-                    
-                    // Charger les conversations
                     await loadConversations();
-                    
-                    // Charger le contexte
                     await loadContext();
-                    
-                    // Charger la mémoire locale
                     updateMemoryUI();
 
                     // Suggestions initiales
-                    const initialSuggestions = ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Aide'];
+                    const initialSuggestions = ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Aide', 'Je retiens mes tailles'];
                     renderProactiveSuggestions(initialSuggestions);
 
                     // =========================================================
@@ -2077,7 +2163,6 @@
                         this.style.height = Math.min(this.scrollHeight, 150) + 'px';
                     });
 
-                    // File upload
                     document.getElementById('fileInput').addEventListener('change', async function(e) {
                         const files = Array.from(e.target.files || []);
                         this.value = '';
@@ -2106,7 +2191,7 @@
                         }
                     });
 
-                    // Voice recording (Web Speech API)
+                    // Voice recording
                     let mediaRecorder = null;
                     let recordedChunks = [];
 
@@ -2286,8 +2371,9 @@
                         const count = conv?.messages?.length || 0;
                         const userCount = conv?.messages?.filter(m => m.from === 'user').length || 0;
                         const aiCount = conv?.messages?.filter(m => m.from === 'ai').length || 0;
+                        const memory = loadMemoryLocal();
                         closeOptions();
-                        showToast(`📊 ${count} messages • ${userCount} de vous • ${aiCount} de l'IA`, 'info');
+                        showToast(`📊 ${count} messages • ${userCount} de vous • ${aiCount} de l'IA • 🧠 ${memory.memories.length} préférences mémorisées`, 'info');
                     });
 
                     // Profil Modal
@@ -2324,7 +2410,7 @@
                         document.getElementById('headerName').textContent = currentUser?.firstName || 'Utilisateur';
                         document.getElementById('chatName').textContent = name;
                         document.getElementById('userStatus').textContent = status;
-                        document.getElementById('chatStatusText').textContent = status + ' • Prêt à vous aider';
+                        document.getElementById('chatStatusText').textContent = status + ' • Je vous connais de mieux en mieux';
 
                         const avatarSrc = document.getElementById('modalAvatar').src;
                         document.getElementById('headerAvatar').src = avatarSrc;
@@ -2355,7 +2441,7 @@
                         loadContext();
                     }, 30000);
 
-                    console.log('✅ AI-SINE.SHOP v4.0 — Connecté au backend, sans API externe');
+                    console.log('✅ AI-SINE.SHOP v4.1 — Connecté au backend, apprentissage des préférences');
                     console.log('🧠 Base de connaissances: ' + KNOWLEDGE_BASE.length + ' entrées');
                     console.log('👤 Utilisateur:', currentUser?.email || 'non connecté');
 

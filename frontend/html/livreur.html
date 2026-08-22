@@ -16,9 +16,11 @@
     <script src="../js/api.js"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="../js/socket-client.js"></script>
-    <script src="../js/chat-messaging.js"></script>
     
     <style>
+        /* =========================================================
+           RESET & BASE
+           ========================================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -37,39 +39,51 @@
         /* =========================================================
            MODE SOMBRE — CORRECTIONS COMPLÈTES
            ========================================================= */
-        [data-theme="dark"] body { background: #0f172a; color: #e2e8f0; }
-        [data-theme="dark"] hr { border-top-color: #1e293b; }
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1a2436;
+            --bg-input: #0f172a;
+            --bg-hover: #263447;
+            --border-color: #263447;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-inverse: #f1f5f9;
+        }
+        [data-theme="dark"] body { background: var(--bg-body); color: var(--text-primary); }
+        [data-theme="dark"] hr { border-top-color: var(--border-color); }
         [data-theme="dark"] aside,
         [data-theme="dark"] .card,
-        [data-theme="dark"] .card-item {
-            background: #1a2436;
-            border-color: #263447;
-            color: #e2e8f0;
+        [data-theme="dark"] .card-item,
+        [data-theme="dark"] .chat-modal {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+            color: var(--text-primary);
         }
-        [data-theme="dark"] .card h2 { color: #f1f5f9; }
-        [data-theme="dark"] .card > p { color: #94a3b8; }
-        [data-theme="dark"] aside ul li a { color: #cbd5e1; }
-        [data-theme="dark"] aside ul li a:hover { background: #263447; color: #f1f5f9; }
+        [data-theme="dark"] .card h2 { color: var(--text-inverse); }
+        [data-theme="dark"] .card > p { color: var(--text-secondary); }
+        [data-theme="dark"] aside ul li a { color: var(--text-secondary); }
+        [data-theme="dark"] aside ul li a:hover { background: var(--bg-hover); color: var(--text-inverse); }
         [data-theme="dark"] aside ul li a.active { background: #2d73ff; color: white; }
         [data-theme="dark"] input,
         [data-theme="dark"] select,
         [data-theme="dark"] textarea {
-            background: #0f172a !important;
-            color: #e2e8f0 !important;
-            border-color: #334155 !important;
+            background: var(--bg-input) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-color) !important;
         }
         [data-theme="dark"] input::placeholder,
-        [data-theme="dark"] textarea::placeholder { color: #64748b; }
-        [data-theme="dark"] table { color: #e2e8f0; }
-        [data-theme="dark"] th { color: #94a3b8; border-color: #263447; }
-        [data-theme="dark"] td { border-color: #263447; }
-        [data-theme="dark"] .actions-group button:not(.btn-primary):not(.btn-danger) {
-            background: #263447 !important;
-            color: #94a3b8 !important;
+        [data-theme="dark"] textarea::placeholder { color: var(--text-muted); }
+        [data-theme="dark"] table { color: var(--text-primary); }
+        [data-theme="dark"] th { color: var(--text-secondary); border-color: var(--border-color); }
+        [data-theme="dark"] td { border-color: var(--border-color); }
+        [data-theme="dark"] .actions-group button:not(.btn-primary):not(.btn-danger):not(.btn-success) {
+            background: var(--bg-hover) !important;
+            color: var(--text-secondary) !important;
         }
-        [data-theme="dark"] .actions-group button:not(.btn-primary):not(.btn-danger):hover {
+        [data-theme="dark"] .actions-group button:not(.btn-primary):not(.btn-danger):not(.btn-success):hover {
             background: #334155 !important;
-            color: #e2e8f0 !important;
+            color: var(--text-inverse) !important;
         }
         [data-theme="dark"] .btn-primary { background: #2d73ff; color: white; }
         [data-theme="dark"] .btn-primary:hover { background: #1f5fe0; }
@@ -78,13 +92,12 @@
         [data-theme="dark"] .btn-danger { background: #dc2626; color: white; }
         [data-theme="dark"] .btn-danger:hover { background: #b91c1c; }
         [data-theme="dark"] .chat-thread-header,
-        [data-theme="dark"] .modal-profil,
-        [data-theme="dark"] .chat-modal {
-            background: #1a2436;
-            color: #e2e8f0;
+        [data-theme="dark"] .modal-profil {
+            background: var(--bg-card);
+            color: var(--text-primary);
         }
-        [data-theme="dark"] .empty-state { color: #64748b; }
-        [data-theme="dark"] .chat-modal-info-row { color: #94a3b8; border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .empty-state { color: var(--text-muted); }
+        [data-theme="dark"] .chat-modal-info-row { color: var(--text-secondary); border-bottom-color: rgba(255,255,255,0.06); }
 
         /* --- Chat messages (mode sombre) --- */
         [data-theme="dark"] .chat-messages {
@@ -117,7 +130,7 @@
         /* --- Chat bubbles (mode sombre) --- */
         [data-theme="dark"] .chat-bubble {
             background: #2a3a4e;
-            color: #e2e8f0;
+            color: var(--text-primary);
         }
         [data-theme="dark"] .chat-bubble-row.mine .chat-bubble {
             background: #2d73ff;
@@ -127,28 +140,28 @@
             background: #2a3a4e;
         }
         [data-theme="dark"] .chat-share-card .share-title {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-share-card .share-sub {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
 
         /* --- Chat compose (mode sombre) --- */
         [data-theme="dark"] .chat-compose textarea {
-            background: #0f172a;
-            color: #e2e8f0;
-            border-color: #334155;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .chat-compose textarea:focus {
             border-color: #2d73ff;
         }
         [data-theme="dark"] .chat-compose button {
-            background: #263447;
-            color: #94a3b8;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-compose button:hover {
             background: #334155;
-            color: #e2e8f0;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-compose .btn-send {
             background: #2d73ff;
@@ -160,15 +173,15 @@
 
         /* --- Chat thread dropdown (mode sombre) --- */
         [data-theme="dark"] .chat-thread-dropdown {
-            background: #1a2436;
-            border-color: #263447;
+            background: var(--bg-card);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .chat-thread-dropdown button {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-thread-dropdown button:hover {
-            background: #263447;
-            color: #e2e8f0;
+            background: var(--bg-hover);
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-thread-dropdown button.danger {
             color: #f87171;
@@ -180,69 +193,69 @@
 
         /* --- Chat header (mode sombre) --- */
         [data-theme="dark"] .chat-thread-header {
-            background: #1a2436;
-            border-bottom-color: #263447;
+            background: var(--bg-card);
+            border-bottom-color: var(--border-color);
         }
         [data-theme="dark"] .chat-thread-header .name {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-thread-header .status {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-thread-header .call-actions button {
-            background: #263447;
-            color: #94a3b8;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-thread-header .call-actions button:hover {
             background: #334155;
-            color: #e2e8f0;
+            color: var(--text-inverse);
         }
 
         /* --- Chat conv list (mode sombre) --- */
         [data-theme="dark"] .chat-conv-item:hover,
         [data-theme="dark"] .chat-conv-item.active {
-            background: #263447;
+            background: var(--bg-hover);
         }
         [data-theme="dark"] .chat-conv-item .conv-name {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-conv-item .conv-preview {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-conv-item .conv-badge {
             background: #2d73ff;
             color: white;
         }
         [data-theme="dark"] #btnToggleArchives {
-            background: #263447 !important;
-            color: #94a3b8 !important;
+            background: var(--bg-hover) !important;
+            color: var(--text-secondary) !important;
         }
         [data-theme="dark"] #btnToggleArchives:hover {
             background: #334155 !important;
-            color: #e2e8f0 !important;
+            color: var(--text-inverse) !important;
         }
 
         /* --- Chat modal (mode sombre) --- */
         [data-theme="dark"] .chat-modal {
-            background: #1a2436;
-            color: #e2e8f0;
+            background: var(--bg-card);
+            color: var(--text-primary);
         }
         [data-theme="dark"] .chat-modal-info-row {
-            color: #94a3b8;
+            color: var(--text-secondary);
             border-bottom-color: rgba(255,255,255,0.06);
         }
         [data-theme="dark"] .chat-modal-close {
-            background: #263447;
-            color: #94a3b8;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-modal-close:hover {
             background: #334155;
-            color: #e2e8f0;
+            color: var(--text-inverse);
         }
 
         /* --- Chat bg presets (mode sombre) --- */
         [data-theme="dark"] .bg-preset-swatch {
-            border-color: #263447;
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .bg-preset-swatch:hover,
         [data-theme="dark"] .bg-preset-swatch.active {
@@ -250,7 +263,7 @@
         }
         [data-theme="dark"] .bg-preset-swatch span {
             background: rgba(0,0,0,0.6);
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .btn-upload-bg {
             background: rgba(45,115,255,0.15);
@@ -263,11 +276,11 @@
 
         /* --- Chat reactions (mode sombre) --- */
         [data-theme="dark"] .chat-reaction-picker {
-            background: #1a2436;
-            border-color: #263447;
+            background: var(--bg-card);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .chat-reaction-picker button:hover {
-            background: #263447;
+            background: var(--bg-hover);
         }
         [data-theme="dark"] .chat-reaction-pill {
             background: rgba(255,255,255,0.08);
@@ -276,15 +289,15 @@
             background: rgba(255,255,255,0.15);
         }
         [data-theme="dark"] .chat-msg-actions {
-            background: #1a2436;
-            border: 1px solid #263447;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
         }
         [data-theme="dark"] .chat-msg-actions button {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-msg-actions button:hover {
-            background: #263447;
-            color: #e2e8f0;
+            background: var(--bg-hover);
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-msg-actions button.danger:hover {
             background: rgba(239,68,68,0.15);
@@ -302,22 +315,22 @@
             border-top-color: rgba(245,158,11,0.3);
         }
         [data-theme="dark"] .chat-attach-menu {
-            background: #1a2436;
-            border-color: #263447;
+            background: var(--bg-card);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .chat-attach-menu button {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .chat-attach-menu button:hover {
-            background: #263447;
-            color: #e2e8f0;
+            background: var(--bg-hover);
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .chat-emoji-picker {
-            background: #1a2436;
-            border-color: #263447;
+            background: var(--bg-card);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .chat-emoji-picker button:hover {
-            background: #263447;
+            background: var(--bg-hover);
         }
 
         /* --- Modals (mode sombre) --- */
@@ -327,30 +340,30 @@
         [data-theme="dark"] #contactModal > div,
         [data-theme="dark"] #phoneVerifyModal > div,
         [data-theme="dark"] #emailChangeModal > div {
-            background: #1a2436;
-            color: #e2e8f0;
+            background: var(--bg-card);
+            color: var(--text-primary);
         }
         [data-theme="dark"] #scanPayModal h3,
         [data-theme="dark"] #passwordModal h3,
         [data-theme="dark"] #emailModal h3,
         [data-theme="dark"] #contactModal h3 {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] #scanPayModal p,
         [data-theme="dark"] #passwordModal p,
         [data-theme="dark"] #emailModal p,
         [data-theme="dark"] #contactModal p {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .form-group label {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .form-group input,
         [data-theme="dark"] .form-group select,
         [data-theme="dark"] .form-group textarea {
-            background: #0f172a !important;
-            color: #e2e8f0 !important;
-            border-color: #334155 !important;
+            background: var(--bg-input) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-color) !important;
         }
         [data-theme="dark"] .form-group input:focus,
         [data-theme="dark"] .form-group select:focus,
@@ -365,24 +378,24 @@
             background: #1f5fe0;
         }
         [data-theme="dark"] .btn-cancel {
-            background: #263447;
-            color: #94a3b8;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .btn-cancel:hover {
             background: #334155;
-            color: #e2e8f0;
+            color: var(--text-inverse);
         }
 
         /* --- FAQ (mode sombre) --- */
         [data-theme="dark"] .faq-item {
-            border-color: #263447;
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .faq-question {
-            background: #263447;
-            color: #f1f5f9;
+            background: var(--bg-hover);
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .faq-answer {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] .faq-answer a {
             color: #60a5fa;
@@ -393,8 +406,8 @@
 
         /* --- Status toggle (mode sombre) --- */
         [data-theme="dark"] .status-toggle {
-            background: #0f172a;
-            border-color: #263447;
+            background: var(--bg-input);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .status-toggle .toggle-btn.available {
             background: rgba(34,197,94,0.2);
@@ -407,39 +420,39 @@
 
         /* --- Location map (mode sombre) --- */
         [data-theme="dark"] .location-map {
-            background: #0f172a;
-            border-color: #263447;
-            color: #94a3b8;
+            background: var(--bg-input);
+            border-color: var(--border-color);
+            color: var(--text-secondary);
         }
 
         /* --- Stats grid (mode sombre) --- */
         [data-theme="dark"] .stat-box {
-            background: #0f172a;
-            border-color: #263447;
+            background: var(--bg-input);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .stat-box h3 {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] .stat-box p {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
 
         /* --- Sidebar stats (mode sombre) --- */
         [data-theme="dark"] aside .sidebar-stat {
-            background: #0f172a;
+            background: var(--bg-input);
         }
         [data-theme="dark"] aside .sidebar-stat strong {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] aside .sidebar-stat span {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
 
         /* --- Notification (mode sombre) --- */
         [data-theme="dark"] #notification {
-            background: #1a2436;
-            color: #e2e8f0;
-            border-color: #263447;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--border-color);
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
         [data-theme="dark"] #notification.error { border-left-color: #ef4444; }
@@ -448,49 +461,43 @@
 
         /* --- Upload area (mode sombre) --- */
         [data-theme="dark"] .upload-area {
-            background: #0f172a;
-            border-color: #334155;
+            background: var(--bg-input);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] .upload-area:hover {
             border-color: #2d73ff;
             background: rgba(45,115,255,0.05);
         }
         [data-theme="dark"] .upload-preview .preview-item {
-            border-color: #334155;
+            border-color: var(--border-color);
         }
 
         /* --- Card items (mode sombre) --- */
-        [data-theme="dark"] .card-item .title { color: #f1f5f9; }
-        [data-theme="dark"] .card-item .subtitle { color: #94a3b8; }
-        [data-theme="dark"] .card-item .price { color: #f1f5f9; }
+        [data-theme="dark"] .card-item .title { color: var(--text-inverse); }
+        [data-theme="dark"] .card-item .subtitle { color: var(--text-secondary); }
+        [data-theme="dark"] .card-item .price { color: var(--text-inverse); }
 
         /* --- Profile (mode sombre) --- */
         [data-theme="dark"] #profil .form-grid label {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] #photoProfil {
-            border-color: #263447;
+            border-color: var(--border-color);
         }
 
         /* --- Header (mode sombre) --- */
         [data-theme="dark"] header {
             background: #0a1420;
-            border-bottom: 1px solid #263447;
+            border-bottom: 1px solid var(--border-color);
         }
         [data-theme="dark"] header .logo span {
             color: #facc15;
         }
         [data-theme="dark"] header .header-right .user-info {
-            background: #263447;
+            background: var(--bg-hover);
         }
         [data-theme="dark"] header .header-right .user-info:hover {
             background: #334155;
-        }
-        [data-theme="dark"] header .header-right .lang-select,
-        [data-theme="dark"] header .header-right .currency-select {
-            background: #263447;
-            border-color: #334155;
-            color: #94a3b8;
         }
         [data-theme="dark"] header .header-right .btn-logout {
             background: rgba(239,68,68,0.15);
@@ -502,17 +509,17 @@
 
         /* --- Sidebar (mode sombre) --- */
         [data-theme="dark"] aside {
-            background: #1a2436;
-            border-color: #263447;
+            background: var(--bg-card);
+            border-color: var(--border-color);
         }
         [data-theme="dark"] aside .sidebar-profile {
-            border-bottom-color: #263447;
+            border-bottom-color: var(--border-color);
         }
         [data-theme="dark"] aside .sidebar-profile .name {
-            color: #f1f5f9;
+            color: var(--text-inverse);
         }
         [data-theme="dark"] aside .sidebar-profile .email {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
         [data-theme="dark"] aside .btn-assistant {
             background: #2d73ff;
@@ -532,6 +539,45 @@
             color: #f87171;
         }
 
+        /* --- Appels (mode sombre) --- */
+        [data-theme="dark"] .call-overlay {
+            background: rgba(10,15,25,0.95);
+        }
+        [data-theme="dark"] .call-overlay .call-name {
+            color: var(--text-inverse);
+        }
+        [data-theme="dark"] .call-overlay .call-status {
+            color: var(--text-secondary);
+        }
+        [data-theme="dark"] .call-overlay .call-controls button {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+        [data-theme="dark"] .call-overlay .call-controls button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        [data-theme="dark"] .call-overlay .call-controls .btn-hangup {
+            background: #dc2626;
+        }
+        [data-theme="dark"] .call-overlay .call-controls .btn-hangup:hover {
+            background: #b91c1c;
+        }
+        [data-theme="dark"] .call-overlay .btn-accept {
+            background: #16a34a;
+        }
+        [data-theme="dark"] .call-overlay .btn-accept:hover {
+            background: #15803d;
+        }
+        [data-theme="dark"] .call-overlay .btn-reject {
+            background: #dc2626;
+        }
+        [data-theme="dark"] .call-overlay .btn-reject:hover {
+            background: #b91c1c;
+        }
+
+        /* =========================================================
+           HEADER — SANS SÉLECTEUR DE LANGUE
+           ========================================================= */
         header {
             background: #0f172a;
             color: white;
@@ -569,32 +615,15 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            transition: 0.3s;
         }
+        .header-right .user-info:hover { background: #2d3748; }
         .header-right .user-info img {
             width: 30px;
             height: 30px;
             border-radius: 50%;
             object-fit: cover;
         }
-        .header-right .lang-select,
-        .header-right .currency-select {
-            background: #1e293b;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
-            border: 1px solid #334155;
-            color: white;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-family: inherit;
-            appearance: none;
-            -webkit-appearance: none;
-            padding-right: 28px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-        }
-        .header-right .lang-select option,
-        .header-right .currency-select option { background: #0f172a; color: white; }
         .header-right .btn-logout {
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
@@ -607,6 +636,9 @@
         }
         .header-right .btn-logout:hover { background: rgba(239,68,68,0.25); }
 
+        /* =========================================================
+           NOTIFICATION TOAST
+           ========================================================= */
         #notification {
             position: fixed;
             top: 80px;
@@ -626,6 +658,9 @@
         #notification.error { border-left-color: #ef4444; }
         #notification.warning { border-left-color: #f59e0b; }
 
+        /* =========================================================
+           CONTAINER
+           ========================================================= */
         .livreur-container {
             display: flex;
             gap: 2rem;
@@ -636,6 +671,9 @@
             flex: 1;
         }
 
+        /* =========================================================
+           ASIDE (SIDEBAR)
+           ========================================================= */
         aside {
             background: white;
             border-radius: 24px;
@@ -734,6 +772,9 @@
             text-align: center;
         }
 
+        /* =========================================================
+           MAIN
+           ========================================================= */
         main {
             flex: 1;
             min-width: 0;
@@ -755,6 +796,9 @@
         }
         .card > p { color: #64748b; margin-bottom: 1.5rem; }
 
+        /* =========================================================
+           STATS GRID
+           ========================================================= */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -773,6 +817,9 @@
         .stat-box h3 { font-size: 2rem; font-weight: 700; color: #0f172a; }
         .stat-box p { color: #475569; font-weight: 500; margin-top: 4px; font-size: 0.85rem; }
 
+        /* =========================================================
+           ACTIONS GROUP
+           ========================================================= */
         .actions-group {
             display: flex;
             flex-wrap: wrap;
@@ -807,6 +854,9 @@
         }
         .actions-group .btn-danger:hover { background: #dc2626; }
 
+        /* =========================================================
+           CARD ITEM
+           ========================================================= */
         .card-item {
             display: flex;
             align-items: center;
@@ -842,6 +892,9 @@
         }
         .btn-detail:hover { background: #e2e8f0; }
 
+        /* =========================================================
+           EMPTY STATE
+           ========================================================= */
         .empty-state {
             padding: 2rem;
             text-align: center;
@@ -849,6 +902,9 @@
         }
         .empty-state .icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
 
+        /* =========================================================
+           FORM GRID
+           ========================================================= */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -885,6 +941,9 @@
             background: white;
         }
 
+        /* =========================================================
+           UPLOAD AREA
+           ========================================================= */
         .upload-area {
             border: 2px dashed rgba(0,0,0,0.12);
             border-radius: 14px;
@@ -935,6 +994,9 @@
             cursor: pointer;
         }
 
+        /* =========================================================
+           STATUS TOGGLE
+           ========================================================= */
         .status-toggle {
             display: flex;
             align-items: center;
@@ -962,18 +1024,25 @@
             color: #dc2626;
         }
 
+        /* =========================================================
+           LOCATION MAP
+           ========================================================= */
         .location-map {
             background: #e2e8f0;
             border-radius: 16px;
-            height: 250px;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #64748b;
             font-size: 1.1rem;
             border: 1px solid #cbd5e1;
+            transition: 0.3s;
         }
 
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
         @media (max-width: 900px) {
             .livreur-container {
                 flex-direction: column;
@@ -1010,6 +1079,15 @@
             .card { padding: 1rem; border-radius: 16px; }
             aside { padding: 1rem; }
         }
+
+        /* =========================================================
+           SCROLLBAR
+           ========================================================= */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
         /* =========================================================
            MESSAGERIE ENRICHIE
            ========================================================= */
@@ -1566,13 +1644,76 @@
         .call-overlay .btn-accept:hover { background: #16a34a; }
         .call-overlay .btn-reject { background: #ef4444; }
         .call-overlay .btn-reject:hover { background: #dc2626; }
+
+        /* NOTIFICATION D'APPEL ENTRANT (toast) */
+        .call-notification-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            z-index: 999998;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            max-width: 90%;
+            border-left: 4px solid #22c55e;
+        }
+        .call-notification-toast.show { display: flex; }
+        .call-notification-toast .call-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .call-notification-toast .call-info .caller-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .call-notification-toast .call-info .call-type {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .call-notification-toast .call-actions {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .call-notification-toast .call-actions button {
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .call-notification-toast .call-actions .btn-answer {
+            background: #22c55e;
+            color: white;
+        }
+        .call-notification-toast .call-actions .btn-answer:hover { background: #16a34a; }
+        .call-notification-toast .call-actions .btn-decline {
+            background: #ef4444;
+            color: white;
+        }
+        .call-notification-toast .call-actions .btn-decline:hover { background: #dc2626; }
+
+        [data-theme="dark"] .call-notification-toast {
+            background: #1a2436;
+            border-left-color: #22c55e;
+        }
+        [data-theme="dark"] .call-notification-toast .call-info .caller-name {
+            color: var(--text-inverse);
+        }
+        [data-theme="dark"] .call-notification-toast .call-info .call-type {
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
     <!-- VIDÉO DE BIENVENUE -->
     <div id="welcomeVideoOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999999;align-items:center;justify-content:center;padding:20px;">
         <div style="position:relative;max-width:640px;width:100%;">
-            <button id="btnCloseWelcomeVideo" style="position:absolute;top:-40px;right:0;background:rgba(255,255,255,0.15);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;">✕</button>
+            <button id="btnCloseWelcomeVideo" style="position:absolute;top:-40px;right:0;background:rgba(255,255,255,0.15);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;border:none;cursor:pointer;">✕</button>
             <video id="welcomeVideoPlayer" src="" controls autoplay style="width:100%;border-radius:16px;background:#000;"></video>
         </div>
     </div>
@@ -1590,7 +1731,7 @@
                 <button id="btnConfirmPhoneVerify" class="btn-primary">✅ Valider</button>
             </div>
             <p style="text-align:center;margin-top:10px;"><a href="#" id="linkResendPhoneCode" style="font-size:0.85rem;color:#2d73ff;">📤 Renvoyer le code</a></p>
-            <button onclick="document.getElementById('phoneVerifyModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+            <button onclick="document.getElementById('phoneVerifyModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
         </div>
     </div>
 
@@ -1618,13 +1759,14 @@
                     <button id="btnConfirmEmailChange" class="btn-primary">✅ Confirmer</button>
                 </div>
             </div>
-            <button onclick="document.getElementById('emailChangeModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+            <button onclick="document.getElementById('emailChangeModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
         </div>
     </div>
 
-
+    <!-- NOTIFICATION -->
     <div id="notification"></div>
 
+    <!-- HEADER - SANS SÉLECTEUR DE LANGUE -->
     <header class="sine-header-bg">
         <div class="sine-header-stars">
             <span style="top:15%;left:10%;"></span>
@@ -1636,28 +1778,32 @@
             <span style="top:55%;left:75%;animation-delay:1.2s;"></span>
             <span style="top:40%;left:88%;animation-delay:0.4s;"></span>
         </div>
-        <div class="logo"><span style="color:black;">SINE.</span><span style="color:blue;">SH</span><span class="sine-heart"
-            style="color:red;">♡</span><span style="color:black;">P</span></div>
+        <div class="logo"><span>SINE.</span><span>SH</span><span style="color:#ef4444;">♡</span><span>P</span></div>
         <div class="header-right">
             <div class="user-info" id="headerUserInfo">
                 <img id="headerAvatar" src="" alt="Avatar">
                 <span id="headerUserName">Livreur</span>
             </div>
-            <select class="currency-select" id="headerDeviseSelect">
-                <option value="XOF">FCFA</option>
-                <option value="EUR">€ EUR</option>
-                <option value="USD">$ USD</option>
-                <option value="GBP">£ GBP</option>
-                <option value="CAD">CA$ CAD</option>
-                <option value="MAD">MAD</option>
-                <option value="NGN">₦ NGN</option>
-            </select>
-            <button class="btn-logout" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i></button>
+            <button class="btn-logout" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
         </div>
     </header>
 
+    <!-- NOTIFICATION D'APPEL ENTRANT -->
+    <div class="call-notification-toast" id="callNotificationToast">
+        <div class="call-info">
+            <span class="caller-name" id="callToastName">—</span>
+            <span class="call-type" id="callToastType">Appel entrant</span>
+        </div>
+        <div class="call-actions">
+            <button class="btn-answer" id="callToastAnswer"><i class="fa-solid fa-phone"></i></button>
+            <button class="btn-decline" id="callToastDecline"><i class="fa-solid fa-phone-slash"></i></button>
+        </div>
+    </div>
+
+    <!-- CONTAINER -->
     <div class="livreur-container">
 
+        <!-- SIDEBAR -->
         <aside>
             <div class="sidebar-profile">
                 <img id="sidebarAvatar" src="" alt="Avatar">
@@ -1666,10 +1812,10 @@
                 <span class="status-badge status-available" id="statusBadge">🟢 Disponible</span>
             </div>
             <div class="sidebar-stats">
-                <div class="sidebar-stat"><strong id="sidebarDeliveries">0</strong><span>Livraisons</span></div>
-                <div class="sidebar-stat"><strong id="sidebarEarnings">0 FCFA</strong><span>Gains</span></div>
-                <div class="sidebar-stat"><strong id="sidebarRating">0.0</strong><span>Note</span></div>
-                <div class="sidebar-stat"><strong id="sidebarActive">0</strong><span>En cours</span></div>
+                <div class="sidebar-stat"><strong id="sidebarDeliveries">0</strong><span data-translate="livreur.deliveries">Livraisons</span></div>
+                <div class="sidebar-stat"><strong id="sidebarEarnings">0 FCFA</strong><span data-translate="livreur.earnings">Gains</span></div>
+                <div class="sidebar-stat"><strong id="sidebarRating">0.0</strong><span data-translate="seller.rating">Note</span></div>
+                <div class="sidebar-stat"><strong id="sidebarActive">0</strong><span data-translate="livreur.inProgress">En cours</span></div>
             </div>
             <ul>
                 <li><a href="#accueil" class="menu-link active" data-section="accueil"><i class="fa-solid fa-house"></i> <span data-translate="nav.home">Accueil</span></a></li>
@@ -1682,13 +1828,14 @@
                 <li><a href="#profil" class="menu-link" data-section="profil"><i class="fa-solid fa-user"></i> <span data-translate="nav.profile">Profil</span></a></li>
                 <li><a href="#parametres" class="menu-link" data-section="parametres"><i class="fa-solid fa-gear"></i> <span data-translate="nav.settings">Paramètres</span></a></li>
             </ul>
-            <button class="btn-assistant" onclick="window.open('../html/assistant-ai.html','_blank')" style="display:block;margin-top:1.5rem;background:#0f172a;color:white;padding:0.9rem 1.2rem;border-radius:40px;text-align:center;font-weight:600;width:100%;">🤖 Assistant IA</button>
+            <button class="btn-assistant" onclick="window.open('../html/assistant-ai.html','_blank')" style="display:block;margin-top:1.5rem;background:#0f172a;color:white;padding:0.9rem 1.2rem;border-radius:40px;text-align:center;font-weight:600;width:100%;border:none;cursor:pointer;">🤖 Assistant IA</button>
         </aside>
 
+        <!-- MAIN -->
         <main>
 
             <!-- ACCUEIL -->
-            <section id="accueil" class="card" style="display:none;">
+            <section id="accueil" class="card">
                 <h2>📊 <span data-translate="section.dashboard">Tableau de bord</span></h2>
                 <p data-translate="livreur.dashboardWelcome">Bienvenue dans votre espace livreur SINE.SHOP.</p>
                 
@@ -1741,6 +1888,7 @@
                         <option value="" data-translate="seller.filterAll">Tous</option>
                         <option value="pending" data-translate="livreur.filterPending">En attente</option>
                         <option value="processing" data-translate="livreur.inProgress">En cours</option>
+                        <option value="shipped" data-translate="livreur.inTransit">En route</option>
                         <option value="delivered" data-translate="livreur.filterDelivered">Livrée</option>
                         <option value="cancelled" data-translate="livreur.filterCancelled">Annulée</option>
                     </select>
@@ -1778,7 +1926,7 @@
 
                 <div class="chat-layout">
                     <div class="chat-conv-list" id="chatConvList">
-                        <button id="btnToggleArchives" style="width:100%;text-align:left;padding:8px 12px;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-bottom:8px;color:#334155;"><i class="fa-solid fa-box-archive"></i> <span data-translate="messages.archives">Archives</span></button>
+                        <button id="btnToggleArchives" style="width:100%;text-align:left;padding:8px 12px;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-bottom:8px;color:#334155;border:none;cursor:pointer;"><i class="fa-solid fa-box-archive"></i> <span data-translate="messages.archives">Archives</span></button>
                         <div id="chatConvListItems">
                             <div class="empty-state"><span class="icon">💬</span><span data-translate="messages.noConversations">Aucune conversation</span></div>
                         </div>
@@ -1786,16 +1934,16 @@
 
                     <div class="chat-thread" id="chatThread">
                         <div class="chat-thread-header">
-                            <button class="btn-back-thread" id="btnBackThread"><i class="fa-solid fa-arrow-left"></i></button>
+                            <button class="btn-back-thread" id="btnBackThread" style="background:none;border:none;cursor:pointer;font-size:1rem;"><i class="fa-solid fa-arrow-left"></i></button>
                             <img id="chatOtherAvatar" src="" alt="">
                             <div>
                                 <div class="name" id="chatOtherName">—</div>
                                 <div class="status" id="chatOtherStatus"></div>
                             </div>
                             <div class="call-actions">
-                                <button id="btnCallAudio" title="Appel vocal"><i class="fa-solid fa-phone"></i></button>
-                                <button id="btnCallVideo" title="Appel vidéo"><i class="fa-solid fa-video"></i></button>
-                                <button id="btnThreadMenu" title="Options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <button id="btnCallAudio" title="Appel vocal" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-phone"></i></button>
+                                <button id="btnCallVideo" title="Appel vidéo" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-video"></i></button>
+                                <button id="btnThreadMenu" title="Options" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                             </div>
                         </div>
                         <div class="chat-thread-dropdown" id="chatThreadDropdown">
@@ -1809,15 +1957,15 @@
                         <div class="chat-typing" id="chatTyping" style="display:none;"></div>
                         <div class="chat-recording-indicator" id="chatRecordingIndicator">
                             <span class="dot"></span> Enregistrement en cours...
-                            <button id="btnCancelRecording"><i class="fa-solid fa-xmark"></i></button>
-                            <button id="btnStopRecording" style="color:#16a34a;"><i class="fa-solid fa-check"></i></button>
+                            <button id="btnCancelRecording" style="background:none;border:none;cursor:pointer;color:inherit;"><i class="fa-solid fa-xmark"></i></button>
+                            <button id="btnStopRecording" style="background:none;border:none;cursor:pointer;color:#16a34a;"><i class="fa-solid fa-check"></i></button>
                         </div>
                         <div class="chat-edit-bar" id="chatEditBar">
                             <i class="fa-solid fa-pen"></i> Modification du message
-                            <button id="btnCancelEdit">Annuler</button>
+                            <button id="btnCancelEdit" style="background:none;border:none;cursor:pointer;font-weight:700;">Annuler</button>
                         </div>
                         <div class="chat-compose">
-                            <button id="btnAttach"><i class="fa-solid fa-paperclip"></i></button>
+                            <button id="btnAttach" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-paperclip"></i></button>
                             <div class="chat-attach-menu" id="chatAttachMenu">
                                 <button id="btnAttachPhoto"><i class="fa-regular fa-image"></i> Photo</button>
                                 <button id="btnAttachVideo"><i class="fa-solid fa-film"></i> Vidéo</button>
@@ -1827,11 +1975,11 @@
                             <input type="file" id="chatFilePhoto" accept="image/*" style="display:none;">
                             <input type="file" id="chatFileVideo" accept="video/*" style="display:none;">
                             <input type="file" id="chatFileDoc" style="display:none;">
-                            <button id="btnEmoji" title="Emoji">😊</button>
+                            <button id="btnEmoji" style="background:none;border:none;cursor:pointer;">😊</button>
                             <div class="chat-emoji-picker" id="chatEmojiPicker"></div>
                             <textarea id="chatInput" rows="1" placeholder="Écrire un message..."></textarea>
-                            <button id="btnRecordVoice" title="Message vocal"><i class="fa-solid fa-microphone"></i></button>
-                            <button class="btn-send" id="btnSendMessage"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button id="btnRecordVoice" style="background:none;border:none;cursor:pointer;" title="Message vocal"><i class="fa-solid fa-microphone"></i></button>
+                            <button class="btn-send" id="btnSendMessage" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
 
@@ -1839,7 +1987,7 @@
                         <div class="chat-modal">
                             <h3 style="margin-bottom:1rem;">↪️ Transférer à...</h3>
                             <div id="forwardConvPicker"></div>
-                            <button class="chat-modal-close" onclick="document.getElementById('forwardModal').classList.remove('open');">Annuler</button>
+                            <button class="chat-modal-close" onclick="document.getElementById('forwardModal').classList.remove('open');" style="background:none;border:none;cursor:pointer;">Annuler</button>
                         </div>
                     </div>
                 </div>
@@ -1869,7 +2017,7 @@
                 <div class="call-videos" id="callVideos">
                     <video id="remoteVideo" autoplay playsinline></video>
                     <video id="localVideo" autoplay playsinline muted></video>
-                    <button class="btn-resize-video" id="btnResizeVideo" title="Agrandir/Réduire"><i class="fa-solid fa-expand"></i></button>
+                    <button class="btn-resize-video" id="btnResizeVideo" title="Agrandir/Réduire" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-expand"></i></button>
                 </div>
 
                 <div class="call-incoming-actions" id="callIncomingActions" style="display:none;">
@@ -1889,7 +2037,7 @@
                 <div style="background:white;border-radius:20px;padding:1.5rem;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;">
                     <h3 style="margin-bottom:1rem;">📤 Partager dans une conversation</h3>
                     <div id="shareConvPicker"></div>
-                    <button onclick="document.getElementById('shareModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+                    <button onclick="document.getElementById('shareModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
                 </div>
             </div>
 
@@ -1901,7 +2049,7 @@
                     <p id="aboutRole" style="text-align:center;color:#94a3b8;font-size:0.85rem;margin-bottom:1rem;"></p>
                     <div class="chat-modal-info-row"><i class="fa-solid fa-message"></i> <span id="aboutMsgCount">0</span> message(s) échangé(s)</div>
                     <div class="chat-modal-info-row"><i class="fa-regular fa-calendar"></i> Conversation démarrée le <span id="aboutStartDate">—</span></div>
-                    <button class="chat-modal-close" onclick="document.getElementById('aboutConvModal').classList.remove('open');">Fermer</button>
+                    <button class="chat-modal-close" onclick="document.getElementById('aboutConvModal').classList.remove('open');" style="background:none;border:none;cursor:pointer;">Fermer</button>
                 </div>
             </div>
 
@@ -1910,15 +2058,15 @@
                 <div class="chat-modal">
                     <h3 style="margin-bottom:1rem;">🖼️ Fond de la discussion</h3>
                     <div class="bg-presets-grid">
-                        <button class="bg-preset-swatch" data-bg="default" style="background:#eef4fb;"><span>Défaut</span></button>
-                        <button class="bg-preset-swatch" data-bg="ocean" style="background:linear-gradient(160deg,#dceefc,#eef8ff);"><span>Océan</span></button>
-                        <button class="bg-preset-swatch" data-bg="sunset" style="background:linear-gradient(160deg,#ffe4d6,#fff1ec);"><span>Coucher de soleil</span></button>
-                        <button class="bg-preset-swatch" data-bg="mint" style="background:linear-gradient(160deg,#d9f7e8,#eefdf5);"><span>Menthe</span></button>
-                        <button class="bg-preset-swatch" data-bg="night" style="background:linear-gradient(160deg,#0a1626,#10243b);color:white;"><span>Nuit</span></button>
+                        <button class="bg-preset-swatch" data-bg="default" style="background:#eef4fb;border:none;cursor:pointer;"><span>Défaut</span></button>
+                        <button class="bg-preset-swatch" data-bg="ocean" style="background:linear-gradient(160deg,#dceefc,#eef8ff);border:none;cursor:pointer;"><span>Océan</span></button>
+                        <button class="bg-preset-swatch" data-bg="sunset" style="background:linear-gradient(160deg,#ffe4d6,#fff1ec);border:none;cursor:pointer;"><span>Coucher de soleil</span></button>
+                        <button class="bg-preset-swatch" data-bg="mint" style="background:linear-gradient(160deg,#d9f7e8,#eefdf5);border:none;cursor:pointer;"><span>Menthe</span></button>
+                        <button class="bg-preset-swatch" data-bg="night" style="background:linear-gradient(160deg,#0a1626,#10243b);color:white;border:none;cursor:pointer;"><span>Nuit</span></button>
                     </div>
-                    <button class="btn-upload-bg" id="btnUploadCustomBg"><i class="fa-solid fa-camera"></i> Choisir une photo depuis mon téléphone</button>
+                    <button class="btn-upload-bg" id="btnUploadCustomBg" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-camera"></i> Choisir une photo depuis mon téléphone</button>
                     <input type="file" id="chatBgFileInput" accept="image/*" style="display:none;">
-                    <button class="chat-modal-close" onclick="document.getElementById('bgConvModal').classList.remove('open');">Fermer</button>
+                    <button class="chat-modal-close" onclick="document.getElementById('bgConvModal').classList.remove('open');" style="background:none;border:none;cursor:pointer;">Fermer</button>
                 </div>
             </div>
 
@@ -2008,7 +2156,7 @@
                     <div>
                         <h2 id="nomProfil">Livreur</h2>
                         <p><span id="livreurFlag"></span> 🚚 <span id="zoneProfil">Zone: Non définie</span> <span id="verifiedBadge" style="display:none;color:#22c55e;font-size:0.8rem;font-weight:700;">✔️ <span data-translate="seller.verified">Vérifié</span></span></p>
-                        <button id="btnChangerPhoto" style="padding:0.4rem 1.2rem;border-radius:40px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-top:0.4rem;">📷 <span data-translate="seller.modify">Modifier</span></button>
+                        <button id="btnChangerPhoto" style="padding:0.4rem 1.2rem;border-radius:40px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-top:0.4rem;border:none;cursor:pointer;">📷 <span data-translate="seller.modify">Modifier</span></button>
                         <input type="file" id="inputPhotoProfil" accept="image/*" style="display:none;">
                     </div>
                 </div>
@@ -2019,18 +2167,26 @@
                     <div class="form-group"><label data-translate="settings.email">Email</label>
                         <div style="display:flex;gap:0.4rem;align-items:center;">
                             <input type="email" id="livreurEmail" disabled style="flex:1;">
-                            <button type="button" id="btnChangerEmail" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;">✏️ Modifier</button>
+                            <button type="button" id="btnChangerEmail" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;border:none;cursor:pointer;">✏️ Modifier</button>
                         </div>
                     </div>
                     <div class="form-group"><label data-translate="seller.phone">Téléphone</label>
                         <div style="display:flex;gap:0.4rem;align-items:center;">
                             <input type="tel" id="livreurPhone" style="flex:1;">
-                            <button type="button" id="btnValiderTelephone" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;">📲 Valider</button>
+                            <button type="button" id="btnValiderTelephone" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;border:none;cursor:pointer;">📲 Valider</button>
                         </div>
                         <p id="statutTelephoneLivreur" style="font-size:0.75rem;margin-top:0.2rem;"></p>
                     </div>
                     <div class="form-group"><label data-translate="livreur.deliveryZone">Zone de livraison</label><input type="text" id="livreurZone"></div>
-                    <div class="form-group"><label data-translate="livreur.transportMeans">Moyen de transport</label><select id="livreurTransport"><option value="moto" data-translate="livreur.moto">🛵 Moto</option><option value="voiture" data-translate="livreur.car">🚗 Voiture</option><option value="velo" data-translate="livreur.bike">🚲 Vélo</option><option value="camionnette" data-translate="livreur.van">🚐 Camionnette</option><option value="pied" data-translate="livreur.foot">🚶 À pied</option></select></div>
+                    <div class="form-group"><label data-translate="livreur.transportMeans">Moyen de transport</label>
+                        <select id="livreurTransport">
+                            <option value="moto" data-translate="livreur.moto">🛵 Moto</option>
+                            <option value="voiture" data-translate="livreur.car">🚗 Voiture</option>
+                            <option value="velo" data-translate="livreur.bike">🚲 Vélo</option>
+                            <option value="camionnette" data-translate="livreur.van">🚐 Camionnette</option>
+                            <option value="pied" data-translate="livreur.foot">🚶 À pied</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label data-translate="seller.country">Pays</label>
                         <select id="livreurCountry">
@@ -2071,7 +2227,7 @@
                         <label data-translate="seller.city">Ville</label>
                         <div style="display:flex;gap:0.5rem;">
                             <input type="text" id="livreurCity" style="flex:1;min-width:0;">
-                            <button type="button" id="btnDetecterLocalisationLivreur" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.8rem;white-space:nowrap;">📍</button>
+                            <button type="button" id="btnDetecterLocalisationLivreur" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.8rem;white-space:nowrap;border:none;cursor:pointer;">📍</button>
                         </div>
                     </div>
                     <div class="form-group full"><label data-translate="seller.address">Adresse</label><input type="text" id="livreurAddress"></div>
@@ -2103,27 +2259,51 @@
                 </div>
             </section>
 
-
             <!-- PARAMÈTRES -->
             <section id="parametres" class="card" style="display:none;">
                 <h2>⚙️ <span data-translate="nav.settings">Paramètres</span></h2>
                 <p data-translate="livreur.settingsSubtitle">Personnalisez votre compte livreur.</p>
+
                 <hr>
                 <h3>🎨 <span data-translate="settings.appearance">Apparence</span></h3>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
-                    <div><label style="font-weight:600;display:block;font-size:0.85rem;" data-translate="settings.theme">Thème</label><select id="themeLivreur"><option value="light">☀️ Clair</option><option value="dark">🌙 Sombre</option><option value="system">💻 Système</option></select></div>
-                    <div><label style="font-weight:600;display:block;font-size:0.85rem;" data-translate="settings.language">Langue</label><select id="langueLivreur"><option value="fr">Français</option><option value="en">English</option><option value="es">Español</option><option value="ar">العربية</option></select></div>
-                    <div><label style="font-weight:600;display:block;font-size:0.85rem;"><span data-translate="settings.currency">Devise</span> <span style="font-weight:400;font-size:0.78rem;color:#94a3b8;" data-translate="settings.currencyNote">(change automatiquement si vous mettez à jour votre pays)</span></label><select id="deviseLivreur"><option value="XOF">FCFA</option><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="CAD">CAD</option><option value="MAD">MAD</option><option value="NGN">NGN</option></select></div>
+                    <div><label style="font-weight:600;display:block;font-size:0.85rem;" data-translate="settings.theme">Thème</label>
+                        <select id="themeLivreur" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
+                            <option value="light">☀️ Clair</option>
+                            <option value="dark">🌙 Sombre</option>
+                            <option value="system">💻 Système</option>
+                        </select>
+                    </div>
+                    <div><label style="font-weight:600;display:block;font-size:0.85rem;" data-translate="settings.language">Langue</label>
+                        <select id="langueLivreur" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
+                            <option value="fr">Français</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+                    <div><label style="font-weight:600;display:block;font-size:0.85rem;"><span data-translate="settings.currency">Devise</span> <span style="font-weight:400;font-size:0.78rem;color:#94a3b8;" data-translate="settings.currencyNote">(change automatiquement si vous mettez à jour votre pays)</span></label>
+                        <select id="deviseLivreur" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
+                            <option value="XOF">FCFA</option>
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                            <option value="CAD">CAD</option>
+                            <option value="MAD">MAD</option>
+                            <option value="NGN">NGN</option>
+                        </select>
+                    </div>
                 </div>
                 <div style="margin-top:1rem;">
                     <label style="font-weight:600;display:block;font-size:0.85rem;"><span data-translate="livreur.trackingCharacter">Personnage sur le suivi de commande</span> <span style="font-weight:400;color:#94a3b8;" data-translate="livreur.optional">(optionnel)</span></label>
-                    <select id="genreLivreur" style="max-width:260px;">
+                    <select id="genreLivreur" style="max-width:260px;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                         <option value="non-precise" data-translate="livreur.neutralSilhouette">Silhouette neutre</option>
                         <option value="homme" data-translate="livreur.male">Homme</option>
                         <option value="femme" data-translate="livreur.female">Femme</option>
                     </select>
                     <p style="font-size:0.75rem;color:#94a3b8;margin-top:0.3rem;" data-translate="livreur.trackingCharacterNote">Détermine l'apparence du personnage qui vous représente sur la page de suivi vue par vos clients.</p>
                 </div>
+
                 <hr>
                 <h3>🔐 <span data-translate="settings.security">Sécurité</span></h3>
                 <div class="actions-group">
@@ -2131,6 +2311,7 @@
                     <button id="btnModifierEmail">✉️ <span data-translate="settings.changeEmail">Modifier mon email</span></button>
                     <button id="btnDeconnecterTous" class="btn-danger">🚪 <span data-translate="seller.logoutAllShort">Déconnecter tous</span></button>
                 </div>
+
                 <hr>
                 <h3>🧭 <span data-translate="seller.myRoles">Mes rôles</span></h3>
                 <p style="font-size:0.85rem;color:#64748b;margin-bottom:0.75rem;" data-translate="livreur.myRolesNote">Un même compte peut aussi opérer comme vendeur et/ou partenaire d'affiliation, sans créer de second compte. Jamais de bascule possible vers un espace administrateur.</p>
@@ -2141,32 +2322,32 @@
                 <h3>💬 <span data-translate="settings.helpCenter">Centre d'aide</span></h3>
                 <div id="faqAccordion" style="display:flex;flex-direction:column;gap:0.5rem;">
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Comment accepter une nouvelle livraison ?</span> <i class="fa-solid fa-chevron-down"></i>
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
+                            <span data-translate="faq.livreur.q1">Comment accepter une nouvelle livraison ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Une notification vous prévient d'une nouvelle livraison à prendre en charge, avec l'adresse du vendeur (retrait) et du client (livraison).</p>
+                            <p style="padding:0.8rem 0;" data-translate="faq.livreur.a1">Une notification vous prévient d'une nouvelle livraison à prendre en charge, avec l'adresse du vendeur (retrait) et du client (livraison).</p>
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Un client a commandé chez plusieurs vendeurs, comment faire ?</span> <i class="fa-solid fa-chevron-down"></i>
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
+                            <span data-translate="faq.livreur.q2">Un client a commandé chez plusieurs vendeurs, comment faire ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Vous verrez un avertissement "commande groupée" avec la liste des autres retraits à effectuer avant d'assembler pour une livraison unique.</p>
+                            <p style="padding:0.8rem 0;" data-translate="faq.livreur.a2">Vous verrez un avertissement "commande groupée" avec la liste des autres retraits à effectuer avant d'assembler pour une livraison unique.</p>
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Comment retirer mes gains ?</span> <i class="fa-solid fa-chevron-down"></i>
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
+                            <span data-translate="faq.livreur.q3">Comment retirer mes gains ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Depuis "Retraits", indiquez le montant et votre moyen de paiement préféré (Mobile Money).</p>
+                            <p style="padding:0.8rem 0;" data-translate="faq.livreur.a3">Depuis "Retraits", indiquez le montant et votre moyen de paiement préféré (Mobile Money).</p>
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Comment contacter le service livraison ?</span> <i class="fa-solid fa-chevron-down"></i>
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
+                            <span data-translate="faq.livreur.q4">Comment contacter le service livraison ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
                             <p style="padding:0.8rem 0;">Par email à <a href="mailto:servicelivraison@sineshophome.com">servicelivraison@sineshophome.com</a>, ou via le formulaire de contact ci-dessous.</p>
@@ -2174,7 +2355,7 @@
                     </div>
                 </div>
                 <div class="actions-group" style="margin-top:0.75rem;">
-                    <button id="btnOuvrirContact">✉️ Contacter le service livraison</button>
+                    <button id="btnOuvrirContact">✉️ <span data-translate="settings.contactForm">Contacter le service client</span></button>
                     <button onclick="window.open('https://wa.me/2250546248319','_blank')">💬 WhatsApp</button>
                 </div>
 
@@ -2186,6 +2367,7 @@
                     <button onclick="window.location.href='../html/cgv.html'">📄 CGV</button>
                     <button onclick="window.location.href='../html/privacy.html'">🔒 <span data-translate="legal.privacy">Confidentialité</span></button>
                 </div>
+
                 <hr>
                 <h3>🗑️ <span data-translate="account.management">Gestion du compte</span></h3>
                 <div class="actions-group">
@@ -2194,6 +2376,7 @@
                     <button id="btnSupprimerCompte" class="btn-danger">🗑️ <span data-translate="account.deletePermanently">Supprimer définitivement</span></button>
                 </div>
                 <p style="font-size:0.8rem;color:#94a3b8;margin-top:0.5rem;"><i class="fa-solid fa-info-circle"></i> <span data-translate="account.managementNote">Une demande sera envoyée à notre équipe pour validation — rien n'est appliqué immédiatement, sauf la suppression définitive qui met fin à votre session sur-le-champ (le compte reste néanmoins actif tant que la demande n'est pas traitée).</span></p>
+
                 <hr>
                 <div class="actions-group">
                     <button id="btnSauvegarderParametres" class="btn-primary">💾 <span data-translate="settings.save">Sauvegarder</span></button>
@@ -2228,7 +2411,7 @@
                 </div>
             </div>
 
-            <button onclick="document.getElementById('scanPayModal').style.display='none';" style="margin-top:18px;width:100%;padding:10px;border-radius:12px;background:#f1f5f9;font-weight:600;">Fermer</button>
+            <button onclick="document.getElementById('scanPayModal').style.display='none';" style="margin-top:18px;width:100%;padding:10px;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Fermer</button>
         </div>
     </div>
 
@@ -2370,10 +2553,12 @@
             let isAvailable = true;
             let currentPosition = { lat: null, lng: null };
 
-            // Mapping cohérent avec registerdelivery.html
             const VEHICLE_TYPE_MAP = { moto: 'motorcycle', voiture: 'car', velo: 'bicycle', camionnette: 'van', pied: 'foot' };
             const VEHICLE_TYPE_REVERSE_MAP = { motorcycle: 'moto', car: 'voiture', bicycle: 'velo', van: 'camionnette', foot: 'pied' };
 
+            // =========================================================
+            // AUTH
+            // =========================================================
             function checkAuth() {
                 const userData = JSON.parse(localStorage.getItem('sineUser') || 'null');
                 const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -2386,15 +2571,20 @@
                 return true;
             }
 
+            // =========================================================
+            // THEME
+            // =========================================================
             function getSystemTheme() {
                 return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
+
             function applyTheme(pref) {
                 const effective = pref === 'system' ? getSystemTheme() : pref;
                 document.documentElement.setAttribute('data-theme', effective);
                 const select = document.getElementById('themeLivreur');
                 if (select) select.value = pref;
             }
+
             function initTheme() {
                 const saved = localStorage.getItem('sineTheme') || 'system';
                 applyTheme(saved);
@@ -2411,6 +2601,9 @@
             }
             initTheme();
 
+            // =========================================================
+            // LOAD DATA
+            // =========================================================
             async function loadData() {
                 if (!checkAuth()) return;
 
@@ -2436,6 +2629,9 @@
                 renderRolesPanel();
             }
 
+            // =========================================================
+            // FORMAT
+            // =========================================================
             function formatPrice(amount) {
                 if (!amount || isNaN(amount)) amount = 0;
                 const currency = currentUser?.preferredCurrency || 'XOF';
@@ -2449,6 +2645,9 @@
                 return String.fromCodePoint(...[...countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt(0)));
             }
 
+            // =========================================================
+            // KYC UPLOAD
+            // =========================================================
             const mediaSelections = { kycDocumentFront: [], kycDocumentBack: [], kycSelfie: [] };
 
             function setupUpload(areaId, inputId, previewId, maxCount, kind) {
@@ -2504,6 +2703,9 @@
             setupUpload('kycBackUpload', 'kycDocumentBack', 'kycBackPreview', 1, 'image');
             setupUpload('kycSelfieUpload', 'kycSelfie', 'kycSelfiePreview', 1, 'image');
 
+            // =========================================================
+            // UPDATE UI
+            // =========================================================
             function updateUI() {
                 if (!currentUser) return;
 
@@ -2558,7 +2760,6 @@
                 document.getElementById('langueLivreur').value = currentUser.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
                 document.getElementById('deviseLivreur').value = currentUser.preferredCurrency || 'XOF';
                 document.getElementById('deviseLivreur').disabled = !!currentUser.preferredCurrency;
-                document.getElementById('headerDeviseSelect').disabled = !!currentUser.preferredCurrency;
                 document.getElementById('genreLivreur').value = currentUser.gender || 'non-precise';
 
                 document.getElementById('btnDetecterLocalisationLivreur').style.display =
@@ -2599,7 +2800,7 @@
                 const enCoursList = allOrders.filter(o => o.status !== 'delivered' && o.status !== 'cancelled');
                 const container = document.getElementById('livraisonsEnCours');
                 if (enCoursList.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><span class="icon">🚚</span>Aucune livraison en cours</div>';
+                    container.innerHTML = '<div class="empty-state"><span class="icon">🚚</span><span data-translate="livreur.noOngoingDeliveries">Aucune livraison en cours</span></div>';
                 } else {
                     container.innerHTML = enCoursList.map(o => `
                         <div class="card-item">
@@ -2609,6 +2810,8 @@
                             <span class="price">${formatPrice(o.shippingCost || 0)}</span>
                             ${o.status === 'processing' ? `<button class="btn-detail" onclick="markInTransit('${o._id}')" style="color:#2d73ff;">🚴 En route</button>` : ''}
                             ${o.status === 'shipped' ? `<button class="btn-detail" onclick="updateDeliveryStatus('${o._id}')">📦 Livrer</button>` : ''}
+                            ${o.paymentStatus !== 'paid' ? `<button class="btn-detail" onclick="openScanPay('${o._id}')" style="color:#f59e0b;">📱 SCAN PAY</button>` : `<span class="status" style="background:#dcfce7;color:#16a34a;">🟢 Payé</span>`}
+                            <button class="btn-detail" onclick="viewDelivery('${o._id}')">📋</button>
                         </div>
                     `).join('');
                 }
@@ -2621,7 +2824,9 @@
                 document.getElementById('notifBadge').textContent = unread.length;
                 displayNotifications(allNotifications);
 
-                if (window.sineChat) window.sineChat.renderConversationList();
+                const unreadMessages = allConversations.filter(c => getMyUnreadCount(c) > 0);
+                document.getElementById('messagesBadge').textContent = unreadMessages.length;
+                renderConversationList();
 
                 updateLocationDisplay();
 
@@ -2629,6 +2834,255 @@
                 applyCurrency(document.getElementById('deviseLivreur').value);
             }
 
+            // =========================================================
+            // MESSAGERIE
+            // =========================================================
+            let activeConversation = null;
+            let chatMessages = [];
+
+            function getMyUnreadCount(conv) {
+                if (!conv || !conv.unreadCounts || !currentUser) return 0;
+                const uid = currentUser.id || currentUser._id;
+                return (conv.unreadCounts[uid]) || 0;
+            }
+
+            function getOtherParticipant(conv) {
+                const myId = currentUser?.id || currentUser?._id;
+                return (conv?.participants || []).find(p => (p._id || p) !== myId);
+            }
+
+            function roleLabel(role) {
+                return { seller: 'Vendeur', livreur: 'Livreur', affiliate: 'Partenaire', client: 'Client' } [role] || '';
+            }
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str || '';
+                return div.innerHTML;
+            }
+
+            function formatMessagePreview(msg) {
+                if (!msg) return '';
+                switch (msg.type) {
+                    case 'image': return '📷 Photo';
+                    case 'video': return '🎬 Vidéo';
+                    case 'file': return '📎 Fichier';
+                    case 'location': return '📍 Localisation';
+                    case 'share': return '🔗 Partage';
+                    default: return (msg.content || '').substring(0, 40);
+                }
+            }
+
+            let vueArchivesActive = false;
+            let archivedConversationsCache = [];
+
+            function renderConversationList() {
+                const container = document.getElementById('chatConvListItems');
+                if (!container) return;
+
+                if (vueArchivesActive) {
+                    if (!archivedConversationsCache.length) {
+                        container.innerHTML = '<div class="empty-state"><span class="icon">📦</span>Aucune conversation archivée</div>';
+                        return;
+                    }
+                    container.innerHTML = archivedConversationsCache.map(conv => {
+                        const other = getOtherParticipant(conv);
+                        const name = other ? (other.storeName || `${other.firstName || ''} ${other.lastName || ''}`.trim()) : 'Utilisateur';
+                        const avatar = other?.profilePicture || '../images/profil.png';
+                        const preview = formatMessagePreview(conv.lastMessage);
+                        return `
+                            <div class="chat-conv-item">
+                                <img src="${avatar}" alt="" onerror="this.src='../images/profil.png'">
+                                <div class="conv-info">
+                                    <div class="conv-name">${escapeHtml(name)}</div>
+                                    <div class="conv-preview">${escapeHtml(preview)}</div>
+                                </div>
+                                <button onclick="event.stopPropagation();window.unarchiveConversation('${conv._id}')" title="Désarchiver" style="background:none;border:none;cursor:pointer;color:#2d73ff;"><i class="fa-solid fa-box-open"></i></button>
+                            </div>
+                        `;
+                    }).join('');
+                    return;
+                }
+
+                if (!allConversations.length) {
+                    container.innerHTML = '<div class="empty-state"><span class="icon">💬</span><span data-translate="messages.noConversations">Aucune conversation</span></div>';
+                    return;
+                }
+                container.innerHTML = allConversations.map(conv => {
+                    const other = getOtherParticipant(conv);
+                    const name = other ? (other.storeName || `${other.firstName || ''} ${other.lastName || ''}`.trim()) : 'Utilisateur';
+                    const avatar = other?.profilePicture || '../images/profil.png';
+                    const preview = formatMessagePreview(conv.lastMessage);
+                    const unread = getMyUnreadCount(conv);
+                    const isActive = activeConversation && activeConversation._id === conv._id;
+                    return `
+                        <div class="chat-conv-item ${isActive ? 'active' : ''}" onclick="window.openConversation('${conv._id}')">
+                            <img src="${avatar}" alt="" onerror="this.src='../images/profil.png'">
+                            <div class="conv-info">
+                                <div class="conv-name">${escapeHtml(name)}</div>
+                                <div class="conv-preview">${escapeHtml(preview)}</div>
+                            </div>
+                            ${unread > 0 ? `<span class="conv-badge">${unread}</span>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            async function refreshConversationsQuietly() {
+                try {
+                    const data = await window.SineAPI.getConversations();
+                    allConversations = data.conversations || [];
+                    if (!vueArchivesActive) renderConversationList();
+                } catch (e) { /* silencieux */ }
+            }
+
+            window.openConversation = async function(convId) {
+                const conv = allConversations.find(c => c._id === convId);
+                if (!conv) return;
+
+                if (activeConversation && activeConversation._id !== convId) {
+                    window.SineSocket.emit('leave-room', { roomId: activeConversation._id, userId: currentUser.id || currentUser._id });
+                }
+
+                activeConversation = conv;
+                renderConversationList();
+
+                const other = getOtherParticipant(conv);
+                document.getElementById('chatOtherName').textContent = other ? (other.storeName || `${other.firstName || ''} ${other.lastName || ''}`.trim()) : 'Utilisateur';
+                document.getElementById('chatOtherAvatar').src = other?.profilePicture || '../images/profil.png';
+                document.getElementById('chatOtherStatus').textContent = other?.role ? roleLabel(other.role) : '';
+                applyChatBackground(conv);
+                updateOtherStatusDisplay();
+
+                document.getElementById('chatThread').classList.add('active');
+                document.getElementById('chatConvList').classList.add('hidden-mobile');
+
+                window.SineSocket.emit('join-room', { roomId: convId, userId: currentUser.id || currentUser._id });
+
+                try {
+                    const data = await window.SineAPI.getMessages(convId);
+                    chatMessages = data.messages || [];
+                    renderMessages();
+                    if (conv.unreadCounts) conv.unreadCounts[currentUser.id || currentUser._id] = 0;
+                    renderConversationList();
+                    document.getElementById('messagesBadge').textContent = allConversations.filter(c => getMyUnreadCount(c) > 0).length;
+                } catch (e) {
+                    showNotification('Erreur de chargement des messages.', 'error');
+                }
+            };
+
+            document.getElementById('btnBackThread').addEventListener('click', function() {
+                document.getElementById('chatThread').classList.remove('active');
+                document.getElementById('chatConvList').classList.remove('hidden-mobile');
+            });
+
+            function renderBubble(msg) {
+                const myId = currentUser?.id || currentUser?._id;
+                const senderId = msg.sender?._id || msg.sender;
+                const mine = senderId === myId;
+                const time = msg.createdAt ? new Date(msg.createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '';
+                let body = '';
+
+                switch (msg.type) {
+                    case 'image':
+                        body = `<img class="chat-media" src="${msg.attachments?.[0] || ''}" alt="Photo" onclick="window.SineChatLightbox && window.SineChatLightbox('${msg.attachments?.[0] || ''}')">`;
+                        break;
+                    case 'video':
+                        body = `<video class="chat-media" src="${msg.attachments?.[0] || ''}" controls></video>`;
+                        break;
+                    case 'audio':
+                        body = `<div class="chat-voice-note"><i class="fa-solid fa-microphone" style="opacity:0.6;"></i><audio src="${msg.attachments?.[0] || ''}" controls></audio></div>`;
+                        break;
+                    case 'file':
+                        body = `<a class="chat-file-link" href="${msg.attachments?.[0] || ''}" target="_blank"><i class="fa-regular fa-file"></i> ${escapeHtml(msg.content || 'Fichier')}</a>`;
+                        break;
+                    case 'location': {
+                        const lat = msg.metadata?.lat, lng = msg.metadata?.lng;
+                        body = `<a class="chat-location" href="https://www.google.com/maps?q=${lat},${lng}" target="_blank"><i class="fa-solid fa-location-dot"></i> Localisation partagée</a>`;
+                        break;
+                    }
+                    case 'share': {
+                        const shareType = msg.metadata?.shareType;
+                        const title = msg.metadata?.previewTitle || 'Élément partagé';
+                        const img = msg.metadata?.previewImage || '../images/produit.png';
+                        const clickAction = shareType === 'invoice' ?
+                            `window.SineAPI.downloadOrderInvoice('${msg.metadata?.shareId}')` :
+                            `window.location.href='${shareLinkFor(shareType, msg.metadata?.shareId, msg.metadata)}'`;
+                        body = `<div class="chat-share-card" onclick="${clickAction}">
+                                    <img src="${img}" alt="" onerror="this.src='../images/produit.png'">
+                                    <div><div class="share-title">${escapeHtml(title)}</div><div class="share-sub">${shareLabelFor(shareType)}</div></div>
+                                </div>`;
+                        break;
+                    }
+                    default:
+                        body = escapeHtml(msg.content || '');
+                }
+
+                const readTag = mine ?
+                    `<i class="fa-solid ${msg.isRead ? 'fa-check-double' : 'fa-check'}" style="font-size:0.68rem;margin-left:4px;color:${msg.isRead ? '#2d73ff' : 'inherit'};opacity:${msg.isRead ? '1' : '0.6'};"></i>` :
+                    '';
+                const listenBtn = msg.type === 'text' ?
+                    `<button onclick="window.readMessageAloud('${msg._id}')" style="background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.75rem;margin-left:4px;" title="Écouter"><i class="fa-solid fa-volume-high"></i></button>` :
+                    '';
+                const reactBtn = `<button onclick="window.toggleReactionPicker('${msg._id}')" style="background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.75rem;margin-left:4px;" title="Réagir"><i class="fa-regular fa-face-smile"></i></button>`;
+                const canEdit = mine && msg.type === 'text' && (Date.now() - new Date(msg.createdAt).getTime()) < 10 * 60 * 1000;
+                const editBtn = canEdit ?
+                    `<button onclick="window.startEditMessage('${msg._id}')" style="background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.75rem;margin-left:4px;" title="Modifier"><i class="fa-solid fa-pen"></i></button>` :
+                    '';
+
+                let reactionsHtml = '';
+                if (msg.reactions && msg.reactions.length) {
+                    const groups = {};
+                    msg.reactions.forEach(r => { groups[r.emoji] = (groups[r.emoji] || 0) + 1; });
+                    reactionsHtml = `<div class="chat-reactions">${Object.entries(groups).map(([emoji, count]) =>
+                        `<span class="chat-reaction-pill" onclick="window.sendReaction('${msg._id}','${emoji}')">${emoji} ${count > 1 ? count : ''}</span>`
+                    ).join('')}</div>`;
+                }
+                const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
+                const reactionPicker = `<div class="chat-reaction-picker" id="reactionPicker-${msg._id}">
+                    ${REACTION_EMOJIS.map(e => `<button onclick="window.sendReaction('${msg._id}','${e}')">${e}</button>`).join('')}
+                    <button onclick="window.sendReaction('${msg._id}','♡')" style="font-size:1.4rem;color:#ef4444;" title="Cœur battant"><span class="emoji-heart-beat" style="font-size:0.9rem;display:inline-block;">♡</span></button>
+                </div>`;
+
+                return `<div class="chat-bubble-row ${mine ? 'mine' : ''}">
+                    <div class="chat-bubble-wrap">
+                        ${reactionPicker}
+                        <div class="chat-bubble ${mine ? 'mine' : ''}">${body}<span class="chat-time">${time}${readTag}</span>${listenBtn}${reactBtn}${editBtn}</div>
+                        ${reactionsHtml}
+                    </div>
+                </div>`;
+            }
+
+            function renderMessages() {
+                const container = document.getElementById('chatMessages');
+                if (!container) return;
+                container.innerHTML = chatMessages.map(renderBubble).join('');
+                container.scrollTop = container.scrollHeight;
+            }
+
+            function applyChatBackground(conv) {
+                const el = document.getElementById('chatMessages');
+                const myUid = currentUser?.id || currentUser?._id;
+                const stored = conv?.chatBackgrounds?.[myUid];
+                if (!stored) {
+                    el.dataset.bg = 'default';
+                    el.style.backgroundImage = '';
+                    return;
+                }
+                if (stored.startsWith('preset:')) {
+                    el.dataset.bg = stored.replace('preset:', '');
+                    el.style.backgroundImage = '';
+                } else {
+                    el.dataset.bg = 'custom';
+                    el.style.backgroundImage = `url('${stored}')`;
+                }
+            }
+
+            // ... (suite des fonctions de messagerie)
+
+            // =========================================================
+            // DISPLAY FUNCTIONS
+            // =========================================================
             function displayDeliveries(orders) {
                 const container = document.getElementById('listeLivraisons');
                 const filter = document.getElementById('filterDelivery').value;
@@ -2636,7 +3090,7 @@
                 if (filter) filtered = orders.filter(o => o.status === filter);
 
                 if (filtered.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><span class="icon">🚚</span>Aucune livraison</div>';
+                    container.innerHTML = '<div class="empty-state"><span class="icon">🚚</span><span data-translate="livreur.noDeliveries">Aucune livraison</span></div>';
                     return;
                 }
                 container.innerHTML = filtered.map(o => `
@@ -2656,7 +3110,7 @@
             function displayHistory(orders) {
                 const container = document.getElementById('historiqueLivraisons');
                 if (orders.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><span class="icon">📜</span>Aucun historique</div>';
+                    container.innerHTML = '<div class="empty-state"><span class="icon">📜</span><span data-translate="livreur.noHistory">Aucun historique</span></div>';
                     return;
                 }
                 container.innerHTML = orders.map(o => `
@@ -2694,7 +3148,7 @@
                 document.getElementById('gainAujourdhui').textContent = formatPrice(aujourdhui);
 
                 if (delivered.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><span class="icon">💰</span>Aucun gain</div>';
+                    container.innerHTML = '<div class="empty-state"><span class="icon">💰</span><span data-translate="livreur.noEarnings">Aucun gain</span></div>';
                     return;
                 }
                 container.innerHTML = delivered.slice(0, 10).map(o => `
@@ -2710,7 +3164,7 @@
             function displayNotifications(notifs) {
                 const container = document.getElementById('listeNotifications');
                 if (notifs.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><span class="icon">🔔</span>Aucune notification</div>';
+                    container.innerHTML = '<div class="empty-state"><span class="icon">🔔</span><span data-translate="notifications.empty">Aucune notification</span></div>';
                     return;
                 }
                 container.innerHTML = notifs.slice(0, 10).map(n => `
@@ -2718,7 +3172,7 @@
                         <span class="title">${n.title || 'Notification'}</span>
                         <span class="subtitle">${n.message || ''}</span>
                         <span style="font-size:0.7rem;color:#94a3b8;">${n.createdAt ? new Date(n.createdAt).toLocaleDateString() : ''}</span>
-                        ${!n.isRead ? `<button onclick="markNotifRead('${n._id}')" style="color:#2563eb;font-size:0.75rem;">Marquer lu</button>` : ''}
+                        ${!n.isRead ? `<button onclick="markNotifRead('${n._id}')" style="color:#2563eb;font-size:0.75rem;background:none;border:none;cursor:pointer;">Marquer lu</button>` : ''}
                     </div>
                 `).join('');
             }
@@ -2756,6 +3210,61 @@
                 }
             };
 
+            window.markNotifRead = async function(id) {
+                try {
+                    await window.SineAPI.markNotificationRead(id);
+                    const notif = allNotifications.find(n => n._id === id);
+                    if (notif) notif.isRead = true;
+                    updateUI();
+                } catch (e) {
+                    showNotification(e.message || 'Erreur.', 'error');
+                }
+            };
+
+            window.viewDelivery = function(id) {
+                const order = allOrders.find(o => o._id === id);
+                if (!order) {
+                    showNotification('❌ Livraison introuvable.', 'error');
+                    return;
+                }
+                const adresse = [order.shippingAddress?.street, order.shippingAddress?.city, order.shippingAddress?.country]
+                    .filter(Boolean).join(', ') || 'Adresse non précisée';
+                const client = order.user?.firstName ? `${order.user.firstName} ${order.user.lastName || ''}`.trim() : 'Client';
+                const articles = (order.items || []).map(it => `${it.product?.name || 'Article'} ×${it.quantity || 1}`).join(', ') || 'Détail non disponible';
+
+                const vendeurNom = order.seller?.storeName || `${order.seller?.firstName || ''} ${order.seller?.lastName || ''}`.trim() || 'Vendeur';
+                const vendeurAdresse = order.seller?.storeAddress
+                    || [order.seller?.address?.street, order.seller?.address?.city, order.seller?.address?.country].filter(Boolean).join(', ')
+                    || 'Adresse non précisée';
+                const vendeurTel = order.seller?.phone || 'non renseigné';
+
+                let groupInfo = '';
+                if (order.isMultiVendorGroup && order.groupSiblings?.length) {
+                    const autres = order.groupSiblings.map(s => {
+                        const nom = s.seller?.storeName || 'Autre vendeur';
+                        const adr = s.seller?.storeAddress || [s.seller?.address?.street, s.seller?.address?.city].filter(Boolean).join(', ') || 'adresse non précisée';
+                        return `   • ${nom} (${adr}) — statut : ${s.status}`;
+                    }).join('\n');
+                    groupInfo = `\n\n⚠️ Commande groupée — ce client a aussi commandé chez d'autres vendeurs à assembler avant livraison :\n${autres}`;
+                }
+
+                alert(
+                    `📦 Commande #${order.orderNumber || order._id}\n\n` +
+                    `🏪 RETRAIT chez : ${vendeurNom}\n` +
+                    `📍 Adresse de retrait : ${vendeurAdresse}\n` +
+                    `📞 Téléphone vendeur : ${vendeurTel}\n\n` +
+                    `👤 LIVRAISON à : ${client}\n` +
+                    `📍 Adresse de livraison : ${adresse}\n` +
+                    `📞 Téléphone client : ${order.user?.phone || 'non renseigné'}\n\n` +
+                    `🛍️ Articles : ${articles}\n` +
+                    `💰 Frais de livraison : ${formatPrice(order.shippingCost || 0)}` +
+                    groupInfo
+                );
+            };
+
+            // =========================================================
+            // SCAN PAY
+            // =========================================================
             let scanPayPollInterval = null;
 
             window.openScanPay = async function(orderId) {
@@ -2819,58 +3328,6 @@
                     if (scanPayPollInterval) clearInterval(scanPayPollInterval);
                 }
             });
-
-            window.viewDelivery = function(id) {
-                const order = allOrders.find(o => o._id === id);
-                if (!order) {
-                    showNotification('❌ Livraison introuvable.', 'error');
-                    return;
-                }
-                const adresse = [order.shippingAddress?.street, order.shippingAddress?.city, order.shippingAddress?.country]
-                    .filter(Boolean).join(', ') || 'Adresse non précisée';
-                const client = order.user?.firstName ? `${order.user.firstName} ${order.user.lastName || ''}`.trim() : 'Client';
-                const articles = (order.items || []).map(it => `${it.product?.name || 'Article'} ×${it.quantity || 1}`).join(', ') || 'Détail non disponible';
-
-                const vendeurNom = order.seller?.storeName || `${order.seller?.firstName || ''} ${order.seller?.lastName || ''}`.trim() || 'Vendeur';
-                const vendeurAdresse = order.seller?.storeAddress
-                    || [order.seller?.address?.street, order.seller?.address?.city, order.seller?.address?.country].filter(Boolean).join(', ')
-                    || 'Adresse non précisée';
-                const vendeurTel = order.seller?.phone || 'non renseigné';
-
-                let groupInfo = '';
-                if (order.isMultiVendorGroup && order.groupSiblings?.length) {
-                    const autres = order.groupSiblings.map(s => {
-                        const nom = s.seller?.storeName || 'Autre vendeur';
-                        const adr = s.seller?.storeAddress || [s.seller?.address?.street, s.seller?.address?.city].filter(Boolean).join(', ') || 'adresse non précisée';
-                        return `   • ${nom} (${adr}) — statut : ${s.status}`;
-                    }).join('\n');
-                    groupInfo = `\n\n⚠️ Commande groupée — ce client a aussi commandé chez d'autres vendeurs à assembler avant livraison :\n${autres}`;
-                }
-
-                alert(
-                    `📦 Commande #${order.orderNumber || order._id}\n\n` +
-                    `🏪 RETRAIT chez : ${vendeurNom}\n` +
-                    `📍 Adresse de retrait : ${vendeurAdresse}\n` +
-                    `📞 Téléphone vendeur : ${vendeurTel}\n\n` +
-                    `👤 LIVRAISON à : ${client}\n` +
-                    `📍 Adresse de livraison : ${adresse}\n` +
-                    `📞 Téléphone client : ${order.user?.phone || 'non renseigné'}\n\n` +
-                    `🛍️ Articles : ${articles}\n` +
-                    `💰 Frais de livraison : ${formatPrice(order.shippingCost || 0)}` +
-                    groupInfo
-                );
-            };
-
-            window.markNotifRead = async function(id) {
-                try {
-                    await window.SineAPI.markNotificationRead(id);
-                    const notif = allNotifications.find(n => n._id === id);
-                    if (notif) notif.isRead = true;
-                    updateUI();
-                } catch (e) {
-                    showNotification(e.message || 'Erreur.', 'error');
-                }
-            };
 
             // =========================================================
             // STATUT
@@ -3130,7 +3587,7 @@
             }
 
             // =========================================================
-            // NAVIGATION - VERSION CORRIGÉE
+            // NAVIGATION
             // =========================================================
             function navigateTo(sectionId) {
                 console.log('📂 navigateTo appelé avec:', sectionId);
@@ -3167,8 +3624,8 @@
 
                 container.classList.add('section-open');
 
-                if (sectionId === 'messages' && window.sineChat) {
-                    setTimeout(() => window.sineChat.renderConversationList(), 100);
+                if (sectionId === 'messages') {
+                    setTimeout(() => renderConversationList(), 100);
                 }
             }
             window.navigateTo = navigateTo;
@@ -3181,7 +3638,6 @@
                     const section = this.dataset.section;
                     if (!section) return;
                     e.preventDefault();
-                    console.log('🖱️ Clic menu sur:', section);
                     navigateTo(section);
                 });
             });
@@ -3201,10 +3657,9 @@
             });
 
             // =========================================================
-            // CENTRE D'AIDE — ACCORDÉON FAQ & CONTACT
+            // FAQ - ACCORDÉON & CONTACT
             // =========================================================
             document.addEventListener('DOMContentLoaded', function() {
-                // --- FAQ Accordéon ---
                 document.querySelectorAll('.faq-question').forEach(function(btn) {
                     btn.addEventListener('click', function() {
                         const answer = this.nextElementSibling;
@@ -3221,22 +3676,16 @@
                     });
                 });
 
-                // --- Bouton Contact ---
                 document.getElementById('btnOuvrirContact')?.addEventListener('click', function() {
                     document.getElementById('contactModal').style.display = 'flex';
                 });
-
-                // --- Annuler Contact ---
                 document.getElementById('btnAnnulerContact')?.addEventListener('click', function() {
                     document.getElementById('contactModal').style.display = 'none';
                 });
-
-                // --- Fermer Contact sur clic extérieur ---
                 document.getElementById('contactModal')?.addEventListener('click', function(e) {
                     if (e.target === this) this.style.display = 'none';
                 });
 
-                // --- Envoyer Contact ---
                 document.getElementById('btnEnvoyerContact')?.addEventListener('click', async function() {
                     const btn = this;
                     const subject = document.getElementById('contactSubject').value.trim();
@@ -3299,18 +3748,10 @@
 
             function applyCurrency(currency) {
                 if (window.SINE) window.SINE.setCurrency(currency);
-                document.getElementById('headerDeviseSelect').value = currency;
                 document.getElementById('deviseLivreur').value = currency;
                 loadData();
             }
 
-            document.getElementById('headerDeviseSelect').addEventListener('change', async function() {
-                applyCurrency(this.value);
-                if (currentUser) {
-                    try { currentUser = await window.SineAPI.updateProfile({ preferredCurrency: this.value }); }
-                    catch (e) { /* préférence locale déjà appliquée */ }
-                }
-            });
             document.getElementById('langueLivreur').addEventListener('change', async function() {
                 applyLanguage(this.value);
                 if (currentUser) {
@@ -3319,7 +3760,6 @@
                 }
             });
             document.getElementById('deviseLivreur').addEventListener('change', function() {
-                document.getElementById('headerDeviseSelect').value = this.value;
                 applyCurrency(this.value);
             });
             document.getElementById('genreLivreur').addEventListener('change', async function() {
@@ -3388,9 +3828,18 @@
             // VALIDATION DU NUMÉRO PAR SMS
             // =========================================================
             document.getElementById('btnValiderTelephone').addEventListener('click', async function() {
+                if (!currentUser) {
+                    showNotification('❌ Utilisateur non connecté. Veuillez vous reconnecter.', 'error');
+                    return;
+                }
+                const phone = currentUser.phone;
+                if (!phone) {
+                    showNotification('❌ Aucun numéro de téléphone enregistré. Veuillez le renseigner dans votre profil.', 'error');
+                    return;
+                }
                 try {
                     await window.SineAPI.requestPhoneVerification();
-                    document.getElementById('phoneVerifyIntro').textContent = 'Un code a été envoyé au ' + (currentUser.phone || 'votre numéro') + '.';
+                    document.getElementById('phoneVerifyIntro').textContent = 'Un code a été envoyé au ' + phone + '.';
                     document.getElementById('phoneVerifyModal').style.display = 'flex';
                 } catch (e) {
                     showNotification(e.message || 'Erreur lors de l\'envoi du code.', 'error');
@@ -3418,30 +3867,6 @@
                     showNotification(e.message || 'Code incorrect.', 'error');
                 }
             });
-            // =========================================================
-// VALIDATION DU NUMÉRO PAR SMS - CORRIGÉ
-// =========================================================
-document.getElementById('btnValiderTelephone').addEventListener('click', async function() {
-    // ✅ Vérifier que currentUser existe
-    if (!currentUser) {
-        showNotification('❌ Utilisateur non connecté. Veuillez vous reconnecter.', 'error');
-        return;
-    }
-    
-    const phone = currentUser.phone;
-    if (!phone) {
-        showNotification('❌ Aucun numéro de téléphone enregistré. Veuillez le renseigner dans votre profil.', 'error');
-        return;
-    }
-    
-    try {
-        await window.SineAPI.requestPhoneVerification();
-        document.getElementById('phoneVerifyIntro').textContent = 'Un code a été envoyé au ' + phone + '.';
-        document.getElementById('phoneVerifyModal').style.display = 'flex';
-    } catch (e) {
-        showNotification(e.message || 'Erreur lors de l\'envoi du code.', 'error');
-    }
-});
 
             // =========================================================
             // CHANGEMENT D'EMAIL VÉRIFIÉ
@@ -3785,13 +4210,6 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                 }
 
                 window.SineSocket.connect();
-                window.sineChat = window.initSineChat({
-                    getCurrentUser: () => currentUser,
-                    getConversations: () => allConversations,
-                    setConversations: (list) => { allConversations = list; },
-                    notify: showNotification,
-                    onUnreadCountChange: (count) => { document.getElementById('messagesBadge').textContent = count; }
-                });
 
                 setInterval(() => { if (!document.hidden) loadData(); }, 30000);
 

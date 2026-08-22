@@ -41,7 +41,7 @@
         button { cursor: pointer; border: none; background: none; touch-action: manipulation; }
 
         /* =========================================================
-           THÈME SOMBRE — corrigé pour la lisibilité
+           THÈME SOMBRE — CORRIGÉ POUR LA LISIBILITÉ
            ========================================================= */
         [data-theme="dark"] {
             --bg-body: #0f172a;
@@ -77,12 +77,15 @@
         [data-theme="dark"] .card h2,
         [data-theme="dark"] .card-item .title,
         [data-theme="dark"] .card-item .price,
-        [data-theme="dark"] .chat-thread-header .name {
+        [data-theme="dark"] .chat-thread-header .name,
+        [data-theme="dark"] .chat-conv-item .conv-name,
+        [data-theme="dark"] .chat-bubble-row:not(.mine) .chat-bubble {
             color: var(--text-inverse);
         }
         [data-theme="dark"] .card > p,
         [data-theme="dark"] .card-item .subtitle,
-        [data-theme="dark"] .chat-thread-header .status {
+        [data-theme="dark"] .chat-thread-header .status,
+        [data-theme="dark"] .chat-conv-item .conv-preview {
             color: var(--text-secondary);
         }
         [data-theme="dark"] aside .sidebar-profile {
@@ -178,11 +181,11 @@
         [data-theme="dark"] .chat-messages[data-bg="custom"]::before {
             background: rgba(0,0,0,0.5);
         }
-        [data-theme="dark"] .chat-bubble {
+        [data-theme="dark"] .chat-bubble:not(.mine) {
             background: #2a3a4e;
             color: var(--text-primary);
         }
-        [data-theme="dark"] .chat-bubble-row.mine .chat-bubble {
+        [data-theme="dark"] .chat-bubble.mine {
             background: #2d73ff;
             color: white;
         }
@@ -436,203 +439,6 @@
         }
         [data-theme="dark"] .faq-answer a:hover {
             color: #93c5fd;
-        }
-
-        /* =========================================================
-           WALLET — corrections pour le mode sombre
-           ========================================================= */
-        [data-theme="dark"] #walletBalanceDisplay,
-        [data-theme="dark"] #loyaltyBalanceDisplay {
-            color: white;
-        }
-        [data-theme="dark"] #walletRechargeProviders button {
-            background: var(--bg-hover) !important;
-            color: var(--text-secondary) !important;
-            border-color: var(--border-color) !important;
-        }
-        [data-theme="dark"] #walletRechargeProviders button:hover:not([disabled]) {
-            background: #334155 !important;
-            color: var(--text-inverse) !important;
-        }
-        [data-theme="dark"] #walletRechargeProviders button[disabled] {
-            opacity: 0.5;
-        }
-        [data-theme="dark"] #walletHistoryList .card-item {
-            background: var(--bg-input);
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] #walletHistoryList .card-item .title {
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] #walletHistoryList .card-item .subtitle {
-            color: var(--text-secondary);
-        }
-
-        /* =========================================================
-           PRODUITS — catalogue en mode sombre
-           ========================================================= */
-        [data-theme="dark"] .produit-card {
-            background: var(--bg-input);
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] .produit-card:hover {
-            box-shadow: 0 8px 18px rgba(0,0,0,0.3);
-        }
-        [data-theme="dark"] .produit-card h4 {
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] .produit-card .prix {
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] .produit-card .vendeur {
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .produit-card img {
-            background: var(--bg-hover);
-        }
-
-        /* =========================================================
-           STATS — corrections pour le mode sombre
-           ========================================================= */
-        [data-theme="dark"] .stats-grid .stat-box {
-            background: var(--bg-input);
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] .stats-grid .stat-box h3 {
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] .stats-grid .stat-box p {
-            color: var(--text-secondary);
-        }
-
-        /* =========================================================
-           HEADER — SANS DEVISE ET SANS DECONNEXION
-           ========================================================= */
-        [data-theme="dark"] header {
-            background: #0a1420;
-            border-bottom: 1px solid var(--border-color);
-        }
-        [data-theme="dark"] header .logo span {
-            color: #facc15;
-        }
-        [data-theme="dark"] header .header-right .user-info {
-            background: var(--bg-hover);
-        }
-        [data-theme="dark"] header .header-right .user-info:hover {
-            background: #334155;
-        }
-
-        /* =========================================================
-           SIDEBAR — corrections pour le mode sombre
-           ========================================================= */
-        [data-theme="dark"] aside {
-            background: var(--bg-card);
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] aside .sidebar-profile .name {
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] aside .btn-assistant {
-            background: #2d73ff;
-            color: white;
-        }
-        [data-theme="dark"] aside .btn-assistant:hover {
-            background: #1f5fe0;
-        }
-        [data-theme="dark"] aside .btn-achat {
-            background: #facc15;
-            color: #0f172a;
-        }
-        [data-theme="dark"] aside .btn-achat:hover {
-            background: #eab308;
-        }
-
-        /* =========================================================
-           MODALS — corrections pour le mode sombre
-           ========================================================= */
-        [data-theme="dark"] .modal-content,
-        [data-theme="dark"] #contactModal > div,
-        [data-theme="dark"] #passwordModal > div,
-        [data-theme="dark"] #emailModal > div,
-        [data-theme="dark"] #phoneVerifyModal > div,
-        [data-theme="dark"] #emailChangeModal > div {
-            background: var(--bg-card);
-            color: var(--text-primary);
-        }
-        [data-theme="dark"] .modal-content h2,
-        [data-theme="dark"] .modal-content h3 {
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] .modal-content p {
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .modal-content .form-group label {
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .modal-content .form-group input,
-        [data-theme="dark"] .modal-content .form-group select,
-        [data-theme="dark"] .modal-content .form-group textarea {
-            background: var(--bg-input);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] .modal-content .form-group input:focus,
-        [data-theme="dark"] .modal-content .form-group select:focus,
-        [data-theme="dark"] .modal-content .form-group textarea:focus {
-            border-color: #2d73ff;
-        }
-        [data-theme="dark"] .modal-content .btn-submit {
-            background: #2d73ff;
-            color: white;
-        }
-        [data-theme="dark"] .modal-content .btn-submit:hover {
-            background: #1f5fe0;
-        }
-        [data-theme="dark"] .modal-content .btn-cancel {
-            background: var(--bg-hover);
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .modal-content .btn-cancel:hover {
-            background: #334155;
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] .modal-content .success-message {
-            background: rgba(34,197,94,0.15);
-            color: #4ade80;
-        }
-        [data-theme="dark"] .modal-content a {
-            color: #60a5fa;
-        }
-        [data-theme="dark"] .modal-content a:hover {
-            color: #93c5fd;
-        }
-
-        /* =========================================================
-           NOTIFICATION — corrections pour le mode sombre
-           ========================================================= */
-        [data-theme="dark"] #notification {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        }
-        [data-theme="dark"] #notification.error {
-            border-left-color: #ef4444;
-        }
-        [data-theme="dark"] #notification.warning {
-            border-left-color: #f59e0b;
-        }
-        [data-theme="dark"] #notification.success {
-            border-left-color: #22c55e;
-        }
-
-        /* =========================================================
-           RESPONSIVE — corrections pour le mode sombre
-           ========================================================= */
-        @media (max-width: 900px) {
-            [data-theme="dark"] aside .sidebar-profile {
-                border-bottom-color: var(--border-color);
-            }
         }
 
         /* =========================================================
@@ -1050,7 +856,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* =========================================================
-           MESSAGERIE ENRICHIE
+           MESSAGERIE ENRICHIE — DISPOSITION AMÉLIORÉE
            ========================================================= */
         .chat-layout {
             display: grid;
@@ -1215,13 +1021,16 @@
         }
         .btn-upload-bg:hover { background: #dbeafe; }
 
+        /* =========================================================
+           CHAT MESSAGES — DISPOSITION AMÉLIORÉE (comme Alibaba/SINE)
+           ========================================================= */
         .chat-messages {
             flex: 1;
             overflow-y: auto;
             padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.4rem;
             position: relative;
             background-color: #eef4fb;
             background-image:
@@ -1248,8 +1057,8 @@
             background-color: #0f1c2e;
             background-image: linear-gradient(160deg, #0a1626 0%, #10243b 60%, #0c1b30 100%);
         }
-        .chat-messages[data-bg="night"] .chat-bubble { background: #1e2f47; color: #e2e8f0; }
-        .chat-messages[data-bg="night"] .chat-bubble-row.mine .chat-bubble { background: #2d73ff; }
+        .chat-messages[data-bg="night"] .chat-bubble:not(.mine) { background: #1e2f47; color: #e2e8f0; }
+        .chat-messages[data-bg="night"] .chat-bubble.mine { background: #2d73ff; }
         .chat-messages[data-bg="custom"] {
             background-size: cover;
             background-position: center;
@@ -1263,26 +1072,76 @@
             pointer-events: none;
             z-index: 0;
         }
-        .chat-bubble-row { display: flex; position: relative; z-index: 1; }
-        .chat-bubble-row.mine { justify-content: flex-end; }
-        .chat-bubble {
+        .chat-messages[data-bg="custom"] .chat-bubble-wrap { position: relative; z-index: 1; }
+
+        /* BULLES DE MESSAGE — STYLE SINE.SHOP */
+        .chat-bubble-row {
+            display: flex;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+        .chat-bubble-row.mine {
+            justify-content: flex-end;
+        }
+        .chat-bubble-row:not(.mine) {
+            justify-content: flex-start;
+        }
+
+        .chat-bubble-wrap {
+            position: relative;
+            display: inline-block;
             max-width: 72%;
+        }
+
+        .chat-bubble {
             padding: 0.6rem 0.9rem;
             border-radius: 16px;
-            background: #f1f5f9;
             font-size: 0.88rem;
             line-height: 1.4;
+            word-break: break-word;
+            position: relative;
         }
-        .chat-bubble-row.mine .chat-bubble { background: #0f172a; color: white; }
-        .chat-bubble .chat-time { display: block; font-size: 0.65rem; opacity: 0.6; margin-top: 3px; }
-        .chat-bubble img.chat-media, .chat-bubble video.chat-media {
-            max-width: 220px; border-radius: 12px; margin-bottom: 4px; display: block;
+        .chat-bubble:not(.mine) {
+            background: #f1f5f9;
+            color: #1e293b;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-bubble.mine {
+            background: #0f172a;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-bubble .chat-time {
+            display: block;
+            font-size: 0.62rem;
+            opacity: 0.6;
+            margin-top: 3px;
+            text-align: right;
+        }
+        .chat-bubble.mine .chat-time { color: rgba(255,255,255,0.7); }
+        .chat-bubble:not(.mine) .chat-time { color: #94a3b8; }
+
+        .chat-bubble img.chat-media,
+        .chat-bubble video.chat-media {
+            max-width: 220px;
+            border-radius: 12px;
+            margin-bottom: 4px;
+            display: block;
+            cursor: pointer;
         }
         .chat-bubble .chat-file-link {
-            display: flex; align-items: center; gap: 0.4rem; text-decoration: underline;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: underline;
         }
         .chat-bubble .chat-location {
-            display: flex; align-items: center; gap: 0.4rem; font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
         }
         .chat-bubble .chat-share-card {
             background: rgba(255,255,255,0.12);
@@ -1293,16 +1152,43 @@
             gap: 0.6rem;
             cursor: pointer;
         }
-        .chat-bubble-row:not(.mine) .chat-share-card { background: #e2e8f0; }
-        .chat-share-card img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; background: #cbd5e1; }
+        .chat-bubble-row:not(.mine) .chat-share-card {
+            background: #e2e8f0;
+        }
+        .chat-share-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #cbd5e1;
+        }
         .chat-share-card .share-title { font-weight: 700; font-size: 0.82rem; }
         .chat-share-card .share-sub { font-size: 0.72rem; opacity: 0.7; }
-        .chat-bubble .edited-tag { font-size: 0.62rem; opacity: 0.6; font-style: italic; margin-left: 4px; }
-        .chat-translation { margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(148,163,184,0.4); font-size: 0.82rem; font-style: italic; opacity: 0.9; }
-        .chat-bubble-forwarded { font-size: 0.68rem; opacity: 0.65; font-style: italic; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
+        .chat-bubble .edited-tag {
+            font-size: 0.62rem;
+            opacity: 0.6;
+            font-style: italic;
+            margin-left: 4px;
+        }
+        .chat-translation {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed rgba(148,163,184,0.4);
+            font-size: 0.82rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        .chat-bubble-forwarded {
+            font-size: 0.68rem;
+            opacity: 0.65;
+            font-style: italic;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
-        .chat-bubble-row { padding: 2px 0; }
-        .chat-bubble-wrap { position: relative; display: inline-block; max-width: 100%; }
+        /* ACTIONS SUR LES MESSAGES (hover) */
         .chat-msg-actions {
             display: none;
             position: absolute;
@@ -1314,10 +1200,18 @@
             gap: 2px;
             z-index: 8;
         }
-        .chat-bubble-row.mine .chat-msg-actions { right: 0; }
-        .chat-bubble-row:not(.mine) .chat-msg-actions { left: 0; }
+        .chat-bubble-row.mine .chat-msg-actions {
+            right: 0;
+        }
+        .chat-bubble-row:not(.mine) .chat-msg-actions {
+            left: 0;
+        }
         .chat-bubble-wrap:hover .chat-msg-actions,
-        .chat-bubble-wrap.actions-open .chat-msg-actions { display: flex; }
+        .chat-bubble-wrap.actions-open .chat-msg-actions {
+            display: flex;
+        }
+
+        /* RÉACTIONS */
         .chat-reactions {
             display: flex;
             gap: 4px;
@@ -1331,6 +1225,8 @@
             font-size: 0.72rem;
             cursor: pointer;
         }
+        .chat-reaction-pill:hover { background: rgba(0,0,0,0.12); }
+
         .chat-reaction-picker {
             display: none;
             position: absolute;
@@ -1344,10 +1240,25 @@
             z-index: 10;
         }
         .chat-reaction-picker.open { display: flex; }
-        .chat-reaction-picker button { font-size: 1.1rem; padding: 2px 4px; border-radius: 50%; }
+        .chat-reaction-picker button {
+            font-size: 1.1rem;
+            padding: 2px 4px;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
         .chat-reaction-picker button:hover { background: #f1f5f9; }
+
         .chat-msg-actions button {
-            width: 30px; height: 30px; border-radius: 50%; font-size: 0.78rem; color: #475569;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 0.78rem;
+            color: #475569;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
         .chat-msg-actions button:hover { background: #f1f5f9; }
         .chat-msg-actions button.danger:hover { background: #fef2f2; color: #dc2626; }
@@ -1392,6 +1303,7 @@
 
         .chat-typing { font-size: 0.78rem; color: #94a3b8; padding: 0 1rem 0.4rem; font-style: italic; }
 
+        /* COMPOSITION DU MESSAGE */
         .chat-compose {
             display: flex;
             align-items: flex-end;
@@ -1410,13 +1322,23 @@
             font-size: 0.9rem;
             max-height: 100px;
             outline: none;
+            background: white;
         }
         .chat-compose textarea:focus { border-color: #0f172a; }
         .chat-compose button {
-            width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; flex-shrink: 0; font-size: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            flex-shrink: 0;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
         }
+        .chat-compose button:hover { background: #e2e8f0; }
         .chat-compose .btn-send { background: #0f172a; color: white; }
         .chat-compose .btn-send:hover { background: #1e293b; }
+
         .chat-attach-menu {
             display: none;
             position: absolute;
@@ -1432,6 +1354,19 @@
             z-index: 10;
         }
         .chat-attach-menu.open { display: flex; }
+        .chat-attach-menu button {
+            width: 100%;
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            background: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        .chat-attach-menu button:hover { background: #f1f5f9; }
+
         .chat-emoji-picker {
             display: none;
             position: absolute;
@@ -1447,12 +1382,36 @@
             max-width: 280px;
         }
         .chat-emoji-picker.open { display: grid; }
-        .chat-emoji-picker button { font-size: 1.2rem; padding: 4px; border-radius: 8px; }
-        .chat-emoji-picker button:hover { background: #f1f5f9; }
-        .chat-attach-menu button {
-            width: 100%; text-align: left; padding: 0.6rem 0.8rem; border-radius: 10px; background: none; font-size: 0.85rem; font-weight: 500;
+        .chat-emoji-picker button {
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
-        .chat-attach-menu button:hover { background: #f1f5f9; }
+        .chat-emoji-picker button:hover { background: #f1f5f9; }
+
+        /* EMOJI SPÉCIAL ♡ QUI BAT */
+        .emoji-heart-beat {
+            display: inline-block;
+            font-size: 1.3rem;
+            color: #ef4444;
+            animation: heartBeat 1s ease-in-out infinite;
+            border: 2px solid #ef4444;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 26px;
+            text-align: center;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.2); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
 
         @media (max-width: 768px) {
             .chat-layout { grid-template-columns: 1fr; height: 75vh; }
@@ -1585,29 +1544,105 @@
             position: absolute; top: 12px; right: 12px; z-index: 6;
             width: 38px; height: 38px; border-radius: 50%;
             background: rgba(0,0,0,0.45); color: white; font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
         }
+        .call-overlay .btn-resize-video:hover { background: rgba(0,0,0,0.65); }
         .call-overlay .call-controls { display: flex; gap: 1rem; margin-top: 1rem; }
         .call-overlay .call-controls button {
             width: 56px; height: 56px; border-radius: 50%; font-size: 1.2rem; background: rgba(255,255,255,0.12); color: white;
+            border: none;
+            cursor: pointer;
         }
+        .call-overlay .call-controls button:hover { background: rgba(255,255,255,0.25); }
         .call-overlay .call-controls button.active-toggle { background: rgba(255,255,255,0.35); }
         .call-overlay .call-controls .btn-hangup { background: #ef4444; }
         .call-overlay .call-controls .btn-hangup:hover { background: #dc2626; }
         .call-overlay .call-incoming-actions { display: flex; gap: 1.5rem; margin-top: 1.5rem; }
         .call-overlay .call-incoming-actions button {
             width: 60px; height: 60px; border-radius: 50%; font-size: 1.4rem; color: white;
+            border: none;
+            cursor: pointer;
         }
         .call-overlay .btn-accept { background: #22c55e; }
         .call-overlay .btn-accept:hover { background: #16a34a; }
         .call-overlay .btn-reject { background: #ef4444; }
         .call-overlay .btn-reject:hover { background: #dc2626; }
+
+        /* NOTIFICATION D'APPEL ENTRANT (toast) */
+        .call-notification-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            z-index: 999998;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            max-width: 90%;
+            border-left: 4px solid #22c55e;
+        }
+        .call-notification-toast.show { display: flex; }
+        .call-notification-toast .call-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .call-notification-toast .call-info .caller-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .call-notification-toast .call-info .call-type {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .call-notification-toast .call-actions {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .call-notification-toast .call-actions button {
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .call-notification-toast .call-actions .btn-answer {
+            background: #22c55e;
+            color: white;
+        }
+        .call-notification-toast .call-actions .btn-answer:hover { background: #16a34a; }
+        .call-notification-toast .call-actions .btn-decline {
+            background: #ef4444;
+            color: white;
+        }
+        .call-notification-toast .call-actions .btn-decline:hover { background: #dc2626; }
+
+        /* =========================================================
+           RESTE DU STYLE (inchangé)
+           ========================================================= */
+        [data-theme="dark"] .call-notification-toast {
+            background: #1a2436;
+            border-left-color: #22c55e;
+        }
+        [data-theme="dark"] .call-notification-toast .call-info .caller-name {
+            color: var(--text-inverse);
+        }
+        [data-theme="dark"] .call-notification-toast .call-info .call-type {
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
     <!-- VIDÉO DE BIENVENUE -->
     <div id="welcomeVideoOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999999;align-items:center;justify-content:center;padding:20px;">
         <div style="position:relative;max-width:640px;width:100%;">
-            <button id="btnCloseWelcomeVideo" style="position:absolute;top:-40px;right:0;background:rgba(255,255,255,0.15);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;">✕</button>
+            <button id="btnCloseWelcomeVideo" style="position:absolute;top:-40px;right:0;background:rgba(255,255,255,0.15);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;border:none;cursor:pointer;">✕</button>
             <video id="welcomeVideoPlayer" src="" controls autoplay style="width:100%;border-radius:16px;background:#000;"></video>
         </div>
     </div>
@@ -1625,7 +1660,7 @@
                 <button id="btnConfirmPhoneVerify" class="btn-primary">✅ Valider</button>
             </div>
             <p style="text-align:center;margin-top:10px;"><a href="#" id="linkResendPhoneCode" style="font-size:0.85rem;color:#2d73ff;">📤 Renvoyer le code</a></p>
-            <button onclick="document.getElementById('phoneVerifyModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+            <button onclick="document.getElementById('phoneVerifyModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
         </div>
     </div>
 
@@ -1653,14 +1688,14 @@
                     <button id="btnConfirmEmailChange" class="btn-primary">✅ Confirmer</button>
                 </div>
             </div>
-            <button onclick="document.getElementById('emailChangeModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+            <button onclick="document.getElementById('emailChangeModal').style.display='none';" style="margin-top:0.5rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
         </div>
     </div>
 
     <!-- NOTIFICATION -->
     <div id="notification"></div>
 
-    <!-- HEADER - SANS DEVISE NI DECONNEXION -->
+    <!-- HEADER -->
     <header class="sine-header-bg">
         <div class="sine-header-stars">
             <span style="top:15%;left:10%;"></span>
@@ -1681,6 +1716,18 @@
             <button class="btn-logout" id="btnLogout" style="display:none;"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
     </header>
+
+    <!-- NOTIFICATION D'APPEL ENTRANT -->
+    <div class="call-notification-toast" id="callNotificationToast">
+        <div class="call-info">
+            <span class="caller-name" id="callToastName">—</span>
+            <span class="call-type" id="callToastType">Appel entrant</span>
+        </div>
+        <div class="call-actions">
+            <button class="btn-answer" id="callToastAnswer"><i class="fa-solid fa-phone"></i></button>
+            <button class="btn-decline" id="callToastDecline"><i class="fa-solid fa-phone-slash"></i></button>
+        </div>
+    </div>
 
     <!-- CONTAINER -->
     <div class="client-container">
@@ -1831,7 +1878,7 @@
 
                 <div class="chat-layout">
                     <div class="chat-conv-list" id="chatConvList">
-                        <button id="btnToggleArchives" style="width:100%;text-align:left;padding:8px 12px;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-bottom:8px;color:#334155;"><i class="fa-solid fa-box-archive"></i> <span data-translate="messages.archives">Archives</span></button>
+                        <button id="btnToggleArchives" style="width:100%;text-align:left;padding:8px 12px;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-bottom:8px;color:#334155;border:none;cursor:pointer;"><i class="fa-solid fa-box-archive"></i> <span data-translate="messages.archives">Archives</span></button>
                         <div id="chatConvListItems">
                             <div class="empty-state"><span class="icon">💬</span><span data-translate="messages.noConversations">Aucune conversation</span></div>
                         </div>
@@ -1839,16 +1886,16 @@
 
                     <div class="chat-thread" id="chatThread">
                         <div class="chat-thread-header">
-                            <button class="btn-back-thread" id="btnBackThread"><i class="fa-solid fa-arrow-left"></i></button>
+                            <button class="btn-back-thread" id="btnBackThread" style="background:none;border:none;cursor:pointer;font-size:1rem;"><i class="fa-solid fa-arrow-left"></i></button>
                             <img id="chatOtherAvatar" src="" alt="">
                             <div>
                                 <div class="name" id="chatOtherName">—</div>
                                 <div class="status" id="chatOtherStatus"></div>
                             </div>
                             <div class="call-actions">
-                                <button id="btnCallAudio" title="Appel vocal"><i class="fa-solid fa-phone"></i></button>
-                                <button id="btnCallVideo" title="Appel vidéo"><i class="fa-solid fa-video"></i></button>
-                                <button id="btnThreadMenu" title="Options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <button id="btnCallAudio" title="Appel vocal" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-phone"></i></button>
+                                <button id="btnCallVideo" title="Appel vidéo" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-video"></i></button>
+                                <button id="btnThreadMenu" title="Options" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                             </div>
                         </div>
                         <div class="chat-thread-dropdown" id="chatThreadDropdown">
@@ -1862,15 +1909,15 @@
                         <div class="chat-typing" id="chatTyping" style="display:none;"></div>
                         <div class="chat-recording-indicator" id="chatRecordingIndicator">
                             <span class="dot"></span> Enregistrement en cours...
-                            <button id="btnCancelRecording"><i class="fa-solid fa-xmark"></i></button>
-                            <button id="btnStopRecording" style="color:#16a34a;"><i class="fa-solid fa-check"></i></button>
+                            <button id="btnCancelRecording" style="background:none;border:none;cursor:pointer;color:inherit;"><i class="fa-solid fa-xmark"></i></button>
+                            <button id="btnStopRecording" style="background:none;border:none;cursor:pointer;color:#16a34a;"><i class="fa-solid fa-check"></i></button>
                         </div>
                         <div class="chat-edit-bar" id="chatEditBar">
                             <i class="fa-solid fa-pen"></i> Modification du message
-                            <button id="btnCancelEdit">Annuler</button>
+                            <button id="btnCancelEdit" style="background:none;border:none;cursor:pointer;font-weight:700;">Annuler</button>
                         </div>
                         <div class="chat-compose">
-                            <button id="btnAttach"><i class="fa-solid fa-paperclip"></i></button>
+                            <button id="btnAttach" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-paperclip"></i></button>
                             <div class="chat-attach-menu" id="chatAttachMenu">
                                 <button id="btnAttachPhoto"><i class="fa-regular fa-image"></i> Photo</button>
                                 <button id="btnAttachVideo"><i class="fa-solid fa-film"></i> Vidéo</button>
@@ -1882,11 +1929,11 @@
                             <input type="file" id="chatFilePhoto" accept="image/*" style="display:none;">
                             <input type="file" id="chatFileVideo" accept="video/*" style="display:none;">
                             <input type="file" id="chatFileDoc" style="display:none;">
-                            <button id="btnEmoji" title="Emoji">😊</button>
+                            <button id="btnEmoji" style="background:none;border:none;cursor:pointer;">😊</button>
                             <div class="chat-emoji-picker" id="chatEmojiPicker"></div>
                             <textarea id="chatInput" rows="1" placeholder="Écrire un message..."></textarea>
-                            <button id="btnRecordVoice" title="Message vocal"><i class="fa-solid fa-microphone"></i></button>
-                            <button class="btn-send" id="btnSendMessage"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button id="btnRecordVoice" style="background:none;border:none;cursor:pointer;" title="Message vocal"><i class="fa-solid fa-microphone"></i></button>
+                            <button class="btn-send" id="btnSendMessage" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
 
@@ -1894,7 +1941,7 @@
                         <div class="chat-modal">
                             <h3 style="margin-bottom:1rem;">↪️ Transférer à...</h3>
                             <div id="forwardConvPicker"></div>
-                            <button class="chat-modal-close" onclick="document.getElementById('forwardModal').classList.remove('open');">Annuler</button>
+                            <button class="chat-modal-close" onclick="document.getElementById('forwardModal').classList.remove('open');" style="background:none;border:none;cursor:pointer;">Annuler</button>
                         </div>
                     </div>
                 </div>
@@ -1944,7 +1991,7 @@
                 <div style="background:white;border-radius:20px;padding:1.5rem;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;">
                     <h3 style="margin-bottom:1rem;">📤 Partager dans une conversation</h3>
                     <div id="shareConvPicker"></div>
-                    <button onclick="document.getElementById('shareModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+                    <button onclick="document.getElementById('shareModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
                 </div>
             </div>
 
@@ -1953,7 +2000,7 @@
                 <div style="background:white;border-radius:20px;padding:1.5rem;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;">
                     <h3 style="margin-bottom:1rem;">🧾 <span data-translate="messages.sendOrderReceipt">Envoyer un reçu de commande</span></h3>
                     <div id="sendOrderList"><p style="color:#94a3b8;font-size:0.85rem;">Chargement...</p></div>
-                    <button onclick="document.getElementById('sendOrderModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+                    <button onclick="document.getElementById('sendOrderModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
                 </div>
             </div>
 
@@ -1961,9 +2008,9 @@
             <div id="suggestLivreurModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999999;align-items:center;justify-content:center;padding:20px;">
                 <div style="background:white;border-radius:20px;padding:1.5rem;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;">
                     <h3 style="margin-bottom:1rem;">🚴 <span data-translate="messages.suggestLivreur">Suggérer un livreur</span></h3>
-                    <input type="text" id="suggestLivreurSearch" data-translate="messages.searchByName" placeholder="Rechercher par nom..." style="width:100%;padding:0.6rem;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:1rem;">
+                    <input type="text" id="suggestLivreurSearch" placeholder="Rechercher par nom..." style="width:100%;padding:0.6rem;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:1rem;">
                     <div id="suggestLivreurList"><p style="color:#94a3b8;font-size:0.85rem;">Chargement...</p></div>
-                    <button onclick="document.getElementById('suggestLivreurModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Annuler</button>
+                    <button onclick="document.getElementById('suggestLivreurModal').style.display='none';" style="margin-top:1rem;width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;border:none;cursor:pointer;">Annuler</button>
                 </div>
             </div>
 
@@ -1975,7 +2022,7 @@
                     <p id="aboutRole" style="text-align:center;color:#94a3b8;font-size:0.85rem;margin-bottom:1rem;"></p>
                     <div class="chat-modal-info-row"><i class="fa-solid fa-message"></i> <span id="aboutMsgCount">0</span> message(s) échangé(s)</div>
                     <div class="chat-modal-info-row"><i class="fa-regular fa-calendar"></i> Conversation démarrée le <span id="aboutStartDate">—</span></div>
-                    <button class="chat-modal-close" onclick="document.getElementById('aboutConvModal').classList.remove('open');">Fermer</button>
+                    <button class="chat-modal-close" onclick="document.getElementById('aboutConvModal').classList.remove('open');" style="background:none;border:none;cursor:pointer;">Fermer</button>
                 </div>
             </div>
 
@@ -1984,15 +2031,15 @@
                 <div class="chat-modal">
                     <h3 style="margin-bottom:1rem;">🖼️ Fond de la discussion</h3>
                     <div class="bg-presets-grid">
-                        <button class="bg-preset-swatch" data-bg="default" style="background:#eef4fb;"><span>Défaut</span></button>
-                        <button class="bg-preset-swatch" data-bg="ocean" style="background:linear-gradient(160deg,#dceefc,#eef8ff);"><span>Océan</span></button>
-                        <button class="bg-preset-swatch" data-bg="sunset" style="background:linear-gradient(160deg,#ffe4d6,#fff1ec);"><span>Coucher de soleil</span></button>
-                        <button class="bg-preset-swatch" data-bg="mint" style="background:linear-gradient(160deg,#d9f7e8,#eefdf5);"><span>Menthe</span></button>
-                        <button class="bg-preset-swatch" data-bg="night" style="background:linear-gradient(160deg,#0a1626,#10243b);color:white;"><span>Nuit</span></button>
+                        <button class="bg-preset-swatch" data-bg="default" style="background:#eef4fb;border:none;cursor:pointer;"><span>Défaut</span></button>
+                        <button class="bg-preset-swatch" data-bg="ocean" style="background:linear-gradient(160deg,#dceefc,#eef8ff);border:none;cursor:pointer;"><span>Océan</span></button>
+                        <button class="bg-preset-swatch" data-bg="sunset" style="background:linear-gradient(160deg,#ffe4d6,#fff1ec);border:none;cursor:pointer;"><span>Coucher de soleil</span></button>
+                        <button class="bg-preset-swatch" data-bg="mint" style="background:linear-gradient(160deg,#d9f7e8,#eefdf5);border:none;cursor:pointer;"><span>Menthe</span></button>
+                        <button class="bg-preset-swatch" data-bg="night" style="background:linear-gradient(160deg,#0a1626,#10243b);color:white;border:none;cursor:pointer;"><span>Nuit</span></button>
                     </div>
-                    <button class="btn-upload-bg" id="btnUploadCustomBg"><i class="fa-solid fa-camera"></i> Choisir une photo depuis mon téléphone</button>
+                    <button class="btn-upload-bg" id="btnUploadCustomBg" style="background:none;border:none;cursor:pointer;"><i class="fa-solid fa-camera"></i> Choisir une photo depuis mon téléphone</button>
                     <input type="file" id="chatBgFileInput" accept="image/*" style="display:none;">
-                    <button class="chat-modal-close" onclick="document.getElementById('bgConvModal').classList.remove('open');">Fermer</button>
+                    <button class="chat-modal-close" onclick="document.getElementById('bgConvModal').classList.remove('open');" style="background:none;border:none;cursor:pointer;">Fermer</button>
                 </div>
             </div>
 
@@ -2012,7 +2059,7 @@
                     <div>
                         <h2 id="nomProfil">Utilisateur</h2>
                         <p>@<span id="pseudoProfil">utilisateur</span></p>
-                        <button id="btnChangerPhoto" style="padding:0.4rem 1.2rem;border-radius:40px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-top:0.4rem;">📷 Modifier la photo</button>
+                        <button id="btnChangerPhoto" style="padding:0.4rem 1.2rem;border-radius:40px;background:#f1f5f9;font-weight:600;font-size:0.85rem;margin-top:0.4rem;border:none;cursor:pointer;">📷 Modifier la photo</button>
                         <input type="file" id="inputPhotoProfil" accept="image/*" style="display:none;">
                     </div>
                 </div>
@@ -2024,13 +2071,13 @@
                     <div><label style="font-weight:600;display:block;font-size:0.85rem;">Email</label>
                         <div style="display:flex;gap:0.4rem;align-items:center;">
                             <input type="email" id="emailClient" style="flex:1;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;" disabled>
-                            <button type="button" id="btnChangerEmail" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;">✏️ Modifier</button>
+                            <button type="button" id="btnChangerEmail" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;border:none;cursor:pointer;">✏️ Modifier</button>
                         </div>
                     </div>
                     <div><label style="font-weight:600;display:block;font-size:0.85rem;">Téléphone</label>
                         <div style="display:flex;gap:0.4rem;align-items:center;">
                             <input type="tel" id="telephoneClient" style="flex:1;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
-                            <button type="button" id="btnValiderTelephone" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;">📲 Valider</button>
+                            <button type="button" id="btnValiderTelephone" style="padding:0.5rem 0.8rem;border-radius:12px;background:#f1f5f9;font-weight:600;font-size:0.78rem;white-space:nowrap;border:none;cursor:pointer;">📲 Valider</button>
                         </div>
                         <p id="statutTelephoneClient" style="font-size:0.75rem;margin-top:0.2rem;"></p>
                     </div>
@@ -2049,7 +2096,7 @@
                         <div style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center;">
                             <input type="text" id="paysClient" placeholder="Pays" style="flex:1;min-width:140px;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                             <input type="text" id="villeClient" placeholder="Ville" style="flex:1;min-width:140px;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
-                            <button type="button" id="btnDetecterLocalisation" style="padding:0.6rem 1rem;border-radius:14px;background:#f1f5f9;font-weight:600;font-size:0.85rem;white-space:nowrap;">📍 Détecter</button>
+                            <button type="button" id="btnDetecterLocalisation" style="padding:0.6rem 1rem;border-radius:14px;background:#f1f5f9;font-weight:600;font-size:0.85rem;white-space:nowrap;border:none;cursor:pointer;">📍 Détecter</button>
                         </div>
                     </div>
                     <div style="grid-column:1/-1;"><label style="font-weight:600;display:block;font-size:0.85rem;">Adresse</label><textarea id="adresseClient" rows="2" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;resize:vertical;"></textarea></div>
@@ -2126,7 +2173,7 @@
                 <h3>💬 <span data-translate="settings.helpCenter">Centre d'aide</span></h3>
                 <div id="faqAccordion" style="display:flex;flex-direction:column;gap:0.5rem;">
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
                             <span data-translate="faq.q1">Qu'est-ce que SINE.SHOP ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
@@ -2134,7 +2181,7 @@
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
                             <span data-translate="faq.q2">Comment consulter mon panier ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
@@ -2142,7 +2189,7 @@
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
                             <span data-translate="faq.q3">Comment consulter une commande ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
@@ -2150,7 +2197,7 @@
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
                             <span data-translate="faq.q4">Comment suivre ma livraison ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
@@ -2158,7 +2205,7 @@
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
                             <span data-translate="faq.q5">Comment contacter le support ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
@@ -2208,11 +2255,11 @@
 
             <div class="form-group">
                 <label>Objet</label>
-                <input type="text" id="contactSubject" placeholder="Résumez votre demande en quelques mots" required>
+                <input type="text" id="contactSubject" placeholder="Résumez votre demande en quelques mots" required style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
             </div>
             <div class="form-group">
                 <label>Motif</label>
-                <select id="contactMotif">
+                <select id="contactMotif" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                     <option value="probleme_commande">Problème de commande</option>
                     <option value="probleme_paiement">Problème de paiement</option>
                     <option value="probleme_livraison">Problème de livraison</option>
@@ -2226,13 +2273,13 @@
             </div>
             <div class="form-group">
                 <label>Message</label>
-                <textarea id="contactMessage" rows="4" placeholder="Détaillez votre demande..." required></textarea>
+                <textarea id="contactMessage" rows="4" placeholder="Détaillez votre demande..." required style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;resize:vertical;"></textarea>
             </div>
             <div class="form-group">
                 <label>Pièces jointes (photo, vidéo ou fichier — 3 maximum)</label>
-                <input type="file" id="contactFile1" accept="image/*,video/*,.pdf,.doc,.docx">
-                <input type="file" id="contactFile2" accept="image/*,video/*,.pdf,.doc,.docx" style="margin-top:0.4rem;">
-                <input type="file" id="contactFile3" accept="image/*,video/*,.pdf,.doc,.docx" style="margin-top:0.4rem;">
+                <input type="file" id="contactFile1" accept="image/*,video/*,.pdf,.doc,.docx" style="display:block;width:100%;margin-top:0.2rem;">
+                <input type="file" id="contactFile2" accept="image/*,video/*,.pdf,.doc,.docx" style="display:block;width:100%;margin-top:0.4rem;">
+                <input type="file" id="contactFile3" accept="image/*,video/*,.pdf,.doc,.docx" style="display:block;width:100%;margin-top:0.4rem;">
             </div>
 
             <div class="actions-group" style="margin-top:1rem;">
@@ -2249,15 +2296,15 @@
                 <h3 style="margin-bottom:1rem;">🔑 Modifier le mot de passe</h3>
                 <div class="form-group">
                     <label>Mot de passe actuel</label>
-                    <input type="password" id="pwCurrent" autocomplete="current-password">
+                    <input type="password" id="pwCurrent" autocomplete="current-password" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="form-group">
                     <label>Nouveau mot de passe</label>
-                    <input type="password" id="pwNew" autocomplete="new-password" minlength="8">
+                    <input type="password" id="pwNew" autocomplete="new-password" minlength="8" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="form-group">
                     <label>Confirmer le nouveau mot de passe</label>
-                    <input type="password" id="pwConfirm" autocomplete="new-password" minlength="8">
+                    <input type="password" id="pwConfirm" autocomplete="new-password" minlength="8" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <p style="font-size:0.8rem;margin-bottom:0.5rem;">
                     <a href="#" id="linkForgotPasswordFromSettings">Mot de passe actuel oublié ?</a>
@@ -2277,15 +2324,15 @@
                 </div>
                 <div class="form-group">
                     <label>Code reçu par email</label>
-                    <input type="text" id="pwForgotCode" inputmode="numeric" maxlength="6">
+                    <input type="text" id="pwForgotCode" inputmode="numeric" maxlength="6" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="form-group">
                     <label>Nouveau mot de passe</label>
-                    <input type="password" id="pwForgotNew" minlength="8">
+                    <input type="password" id="pwForgotNew" minlength="8" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="form-group">
                     <label>Confirmer le nouveau mot de passe</label>
-                    <input type="password" id="pwForgotConfirm" minlength="8">
+                    <input type="password" id="pwForgotConfirm" minlength="8" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="actions-group">
                     <button id="btnAnnulerPwForgot" type="button">Annuler</button>
@@ -2302,11 +2349,11 @@
                 <h3 style="margin-bottom:1rem;">✉️ Modifier mon email</h3>
                 <div class="form-group">
                     <label>Email actuel</label>
-                    <input type="email" id="emailCurrent" disabled>
+                    <input type="email" id="emailCurrent" disabled style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="form-group">
                     <label>Nouvel email</label>
-                    <input type="email" id="emailNew" autocomplete="email">
+                    <input type="email" id="emailNew" autocomplete="email" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="actions-group">
                     <button id="btnAnnulerEmail" type="button">Annuler</button>
@@ -2318,7 +2365,7 @@
                 <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Un code a été envoyé à votre nouvelle adresse. Saisissez-le ci-dessous.</p>
                 <div class="form-group">
                     <label>Code reçu</label>
-                    <input type="text" id="emailCode" inputmode="numeric" maxlength="6">
+                    <input type="text" id="emailCode" inputmode="numeric" maxlength="6" style="width:100%;padding:0.6rem 1rem;border-radius:14px;border:1px solid #d1d9e6;font-size:0.95rem;">
                 </div>
                 <div class="actions-group">
                     <button id="btnAnnulerEmailCode" type="button">Annuler</button>
@@ -2411,7 +2458,7 @@
             initTheme();
 
             // =========================================================
-            // NAVIGATION - UNE SEULE FOIS DÉFINIE ET EXPOSÉE GLOBALEMENT
+            // NAVIGATION
             // =========================================================
             function navigateTo(sectionId) {
                 console.log('📂 navigateTo appelé avec:', sectionId);
@@ -2428,7 +2475,6 @@
 
                 document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
                 const target = document.getElementById(sectionId);
-                console.log('🎯 Target trouvé:', target);
                 if (target) target.style.display = 'block';
 
                 document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
@@ -2438,7 +2484,6 @@
                 if (sectionId === 'wallet') loadWalletSection();
             }
 
-            // EXPOSITION GLOBALE
             window.navigateTo = navigateTo;
 
             // =========================================================
@@ -2541,11 +2586,9 @@
                     document.getElementById('naissanceClient').disabled = true;
                 } else {
                     document.getElementById('naissanceClient').disabled = false;
-                    // Ajouter l'attribut min pour limiter à 14 ans
                     const today = new Date();
                     const minDate = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate());
                     document.getElementById('naissanceClient').setAttribute('max', minDate.toISOString().split('T')[0]);
-                    // Ajouter l'attribut min pour commencer à 1900
                     document.getElementById('naissanceClient').setAttribute('min', '1900-01-01');
                 }
 
@@ -2665,7 +2708,7 @@
                         <div class="card-item">
                             <span class="title">${f.product?.name || 'Produit'}</span>
                             <span class="price">${formatPrice(f.product?.price || 0)}</span>
-                            <button onclick="removeFavorite('${f.product?._id}')" style="color:#ef4444;">✕</button>
+                            <button onclick="removeFavorite('${f.product?._id}')" style="color:#ef4444;background:none;border:none;cursor:pointer;">✕</button>
                         </div>
                     `).join('');
                 }
@@ -2682,7 +2725,7 @@
                             <span class="title">${n.title || 'Notification'}</span>
                             <span class="subtitle">${n.message || ''}</span>
                             <span style="font-size:0.7rem;color:#94a3b8;">${n.createdAt ? new Date(n.createdAt).toLocaleDateString() : ''}</span>
-                            ${!n.isRead ? `<button onclick="markNotificationRead('${n._id}')" style="color:#2563eb;font-size:0.75rem;">Marquer lu</button>` : ''}
+                            ${!n.isRead ? `<button onclick="markNotificationRead('${n._id}')" style="color:#2563eb;font-size:0.75rem;background:none;border:none;cursor:pointer;">Marquer lu</button>` : ''}
                         </div>
                     `).join('');
                 }
@@ -2868,7 +2911,7 @@
                         <span class="title">${item.product?.name || 'Produit'}</span>
                         <span class="subtitle">Qté: ${item.quantity}</span>
                         <span class="price">${formatPrice(item.price * item.quantity)}</span>
-                        <button onclick="removeFromCart('${item.product?._id}')" style="color:#ef4444;font-weight:600;">✕</button>
+                        <button onclick="removeFromCart('${item.product?._id}')" style="color:#ef4444;font-weight:600;background:none;border:none;cursor:pointer;">✕</button>
                     </div>
                 `).join('');
 
@@ -2980,7 +3023,7 @@
                     const rechargeContainer = document.getElementById('walletRechargeProviders');
                     const rechargeable = methods.filter(m => ['wave', 'orange_money', 'mtn_money'].includes(m.provider));
                     rechargeContainer.innerHTML = rechargeable.map(m => `
-                        <button type="button" ${m.enabled ? '' : 'disabled'} style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;border-radius:14px;background:${m.enabled ? '#f1f5fb' : '#f8fafc'};border:1px solid #eef2f6;font-weight:600;color:${m.enabled ? '#0a2a44' : '#94a3b8'};">
+                        <button type="button" ${m.enabled ? '' : 'disabled'} style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;border-radius:14px;background:${m.enabled ? '#f1f5fb' : '#f8fafc'};border:1px solid #eef2f6;font-weight:600;color:${m.enabled ? '#0a2a44' : '#94a3b8'};border:none;cursor:${m.enabled ? 'pointer' : 'default'};">
                             <span>${m.label}</span>
                             <span>${m.enabled ? '🟢' : '🔒 Indisponible'}</span>
                         </button>
@@ -3161,10 +3204,19 @@
             // VALIDATION DU NUMÉRO PAR SMS
             // =========================================================
             document.getElementById('btnValiderTelephone').addEventListener('click', async function() {
+                if (!currentUser) {
+                    showNotification('❌ Utilisateur non connecté. Veuillez vous reconnecter.', 'error');
+                    return;
+                }
+                const phone = currentUser.phone;
+                if (!phone) {
+                    showNotification('❌ Aucun numéro de téléphone enregistré. Veuillez le renseigner dans votre profil.',
+                        'error');
+                    return;
+                }
                 try {
                     await window.SineAPI.requestPhoneVerification();
-                    document.getElementById('phoneVerifyIntro').textContent = 'Un code a été envoyé au ' + (currentUser
-                        .phone || 'votre numéro') + '.';
+                    document.getElementById('phoneVerifyIntro').textContent = 'Un code a été envoyé au ' + phone + '.';
                     document.getElementById('phoneVerifyModal').style.display = 'flex';
                 } catch (e) {
                     showNotification(e.message || 'Erreur lors de l\'envoi du code.', 'error');
@@ -3192,30 +3244,6 @@
                     showNotification(e.message || 'Code incorrect.', 'error');
                 }
             });
-            // =========================================================
-// VALIDATION DU NUMÉRO PAR SMS - CORRIGÉ
-// =========================================================
-document.getElementById('btnValiderTelephone').addEventListener('click', async function() {
-    // ✅ Vérifier que currentUser existe
-    if (!currentUser) {
-        showNotification('❌ Utilisateur non connecté. Veuillez vous reconnecter.', 'error');
-        return;
-    }
-    
-    const phone = currentUser.phone;
-    if (!phone) {
-        showNotification('❌ Aucun numéro de téléphone enregistré. Veuillez le renseigner dans votre profil.', 'error');
-        return;
-    }
-    
-    try {
-        await window.SineAPI.requestPhoneVerification();
-        document.getElementById('phoneVerifyIntro').textContent = 'Un code a été envoyé au ' + phone + '.';
-        document.getElementById('phoneVerifyModal').style.display = 'flex';
-    } catch (e) {
-        showNotification(e.message || 'Erreur lors de l\'envoi du code.', 'error');
-    }
-});
 
             // =========================================================
             // CHANGEMENT D'EMAIL
@@ -3535,12 +3563,6 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
             });
 
             // =========================================================
-            // DÉCONNEXION (header caché)
-            // =========================================================
-            // Le bouton de déconnexion dans le header est caché (style="display:none;")
-            // La déconnexion se fait uniquement depuis les paramètres
-
-            // =========================================================
             // MENU - GESTION DES CLICS
             // =========================================================
             document.querySelectorAll('.menu-link').forEach(link => {
@@ -3548,7 +3570,6 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                     const section = this.dataset.section;
                     if (!section) return;
                     e.preventDefault();
-                    console.log('🖱️ Clic menu sur:', section);
                     navigateTo(section);
                 });
             });
@@ -3556,7 +3577,6 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
             // =========================================================
             // AFFICHAGE PAR DÉFAUT - ACCUEIL
             // =========================================================
-            // Cache toutes les sections sauf Accueil
             document.querySelectorAll('.card').forEach(function(c) {
                 if (c.id !== 'accueil') {
                     c.style.display = 'none';
@@ -3567,32 +3587,7 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
             document.querySelector('.client-container')?.classList.add('section-open');
 
             // =========================================================
-            // SWIPE NAVIGATION
-            // =========================================================
-            let touchStartX = 0;
-            let touchStartY = 0;
-            document.addEventListener('touchstart', function(e) {
-                if (e.target.closest('.media-scroll, .carousel-slides, .cat-media-scroll, [data-no-swipe-nav]')) {
-                    touchStartX = null;
-                    return;
-                }
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-            document.addEventListener('touchend', function(e) {
-                if (touchStartX === null) return;
-                const diffX = touchStartX - e.changedTouches[0].screenX;
-                const diffY = touchStartY - e.changedTouches[0].screenY;
-                if (Math.abs(diffX) < 80 || Math.abs(diffX) < Math.abs(diffY) * 1.5) return;
-                if (diffX > 0) {
-                    window.location.href = '../html/collections.html';
-                } else {
-                    window.location.href = '../html/index.html';
-                }
-            }, { passive: true });
-
-            // =========================================================
-            // MESSAGERIE ENRICHIE (suite du code...)
+            // MESSAGERIE ENRICHIE
             // =========================================================
             let activeConversation = null;
             let chatMessages = [];
@@ -3980,6 +3975,9 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                 updateOtherStatusDisplay();
             });
 
+            // =========================================================
+            // RENDU DES MESSAGES — DISPOSITION AMÉLIORÉE
+            // =========================================================
             function renderBubble(msg) {
                 const myId = currentUser?.id || currentUser?._id;
                 const senderId = msg.sender?._id || msg.sender;
@@ -4058,15 +4056,18 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                         `<span class="chat-reaction-pill" onclick="window.sendReactionClient('${msg._id}','${emoji}')">${emoji} ${count > 1 ? count : ''}</span>`
                     ).join('')}</div>`;
                 }
+                // Emojis de réaction incluant le ♡ spécial
                 const REACTION_EMOJIS_CLIENT = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
+                // Ajout du ♡ spécial dans les réactions disponibles
                 const reactionPicker = `<div class="chat-reaction-picker" id="reactionPicker-${msg._id}">
                     ${REACTION_EMOJIS_CLIENT.map(e => `<button onclick="window.sendReactionClient('${msg._id}','${e}')">${e}</button>`).join('')}
+                    <button onclick="window.sendReactionClient('${msg._id}','♡')" style="font-size:1.4rem;color:#ef4444;" title="Cœur battant"><span class="emoji-heart-beat" style="font-size:0.9rem;display:inline-block;">♡</span></button>
                 </div>`;
 
                 return `<div class="chat-bubble-row ${mine ? 'mine' : ''}">
                     <div class="chat-bubble-wrap">
                         ${reactionPicker}
-                        <div class="chat-bubble">${body}<span class="chat-time">${time}${readTag}</span>${listenBtn}${reactBtn}${editBtn}</div>
+                        <div class="chat-bubble ${mine ? 'mine' : ''}">${body}<span class="chat-time">${time}${readTag}</span>${listenBtn}${reactBtn}${editBtn}</div>
                         ${reactionsHtml}
                     </div>
                 </div>`;
@@ -4216,13 +4217,16 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
             document.getElementById('btnAttachFile').addEventListener('click', () => document.getElementById('chatFileDoc')
                 .click());
 
+            // EMOJI PICKER avec ♡ spécial
             const EMOJI_LIST = ['😀', '😂', '😍', '😘', '🥰', '😎', '🤔', '😢', '😭', '😡', '👍', '👎', '🙏', '👏', '💪', '🔥', '❤️',
                 '💯', '🎉', '✅', '❌', '⭐', '😅', '😉', '🙌', '👋', '🤝', '😴', '🥳', '😱'
             ];
             const emojiPicker = document.getElementById('chatEmojiPicker');
             const btnEmoji = document.getElementById('btnEmoji');
             if (emojiPicker && btnEmoji) {
-                emojiPicker.innerHTML = EMOJI_LIST.map(e => `<button type="button">${e}</button>`).join('');
+                // Ajout du ♡ spécial avec bordure rouge et animation
+                emojiPicker.innerHTML = EMOJI_LIST.map(e => `<button type="button">${e}</button>`).join('') +
+                    `<button type="button" class="emoji-heart-beat" style="font-size:1.1rem;border:2px solid #ef4444;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;color:#ef4444;animation:heartBeat 1s ease-in-out infinite;">♡</button>`;
                 btnEmoji.addEventListener('click', function(e) {
                     e.stopPropagation();
                     emojiPicker.classList.toggle('open');
@@ -4259,8 +4263,8 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                 apercu.innerHTML = `
                     ${miniature}
                     <span style="flex:1;font-size:0.85rem;font-weight:600;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${file.name}</span>
-                    <button type="button" id="btnEnvoyerPieceJointe" style="padding:6px 14px;border-radius:20px;background:#2d73ff;color:#fff;font-weight:600;font-size:0.8rem;">Envoyer</button>
-                    <button type="button" id="btnAnnulerPieceJointe" style="padding:6px 10px;border-radius:20px;background:#e2e8f0;color:#334155;font-weight:600;font-size:0.8rem;">✕</button>
+                    <button type="button" id="btnEnvoyerPieceJointe" style="padding:6px 14px;border-radius:20px;background:#2d73ff;color:#fff;font-weight:600;font-size:0.8rem;border:none;cursor:pointer;">Envoyer</button>
+                    <button type="button" id="btnAnnulerPieceJointe" style="padding:6px 10px;border-radius:20px;background:#e2e8f0;color:#334155;font-weight:600;font-size:0.8rem;border:none;cursor:pointer;">✕</button>
                 `;
                 apercu.style.display = 'flex';
                 document.getElementById('btnEnvoyerPieceJointe').onclick = async function() {
@@ -4616,7 +4620,7 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
             };
 
             // =========================================================
-            // APPELS VOCAUX / VIDÉO (WebRTC)
+            // APPELS VOCAUX / VIDÉO (WebRTC) AVEC NOTIFICATION TOAST
             // =========================================================
             let localStream = null;
             let peerConnection = null;
@@ -4626,6 +4630,7 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
             let currentCallType = 'audio';
             let callDurationInterval = null;
             let callDurationSeconds = 0;
+            let callToastTimeout = null;
             const ICE_SERVERS = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
             let ringtoneAudioCtx = null;
@@ -4728,6 +4733,10 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                     'flex' : 'none';
                 const labels = { calling: 'Appel en cours...', incoming: 'Appel entrant...', connecting: 'Connexion...' };
                 document.getElementById('callStatus').textContent = labels[state] || '';
+                // Cacher la notification toast quand l'overlay s'ouvre
+                document.getElementById('callNotificationToast').classList.remove('show');
+                if (callToastTimeout) { clearTimeout(callToastTimeout);
+                    callToastTimeout = null; }
             }
 
             function endCallLocal() {
@@ -4748,6 +4757,9 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                 currentCallId = null;
                 currentCallPartner = null;
                 isCaller = false;
+                document.getElementById('callNotificationToast').classList.remove('show');
+                if (callToastTimeout) { clearTimeout(callToastTimeout);
+                    callToastTimeout = null; }
             }
 
             function setupPeerConnection() {
@@ -4780,6 +4792,26 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                 const offer = await peerConnection.createOffer();
                 await peerConnection.setLocalDescription(offer);
                 window.SineSocket.emit('webrtc-offer', { targetUserId: currentCallPartner.id, offer });
+            }
+
+            // AFFICHER LA NOTIFICATION TOAST D'APPEL ENTRANT
+            function showCallNotification(callerName, callType, callerId) {
+                const toast = document.getElementById('callNotificationToast');
+                document.getElementById('callToastName').textContent = callerName || 'Appel entrant';
+                document.getElementById('callToastType').textContent = callType === 'video' ? '📹 Appel vidéo' : '📞 Appel vocal';
+                toast.classList.add('show');
+                // Auto-fermeture après 30s
+                if (callToastTimeout) clearTimeout(callToastTimeout);
+                callToastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                    // Rejeter automatiquement l'appel si non répondue
+                    if (currentCallId) {
+                        window.SineSocket.emit('call-reject', { callId: currentCallId });
+                        endCallLocal();
+                    }
+                }, 30000);
+                // Sonnerie
+                playRingtone(callType === 'video' ? 'incoming-video' : 'incoming-voice');
             }
 
             async function startCall(type) {
@@ -4821,12 +4853,51 @@ document.getElementById('btnValiderTelephone').addEventListener('click', async f
                             `${caller.firstName || ''} ${caller.lastName || ''}`.trim(), avatar: caller
                             .profilePicture || '../images/profil.png' } :
                     { id: data.callerId, name: data.callerName || 'Appel entrant', avatar: '../images/profil.png' };
+                // Afficher la notification toast
+                showCallNotification(currentCallPartner.name, currentCallType, data.callerId);
+                // Afficher aussi l'overlay
                 showCallOverlay('incoming');
-                playRingtone(currentCallType === 'video' ? 'incoming-video' : 'incoming-voice');
+            });
+
+            // Gérer les boutons de la notification toast
+            document.getElementById('callToastAnswer').addEventListener('click', async function() {
+                const toast = document.getElementById('callNotificationToast');
+                toast.classList.remove('show');
+                if (callToastTimeout) { clearTimeout(callToastTimeout);
+                    callToastTimeout = null; }
+                // Accepter l'appel
+                try {
+                    localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                } catch (e) {
+                    try {
+                        localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                    } catch (e2) {
+                        showNotification('Impossible d\'accéder au micro/caméra.', 'error');
+                        return;
+                    }
+                }
+                window.SineSocket.emit('call-accept', { callId: currentCallId });
+                showCallOverlay('connecting');
+                setupPeerConnection();
+            });
+
+            document.getElementById('callToastDecline').addEventListener('click', function() {
+                const toast = document.getElementById('callNotificationToast');
+                toast.classList.remove('show');
+                if (callToastTimeout) { clearTimeout(callToastTimeout);
+                    callToastTimeout = null; }
+                if (currentCallId) {
+                    window.SineSocket.emit('call-reject', { callId: currentCallId });
+                }
+                endCallLocal();
             });
 
             document.getElementById('btnAcceptCall').addEventListener('click', async function() {
                 stopRingtone();
+                // Cacher la notification
+                document.getElementById('callNotificationToast').classList.remove('show');
+                if (callToastTimeout) { clearTimeout(callToastTimeout);
+                    callToastTimeout = null; }
                 try {
                     localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
                 } catch (e) {

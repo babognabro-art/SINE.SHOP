@@ -1,0 +1,10 @@
+const Announcement = require('../models/Announcement');
+const { sendSuccess, sendCreated } = require('../utils/ApiResponse');
+const { asyncHandler } = require('../utils/asyncHandler');
+const { BadRequestError, NotFoundError } = require('../utils/ApiError');
+const getActiveAnnouncement = asyncHandler(async (req,res)=>{const role=req.user?.role||'client';const a=await Announcement.findOne({isActive:true,$or:[{audience:'all'},{audience:role}]}).sort({createdAt:-1});sendSuccess(res,a,'Active announcement retrieved');});
+const getAnnouncementsAdmin = asyncHandler(async (req,res)=>sendSuccess(res,await Announcement.find().sort({createdAt:-1}).limit(100),'Announcements retrieved'));
+const createAnnouncement = asyncHandler(async(req,res)=>{const {title,description='',videoUrl,thumbnailUrl='',audience=['all'],isActive=true}=req.body;if(!title||!videoUrl)throw new BadRequestError('Title and video URL are required');if(!Array.isArray(audience)||!audience.length)throw new BadRequestError('Audience is required');if(isActive)await Announcement.updateMany({isActive:true},{$set:{isActive:false}});const a=await Announcement.create({title,description,videoUrl,thumbnailUrl,audience,isActive,createdBy:req.user.id});sendCreated(res,a,'Announcement created');});
+const updateAnnouncement = asyncHandler(async(req,res)=>{const a=await Announcement.findById(req.params.id);if(!a)throw new NotFoundError('Announcement not found');for(const k of ['title','description','videoUrl','thumbnailUrl','audience','isActive'])if(k in req.body)a[k]=req.body[k];if(a.isActive)await Announcement.updateMany({_id:{$ne:a._id},isActive:true},{$set:{isActive:false}});await a.save();sendSuccess(res,a,'Announcement updated');});
+const deleteAnnouncement = asyncHandler(async(req,res)=>{const a=await Announcement.findByIdAndDelete(req.params.id);if(!a)throw new NotFoundError('Announcement not found');sendSuccess(res,null,'Announcement deleted');});
+module.exports={getActiveAnnouncement,getAnnouncementsAdmin,createAnnouncement,updateAnnouncement,deleteAnnouncement};

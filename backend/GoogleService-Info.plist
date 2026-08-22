@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>1019753827763-s7tl82ugpdqrvibes1sn40skja0a5via.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1019753827763-s7tl82ugpdqrvibes1sn40skja0a5via</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAf9zuC5YJ5bbQfzKmk2DAtRB43QewO8xA</string>
 	<key>GCM_SENDER_ID</key>
@@ -9,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>sine.home.company</string>
+	<string>com.sineshop.app</string>
 	<key>PROJECT_ID</key>
 	<string>sineshop-93e07</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1019753827763:ios:02040b3148447d02260fc6</string>
+	<string>1:1019753827763:ios:741012ae545252a9260fc6</string>
 </dict>
 </plist>

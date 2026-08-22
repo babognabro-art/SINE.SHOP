@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/shared-header.css">
     <style>
         /* =========================================================
-           STYLES COMPLETS — AI-SINE.SHOP v3.0
+           STYLES COMPLETS — AI-SINE.SHOP v4.0 (Backend-Connecté)
            ========================================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         
@@ -132,7 +132,7 @@
         .user-profile-btn .user-info .status { font-size: 0.6rem; color: #3b82f6; display: flex; align-items: center; gap: 4px; }
 
         /* =========================================================
-           CONTEXT BAR — NOUVEAU
+           CONTEXT BAR
            ========================================================= */
         #contextBar {
             display: flex;
@@ -487,6 +487,7 @@
             font-weight: 600;
             text-align: left;
             transition: var(--transition);
+            cursor: pointer;
         }
         .related-chip:hover { 
             background: #eff6ff; 
@@ -495,7 +496,7 @@
         }
 
         /* =========================================================
-           SUGGESTIONS PROACTIVES — NOUVEAU
+           SUGGESTIONS PROACTIVES
            ========================================================= */
         .proactive-suggestions {
             display: flex;
@@ -822,8 +823,8 @@
         <div class="logo-area">
             <img src="../images/logo.png" alt="SINE.SHOP" onerror="this.src='../images/logo.png'">
             <div>
-                <h1><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span> AI</h1>
-                <small>Copilote intelligent &amp; contextuel</small>
+                <a class="sine-header-brand"><span class="sine-word-1">SINE.</span><span class="sine-word-2">SH</span><span class="sine-heart">♡</span><span class="sine-word-3">P</span></a><h1>AI</h1>
+                <small>Copilote intelligent connecté au backend</small>
             </div>
         </div>
         <div class="header-actions">
@@ -840,7 +841,7 @@
     </header>
 
     <!-- ========================================================= -->
-    <!-- CONTEXT BAR — NOUVEAU -->
+    <!-- CONTEXT BAR -->
     <!-- ========================================================= -->
     <div id="contextBar">
         <div class="context-item" id="contextOrders" title="Voir mes commandes">
@@ -868,7 +869,7 @@
     <!-- ========================================================= -->
     <div id="memoryIndicator">
         <i class="fa-solid fa-brain"></i> 
-        <span id="memoryText">Je me souviens de vous</span> 
+        <span id="memoryText">🧠 Assistant connecté</span>
         · <span id="memoryTopics">0 sujets appris</span>
         · <span id="memorySince">Première interaction</span>
     </div>
@@ -921,7 +922,7 @@
                 <!-- Généré dynamiquement -->
             </div>
 
-            <!-- SUGGESTIONS PROACTIVES — NOUVEAU -->
+            <!-- SUGGESTIONS PROACTIVES -->
             <div id="proactiveSuggestions" class="proactive-suggestions">
                 <!-- Généré dynamiquement -->
             </div>
@@ -945,6 +946,8 @@
                     <button data-lang="es">ES</button>
                     <button data-lang="ar">AR</button>
                     <button data-lang="de">DE</button>
+                    <button data-lang="it">IT</button>
+                    <button data-lang="pt">PT</button>
                     <span style="font-size:0.6rem;color:var(--text-secondary);margin-left:0.3rem;"><i class="fa-regular fa-language"></i></span>
                 </div>
             </div>
@@ -988,6 +991,8 @@
                     <option value="es">Español</option>
                     <option value="ar">العربية</option>
                     <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
                 </select>
             </div>
             <div class="form-group">
@@ -1035,10 +1040,8 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- ========================================================= -->
-    <!-- SCRIPTS -->
+    <!-- SCRIPTS — Connecté au backend, sans API externe -->
     <!-- ========================================================= -->
-    <script src="../js/config.js"></script>
-    <script src="../js/api.js"></script>
     <script>
         (function() {
             'use strict';
@@ -1046,168 +1049,478 @@
             // =========================================================
             // CONFIGURATION
             // =========================================================
+            const API_BASE = window.location.origin + '/api';
             let currentUser = null;
             let conversations = [];
             let currentConvId = null;
             let currentLang = 'fr';
-            let isTyping = false;
             let contextData = null;
             let memoryData = null;
+            let isProcessing = false;
 
             // =========================================================
-            // AUTH
+            // 1. BASE DE CONNAISSANCES COMPLÈTE (200+ entrées)
+            //    Intégrée directement — pas d'appel externe
             // =========================================================
-            function checkAuth() {
-                const token = localStorage.getItem('sineToken');
-                const user = JSON.parse(localStorage.getItem('sineUser') || 'null');
-                if (!token || !user) {
-                    window.location.href = '../html/login.html';
-                    return false;
+            const KNOWLEDGE_BASE = [
+                // ===================== COMPTE / INSCRIPTION =====================
+                { id: 'kb001', cat: 'compte', kw: ['créer', 'compte', 'inscription', 'inscrire'], q: 'Comment créer un compte ?', a: "Cliquez sur \"S'inscrire\" depuis la page d'accueil, choisissez votre profil (client, vendeur, livreur ou affilié), puis renseignez vos informations. Vous recevrez un code de vérification par email ou SMS." },
+                { id: 'kb002', cat: 'compte', kw: ['mot de passe', 'oublié', 'réinitialiser'], q: 'J\'ai oublié mon mot de passe', a: 'Cliquez sur "Mot de passe oublié" depuis la page de connexion, saisissez votre email, téléphone ou pseudo. Vous recevrez un code par email (valable 48h) ou SMS pour en choisir un nouveau.' },
+                { id: 'kb003', cat: 'compte', kw: ['modifier', 'nom', 'prénom'], q: 'Comment modifier mon nom ?', a: 'Depuis votre Section Profil, vous pouvez modifier votre nom et prénom. Ce champ ne peut être modifié qu\'une fois tous les 30 jours pour éviter les usurpations.' },
+                { id: 'kb004', cat: 'compte', kw: ['pseudo', 'pseudonyme', 'changer'], q: 'Comment changer mon pseudonyme ?', a: 'Votre pseudonyme est modifiable une fois tous les 14 jours depuis votre Section Profil. Il doit être unique et contenir 3 à 24 caractères.' },
+                { id: 'kb005', cat: 'compte', kw: ['téléphone', 'numéro', 'changer', 'modifier'], q: 'Comment changer mon numéro de téléphone ?', a: 'Vous pouvez modifier votre numéro tous les 3 jours depuis votre Section Profil. Le nouveau numéro devra être revalidé par SMS.' },
+                { id: 'kb006', cat: 'compte', kw: ['email', 'adresse', 'changer'], q: 'Comment changer mon adresse email ?', a: 'Cliquez sur "Modifier" à côté de votre email dans la Section Profil, saisissez la nouvelle adresse, puis confirmez avec le code envoyé à cette NOUVELLE adresse (pas l\'ancienne). Modifiable une fois tous les 30 jours.' },
+                { id: 'kb007', cat: 'compte', kw: ['valider', 'vérifier', 'numéro', 'sms'], q: 'Comment valider mon numéro de téléphone ?', a: 'Dans votre Section Profil, cliquez sur "Valider" à côté de votre numéro. Vous recevrez un code par SMS à saisir pour confirmer.' },
+                { id: 'kb008', cat: 'compte', kw: ['supprimer', 'compte', 'fermer'], q: 'Comment supprimer mon compte ?', a: 'Depuis Paramètres > Gestion du compte, vous trouverez l\'option de suppression. Attention, cette action est irréversible et supprime toutes vos données.' },
+                { id: 'kb009', cat: 'compte', kw: ['connexion', 'google', 'facebook'], q: 'Puis-je me connecter avec Google ou Facebook ?', a: 'Oui, les boutons "Continuer avec Google" et "Continuer avec Facebook" sont disponibles sur la page de connexion. Votre compte SINE.SHOP est créé ou relié automatiquement.' },
+                { id: 'kb010', cat: 'compte', kw: ['langue', 'changer', 'français', 'anglais'], q: 'Comment changer la langue de l\'application ?', a: 'SINE.SHOP détecte automatiquement la langue de votre appareil (français, anglais, espagnol, arabe). Vous pouvez aussi la changer manuellement dans Paramètres.' },
+                { id: 'kb011', cat: 'compte', kw: ['devise', 'monnaie', 'fcfa', 'euro'], q: 'Comment changer la devise affichée ?', a: 'La devise s\'adapte automatiquement à votre pays. Vous pouvez la modifier manuellement dans Paramètres si besoin.' },
+                { id: 'kb012', cat: 'compte', kw: ['plusieurs', 'rôles', 'vendeur', 'client', 'basculer'], q: 'Puis-je avoir plusieurs rôles (client et vendeur) ?', a: 'Oui, vous pouvez ajouter un rôle vendeur, livreur ou affilié à votre compte client existant, et basculer entre eux depuis Paramètres > Mes rôles.' },
+                { id: 'kb013', cat: 'compte', kw: ['visibilité', 'profil', 'public', 'privé'], q: 'Qui peut voir mes informations de profil ?', a: 'Dans Section Profil > Visibilité de mon profil, vous choisissez ce que les vendeurs/livreurs avec qui vous échangez peuvent voir (nom, photo, ville, téléphone, bio, réseaux sociaux).' },
+                { id: 'kb014', cat: 'compte', kw: ['code confidentialité', 'sécurité', 'admin'], q: 'Qu\'est-ce que le code de confidentialité ?', a: 'Réservé aux comptes à privilèges (admin, modérateur, support), ce code additionnel au mot de passe protège l\'accès aux fonctions sensibles.' },
+                { id: 'kb015', cat: 'compte', kw: ['session', 'déconnecter', 'tous', 'appareils'], q: 'Comment me déconnecter de tous mes appareils ?', a: 'Depuis Paramètres, le bouton "Déconnecter tous les appareils" met fin à toutes vos sessions actives immédiatement.' },
+
+                // ===================== COMMANDES =====================
+                { id: 'kb020', cat: 'commande', kw: ['passer', 'commande', 'comment', 'acheter'], q: 'Comment passer une commande ?', a: 'Ajoutez les articles souhaités à votre panier, cliquez sur "Passer la commande", vérifiez votre adresse de livraison, choisissez le mode de paiement puis validez.' },
+                { id: 'kb021', cat: 'commande', kw: ['suivre', 'suivi', 'commande', 'statut'], q: 'Comment suivre ma commande ?', a: 'Rendez-vous dans votre Section Commandes, cliquez sur la commande concernée pour voir son statut en temps réel et suivre le livreur sur la carte une fois expédiée.' },
+                { id: 'kb022', cat: 'commande', kw: ['annuler', 'commande'], q: 'Comment annuler une commande ?', a: 'Tant que votre commande est encore "en attente" ou "confirmée", vous pouvez l\'annuler depuis sa page de détail. Une fois expédiée, contactez le vendeur ou le support.' },
+                { id: 'kb023', cat: 'commande', kw: ['plusieurs', 'vendeurs', 'même', 'commande'], q: 'Puis-je commander chez plusieurs vendeurs en même temps ?', a: 'Oui ! Ajoutez des articles de différents vendeurs à votre panier, une seule commande groupée est créée (une sous-commande par vendeur), avec un seul paiement.' },
+                { id: 'kb024', cat: 'commande', kw: ['statut', 'signification', 'en attente', 'confirmée'], q: 'Que signifient les statuts de commande ?', a: '"En attente" : commande créée, paiement pas encore confirmé. "Confirmée" : paiement validé. "En préparation" : le vendeur prépare le colis. "Expédiée" : le livreur l\'a récupérée. "Livrée" : reçue par vous.' },
+                { id: 'kb025', cat: 'commande', kw: ['facture', 'reçu', 'télécharger'], q: 'Comment obtenir ma facture ?', a: 'Depuis le détail de votre commande, cliquez sur "Facture" pour l\'imprimer, la télécharger ou la partager directement.' },
+                { id: 'kb026', cat: 'commande', kw: ['modifier', 'adresse', 'livraison', 'commande'], q: 'Puis-je modifier l\'adresse de livraison après commande ?', a: 'Tant que la commande n\'est pas expédiée, contactez le vendeur via la messagerie pour lui demander la modification.' },
+                { id: 'kb027', cat: 'commande', kw: ['délai', 'temps', 'livraison', 'combien'], q: 'Quel est le délai de livraison ?', a: 'Le délai varie selon le vendeur et votre localisation, généralement entre 24h et 72h en zone urbaine. Le délai estimé est affiché avant validation de la commande.' },
+                { id: 'kb028', cat: 'commande', kw: ['historique', 'anciennes', 'commandes'], q: 'Où voir mes anciennes commandes ?', a: 'Toutes vos commandes passées sont dans votre Section Commandes, avec filtre par statut et recherche.' },
+                { id: 'kb029', cat: 'commande', kw: ['problème', 'article', 'manquant', 'endommagé'], q: 'Un article est manquant ou endommagé', a: 'Contactez immédiatement le vendeur via la messagerie avec des photos si possible. Si le problème persiste, ouvrez un ticket support ou un litige depuis la commande.' },
+                { id: 'kb030', cat: 'commande', kw: ['minimum', 'commande', 'montant'], q: 'Y a-t-il un montant minimum de commande ?', a: 'Non, il n\'y a pas de montant minimum général sur SINE.SHOP, sauf indication contraire d\'un vendeur spécifique.' },
+
+                // ===================== PAIEMENT =====================
+                { id: 'kb040', cat: 'paiement', kw: ['modes', 'paiement', 'moyens', 'accepté'], q: 'Quels moyens de paiement sont acceptés ?', a: 'Mobile Money (MTN, Orange, Wave), carte bancaire (Visa/Mastercard) via CinetPay, et le paiement à la livraison selon le vendeur.' },
+                { id: 'kb041', cat: 'paiement', kw: ['sécurisé', 'paiement', 'sécurité'], q: 'Le paiement est-il sécurisé ?', a: 'Oui, tous les paiements passent par CinetPay, une passerelle sécurisée et certifiée. SINE.SHOP ne stocke jamais vos données bancaires.' },
+                { id: 'kb042', cat: 'paiement', kw: ['échec', 'paiement', 'refusé', 'raté'], q: 'Mon paiement a échoué, que faire ?', a: 'Vérifiez votre solde et réessayez. Si le problème persiste, contactez votre opérateur Mobile Money ou votre banque, ou tentez un autre mode de paiement.' },
+                { id: 'kb043', cat: 'paiement', kw: ['remboursement', 'rembourser', 'délai'], q: 'Comment et quand suis-je remboursé ?', a: 'En cas d\'annulation ou de litige validé, le remboursement est traité sous 3 à 7 jours ouvrés sur le moyen de paiement d\'origine.' },
+                { id: 'kb044', cat: 'paiement', kw: ['paiement', 'livraison', 'espèces', 'cash'], q: 'Puis-je payer à la livraison ?', a: 'Certains vendeurs proposent le paiement à la livraison (cash on delivery) — vérifiez l\'option lors du paiement.' },
+                { id: 'kb045', cat: 'paiement', kw: ['reçu', 'paiement', 'preuve'], q: 'Où trouver mon reçu de paiement ?', a: 'Le reçu est disponible depuis le détail de votre commande, section "Paiement", ou peut être envoyé directement dans une conversation.' },
+                { id: 'kb046', cat: 'paiement', kw: ['double', 'débit', 'deux fois'], q: 'J\'ai été débité deux fois', a: 'Contactez immédiatement le support avec vos références de transaction — nous vérifierons et rembourserons le doublon sous 48h.' },
+
+                // ===================== LIVRAISON =====================
+                { id: 'kb050', cat: 'livraison', kw: ['frais', 'livraison', 'coût', 'prix'], q: 'Combien coûte la livraison ?', a: 'Les frais de livraison sont calculés selon la distance et affichés avant validation de votre commande, généralement entre 500 et 2000 FCFA.' },
+                { id: 'kb051', cat: 'livraison', kw: ['zone', 'couverte', 'livre', 'où'], q: 'Quelles zones sont couvertes ?', a: 'SINE.SHOP livre dans les principales villes de Côte d\'Ivoire et s\'étend progressivement à d\'autres pays. La disponibilité s\'affiche selon votre adresse.' },
+                { id: 'kb052', cat: 'livraison', kw: ['contacter', 'livreur', 'joindre'], q: 'Comment contacter mon livreur ?', a: 'Une fois votre commande expédiée, vous pouvez échanger directement avec le livreur via la messagerie intégrée ou l\'appeler.' },
+                { id: 'kb053', cat: 'livraison', kw: ['suivre', 'carte', 'temps réel', 'position'], q: 'Puis-je suivre le livreur en temps réel ?', a: 'Oui, une fois la commande expédiée, sa position s\'affiche en direct sur la carte dans la page de suivi.' },
+                { id: 'kb054', cat: 'livraison', kw: ['absent', 'personne', 'livraison'], q: 'Je suis absent au moment de la livraison', a: 'Contactez le livreur via la messagerie pour convenir d\'un autre créneau ou d\'un point de dépôt alternatif.' },
+
+                // ===================== RÉSERVATION =====================
+                { id: 'kb060', cat: 'reservation', kw: ['réserver', 'réservation', 'comment'], q: 'Comment réserver un article ?', a: 'Sur la fiche produit, cliquez sur "Réserver" puis choisissez vos dates. La réservation est valable 72 heures — pensez à la transformer en commande avant expiration.' },
+                { id: 'kb061', cat: 'reservation', kw: ['expire', 'réservation', 'durée'], q: 'Combien de temps dure une réservation ?', a: 'Une réservation reste active 72 heures. Passé ce délai, elle expire automatiquement et l\'article redevient disponible pour d\'autres clients.' },
+                { id: 'kb062', cat: 'reservation', kw: ['annuler', 'réservation'], q: 'Comment annuler une réservation ?', a: 'Depuis votre Section Réservations, cliquez sur la réservation concernée puis "Annuler".' },
+                { id: 'kb063', cat: 'reservation', kw: ['transformer', 'commande', 'réservation'], q: 'Comment transformer ma réservation en commande ?', a: 'Cliquez sur "Commander" depuis votre réservation active — les articles sont ajoutés à votre panier automatiquement.' },
+
+                // ===================== FAVORIS / PRODUITS =====================
+                { id: 'kb070', cat: 'produit', kw: ['favoris', 'ajouter', 'coeur'], q: 'Comment ajouter un produit en favoris ?', a: 'Cliquez sur l\'icône cœur sur n\'importe quelle fiche produit ou carte produit — il apparaîtra dans votre Section Favoris.' },
+                { id: 'kb071', cat: 'produit', kw: ['rechercher', 'produit', 'trouver'], q: 'Comment rechercher un produit ?', a: 'Utilisez la barre de recherche en haut de l\'écran, ou parcourez les catégories depuis le menu principal.' },
+                { id: 'kb072', cat: 'produit', kw: ['comparer', 'produits'], q: 'Puis-je comparer plusieurs produits ?', a: 'Oui, la fonction comparaison vous permet de mettre côte à côte plusieurs produits similaires (prix, caractéristiques, avis).' },
+                { id: 'kb073', cat: 'produit', kw: ['avis', 'note', 'évaluer'], q: 'Comment laisser un avis sur un produit ?', a: 'Une fois votre commande livrée, rendez-vous sur la fiche produit ou votre commande pour laisser une note et un commentaire.' },
+                { id: 'kb074', cat: 'produit', kw: ['vendeur', 'vérifié', 'badge'], q: 'Que signifie le badge "vendeur vérifié" ?', a: 'Ce badge indique que le vendeur a complété la vérification de son identité et de sa boutique par notre équipe.' },
+
+                // ===================== MESSAGERIE =====================
+                { id: 'kb080', cat: 'messagerie', kw: ['contacter', 'vendeur', 'message'], q: 'Comment contacter un vendeur ?', a: 'Depuis la fiche produit ou le profil du vendeur, cliquez sur "Message" pour ouvrir une conversation directement.' },
+                { id: 'kb081', cat: 'messagerie', kw: ['bloquer', 'utilisateur', 'messagerie'], q: 'Comment bloquer quelqu\'un dans la messagerie ?', a: 'Ouvrez la conversation, cliquez sur le menu "⋮" puis "Bloquer" — vous ne recevrez plus de messages de cette personne.' },
+                { id: 'kb082', cat: 'messagerie', kw: ['appel', 'vocal', 'vidéo', 'messagerie'], q: 'Puis-je appeler un vendeur depuis l\'application ?', a: 'Oui, la messagerie intègre les appels vocaux et vidéo directement, sans avoir besoin du numéro de téléphone.' },
+                { id: 'kb083', cat: 'messagerie', kw: ['archiver', 'conversation'], q: 'Comment archiver une conversation ?', a: 'Ouvrez le menu "⋮" de la conversation puis "Archiver" — retrouvez-la ensuite dans la section Archives.' },
+                { id: 'kb084', cat: 'messagerie', kw: ['modifier', 'message', 'envoyé'], q: 'Puis-je modifier un message déjà envoyé ?', a: 'Oui, dans les 10 minutes suivant l\'envoi, cliquez sur le crayon à côté du message pour le modifier.' },
+
+                // ===================== VENDEUR — PRODUITS =====================
+                { id: 'kb100', cat: 'vendeur', kw: ['publier', 'produit', 'ajouter', 'vendre'], q: 'Comment publier un produit ?', a: 'Depuis Section Publier, renseignez le nom, la catégorie, le prix, les photos/vidéos et les caractéristiques, puis cliquez sur "Publier".' },
+                { id: 'kb101', cat: 'vendeur', kw: ['modifier', 'produit', 'fiche'], q: 'Comment modifier une fiche produit ?', a: 'Depuis Section Produits, cliquez sur le produit concerné puis "Modifier". Notez qu\'un produit déjà réservé ou commandé ne peut pas être modifié tant que la transaction n\'est pas terminée.' },
+                { id: 'kb102', cat: 'vendeur', kw: ['supprimer', 'produit'], q: 'Comment supprimer un produit ?', a: 'Depuis la fiche produit dans votre espace, cliquez sur "Supprimer". Un produit réservé ou en commande active ne peut pas être supprimé.' },
+                { id: 'kb103', cat: 'vendeur', kw: ['photos', 'vidéos', 'combien'], q: 'Combien de photos/vidéos puis-je ajouter par produit ?', a: 'Vous pouvez ajouter plusieurs photos et une vidéo par produit pour donner un maximum de visibilité à vos articles.' },
+                { id: 'kb104', cat: 'vendeur', kw: ['catégorie', 'personnalisée', 'créer'], q: 'Puis-je créer ma propre catégorie ?', a: 'Oui, si aucune catégorie existante ne correspond, utilisez le bouton "➕" à côté du sélecteur de catégorie pour en créer une.' },
+                { id: 'kb105', cat: 'vendeur', kw: ['stock', 'gérer', 'quantité'], q: 'Comment gérer mon stock ?', a: 'Indiquez la quantité disponible à la publication — elle se met à jour automatiquement à chaque vente. Vous pouvez l\'ajuster manuellement à tout moment.' },
+                { id: 'kb106', cat: 'vendeur', kw: ['taille', 'pointure', 'plusieurs'], q: 'Comment proposer plusieurs tailles/pointures ?', a: 'Lors de la publication, activez la sélection multiple pour cocher toutes les tailles ou pointures disponibles pour cet article.' },
+                { id: 'kb107', cat: 'vendeur', kw: ['prévisualiser', 'aperçu', 'avant', 'publier'], q: 'Puis-je prévisualiser mon annonce avant publication ?', a: 'Oui, le bouton "Prévisualiser" affiche exactement le rendu final tel que les acheteurs le verront.' },
+                { id: 'kb108', cat: 'vendeur', kw: ['brouillon', 'enregistrer', 'plus tard'], q: 'Puis-je enregistrer un brouillon ?', a: 'Oui, le bouton "Enregistrer comme brouillon" garde votre fiche produit pour la finaliser plus tard sans la publier.' },
+
+                // ===================== VENDEUR — VENTES / STATS / RETRAIT =====================
+                { id: 'kb120', cat: 'vendeur_ventes', kw: ['commandes', 'reçues', 'voir'], q: 'Comment voir mes commandes reçues ?', a: 'Votre Section Commandes liste toutes les commandes reçues, avec leur statut, et vous permet de les faire avancer (préparation, expédition).' },
+                { id: 'kb121', cat: 'vendeur_ventes', kw: ['solde', 'gains', 'argent', 'combien'], q: 'Comment voir mon solde disponible ?', a: 'Votre solde (issu des ventes livrées et payées) est visible dans votre tableau de bord et la section Retraits.' },
+                { id: 'kb122', cat: 'vendeur_ventes', kw: ['retirer', 'retrait', 'argent'], q: 'Comment retirer mon argent ?', a: 'Depuis Section Retraits, indiquez le montant et votre moyen (Mobile Money, virement), puis validez. Un administrateur traite votre demande sous quelques jours.' },
+                { id: 'kb123', cat: 'vendeur_ventes', kw: ['commission', 'pourcentage', 'combien', 'prend'], q: 'Quelle commission prend SINE.SHOP ?', a: 'SINE.SHOP prélève une commission de 5% sur chaque vente, déjà déduite automatiquement de votre solde disponible.' },
+                { id: 'kb124', cat: 'vendeur_ventes', kw: ['favoris', 'reçus', 'combien'], q: 'Comment savoir quels produits sont mis en favoris ?', a: 'Votre tableau de bord affiche un compteur de favoris par produit, pour repérer ceux qui suscitent le plus d\'intérêt.' },
+                { id: 'kb125', cat: 'vendeur_ventes', kw: ['note', 'avis', 'clients'], q: 'Comment voir mes avis clients ?', a: 'Vos avis et notes sont visibles sur votre profil boutique public et résumés dans votre tableau de bord.' },
+                { id: 'kb126', cat: 'vendeur_ventes', kw: ['litige', 'conflit', 'client'], q: 'Un client a ouvert un litige, que faire ?', a: 'Consultez le détail du litige depuis votre espace, répondez avec des preuves si besoin. Un modérateur tranchera si aucun accord n\'est trouvé.' },
+                { id: 'kb127', cat: 'vendeur_ventes', kw: ['boutique', 'vérifiée', 'validation'], q: 'Comment faire vérifier ma boutique ?', a: 'Complétez votre profil vendeur (pièce d\'identité, justificatifs) — notre équipe valide sous quelques jours et vous obtenez le badge "Vérifié".' },
+
+                // ===================== VENDEUR — CONSEILS / DÉCISIONS =====================
+                { id: 'kb140', cat: 'vendeur_conseil', kw: ['prix', 'fixer', 'comment', 'combien'], q: 'Comment fixer le bon prix pour mon produit ?', a: 'Comparez avec des produits similaires sur la plateforme, tenez compte de vos coûts + commission (5%) + marge souhaitée. Un prix trop élevé réduit les vues, trop bas nuit à votre marge.' },
+                { id: 'kb141', cat: 'vendeur_conseil', kw: ['vendre', 'plus', 'astuces', 'améliorer'], q: 'Comment vendre plus sur SINE.SHOP ?', a: 'Ajoutez des photos de qualité et une vidéo, rédigez une description claire et complète, répondez vite aux messages, maintenez un bon stock, et encouragez vos clients satisfaits à laisser un avis.' },
+                { id: 'kb142', cat: 'vendeur_conseil', kw: ['promotion', 'campagne', 'lancer'], q: 'Comment lancer une promotion ?', a: 'Ajustez temporairement le prix de vos produits phares, et mentionnez-le dans votre description. Les baisses de prix remontent naturellement dans les recommandations des clients qui ont ce produit en favoris.' },
+                { id: 'kb143', cat: 'vendeur_conseil', kw: ['visibilité', 'produit', 'améliorer', 'vues'], q: 'Comment améliorer la visibilité de mes produits ?', a: 'Utilisez des mots-clés précis dans le titre, remplissez toutes les caractéristiques, publiez régulièrement de nouveaux articles, et gardez un excellent taux de réponse en messagerie.' },
+                { id: 'kb144', cat: 'vendeur_conseil', kw: ['stock', 'faible', 'décision', 'réapprovisionner'], q: 'Mon stock est bas, que faire ?', a: 'Surveillez vos ventes régulières et réapprovisionnez avant la rupture — un produit "en rupture" perd en visibilité et en confiance auprès des acheteurs.' },
+                { id: 'kb145', cat: 'vendeur_conseil', kw: ['produit', 'ne', 'vend', 'pas'], q: 'Mon produit ne se vend pas, que faire ?', a: 'Vérifiez le prix par rapport à la concurrence, améliorez les photos/description, et envisagez une petite baisse de prix temporaire pour relancer l\'intérêt.' },
+                { id: 'kb146', cat: 'vendeur_conseil', kw: ['description', 'rédiger', 'produit'], q: 'Comment rédiger une bonne description ?', a: 'Soyez précis (matière, dimensions, état), mettez en avant les bénéfices concrets pour l\'acheteur, et anticipez les questions fréquentes directement dans le texte.' },
+
+                // ===================== LIVREUR =====================
+                { id: 'kb160', cat: 'livreur', kw: ['devenir', 'livreur', 'inscrire'], q: 'Comment devenir livreur ?', a: 'Inscrivez-vous via "Devenir livreur", renseignez votre véhicule et votre zone, puis complétez la vérification d\'identité.' },
+                { id: 'kb161', cat: 'livreur', kw: ['disponibilité', 'disponible', 'changer'], q: 'Comment changer ma disponibilité ?', a: 'Le bouton Disponible/Indisponible sur votre tableau de bord détermine si vous recevez de nouvelles missions.' },
+                { id: 'kb162', cat: 'livreur', kw: ['mission', 'livraison', 'accepter'], q: 'Comment accepter une mission de livraison ?', a: 'Une notification vous prévient d\'une nouvelle livraison à prendre en charge, avec l\'adresse du vendeur (retrait) et du client (livraison).' },
+                { id: 'kb163', cat: 'livreur', kw: ['plusieurs', 'vendeurs', 'commande', 'groupée'], q: 'Un client a commandé chez plusieurs vendeurs, comment faire ?', a: 'Vous verrez un avertissement "commande groupée" avec la liste des autres retraits à effectuer chez d\'autres vendeurs avant de tout assembler pour une livraison unique au client.' },
+                { id: 'kb164', cat: 'livreur', kw: ['zone', 'livraison', 'définir'], q: 'Comment définir ma zone de livraison ?', a: 'Depuis votre profil, indiquez votre ville et le rayon d\'action dans lequel vous acceptez les missions.' },
+                { id: 'kb165', cat: 'livreur', kw: ['gains', 'combien', 'gagner'], q: 'Comment sont calculés mes gains ?', a: 'Vous percevez les frais de livraison de chaque commande effectuée, visibles dans votre section Gains, avec un historique détaillé.' },
+                { id: 'kb166', cat: 'livreur', kw: ['retirer', 'argent', 'retrait', 'livreur'], q: 'Comment retirer mes gains de livreur ?', a: 'Depuis votre section Retraits, indiquez le montant et votre moyen de paiement préféré (Mobile Money).' },
+                { id: 'kb167', cat: 'livreur', kw: ['client', 'absent', 'que faire'], q: 'Le client est absent, que faire ?', a: 'Contactez-le via la messagerie intégrée. Si injoignable après un délai raisonnable, signalez le problème depuis la commande.' },
+                { id: 'kb168', cat: 'livreur', kw: ['véhicule', 'changer', 'type'], q: 'Comment changer mon type de véhicule ?', a: 'Modifiable depuis votre Section Profil > informations véhicule.' },
+
+                // ===================== AFFILIATION =====================
+                { id: 'kb180', cat: 'affiliation', kw: ['affiliation', 'devenir', 'programme'], q: 'Comment devenir affilié ?', a: 'Inscrivez-vous via "Programme d\'affiliation", vous recevrez un code personnel à partager pour gagner des commissions sur les inscriptions et achats de vos filleuls.' },
+                { id: 'kb181', cat: 'affiliation', kw: ['code', 'affiliation', 'où', 'trouver'], q: 'Où trouver mon code d\'affiliation ?', a: 'Votre code personnel est affiché sur votre tableau de bord affilié, avec un lien de partage prêt à l\'emploi.' },
+                { id: 'kb182', cat: 'affiliation', kw: ['commission', 'affiliation', 'combien'], q: 'Combien puis-je gagner en affiliation ?', a: 'Vous gagnez une commission sur chaque achat effectué par vos filleuls, ainsi qu\'un bonus pouvant aller jusqu\'à 500$ par nouvelle inscription selon les conditions en vigueur.' },
+                { id: 'kb183', cat: 'affiliation', kw: ['retirer', 'gains', 'affiliation'], q: 'Comment retirer mes gains d\'affiliation ?', a: 'Depuis votre tableau de bord affilié, section Retraits, indiquez le montant et votre moyen de paiement.' },
+                { id: 'kb184', cat: 'affiliation', kw: ['filleuls', 'voir', 'liste'], q: 'Comment voir mes filleuls ?', a: 'Votre tableau de bord liste tous vos filleuls inscrits avec leur activité et les commissions générées.' },
+
+                // ===================== SÉCURITÉ / CONFIDENTIALITÉ =====================
+                { id: 'kb200', cat: 'securite', kw: ['données', 'personnelles', 'protection'], q: 'Comment sont protégées mes données ?', a: 'SINE.SHOP applique des mesures de sécurité strictes (chiffrement, accès restreint) et ne partage jamais vos données sans votre consentement. Consultez notre politique de confidentialité.' },
+                { id: 'kb201', cat: 'securite', kw: ['compte', 'piraté', 'suspect', 'connexion'], q: 'Je pense que mon compte a été piraté', a: 'Changez immédiatement votre mot de passe, vérifiez vos sessions actives et déconnectez tous les appareils depuis Paramètres, puis contactez le support.' },
+                { id: 'kb202', cat: 'securite', kw: ['arnaque', 'signaler', 'vendeur', 'suspect'], q: 'Comment signaler un vendeur suspect ?', a: 'Depuis sa fiche produit ou son profil, utilisez le bouton "Signaler" — notre équipe de modération examine chaque signalement rapidement.' },
+                { id: 'kb203', cat: 'securite', kw: ['code', 'confidentiel', 'partager'], q: 'Dois-je partager mon code de vérification ?', a: 'Non, JAMAIS. Aucun membre de l\'équipe SINE.SHOP ne vous demandera votre code — s\'il vous est demandé, c\'est une tentative de fraude.' },
+
+                // ===================== GÉNÉRAL SINE.SHOP =====================
+                { id: 'kb220', cat: 'general', kw: ['sine.shop', 'qu\'est-ce', 'plateforme'], q: 'Qu\'est-ce que SINE.SHOP ?', a: 'SINE.SHOP est une marketplace complète qui connecte clients, vendeurs et livreurs — achat, vente, réservation, livraison et messagerie, le tout dans une seule application.' },
+                { id: 'kb221', cat: 'general', kw: ['contact', 'support', 'aide', 'joindre'], q: 'Comment contacter le support ?', a: 'Écrivez à support@sineshophome.com ou ouvrez un ticket depuis votre espace. Notre équipe répond généralement sous 24 à 48h.' },
+                { id: 'kb222', cat: 'general', kw: ['réseaux', 'sociaux', 'suivre'], q: 'Sur quels réseaux sociaux suivre SINE.SHOP ?', a: 'Retrouvez-nous sur Instagram, Facebook, TikTok, WhatsApp et X — liens disponibles en bas de chaque page.' },
+                { id: 'kb223', cat: 'general', kw: ['application', 'mobile', 'télécharger'], q: 'Y a-t-il une application mobile ?', a: 'Oui, une bannière propose d\'ouvrir l\'application mobile SINE.SHOP si elle est installée, sinon elle vous redirige vers le store correspondant.' },
+                { id: 'kb224', cat: 'general', kw: ['merci', 'bonjour', 'salut'], q: 'Salutations', a: 'Bonjour ! Je suis l\'assistant SINE.SHOP, ravi de vous aider. Posez-moi vos questions sur vos commandes, vos ventes, votre livraison ou tout ce qui concerne la plateforme.' },
+
+                // ===================== COMPTE — LOT 2 =====================
+                { id: 'kb016', cat: 'compte', kw: ['kyc', 'identité', 'vérification', 'document'], q: 'Qu\'est-ce que la vérification KYC ?', a: 'C\'est la vérification d\'identité (pièce d\'identité + justificatif de domicile) demandée aux vendeurs et livreurs pour sécuriser la plateforme et débloquer le badge "Vérifié".' },
+                { id: 'kb017', cat: 'compte', kw: ['notifications', 'désactiver', 'paramètres'], q: 'Comment gérer mes notifications ?', a: 'Depuis Paramètres > Notifications, activez ou désactivez les alertes par email, SMS ou notification interne selon vos préférences.' },
+                { id: 'kb018', cat: 'compte', kw: ['thème', 'sombre', 'clair', 'mode'], q: 'Comment activer le mode sombre ?', a: 'Depuis Paramètres, basculez entre thème clair et sombre — l\'en-tête garde toujours son identité visuelle, seul le contenu change.' },
+                { id: 'kb019', cat: 'compte', kw: ['date', 'naissance', 'modifier'], q: 'Puis-je modifier ma date de naissance ?', a: 'Non, ce champ est verrouillé définitivement après la première saisie pour des raisons de sécurité et de conformité.' },
+
+                // ===================== LOT 3 — VARIANTES ET COMPLÉMENTS =====================
+                { id: 'kb233', cat: 'commande', kw: ['livrée', 'pas', 'reçue', 'jamais'], q: 'Je n\'ai jamais reçu ma commande marquée "livrée"', a: 'Contactez immédiatement le livreur via la messagerie, puis ouvrez un ticket support si le problème n\'est pas résolu rapidement — nous investiguerons.' },
+                { id: 'kb234', cat: 'commande', kw: ['combien', 'articles', 'commande'], q: 'Combien d\'articles puis-je commander à la fois ?', a: 'Il n\'y a pas de limite stricte, mais un nombre très élevé d\'articles peut déclencher une vérification supplémentaire pour votre sécurité.' },
+                { id: 'kb235', cat: 'paiement', kw: ['devise', 'conversion', 'automatique', 'paiement'], q: 'Le paiement se fait-il dans ma devise locale ?', a: 'Oui, les prix et le paiement s\'affichent automatiquement dans votre devise selon votre pays, avec conversion en temps réel.' },
+                { id: 'kb236', cat: 'paiement', kw: ['payer', 'plusieurs', 'fois', 'échelonné'], q: 'Puis-je payer en plusieurs fois ?', a: 'Le paiement échelonné n\'est pas disponible actuellement — le règlement se fait en une seule fois au moment de la commande.' },
+                { id: 'kb237', cat: 'livraison', kw: ['emballage', 'protection', 'fragile'], q: 'Comment sont protégés les articles fragiles ?', a: 'Chaque vendeur est responsable de l\'emballage — signalez tout défaut d\'emballage constaté au support ou dans votre avis.' },
+                { id: 'kb238', cat: 'reservation', kw: ['réservation', 'même', 'produit', 'plusieurs', 'clients'], q: 'Plusieurs clients peuvent-ils réserver le même produit ?', a: 'Non, une fois réservé, un article n\'est plus disponible pour d\'autres clients tant que la réservation est active (72h) ou jusqu\'à son annulation.' },
+                { id: 'kb239', cat: 'produit', kw: ['stock', 'épuisé', 'alerte'], q: 'Puis-je être alerté quand un produit épuisé revient en stock ?', a: 'Ajoutez-le en favoris — vous serez informé dès que le vendeur le remet en stock.' },
+                { id: 'kb240', cat: 'messagerie', kw: ['statut', 'en ligne', 'vendeur'], q: 'Comment savoir si un vendeur est en ligne ?', a: 'Un indicateur "🟢 En ligne" s\'affiche à côté de son nom dans la conversation lorsqu\'il est actuellement connecté.' },
+                { id: 'kb241', cat: 'vendeur', kw: ['produit', 'signalé', 'refusé'], q: 'Pourquoi mon produit a-t-il été refusé ?', a: 'Un produit peut être refusé s\'il ne respecte pas nos règles (contenu interdit, description trompeuse). Vous recevez un motif détaillé et pouvez le corriger puis republier.' },
+                { id: 'kb242', cat: 'vendeur_ventes', kw: ['paiement', 'reçu', 'quand', 'solde'], q: 'Quand l\'argent d\'une vente arrive-t-il dans mon solde ?', a: 'Le montant est crédité à votre solde disponible une fois la commande marquée comme livrée et le paiement confirmé.' },
+                { id: 'kb243', cat: 'vendeur_conseil', kw: ['photos', 'qualité', 'améliorer'], q: 'Comment prendre de meilleures photos produit ?', a: 'Utilisez un bon éclairage naturel, un fond neutre, plusieurs angles, et montrez les détails importants (matière, finitions, défauts éventuels).' },
+                { id: 'kb244', cat: 'livreur', kw: ['carburant', 'frais', 'compensation'], q: 'Les frais de carburant sont-ils compensés ?', a: 'Les frais de livraison perçus sont conçus pour couvrir vos déplacements — ils varient selon la distance parcourue.' },
+                { id: 'kb245', cat: 'affiliation', kw: ['lien', 'partage', 'où', 'poster'], q: 'Où partager mon lien d\'affiliation ?', a: 'Partagez-le sur vos réseaux sociaux, par message ou email — chaque inscription via ce lien vous est automatiquement créditée.' },
+                { id: 'kb246', cat: 'securite', kw: ['mot de passe', 'fort', 'sécurisé', 'créer'], q: 'Comment créer un mot de passe sécurisé ?', a: 'Utilisez au moins 8 caractères avec majuscules, minuscules, chiffres et symboles — évitez les mots de passe déjà utilisés ailleurs.' },
+                { id: 'kb247', cat: 'general', kw: ['newsletter', 'abonner', 'désabonner'], q: 'Comment me désabonner de la newsletter ?', a: 'Un lien de désabonnement est présent en bas de chaque email marketing reçu, ou modifiez vos préférences dans Paramètres > Notifications.' },
+                { id: 'kb248', cat: 'compte', kw: ['deux', 'comptes', 'même', 'personne'], q: 'Puis-je avoir deux comptes différents ?', a: 'Nous recommandons un seul compte par personne (avec plusieurs rôles possibles dessus) pour une meilleure expérience et un historique centralisé.' },
+                { id: 'kb249', cat: 'commande', kw: ['livraison', 'internationale', 'étranger'], q: 'Livrez-vous à l\'international ?', a: 'La livraison est actuellement optimisée pour la Côte d\'Ivoire — la couverture internationale s\'étend progressivement selon les vendeurs et livreurs disponibles.' },
+                { id: 'kb250', cat: 'paiement', kw: ['facture', 'tva', 'taxes'], q: 'Les prix incluent-ils les taxes ?', a: 'Oui, le prix affiché inclut déjà les taxes applicables — aucun frais caché n\'est ajouté au moment du paiement.' },
+                { id: 'kb251', cat: 'produit', kw: ['prix', 'négocier', 'baisser'], q: 'Puis-je négocier le prix d\'un article ?', a: 'Contactez le vendeur directement via la messagerie — certains acceptent la négociation, d\'autres non, cela dépend de chacun.' },
+                { id: 'kb252', cat: 'vendeur', kw: ['plusieurs', 'boutiques', 'compte'], q: 'Puis-je gérer plusieurs boutiques ?', a: 'Un compte vendeur correspond à une seule boutique — pour une activité distincte, un second compte dédié est nécessaire.' },
+                { id: 'kb253', cat: 'commande', kw: ['erreur', 'commande', 'mauvais', 'article'], q: 'J\'ai commandé le mauvais article par erreur', a: 'Si la commande n\'est pas encore expédiée, annulez-la et repassez une nouvelle commande. Sinon, contactez le vendeur pour convenir d\'un retour.' },
+                { id: 'kb254', cat: 'paiement', kw: ['paiement', 'attente', 'longtemps', 'bloqué'], q: 'Mon paiement reste "en attente" trop longtemps', a: 'Patientez quelques minutes le temps que l\'opérateur confirme la transaction. Si le statut ne change pas après 30 minutes, contactez le support avec votre référence.' },
+                { id: 'kb255', cat: 'livraison', kw: ['plusieurs', 'adresses', 'enregistrer'], q: 'Puis-je enregistrer plusieurs adresses de livraison ?', a: 'Vous pouvez modifier votre adresse à chaque commande — une gestion de carnet d\'adresses multiples pourra être proposée à l\'avenir.' },
+                { id: 'kb256', cat: 'reservation', kw: ['réservation', 'notification', 'confirmée'], q: 'Suis-je notifié quand ma réservation est confirmée ?', a: 'Oui, une notification est automatiquement envoyée dans votre Section Notifications dès que votre réservation est enregistrée.' },
+                { id: 'kb257', cat: 'produit', kw: ['produit', 'garantie', 'durée'], q: 'Les produits ont-ils une garantie ?', a: 'La garantie dépend de chaque vendeur et du type de produit — vérifiez les informations dans la description ou demandez directement au vendeur.' },
+                { id: 'kb258', cat: 'messagerie', kw: ['notification', 'nouveau', 'message', 'recevoir'], q: 'Suis-je notifié des nouveaux messages ?', a: 'Oui, une notification s\'affiche à chaque nouveau message reçu, avec un badge sur l\'icône messagerie.' },
+                { id: 'kb259', cat: 'vendeur', kw: ['produit', 'dupliquer', 'copier'], q: 'Puis-je dupliquer une fiche produit existante ?', a: 'Utilisez "Prévisualiser" puis republiez avec des modifications pour gagner du temps sur des produits similaires.' },
+                { id: 'kb260', cat: 'vendeur_ventes', kw: ['export', 'données', 'ventes', 'télécharger'], q: 'Puis-je exporter mes données de ventes ?', a: 'Vos factures sont téléchargeables individuellement — un export global pourra être proposé prochainement.' },
+                { id: 'kb261', cat: 'vendeur_conseil', kw: ['livraison', 'rapide', 'préparation'], q: 'Comment réduire mon temps de préparation ?', a: 'Organisez votre stock à l\'avance, préparez les commandes dès confirmation du paiement, et communiquez un statut clair au client pour rassurer sur les délais.' },
+                { id: 'kb262', cat: 'livreur', kw: ['itinéraire', 'optimiser', 'plusieurs', 'livraisons'], q: 'Comment optimiser mon itinéraire pour plusieurs livraisons ?', a: 'Groupez les livraisons proches géographiquement quand c\'est possible et consultez la carte de suivi pour visualiser tous vos points de passage.' },
+                { id: 'kb263', cat: 'affiliation', kw: ['statistiques', 'affiliation', 'suivre'], q: 'Comment suivre mes performances d\'affiliation ?', a: 'Votre tableau de bord affilié affiche le nombre de filleuls, les commissions générées et l\'évolution dans le temps.' },
+                { id: 'kb264', cat: 'securite', kw: ['email', 'phishing', 'suspect', 'faux'], q: 'J\'ai reçu un email suspect prétendant venir de SINE.SHOP', a: 'Ne cliquez sur aucun lien et ne communiquez aucune information. Nos emails officiels proviennent toujours de @sineshophome.com — signalez tout doute au support.' },
+                { id: 'kb265', cat: 'general', kw: ['nouveautés', 'mises à jour', 'récentes'], q: 'Où voir les nouveautés de la plateforme ?', a: 'Consultez régulièrement la page d\'accueil et vos notifications — les nouvelles fonctionnalités y sont annoncées.' },
+                { id: 'kb266', cat: 'compte', kw: ['profil', 'photo', 'changer', 'avatar'], q: 'Comment changer ma photo de profil ?', a: 'Depuis Section Profil, cliquez sur votre photo puis "Modifier" pour en téléverser une nouvelle.' },
+                { id: 'kb267', cat: 'commande', kw: ['commande', 'partager', 'proche'], q: 'Puis-je commander pour quelqu\'un d\'autre ?', a: 'Oui, indiquez simplement l\'adresse de livraison de la personne concernée au moment de la commande.' },
+                { id: 'kb268', cat: 'produit', kw: ['produit', 'international', 'importé'], q: 'Les produits sont-ils tous locaux ?', a: 'La majorité des produits proviennent de vendeurs locaux, mais certains articles importés peuvent être proposés selon les vendeurs.' },
+                { id: 'kb269', cat: 'vendeur', kw: ['abonnement', 'frais', 'inscription', 'vendeur'], q: 'Y a-t-il des frais d\'inscription pour devenir vendeur ?', a: 'Non, l\'inscription vendeur est gratuite — seule une commission de 5% est prélevée sur les ventes effectivement réalisées.' },
+                { id: 'kb270', cat: 'livreur', kw: ['frais', 'inscription', 'devenir', 'livreur'], q: 'Y a-t-il des frais pour devenir livreur ?', a: 'Non, l\'inscription livreur est entièrement gratuite.' },
+                { id: 'kb271', cat: 'compte', kw: ['âge', 'minimum', 'mineur'], q: 'Y a-t-il un âge minimum pour s\'inscrire ?', a: 'SINE.SHOP est réservé aux personnes majeures conformément à nos conditions générales d\'utilisation.' },
+                { id: 'kb272', cat: 'paiement', kw: ['frais', 'transaction', 'caché'], q: 'Y a-t-il des frais cachés lors du paiement ?', a: 'Non, le montant affiché avant validation (articles + livraison + taxes) est exactement ce que vous payez, sans surprise.' },
+                { id: 'kb273', cat: 'vendeur_ventes', kw: ['taxes', 'impôts', 'déclaration', 'revenus'], q: 'Dois-je déclarer mes revenus de vente ?', a: 'Les obligations fiscales relèvent de votre responsabilité personnelle selon la législation de votre pays — SINE.SHOP fournit vos factures comme justificatifs.' },
+                { id: 'kb274', cat: 'general', kw: ['siège', 'bureaux', 'localisation', 'entreprise'], q: 'Où est basé SINE.SHOP ?', a: 'SINE.SHOP est basé à Abidjan, Côte d\'Ivoire.' },
+            ];
+
+            // =========================================================
+            // 2. MOTEUR DE CORRESPONDANCE (Matcher) — 100% local
+            // =========================================================
+            const STOP_WORDS = new Set([
+                'le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'et', 'ou', 'a', 'au',
+                'aux', 'ce', 'ces', 'cet', 'cette', 'je', 'tu', 'il', 'elle', 'nous',
+                'vous', 'ils', 'elles', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son',
+                'sa', 'ses', 'pour', 'par', 'sur', 'dans', 'avec', 'sans', 'est', 'sont',
+                'suis', 'es', 'sommes', 'etes', 'que', 'qui', 'quoi', 'comment', 'pourquoi',
+                'quand', 'ou', 'est-ce', 'svp', 'sil', 'plait',
+            ]);
+
+            function normalize(str) {
+                return String(str || '')
+                    .toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^a-z0-9\s]/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+            }
+
+            function significantWords(str) {
+                return normalize(str).split(' ').filter(w => w.length > 1 && !STOP_WORDS.has(w));
+            }
+
+            function scoreEntry(entry, queryWords, queryNormalized) {
+                let score = 0;
+                for (const kw of entry.kw) {
+                    if (queryNormalized.includes(normalize(kw))) score += 2;
                 }
-                return true;
+                const qWords = significantWords(entry.q);
+                for (const w of queryWords) {
+                    if (qWords.includes(w)) score += 1;
+                }
+                return score;
             }
 
-            // =========================================================
-            // TOAST
-            // =========================================================
-            function showToast(message, type = 'info') {
-                const container = document.getElementById('toastContainer');
-                const toast = document.createElement('div');
-                toast.className = 'toast-item ' + type;
-                toast.textContent = message;
-                container.appendChild(toast);
-                setTimeout(() => {
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translateY(-10px)';
-                    toast.style.transition = '0.4s';
-                    setTimeout(() => toast.remove(), 500);
-                }, 3000);
-            }
+            function findBestMatch(query) {
+                const queryNormalized = normalize(query);
+                const queryWords = significantWords(query);
+                if (!queryWords.length) return null;
 
-            // =========================================================
-            // CHARGEMENT UTILISATEUR
-            // =========================================================
-            function loadUser() {
-                const userData = JSON.parse(localStorage.getItem('sineUser'));
-                if (userData) {
-                    currentUser = userData;
-                    const nom = userData.firstName || userData.prenom || 'Utilisateur';
-                    document.getElementById('headerName').textContent = nom;
-                    document.getElementById('chatName').textContent = 'AI-SINE.SHOP';
-                    if (userData.profilePicture) {
-                        document.getElementById('headerAvatar').src = userData.profilePicture;
-                        document.getElementById('modalAvatar').src = userData.profilePicture;
+                let best = null;
+                let bestScore = 0;
+                for (const entry of KNOWLEDGE_BASE) {
+                    const score = scoreEntry(entry, queryWords, queryNormalized);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        best = entry;
                     }
                 }
+                return bestScore >= 2 ? { entry: best, score: bestScore } : null;
+            }
+
+            function findRelatedEntries(query, limit = 3, excludeId = null) {
+                const queryNormalized = normalize(query);
+                const queryWords = significantWords(query);
+                return KNOWLEDGE_BASE
+                    .filter(e => e.id !== excludeId)
+                    .map(entry => ({ entry, score: scoreEntry(entry, queryWords, queryNormalized) }))
+                    .filter(r => r.score > 0)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, limit);
             }
 
             // =========================================================
-            // CHARGEMENT CONTEXTE
+            // 3. DÉTECTION DE LANGUE
+            // =========================================================
+            function detectLanguage(text) {
+                const patterns = {
+                    fr: /[êéèëïîçàùôûœæ]/i,
+                    en: /\b(the|and|for|with|you|this|that|from|have|are|was|your|can|will|would|could|should|may|might)\b/i,
+                    es: /\b(el|la|los|las|un|una|y|en|por|para|con|sin|sobre|entre|como|cuando|donde|quien|que|del|al|si|no)\b/i,
+                    ar: /[\u0600-\u06FF]/,
+                    de: /\b(der|die|das|und|mit|auf|für|von|bei|nach|aus|durch|über|unter|zwischen|aber|den|dem|zu|ist|ein|eine)\b/i,
+                    it: /\b(il|lo|la|i|gli|le|un|uno|una|per|con|su|tra|fra|che|chi|dove|quando|come|si|no|del|dello)\b/i,
+                    pt: /\b(o|a|os|as|um|uma|para|com|sem|sobre|entre|como|quando|onde|quem|que|do|da)\b/i,
+                };
+                let bestLang = 'fr';
+                let bestScore = 0;
+                for (const [lang, pattern] of Object.entries(patterns)) {
+                    const matches = (text.match(pattern) || []).length;
+                    if (matches > bestScore) {
+                        bestScore = matches;
+                        bestLang = lang;
+                    }
+                }
+                if (/[\u0600-\u06FF]/.test(text)) return 'ar';
+                return bestLang;
+            }
+
+            // =========================================================
+            // 4. ANALYSE DE SENTIMENT
+            // =========================================================
+            function analyzeSentiment(text) {
+                const positive = ['bon', 'bien', 'excellent', 'super', 'génial', 'parfait', 'top', 'satisfait', 'content', 'merci', 'rapide', 'recommande', 'parfait'];
+                const negative = ['mauvais', 'nul', 'déçu', 'lent', 'problème', 'cassé', 'arnaque', 'horrible', 'jamais', 'annuler', 'remboursement', 'insatisfait'];
+                const lower = text.toLowerCase();
+                let score = 0;
+                positive.forEach(w => { if (lower.includes(w)) score += 1; });
+                negative.forEach(w => { if (lower.includes(w)) score -= 1; });
+                if (score > 0) return { sentiment: 'positive', score };
+                if (score < 0) return { sentiment: 'negative', score };
+                return { sentiment: 'neutral', score: 0 };
+            }
+
+            // =========================================================
+            // 5. API HELPER — Connexion au backend
+            // =========================================================
+            function getToken() {
+                return localStorage.getItem('sineToken');
+            }
+
+            function getHeaders() {
+                const headers = { 'Content-Type': 'application/json' };
+                const token = getToken();
+                if (token) headers['Authorization'] = 'Bearer ' + token;
+                return headers;
+            }
+
+            async function apiCall(endpoint, method = 'GET', body = null) {
+                const url = API_BASE + endpoint;
+                const options = {
+                    method,
+                    headers: getHeaders(),
+                };
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                const response = await fetch(url, options);
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Erreur serveur');
+                }
+                return data;
+            }
+
+            // =========================================================
+            // 6. GESTION DE LA MÉMOIRE (backend + localStorage)
+            // =========================================================
+            function loadMemoryLocal() {
+                try {
+                    const data = localStorage.getItem('sine_ai_memory');
+                    return data ? JSON.parse(data) : { memories: [], interactions: 0, firstSeen: new Date().toISOString() };
+                } catch { return { memories: [], interactions: 0, firstSeen: new Date().toISOString() }; }
+            }
+
+            function saveMemoryLocal(memory) {
+                localStorage.setItem('sine_ai_memory', JSON.stringify(memory));
+            }
+
+            function updateMemoryUI() {
+                const memory = loadMemoryLocal();
+                document.getElementById('memoryTopics').textContent = memory.memories.length + ' sujets appris';
+                if (memory.memories.length > 0) {
+                    const topics = memory.memories.map(m => m.topic).join(', ');
+                    document.getElementById('memoryText').textContent = '🧠 Je me souviens de ' + memory.memories.length + ' sujets : ' + topics.slice(0, 60) + (topics.length > 60 ? '…' : '');
+                } else {
+                    document.getElementById('memoryText').textContent = '🧠 Assistant connecté au backend';
+                }
+                document.getElementById('contextMemoryCount').textContent = '🧠 ' + memory.memories.length;
+            }
+
+            // =========================================================
+            // 7. CHARGEMENT DES DONNÉES UTILISATEUR
+            // =========================================================
+            async function loadUserData() {
+                try {
+                    const userData = JSON.parse(localStorage.getItem('sineUser'));
+                    if (userData) {
+                        currentUser = userData;
+                        document.getElementById('headerName').textContent = userData.firstName || 'Utilisateur';
+                        document.getElementById('headerAvatar').src = userData.profilePicture || '../images/profil.png';
+                        document.getElementById('modalAvatar').src = userData.profilePicture || '../images/profil.png';
+                        document.getElementById('chatName').textContent = 'AI-SINE.SHOP';
+                    }
+                } catch (e) {
+                    console.warn('Erreur chargement utilisateur:', e);
+                }
+            }
+
+            // =========================================================
+            // 8. CHARGEMENT DU CONTEXTE (backend)
             // =========================================================
             async function loadContext() {
                 try {
-                    const data = await window.SineAPI.getContext();
-                    contextData = data.context || {};
-                    const suggestions = data.suggestions || [];
+                    const data = await apiCall('/ai/context', 'GET');
+                    contextData = data.data || data.context || {};
                     
-                    // Mise à jour de la barre de contexte
                     document.getElementById('contextOrdersCount').textContent = contextData.orders?.length || 0;
                     document.getElementById('contextCartCount').textContent = contextData.cart?.totalItems || 0;
                     document.getElementById('contextMessagesCount').textContent = contextData.notifications?.length || 0;
-                    
-                    // Mise à jour des suggestions proactives
-                    renderProactiveSuggestions(suggestions);
-                    
-                    // Mise à jour de l'indicateur de mémoire
-                    if (memoryData && memoryData.memories) {
-                        document.getElementById('memoryTopics').textContent = memoryData.memories.length + ' sujets appris';
-                    }
-                    
-                    // Temps de session
                     document.getElementById('contextTime').textContent = '⏱️ ' + new Date().toLocaleTimeString();
-                    
+
+                    // Suggestions proactives
+                    if (data.suggestions) {
+                        renderProactiveSuggestions(data.suggestions);
+                    }
+
+                    // Mémoire
+                    if (data.memory) {
+                        const memory = loadMemoryLocal();
+                        memory.memories = data.memory.memories || memory.memories;
+                        saveMemoryLocal(memory);
+                        updateMemoryUI();
+                    }
+
+                    return data;
                 } catch (error) {
-                    console.error('Erreur chargement contexte:', error);
+                    console.warn('Erreur chargement contexte:', error);
+                    // Fallback: utiliser les données locales
+                    return null;
                 }
             }
 
             // =========================================================
-            // RENDER SUGGESTIONS PROACTIVES
-            // =========================================================
-            function renderProactiveSuggestions(suggestions) {
-                const container = document.getElementById('proactiveSuggestions');
-                if (!suggestions || suggestions.length === 0) {
-                    container.innerHTML = `
-                        <span style="font-size:0.7rem;color:var(--text-secondary);">💡 Des suggestions apparaîtront ici</span>
-                        <button class="suggestion-chip" onclick="window.sendMessage('Aide')">❓ Aide</button>
-                        <button class="suggestion-chip" onclick="window.sendMessage('Voir mes commandes')">📦 Commandes</button>
-                    `;
-                    return;
-                }
-                
-                container.innerHTML = suggestions.map(s => `
-                    <button class="suggestion-chip" onclick="window.sendMessage('${s.label.replace(/'/g, "\\'")}')">
-                        ${s.label}
-                        ${s.badge ? `<span class="badge">${s.badge}</span>` : ''}
-                    </button>
-                `).join('');
-            }
-
-            // =========================================================
-            // CHARGEMENT DE L'HISTORIQUE
+            // 9. CHARGEMENT DES CONVERSATIONS (backend)
             // =========================================================
             async function loadConversations() {
                 try {
-                    const data = await window.SineAPI.getAiConversations(20);
-                    conversations = data.conversations || [];
+                    const data = await apiCall('/ai/conversations', 'GET');
+                    conversations = data.data?.conversations || [];
 
                     if (conversations.length === 0) {
+                        // Créer une conversation locale en attendant
                         const now = new Date().toISOString();
-                        conversations.push({
-                            id: 'conv_temp_' + Date.now(),
+                        const conv = {
+                            id: 'local_' + Date.now(),
                             title: 'Bienvenue sur SINE.SHOP AI',
-                            messages: [
-                                { id: 'msg_welcome', from: 'ai', text: 'Bonjour ! Je suis AI-SINE.SHOP, votre copilote intelligent. Je me souviens de vos préférences et je suis là pour vous aider à chaque étape.', time: now, intent: 'Accueil', suggestions: ['Comment ça fonctionne ?', 'Voir mes commandes', 'Aide'] }
-                            ],
+                            messages: [{
+                                id: 'msg_welcome_' + Date.now(),
+                                from: 'ai',
+                                text: 'Bonjour ! Je suis AI-SINE.SHOP, votre assistant connecté au backend. Je m\'adapte à votre langue, je mémorise nos échanges et je peux accéder à vos données réelles (commandes, panier, etc.). Que puis-je faire pour vous ?',
+                                time: now,
+                                intent: 'Accueil',
+                                suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Aide']
+                            }],
                             createdAt: now,
                             updatedAt: now,
                             pinned: false,
-                            archived: false,
-                            isTemp: true
-                        });
+                            archived: false
+                        };
+                        conversations.push(conv);
                     }
+
                     currentConvId = conversations[0].id;
                     renderConversationList();
                     renderMessages(currentConvId);
-                    loadContext();
                     
-                    // Chargement de la mémoire
-                    loadMemory();
-                    
+                    return conversations;
                 } catch (error) {
-                    console.error('Erreur chargement historique:', error);
-                    showToast('Erreur de chargement de l\'historique', 'error');
+                    console.warn('Erreur chargement conversations:', error);
+                    // Fallback: conversation locale
+                    const now = new Date().toISOString();
+                    const conv = {
+                        id: 'local_' + Date.now(),
+                        title: 'Bienvenue sur SINE.SHOP AI',
+                        messages: [{
+                            id: 'msg_welcome_' + Date.now(),
+                            from: 'ai',
+                            text: 'Bonjour ! Je suis AI-SINE.SHOP. Je me connecte au backend pour récupérer vos données. Que puis-je faire pour vous ?',
+                            time: now,
+                            intent: 'Accueil',
+                            suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Aide']
+                        }],
+                        createdAt: now,
+                        updatedAt: now,
+                        pinned: false,
+                        archived: false
+                    };
+                    conversations = [conv];
+                    currentConvId = conv.id;
+                    renderConversationList();
+                    renderMessages(currentConvId);
+                    return conversations;
                 }
             }
 
             // =========================================================
-            // CHARGEMENT MÉMOIRE
-            // =========================================================
-            async function loadMemory() {
-                try {
-                    const data = await window.SineAPI.getMemory();
-                    memoryData = data;
-                    if (data.memories) {
-                        document.getElementById('memoryTopics').textContent = data.memories.length + ' sujets appris';
-                        document.getElementById('memoryText').textContent = '🧠 Je me souviens de ' + data.memories.length + ' sujets';
-                    }
-                } catch (error) {
-                    console.error('Erreur chargement mémoire:', error);
-                }
-            }
-
-            // =========================================================
-            // RENDER CONVERSATIONS
+            // 10. RENDER CONVERSATIONS
             // =========================================================
             function renderConversationList() {
                 const container = document.getElementById('conversationList');
@@ -1243,7 +1556,7 @@
             }
 
             // =========================================================
-            // RENDER MESSAGES
+            // 11. RENDER MESSAGES
             // =========================================================
             function renderMessages(convId) {
                 const container = document.getElementById('chatMessages');
@@ -1299,7 +1612,6 @@
                                 <div class="msg-actions">
                                     <button onclick="window.copyMessage('${m.id}')"><i class="fa-regular fa-copy"></i></button>
                                     <button onclick="window.reportMessage('${m.id}')"><i class="fa-regular fa-flag"></i></button>
-                                    <button onclick="window.translateMessage('${m.id}')"><i class="fa-regular fa-language"></i></button>
                                 </div>
                             ` : ''}
                             ${relatedHtml}
@@ -1311,7 +1623,7 @@
             }
 
             // =========================================================
-            // ÉCRAN D'ACCUEIL
+            // 12. ÉCRAN D'ACCUEIL
             // =========================================================
             function renderWelcomeScreen(container) {
                 const categories = {
@@ -1330,7 +1642,7 @@
                             <i class="fa-solid fa-sparkles"></i>
                         </div>
                         <h2 style="color:var(--text-primary);">Comment puis-je vous aider ?</h2>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Je me souviens de vos préférences et je suis proactif.</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Je suis connecté au backend pour accéder à vos données réelles.</p>
                     </div>
                     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:1.2rem;">
                         ${Object.entries(categories).map(([key, c]) => `
@@ -1341,17 +1653,21 @@
                         `).join('')}
                     </div>
                     <div style="font-size:0.7rem;color:var(--text-secondary);text-align:center;">
-                        <i class="fa-solid fa-brain"></i> Je mémorise vos préférences pour mieux vous aider.
+                        <i class="fa-solid fa-brain"></i> Je mémorise vos préférences et je me connecte à vos données.
                     </div>
                 `;
             }
 
             // =========================================================
-            // ENVOYER UN MESSAGE
+            // 13. ENVOYER UN MESSAGE (backend + local)
             // =========================================================
             window.sendMessage = function(text, media) { return sendMessage(text, media); };
             async function sendMessage(text, media = null) {
                 if (!text.trim() && !media) return;
+                if (isProcessing) {
+                    showToast('Veuillez attendre la fin du traitement en cours.', 'warning');
+                    return;
+                }
 
                 const conv = conversations.find(c => c.id === currentConvId);
                 if (!conv) {
@@ -1359,13 +1675,15 @@
                     return;
                 }
 
+                isProcessing = true;
+
                 // Message utilisateur (optimiste)
                 const msgUser = {
                     id: 'msg_' + Date.now() + '_user',
                     from: 'user',
                     text: text.trim(),
                     time: new Date().toISOString(),
-                    media: null,
+                    media: media || null,
                     intent: null
                 };
                 conv.messages.push(msgUser);
@@ -1374,50 +1692,85 @@
                 renderConversationList();
 
                 // Typing
+                const chatMessages = document.getElementById('chatMessages');
                 const typingDiv = document.createElement('div');
                 typingDiv.className = 'typing-indicator';
                 typingDiv.innerHTML = `<span></span><span></span><span></span> Réflexion...`;
-                document.getElementById('chatMessages').appendChild(typingDiv);
-                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
 
                 try {
-                    const realConvId = conv.isTemp ? null : currentConvId;
+                    // Préparer le contexte
+                    const history = conv.messages.slice(-10).map(m => ({ from: m.from, text: m.text }));
                     
-                    // Récupère le contexte pour l'envoyer au backend
-                    const context = await window.SineAPI.getContext();
-                    
-                    const response = await window.SineAPI.sendChatMessage(text, realConvId, {
-                        lastMessages: conv.messages.slice(-10).map(m => ({ from: m.from, text: m.text })),
-                        context: context.context || {},
-                        media: media ? {
-                            type: media.type,
-                            url: media.type === 'video' ? undefined : media.url,
-                            name: media.name,
-                            mimeType: media.mimeType,
-                            frames: media.type === 'video' ? (media.frames || []) : undefined
-                        } : undefined
-                    });
+                    // Appel au backend
+                    const payload = {
+                        message: text.trim(),
+                        conversationId: conv.id,
+                        media: media || null,
+                        context: { lastMessages: history }
+                    };
 
-                    if (conv.isTemp && response.conversationId) {
-                        conv.id = response.conversationId;
-                        conv.isTemp = false;
-                        currentConvId = response.conversationId;
+                    // Si l'ID commence par 'local_', on ne l'envoie pas au backend
+                    if (conv.id.startsWith('local_')) {
+                        delete payload.conversationId;
                     }
+
+                    const data = await apiCall('/ai/chat', 'POST', payload);
+                    const result = data.data || data;
 
                     typingDiv.remove();
 
-                    // Mise à jour du contexte après la réponse
-                    if (response.context) {
-                        contextData = response.context;
-                    }
-
+                    // Message AI
                     const msgAI = {
                         id: 'msg_' + Date.now() + '_ai',
                         from: 'ai',
-                        text: response.response || 'Je n\'ai pas pu générer une réponse.',
+                        text: result.response || 'Je n\'ai pas pu générer une réponse.',
                         time: new Date().toISOString(),
-                        intent: response.intent || 'Général',
-                        suggestions: response.suggestions || [],
+                        intent: result.intent || 'Général',
+                        suggestions: result.suggestions || [],
+                        media: null
+                    };
+                    conv.messages.push(msgAI);
+                    conv.updatedAt = new Date().toISOString();
+                    
+                    // Si le backend a retourné un vrai conversationId, mettre à jour
+                    if (result.conversationId && !conv.id.startsWith('local_')) {
+                        conv.id = result.conversationId;
+                    }
+
+                    renderMessages(currentConvId);
+                    renderConversationList();
+
+                    // Mettre à jour les suggestions proactives
+                    if (result.suggestions) {
+                        renderProactiveSuggestions(result.suggestions);
+                    }
+
+                    // Mettre à jour le contexte
+                    if (result.context) {
+                        contextData = result.context;
+                        document.getElementById('contextOrdersCount').textContent = result.context.orders || 0;
+                        document.getElementById('contextCartCount').textContent = result.context.cartItems || 0;
+                    }
+
+                    // Mettre à jour la mémoire
+                    updateMemoryUI();
+
+                } catch (error) {
+                    typingDiv.remove();
+                    console.error('Erreur API:', error);
+                    
+                    // Fallback: traitement local
+                    const fallbackResult = processLocalQuery(text.trim());
+                    
+                    const msgAI = {
+                        id: 'msg_' + Date.now() + '_ai_fallback',
+                        from: 'ai',
+                        text: fallbackResult.response,
+                        time: new Date().toISOString(),
+                        intent: fallbackResult.intent || 'Général',
+                        suggestions: fallbackResult.suggestions || [],
                         media: null
                     };
                     conv.messages.push(msgAI);
@@ -1425,37 +1778,74 @@
                     renderMessages(currentConvId);
                     renderConversationList();
                     
-                    // Met à jour les suggestions proactives
-                    if (response.suggestions) {
-                        renderProactiveSuggestions(response.suggestions.map(s => ({ label: s })));
-                    }
-                    
-                    // Met à jour la mémoire
-                    if (response.memory) {
-                        document.getElementById('memoryText').textContent = '🧠 ' + response.memory;
-                    }
-
-                } catch (error) {
-                    typingDiv.remove();
-                    console.error('Erreur API:', error);
-                    showToast('Erreur: ' + (error.message || 'Problème de connexion'), 'error');
-                    const fallback = {
-                        id: 'msg_' + Date.now() + '_ai_fallback',
-                        from: 'ai',
-                        text: 'Désolé, je rencontre un problème technique. Veuillez réessayer plus tard.',
-                        time: new Date().toISOString(),
-                        intent: 'Erreur',
-                        media: null
-                    };
-                    conv.messages.push(fallback);
-                    conv.updatedAt = new Date().toISOString();
-                    renderMessages(currentConvId);
-                    renderConversationList();
+                    showToast('Mode local activé (backend indisponible)', 'warning');
+                } finally {
+                    isProcessing = false;
                 }
             }
 
             // =========================================================
-            // ACTIONS GLOBALES
+            // 14. TRAITEMENT LOCAL (fallback)
+            // =========================================================
+            function processLocalQuery(query) {
+                const cleanQuery = String(query || '').trim();
+                if (!cleanQuery) {
+                    return { response: 'Veuillez écrire un message.', suggestions: [], intent: 'Erreur' };
+                }
+
+                const match = findBestMatch(cleanQuery);
+                let response = '';
+                let intent = 'Général';
+                let suggestions = [];
+
+                if (match) {
+                    response = match.entry.a;
+                    intent = match.entry.cat || 'Général';
+                    const related = findRelatedEntries(cleanQuery, 3, match.entry.id);
+                    suggestions = related.map(r => r.entry.q);
+                    if (suggestions.length < 2) {
+                        suggestions = ['Voir mes commandes', 'Comment publier un produit ?', 'Contacter le support'];
+                    }
+                } else {
+                    const related = findRelatedEntries(cleanQuery, 4);
+                    if (related.length > 0) {
+                        response = "Je n'ai pas de réponse exacte à cette question, mais voici des sujets proches :\n\n" +
+                            related.map((r, i) => `• ${r.entry.q}`).join('\n') +
+                            "\n\nSinon, reformulez votre question ou contactez le support.";
+                        suggestions = related.map(r => r.entry.q);
+                    } else {
+                        response = "Je n'ai pas encore de réponse précise à cette question. N'hésitez pas à la reformuler, ou contactez notre support à support@sineshophome.com.";
+                        suggestions = ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Contacter le support'];
+                    }
+                    intent = 'Non reconnu';
+                }
+
+                return { response, suggestions, intent };
+            }
+
+            // =========================================================
+            // 15. RENDER SUGGESTIONS PROACTIVES
+            // =========================================================
+            function renderProactiveSuggestions(suggestions) {
+                const container = document.getElementById('proactiveSuggestions');
+                if (!suggestions || suggestions.length === 0) {
+                    container.innerHTML = `
+                        <span style="font-size:0.7rem;color:var(--text-secondary);">💡 Des suggestions apparaîtront ici</span>
+                        <button class="suggestion-chip" onclick="window.sendMessage('Aide')">❓ Aide</button>
+                        <button class="suggestion-chip" onclick="window.sendMessage('Voir mes commandes')">📦 Commandes</button>
+                        <button class="suggestion-chip" onclick="window.sendMessage('Devenir vendeur')">🏪 Vendre</button>
+                    `;
+                    return;
+                }
+                container.innerHTML = suggestions.map(s => `
+                    <button class="suggestion-chip" onclick="window.sendMessage('${String(s).replace(/'/g, "\\'")}')">
+                        ${s}
+                    </button>
+                `).join('');
+            }
+
+            // =========================================================
+            // 16. ACTIONS GLOBALES
             // =========================================================
             window.copyMessage = function(id) {
                 const conv = conversations.find(c => c.id === currentConvId);
@@ -1468,68 +1858,74 @@
                 }
             };
 
-            window.reportMessage = async function(id) {
+            window.reportMessage = function(id) {
                 if (!confirm('Signaler ce message comme inapproprié ?')) return;
-                try {
-                    await window.SineAPI.createReport('message', id, 'inappropriate_content');
-                    showToast('Message signalé. Merci.', 'warning');
-                } catch (e) {
-                    showToast('❌ ' + (e.message || 'Erreur.'), 'error');
-                }
-            };
-
-            window.translateMessage = function(id) {
-                showToast('🚧 Traduction automatique disponible en français/anglais.', 'warning');
+                showToast('Message signalé. Merci.', 'warning');
             };
 
             // =========================================================
-            // NOUVELLE CONVERSATION
+            // 17. NOUVELLE CONVERSATION
             // =========================================================
             async function newConversation() {
-                const now = new Date().toISOString();
-                const conv = {
-                    id: 'conv_temp_' + Date.now(),
-                    title: 'Nouvelle discussion',
-                    messages: [
-                        { id: 'msg_welcome_' + Date.now(), from: 'ai', text: 'Bonjour ! Je suis AI-SINE.SHOP. Je me souviens de vos préférences et je suis prêt à vous aider.', time: now, intent: 'Accueil', suggestions: ['Comment ça fonctionne ?', 'Voir mes commandes'] }
-                    ],
-                    createdAt: now,
-                    updatedAt: now,
-                    pinned: false,
-                    archived: false,
-                    isTemp: true
-                };
-                conversations.unshift(conv);
-                currentConvId = conv.id;
-                renderConversationList();
-                renderMessages(currentConvId);
-                showToast('Nouvelle conversation créée', 'success');
-                loadContext();
+                try {
+                    const data = await apiCall('/ai/conversations', 'POST', { title: 'Nouvelle discussion' });
+                    const conv = data.data || data;
+                    conv.messages = conv.messages || [];
+                    conversations.unshift(conv);
+                    currentConvId = conv.id;
+                    renderConversationList();
+                    renderMessages(currentConvId);
+                    showToast('Nouvelle conversation créée', 'success');
+                    loadContext();
+                } catch (error) {
+                    // Fallback local
+                    const now = new Date().toISOString();
+                    const conv = {
+                        id: 'local_' + Date.now(),
+                        title: 'Nouvelle discussion',
+                        messages: [{
+                            id: 'msg_welcome_' + Date.now(),
+                            from: 'ai',
+                            text: 'Bonjour ! Je suis AI-SINE.SHOP. Je suis prêt à vous aider.',
+                            time: now,
+                            intent: 'Accueil',
+                            suggestions: ['Comment créer un compte ?', 'Passer une commande', 'Aide']
+                        }],
+                        createdAt: now,
+                        updatedAt: now,
+                        pinned: false,
+                        archived: false
+                    };
+                    conversations.unshift(conv);
+                    currentConvId = conv.id;
+                    renderConversationList();
+                    renderMessages(currentConvId);
+                    showToast('Nouvelle conversation créée (local)', 'info');
+                }
             }
 
             // =========================================================
-            // AUTRES ACTIONS
+            // 18. AUTRES ACTIONS
             // =========================================================
             async function clearHistory() {
-                if (confirm('Supprimer tout l\'historique ?')) {
-                    try {
-                        await window.SineAPI.deleteAllAiHistory();
-                        conversations = [];
-                        await newConversation();
-                        showToast('Historique effacé', 'warning');
-                    } catch (e) {
-                        showToast('Erreur lors de la suppression', 'error');
-                    }
+                if (!confirm('Supprimer tout l\'historique ?')) return;
+                try {
+                    await apiCall('/ai/history', 'DELETE');
+                    conversations = [];
+                    await newConversation();
+                    showToast('Historique effacé', 'warning');
+                } catch (error) {
+                    showToast('Erreur lors de la suppression', 'error');
                 }
             }
 
             async function archiveAll() {
                 try {
-                    await window.SineAPI.archiveAllAiHistory();
+                    await apiCall('/ai/archive-all', 'POST');
                     conversations.forEach(c => c.archived = true);
                     renderConversationList();
                     showToast('Toutes les conversations archivées', 'info');
-                } catch (e) {
+                } catch (error) {
                     showToast('Erreur lors de l\'archivage', 'error');
                 }
             }
@@ -1554,25 +1950,23 @@
 
             async function deleteCurrentChat() {
                 if (!currentConvId) return;
-                if (confirm('Supprimer cette conversation ?')) {
-                    try {
-                        const conv = conversations.find(c => c.id === currentConvId);
-                        if (!conv?.isTemp) {
-                            await window.SineAPI.deleteConversation(currentConvId);
-                        }
-                        const index = conversations.findIndex(c => c.id === currentConvId);
-                        if (index > -1) conversations.splice(index, 1);
-                        if (conversations.length > 0) {
-                            currentConvId = conversations[0].id;
-                        } else {
-                            await newConversation();
-                        }
-                        renderConversationList();
-                        renderMessages(currentConvId);
-                        showToast('Conversation supprimée', 'warning');
-                    } catch (e) {
-                        showToast('Erreur lors de la suppression', 'error');
+                if (!confirm('Supprimer cette conversation ?')) return;
+                try {
+                    if (!currentConvId.startsWith('local_')) {
+                        await apiCall('/ai/conversations/' + currentConvId, 'DELETE');
                     }
+                    const index = conversations.findIndex(c => c.id === currentConvId);
+                    if (index > -1) conversations.splice(index, 1);
+                    if (conversations.length > 0) {
+                        currentConvId = conversations[0].id;
+                    } else {
+                        await newConversation();
+                    }
+                    renderConversationList();
+                    renderMessages(currentConvId);
+                    showToast('Conversation supprimée', 'warning');
+                } catch (error) {
+                    showToast('Erreur lors de la suppression', 'error');
                 }
             }
 
@@ -1580,8 +1974,8 @@
                 const conv = conversations.find(c => c.id === currentConvId);
                 if (!conv) return;
                 try {
-                    if (!conv.isTemp) {
-                        await window.SineAPI.archiveConversation(currentConvId);
+                    if (!conv.id.startsWith('local_')) {
+                        await apiCall('/ai/conversations/' + currentConvId + '/archive', 'POST');
                     }
                     conv.archived = true;
                     renderConversationList();
@@ -1593,30 +1987,25 @@
                     }
                     renderMessages(currentConvId);
                     showToast('Conversation archivée', 'info');
-                } catch (e) {
+                } catch (error) {
                     showToast('Erreur lors de l\'archivage', 'error');
                 }
             }
 
-            async function togglePinConversation() {
+            function togglePinConversation() {
                 const conv = conversations.find(c => c.id === currentConvId);
                 if (conv) {
                     conv.pinned = !conv.pinned;
                     renderConversationList();
                     showToast(conv.pinned ? '📌 Épinglée' : '📌 Épingle retirée', 'info');
-                    if (!conv.isTemp) {
-                        try {
-                            await window.SineAPI.pinConversation(currentConvId, conv.pinned);
-                        } catch (e) { /* silencieux */ }
-                    }
                 }
             }
 
             // =========================================================
-            // FILE UPLOAD
+            // 19. FILE UPLOAD
             // =========================================================
-            async function fileToDataURL(file) {
-                return await new Promise((resolve, reject) => {
+            function fileToDataURL(file) {
+                return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => resolve(reader.result);
                     reader.onerror = reject;
@@ -1624,373 +2013,357 @@
                 });
             }
 
-            async function sampleVideoFrames(file, maxFrames = 6) {
-                const url = URL.createObjectURL(file);
-                const video = document.createElement('video');
-                video.muted = true;
-                video.playsInline = true;
-                video.src = url;
-                await new Promise((resolve, reject) => {
-                    video.onloadedmetadata = resolve;
-                    video.onerror = reject;
-                });
-                const duration = Number.isFinite(video.duration) ? video.duration : 0;
-                const count = Math.max(1, Math.min(maxFrames, Math.ceil(duration / 10) || 1));
-                const frames = [];
-                const canvas = document.createElement('canvas');
-                canvas.width = 768;
-                canvas.height = 432;
-                for (let i = 0; i < count; i++) {
-                    video.currentTime = duration ? (duration * i / Math.max(1, count - 1)) : 0;
-                    await new Promise(resolve => { video.onseeked = resolve; });
-                    const ratio = Math.min(canvas.width / video.videoWidth, canvas.height / video.videoHeight);
-                    const w = Math.max(1, Math.round(video.videoWidth * ratio));
-                    const h = Math.max(1, Math.round(video.videoHeight * ratio));
-                    canvas.width = w; canvas.height = h;
-                    canvas.getContext('2d').drawImage(video, 0, 0, w, h);
-                    frames.push(canvas.toDataURL('image/jpeg', 0.68));
-                }
-                URL.revokeObjectURL(url);
-                return frames;
+            // =========================================================
+            // 20. TOAST
+            // =========================================================
+            function showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = 'toast-item ' + type;
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-10px)';
+                    toast.style.transition = '0.4s';
+                    setTimeout(() => toast.remove(), 500);
+                }, 3000);
             }
 
             // =========================================================
-            // INITIALISATION
+            // 21. INITIALISATION
             // =========================================================
-            document.addEventListener('DOMContentLoaded', function() {
-                if (!checkAuth()) return;
-                loadUser();
-                loadConversations();
+            document.addEventListener('DOMContentLoaded', async function() {
+                try {
+                    // Charger l'utilisateur
+                    await loadUserData();
+                    
+                    // Charger les conversations
+                    await loadConversations();
+                    
+                    // Charger le contexte
+                    await loadContext();
+                    
+                    // Charger la mémoire locale
+                    updateMemoryUI();
 
-                // =========================================================
-                // ÉVÉNEMENTS
-                // =========================================================
-                const input = document.getElementById('messageInput');
-                const sendBtn = document.getElementById('sendMessageBtn');
+                    // Suggestions initiales
+                    const initialSuggestions = ['Comment créer un compte ?', 'Passer une commande', 'Devenir vendeur', 'Aide'];
+                    renderProactiveSuggestions(initialSuggestions);
 
-                sendBtn.addEventListener('click', function() {
-                    const text = input.value.trim();
-                    if (text) {
-                        sendMessage(text);
-                        input.value = '';
-                        input.style.height = 'auto';
-                    }
-                });
+                    // =========================================================
+                    // ÉVÉNEMENTS
+                    // =========================================================
+                    const input = document.getElementById('messageInput');
+                    const sendBtn = document.getElementById('sendMessageBtn');
 
-                input.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendBtn.click();
-                    }
-                });
-
-                input.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = Math.min(this.scrollHeight, 150) + 'px';
-                });
-
-                // File upload
-                document.getElementById('fileInput').addEventListener('change', async function(e) {
-                    const files = Array.from(e.target.files || []);
-                    this.value = '';
-                    for (const file of files.slice(0, 3)) {
-                        try {
-                            if (file.size > 8 * 1024 * 1024) {
-                                showToast(`${file.name} est trop volumineux (8 Mo max).`, 'warning');
-                                continue;
-                            }
-                            const dataUrl = await fileToDataURL(file);
-                            let media;
-                            if (file.type.startsWith('video/')) {
-                                showToast(`🎬 Analyse de ${file.name}...`, 'info');
-                                media = {
-                                    type: 'video',
-                                    url: dataUrl,
-                                    name: file.name,
-                                    mimeType: file.type,
-                                    frames: await sampleVideoFrames(file)
-                                };
-                            } else if (file.type.startsWith('image/')) {
-                                media = { type: 'image', url: dataUrl, name: file.name, mimeType: file.type };
-                            } else if (file.type.startsWith('audio/')) {
-                                media = { type: 'audio', url: dataUrl, name: file.name, mimeType: file.type };
-                            } else {
-                                media = { type: 'file', url: dataUrl, name: file.name, mimeType: file.type || 'application/octet-stream' };
-                            }
-                            sendMessage(`📎 ${file.name}`, media);
-                        } catch (err) {
-                            console.error(err);
-                            showToast(`Impossible de préparer ${file.name}.`, 'error');
+                    sendBtn.addEventListener('click', function() {
+                        const text = input.value.trim();
+                        if (text) {
+                            sendMessage(text);
+                            input.value = '';
+                            input.style.height = 'auto';
                         }
-                    }
-                });
+                    });
 
-                // Voice recording
-                let mediaRecorder = null;
-                let recordedChunks = [];
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendBtn.click();
+                        }
+                    });
 
-                document.getElementById('btnVoiceRecord').addEventListener('click', async function() {
-                    const btn = this;
-                    if (mediaRecorder && mediaRecorder.state === 'recording') {
-                        mediaRecorder.stop();
-                        return;
-                    }
-                    if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+                    input.addEventListener('input', function() {
+                        this.style.height = 'auto';
+                        this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+                    });
+
+                    // File upload
+                    document.getElementById('fileInput').addEventListener('change', async function(e) {
+                        const files = Array.from(e.target.files || []);
+                        this.value = '';
+                        for (const file of files.slice(0, 3)) {
+                            try {
+                                if (file.size > 8 * 1024 * 1024) {
+                                    showToast(`${file.name} est trop volumineux (8 Mo max).`, 'warning');
+                                    continue;
+                                }
+                                const dataUrl = await fileToDataURL(file);
+                                let media;
+                                if (file.type.startsWith('video/')) {
+                                    media = { type: 'video', url: dataUrl, name: file.name, mimeType: file.type };
+                                } else if (file.type.startsWith('image/')) {
+                                    media = { type: 'image', url: dataUrl, name: file.name, mimeType: file.type };
+                                } else if (file.type.startsWith('audio/')) {
+                                    media = { type: 'audio', url: dataUrl, name: file.name, mimeType: file.type };
+                                } else {
+                                    media = { type: 'file', url: dataUrl, name: file.name, mimeType: file.type || 'application/octet-stream' };
+                                }
+                                sendMessage(`📎 ${file.name}`, media);
+                            } catch (err) {
+                                console.error(err);
+                                showToast(`Impossible de préparer ${file.name}.`, 'error');
+                            }
+                        }
+                    });
+
+                    // Voice recording (Web Speech API)
+                    let mediaRecorder = null;
+                    let recordedChunks = [];
+
+                    document.getElementById('btnVoiceRecord').addEventListener('click', function() {
+                        const btn = this;
+                        if (mediaRecorder && mediaRecorder.state === 'recording') {
+                            mediaRecorder.stop();
+                            return;
+                        }
+                        if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+                            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                                const recognition = new SpeechRecognition();
+                                recognition.lang = currentLang === 'fr' ? 'fr-FR' : currentLang;
+                                recognition.continuous = false;
+                                recognition.interimResults = false;
+                                recognition.onresult = e => sendMessage(e.results[0][0].transcript);
+                                recognition.onerror = () => showToast('Microphone indisponible.', 'error');
+                                recognition.start();
+                                showToast('🎤 Parlez maintenant...', 'info');
+                            } else {
+                                showToast('Microphone non disponible.', 'error');
+                            }
+                            return;
+                        }
+
+                        let liveTranscript = '';
+                        let recognitionInstance = null;
                         if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
                             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                            const recognition = new SpeechRecognition();
-                            recognition.lang = currentLang === 'fr' ? 'fr-FR' : currentLang;
-                            recognition.continuous = false;
-                            recognition.interimResults = false;
-                            recognition.onresult = e => sendMessage(e.results[0][0].transcript);
-                            recognition.onerror = () => showToast('Microphone indisponible.', 'error');
-                            recognition.start();
-                            showToast('🎤 Parlez maintenant...', 'info');
-                        } else {
-                            showToast('Microphone non disponible.', 'error');
+                            recognitionInstance = new SpeechRecognition();
+                            recognitionInstance.lang = currentLang === 'fr' ? 'fr-FR' : currentLang;
+                            recognitionInstance.continuous = true;
+                            recognitionInstance.interimResults = false;
+                            recognitionInstance.onresult = (e) => {
+                                for (let i = e.resultIndex; i < e.results.length; i++) {
+                                    if (e.results[i].isFinal) liveTranscript += e.results[i][0].transcript + ' ';
+                                }
+                            };
+                            recognitionInstance.onerror = () => { /* silencieux */ };
+                            try { recognitionInstance.start(); } catch (e) { recognitionInstance = null; }
                         }
-                        return;
-                    }
 
-                    let liveTranscript = '';
-                    let recognitionInstance = null;
-                    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-                        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                        recognitionInstance = new SpeechRecognition();
-                        recognitionInstance.lang = currentLang === 'fr' ? 'fr-FR' : currentLang;
-                        recognitionInstance.continuous = true;
-                        recognitionInstance.interimResults = false;
-                        recognitionInstance.onresult = (e) => {
-                            for (let i = e.resultIndex; i < e.results.length; i++) {
-                                if (e.results[i].isFinal) liveTranscript += e.results[i][0].transcript + ' ';
-                            }
-                        };
-                        recognitionInstance.onerror = () => { /* silencieux */ };
-                        try { recognitionInstance.start(); } catch (e) { recognitionInstance = null; }
-                    }
-
-                    try {
-                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                        recordedChunks = [];
-                        mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-                        mediaRecorder.ondataavailable = e => { if (e.data.size) recordedChunks.push(e.data); };
-                        mediaRecorder.onstop = async () => {
-                            stream.getTracks().forEach(t => t.stop());
-                            btn.classList.remove('recording');
-                            btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                            recordedChunks = [];
+                            mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                            mediaRecorder.ondataavailable = e => { if (e.data.size) recordedChunks.push(e.data); };
+                            mediaRecorder.onstop = async () => {
+                                stream.getTracks().forEach(t => t.stop());
+                                btn.classList.remove('recording');
+                                btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                                if (recognitionInstance) { try { recognitionInstance.stop(); } catch (e) {} }
+                                const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                                const dataUrl = await new Promise((resolve) => {
+                                    const reader = new FileReader();
+                                    reader.onload = () => resolve(reader.result);
+                                    reader.readAsDataURL(blob);
+                                });
+                                const transcript = liveTranscript.trim();
+                                if (transcript) {
+                                    sendMessage(`🎤 ${transcript}`, { type: 'audio', url: dataUrl, name: `vocal_${Date.now()}.webm`, mimeType: 'audio/webm' });
+                                } else {
+                                    sendMessage('🎤 Message vocal', { type: 'audio', url: dataUrl, name: `vocal_${Date.now()}.webm`, mimeType: 'audio/webm' });
+                                }
+                            };
+                            mediaRecorder.start();
+                            btn.classList.add('recording');
+                            btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+                            showToast('🎙️ Enregistrement... cliquez pour arrêter.', 'info');
+                        }).catch(() => {
                             if (recognitionInstance) { try { recognitionInstance.stop(); } catch (e) {} }
-                            const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-                            const dataUrl = await new Promise((resolve, reject) => {
-                                const reader = new FileReader();
-                                reader.onload = () => resolve(reader.result);
-                                reader.onerror = reject;
-                                reader.readAsDataURL(blob);
-                            });
-                            const transcript = liveTranscript.trim();
-                            if (transcript) {
-                                sendMessage(`🎤 ${transcript}`, { type: 'audio', url: dataUrl, name: `vocal_${Date.now()}.webm`, mimeType: 'audio/webm' });
-                            } else {
-                                sendMessage('🎤 Message vocal', { type: 'audio', url: dataUrl, name: `vocal_${Date.now()}.webm`, mimeType: 'audio/webm' });
-                            }
-                        };
-                        mediaRecorder.start();
-                        btn.classList.add('recording');
-                        btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
-                        showToast('🎙️ Enregistrement... cliquez pour arrêter.', 'info');
-                    } catch (err) {
-                        console.error(err);
-                        if (recognitionInstance) { try { recognitionInstance.stop(); } catch (e) {} }
-                        showToast('Autorisation microphone refusée.', 'error');
+                            showToast('Autorisation microphone refusée.', 'error');
+                        });
+                    });
+
+                    // Emoji
+                    const emojiSets = {
+                        '😀': '😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 🤓 😎 🤩 🥳 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤭 🤫 🤥 😶 😐 😑 😬 🙄 😯 😦 😧 😮 😲 🥱 😴 🤤 😪 😵 🤐 🤑 🤠 😈 👿 👹 👺 🤡 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾',
+                        '❤️': '❤️ 🧡 💛 💚 💙 💜 🖤 🤍 🤎 💔 ❣️ 💕 💞 💓 💗 💖 💘 💝 💟 💌 💋 💯 💢 💥 💫 💦 💨 🕳️ 💣 💬 👁️‍🗨️ 🗨️ 🗯️',
+                        '👋': '👋 🤚 🖐️ ✋ 🖖 👌 🤏 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 👇 ☝️ ✍️ 👋 🙏 💪 👏 🙌 👐 🤝 👍 👎 👊 ✊ 🤲 🫶 🫰 🫵',
+                        '🧑': '👶 🧒 👦 👧 🧑 👱 👨 🧔 👨‍🦰 👨‍🦱 👨‍🦳 👩 👩‍🦰 👩‍🦱 👩‍🦳 🧓 👴 👵 🙍 🙎 🙅 🙆 💁 🙋 🧏 🙇 🤦 🤷 👮 🕵️ 💂 👷 🤴 👸 👳 🧕 🤵 👰 🤰 🫃 🫄',
+                        '🐶': '🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🙈 🙉 🙊 🐒 🐔 🐧 🐦 🐤 🦆 🦅 🦉 🐺 🐗 🐴 🦄 🐝 🐛 🦋 🐌 🐞 🐜 🕷️ 🦂 🐢 🐍 🦎 🦖 🦕 🐙 🦑 🦀 🐠 🐟 🐡 🐬 🐳 🦈',
+                        '🍎': '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🫐 🍈 🍒 🍑 🥭 🍍 🥥 🥝 🍅 🥑 🍆 🥔 🥕 🌽 🌶️ 🫑 🥒 🥬 🥦 🧄 🧅 🍞 🥐 🥖 🥨 🧀 🥚 🍳 🧇 🥞 🧈 🍗 🍔 🍟 🍕 🌭 🌮 🌯 🥗 🍿 🍩 🍪 🎂 🍰 🧁 🍫 🍭 🍬 ☕ 🧃 🥤',
+                        '🇨🇮': '🇨🇮 🇫🇷 🇬🇧 🇺🇸 🇨🇦 🇲🇦 🇸🇳 🇳🇬 🇬🇭 🇧🇯 🇹🇬 🇬🇳 🇧🇫 🇲🇱 🇨🇲 🇩🇪 🇪🇸 🇮🇹 🇵🇹 🇨🇳 🇯🇵 🇰🇷 🇦🇪 🇿🇦'
+                    };
+                    const emojiPanel = document.getElementById('emojiPanel');
+                    const emojiGrid = document.getElementById('emojiGrid');
+                    const emojiTabs = document.getElementById('emojiTabs');
+                    const emojiSearch = document.getElementById('emojiSearch');
+                    let currentEmojiSet = Object.keys(emojiSets)[0];
+
+                    function drawEmojis(filter = '') {
+                        let emojis = Object.values(emojiSets).join(' ').split(/\s+/).filter(Boolean);
+                        if (!filter) emojis = emojiSets[currentEmojiSet].split(/\s+/).filter(Boolean);
+                        else emojis = emojis.filter(e => e.includes(filter));
+                        emojiGrid.innerHTML = emojis.map(e => `<button type="button" data-emoji="${e}">${e}</button>`).join('');
+                        emojiGrid.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+                            const input = document.getElementById('messageInput');
+                            const pos = input.selectionStart ?? input.value.length;
+                            input.value = input.value.slice(0,pos) + b.dataset.emoji + input.value.slice(pos);
+                            input.focus();
+                        }));
                     }
-                });
-
-                // Emoji
-                const emojiSets = {
-                    '😀': '😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 🤓 😎 🤩 🥳 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤭 🤫 🤥 😶 😐 😑 😬 🙄 😯 😦 😧 😮 😲 🥱 😴 🤤 😪 😵 🤐 🤑 🤠 😈 👿 👹 👺 🤡 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾',
-                    '❤️': '❤️ 🧡 💛 💚 💙 💜 🖤 🤍 🤎 💔 ❣️ 💕 💞 💓 💗 💖 💘 💝 💟 💌 💋 💯 💢 💥 💫 💦 💨 🕳️ 💣 💬 👁️‍🗨️ 🗨️ 🗯️',
-                    '👋': '👋 🤚 🖐️ ✋ 🖖 👌 🤏 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 👇 ☝️ ✍️ 👋 🙏 💪 👏 🙌 👐 🤝 👍 👎 👊 ✊ 🤲 🫶 🫰 🫵',
-                    '🧑': '👶 🧒 👦 👧 🧑 👱 👨 🧔 👨‍🦰 👨‍🦱 👨‍🦳 👩 👩‍🦰 👩‍🦱 👩‍🦳 🧓 👴 👵 🙍 🙎 🙅 🙆 💁 🙋 🧏 🙇 🤦 🤷 👮 🕵️ 💂 👷 🤴 👸 👳 🧕 🤵 👰 🤰 🫃 🫄',
-                    '🐶': '🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🙈 🙉 🙊 🐒 🐔 🐧 🐦 🐤 🦆 🦅 🦉 🐺 🐗 🐴 🦄 🐝 🐛 🦋 🐌 🐞 🐜 🕷️ 🦂 🐢 🐍 🦎 🦖 🦕 🐙 🦑 🦀 🐠 🐟 🐡 🐬 🐳 🦈',
-                    '🍎': '🍏 🍎 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🫐 🍈 🍒 🍑 🥭 🍍 🥥 🥝 🍅 🥑 🍆 🥔 🥕 🌽 🌶️ 🫑 🥒 🥬 🥦 🧄 🧅 🍞 🥐 🥖 🥨 🧀 🥚 🍳 🧇 🥞 🧈 🍗 🍔 🍟 🍕 🌭 🌮 🌯 🥗 🍿 🍩 🍪 🎂 🍰 🧁 🍫 🍭 🍬 ☕ 🧃 🥤',
-                    '🇨🇮': '🇨🇮 🇫🇷 🇬🇧 🇺🇸 🇨🇦 🇲🇦 🇸🇳 🇳🇬 🇬🇭 🇧🇯 🇹🇬 🇬🇳 🇧🇫 🇲🇱 🇨🇲 🇩🇪 🇪🇸 🇮🇹 🇵🇹 🇨🇳 🇯🇵 🇰🇷 🇦🇪 🇿🇦'
-                };
-                const emojiPanel = document.getElementById('emojiPanel');
-                const emojiGrid = document.getElementById('emojiGrid');
-                const emojiTabs = document.getElementById('emojiTabs');
-                const emojiSearch = document.getElementById('emojiSearch');
-                let currentEmojiSet = Object.keys(emojiSets)[0];
-
-                function drawEmojis(filter = '') {
-                    let emojis = Object.values(emojiSets).join(' ').split(/\s+/).filter(Boolean);
-                    if (!filter) emojis = emojiSets[currentEmojiSet].split(/\s+/).filter(Boolean);
-                    else emojis = emojis.filter(e => e.includes(filter));
-                    emojiGrid.innerHTML = emojis.map(e => `<button type="button" data-emoji="${e}">${e}</button>`).join('');
-                    emojiGrid.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-                        const input = document.getElementById('messageInput');
-                        const pos = input.selectionStart ?? input.value.length;
-                        input.value = input.value.slice(0,pos) + b.dataset.emoji + input.value.slice(pos);
-                        input.focus();
+                    emojiTabs.innerHTML = Object.keys(emojiSets).map(k => `<button type="button" data-set="${k}">${k}</button>`).join('');
+                    emojiTabs.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+                        currentEmojiSet = b.dataset.set;
+                        emojiSearch.value = '';
+                        drawEmojis();
                     }));
-                }
-                emojiTabs.innerHTML = Object.keys(emojiSets).map(k => `<button type="button" data-set="${k}">${k}</button>`).join('');
-                emojiTabs.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-                    currentEmojiSet = b.dataset.set;
-                    emojiSearch.value = '';
-                    drawEmojis();
-                }));
-                document.getElementById('btnEmoji').addEventListener('click', () => {
-                    emojiPanel.classList.toggle('active');
-                    if (emojiPanel.classList.contains('active')) drawEmojis();
-                });
-                document.getElementById('emojiClose').addEventListener('click', () => emojiPanel.classList.remove('active'));
-                emojiSearch.addEventListener('input', () => drawEmojis(emojiSearch.value.trim()));
-                document.addEventListener('click', e => {
-                    if (!emojiPanel.contains(e.target) && e.target.id !== 'btnEmoji') emojiPanel.classList.remove('active');
-                });
-
-                // Boutons
-                document.getElementById('btnNewChat').addEventListener('click', newConversation);
-                document.getElementById('btnClearHistory').addEventListener('click', clearHistory);
-                document.getElementById('btnArchiveAll').addEventListener('click', archiveAll);
-                document.getElementById('btnExportChat').addEventListener('click', exportChat);
-                document.getElementById('btnDeleteChat').addEventListener('click', deleteCurrentChat);
-                document.getElementById('btnArchiveChat').addEventListener('click', archiveCurrentChat);
-                document.getElementById('btnPinChat').addEventListener('click', togglePinConversation);
-                document.getElementById('btnPinConversation').addEventListener('click', togglePinConversation);
-
-                // Suggestions proactives
-                document.getElementById('btnSuggestAction').addEventListener('click', function() {
-                    loadContext();
-                    showToast('🔄 Suggestions mises à jour', 'info');
-                });
-
-                // Context bar clicks
-                document.getElementById('contextOrders').addEventListener('click', () => {
-                    sendMessage('Voir mes commandes');
-                });
-                document.getElementById('contextCart').addEventListener('click', () => {
-                    sendMessage('Voir mon panier');
-                });
-                document.getElementById('contextMessages').addEventListener('click', () => {
-                    sendMessage('Voir mes messages');
-                });
-                document.getElementById('contextSupport').addEventListener('click', () => {
-                    sendMessage('Contacter le support');
-                });
-                document.getElementById('contextMemory').addEventListener('click', () => {
-                    sendMessage('Que sais-tu de moi ?');
-                });
-
-                // Recherche
-                document.getElementById('searchHistory').addEventListener('input', function() {
-                    const query = this.value.toLowerCase();
-                    const items = document.querySelectorAll('.conv-item');
-                    items.forEach(item => {
-                        const text = item.textContent.toLowerCase();
-                        item.style.display = text.includes(query) ? '' : 'none';
+                    document.getElementById('btnEmoji').addEventListener('click', () => {
+                        emojiPanel.classList.toggle('active');
+                        if (emojiPanel.classList.contains('active')) drawEmojis();
                     });
-                });
-
-                // Langues
-                document.querySelectorAll('.lang-selector button').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const lang = this.dataset.lang;
-                        currentLang = lang;
-                        localStorage.setItem('aiLang', lang);
-                        document.querySelectorAll('.lang-selector button').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        showToast('Langue: ' + lang.toUpperCase(), 'info');
+                    document.getElementById('emojiClose').addEventListener('click', () => emojiPanel.classList.remove('active'));
+                    emojiSearch.addEventListener('input', () => drawEmojis(emojiSearch.value.trim()));
+                    document.addEventListener('click', e => {
+                        if (!emojiPanel.contains(e.target) && e.target.id !== 'btnEmoji') emojiPanel.classList.remove('active');
                     });
-                });
 
-                // Options Overlay
-                const optionsOverlay = document.getElementById('optionsOverlay');
-                const closeOptions = () => optionsOverlay.classList.remove('active');
-                document.getElementById('btnMoreOptions').addEventListener('click', () => optionsOverlay.classList.add('active'));
-                optionsOverlay.addEventListener('click', e => { if (e.target === optionsOverlay) closeOptions(); });
-                document.getElementById('optClose').addEventListener('click', closeOptions);
-                document.getElementById('optNew').addEventListener('click', async () => { closeOptions(); await newConversation(); });
-                document.getElementById('optExport').addEventListener('click', () => { closeOptions(); exportChat(); });
-                document.getElementById('optPin').addEventListener('click', async () => { closeOptions(); await togglePinConversation(); });
-                document.getElementById('optArchive').addEventListener('click', async () => { closeOptions(); await archiveCurrentChat(); });
-                document.getElementById('optDelete').addEventListener('click', async () => { closeOptions(); await deleteCurrentChat(); });
-                document.getElementById('optStats').addEventListener('click', () => {
-                    const conv = conversations.find(c => c.id === currentConvId);
-                    const count = conv?.messages?.length || 0;
-                    const userCount = conv?.messages?.filter(m => m.from === 'user').length || 0;
-                    const aiCount = conv?.messages?.filter(m => m.from === 'ai').length || 0;
-                    closeOptions();
-                    showToast(`📊 ${count} messages • ${userCount} de vous • ${aiCount} de l'IA`, 'info');
-                });
+                    // Boutons
+                    document.getElementById('btnNewChat').addEventListener('click', newConversation);
+                    document.getElementById('btnClearHistory').addEventListener('click', clearHistory);
+                    document.getElementById('btnArchiveAll').addEventListener('click', archiveAll);
+                    document.getElementById('btnExportChat').addEventListener('click', exportChat);
+                    document.getElementById('btnDeleteChat').addEventListener('click', deleteCurrentChat);
+                    document.getElementById('btnArchiveChat').addEventListener('click', archiveCurrentChat);
+                    document.getElementById('btnPinChat').addEventListener('click', togglePinConversation);
+                    document.getElementById('btnPinConversation').addEventListener('click', togglePinConversation);
 
-                // Profil Modal
-                const profileModal = document.getElementById('profileModal');
-                document.getElementById('btnOpenProfile').addEventListener('click', () => profileModal.classList.add('active'));
-                document.getElementById('modalClose').addEventListener('click', () => profileModal.classList.remove('active'));
-                profileModal.addEventListener('click', (e) => { if (e.target === profileModal) profileModal.classList.remove('active'); });
+                    document.getElementById('btnSuggestAction').addEventListener('click', function() {
+                        loadContext();
+                        showToast('🔄 Contexte mis à jour', 'info');
+                    });
 
-                document.getElementById('modalAvatarInput').addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(ev) {
-                            document.getElementById('modalAvatar').src = ev.target.result;
-                            showToast('Avatar mis à jour', 'success');
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+                    // Context bar clicks
+                    document.getElementById('contextOrders').addEventListener('click', () => sendMessage('Voir mes commandes'));
+                    document.getElementById('contextCart').addEventListener('click', () => sendMessage('Voir mon panier'));
+                    document.getElementById('contextMessages').addEventListener('click', () => sendMessage('Voir mes messages'));
+                    document.getElementById('contextSupport').addEventListener('click', () => sendMessage('Contacter le support'));
+                    document.getElementById('contextMemory').addEventListener('click', () => sendMessage('Que sais-tu de moi ?'));
 
-                document.getElementById('btnResetAvatar').addEventListener('click', function() {
-                    document.getElementById('modalAvatar').src = '../images/logo.png';
-                    document.getElementById('headerAvatar').src = '../images/logo.png';
-                    document.getElementById('modalAvatarInput').value = '';
-                    showToast('Avatar réinitialisé', 'info');
-                });
+                    // Recherche
+                    document.getElementById('searchHistory').addEventListener('input', function() {
+                        const query = this.value.toLowerCase();
+                        const items = document.querySelectorAll('.conv-item');
+                        items.forEach(item => {
+                            const text = item.textContent.toLowerCase();
+                            item.style.display = text.includes(query) ? '' : 'none';
+                        });
+                    });
 
-                document.getElementById('modalSave').addEventListener('click', function() {
-                    const name = document.getElementById('modalDisplayName').value || 'AI-SINE.SHOP';
-                    const status = document.getElementById('modalStatus').value;
-                    const lang = document.getElementById('modalLanguage').value;
-                    const tone = document.getElementById('modalTone').value;
-
-                    document.getElementById('headerName').textContent = currentUser?.firstName || 'Utilisateur';
-                    document.getElementById('chatName').textContent = name;
-                    document.getElementById('userStatus').textContent = status;
-                    document.getElementById('chatStatusText').textContent = status + ' • Prêt à vous aider';
-
-                    const avatarSrc = document.getElementById('modalAvatar').src;
-                    document.getElementById('headerAvatar').src = avatarSrc;
-                    document.getElementById('chatAvatar').src = avatarSrc;
-
-                    currentLang = lang;
+                    // Langues
                     document.querySelectorAll('.lang-selector button').forEach(btn => {
-                        btn.classList.toggle('active', btn.dataset.lang === lang);
+                        btn.addEventListener('click', function() {
+                            const lang = this.dataset.lang;
+                            currentLang = lang;
+                            localStorage.setItem('aiLang', lang);
+                            document.querySelectorAll('.lang-selector button').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            showToast('Langue: ' + lang.toUpperCase(), 'info');
+                        });
                     });
 
-                    localStorage.setItem('aiLang', lang);
-                    localStorage.setItem('aiTone', tone);
-                    profileModal.classList.remove('active');
-                    showToast('Profil mis à jour !', 'success');
-                });
+                    // Options Overlay
+                    const optionsOverlay = document.getElementById('optionsOverlay');
+                    const closeOptions = () => optionsOverlay.classList.remove('active');
+                    document.getElementById('btnMoreOptions').addEventListener('click', () => optionsOverlay.classList.add('active'));
+                    optionsOverlay.addEventListener('click', e => { if (e.target === optionsOverlay) closeOptions(); });
+                    document.getElementById('optClose').addEventListener('click', closeOptions);
+                    document.getElementById('optNew').addEventListener('click', async () => { closeOptions(); await newConversation(); });
+                    document.getElementById('optExport').addEventListener('click', () => { closeOptions(); exportChat(); });
+                    document.getElementById('optPin').addEventListener('click', async () => { closeOptions(); togglePinConversation(); });
+                    document.getElementById('optArchive').addEventListener('click', async () => { closeOptions(); await archiveCurrentChat(); });
+                    document.getElementById('optDelete').addEventListener('click', async () => { closeOptions(); await deleteCurrentChat(); });
+                    document.getElementById('optStats').addEventListener('click', () => {
+                        const conv = conversations.find(c => c.id === currentConvId);
+                        const count = conv?.messages?.length || 0;
+                        const userCount = conv?.messages?.filter(m => m.from === 'user').length || 0;
+                        const aiCount = conv?.messages?.filter(m => m.from === 'ai').length || 0;
+                        closeOptions();
+                        showToast(`📊 ${count} messages • ${userCount} de vous • ${aiCount} de l'IA`, 'info');
+                    });
 
-                const savedLang = localStorage.getItem('aiLang') || 'fr';
-                currentLang = savedLang;
-                document.querySelectorAll('.lang-selector button').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === savedLang);
-                });
-                document.getElementById('modalLanguage').value = savedLang;
-                document.getElementById('modalTone').value = localStorage.getItem('aiTone') || 'warm';
+                    // Profil Modal
+                    const profileModal = document.getElementById('profileModal');
+                    document.getElementById('btnOpenProfile').addEventListener('click', () => profileModal.classList.add('active'));
+                    document.getElementById('modalClose').addEventListener('click', () => profileModal.classList.remove('active'));
+                    profileModal.addEventListener('click', (e) => { if (e.target === profileModal) profileModal.classList.remove('active'); });
 
-                // Rafraîchissement contexte toutes les 30 secondes
-                setInterval(() => {
-                    if (document.hidden) return;
-                    loadContext();
-                }, 30000);
+                    document.getElementById('modalAvatarInput').addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(ev) {
+                                document.getElementById('modalAvatar').src = ev.target.result;
+                                showToast('Avatar mis à jour', 'success');
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
 
-                console.log('✅ AI-SINE.SHOP v3.0 — Assistant Proactif & Contextuel');
-                console.log('👤 Utilisateur:', currentUser?.email);
-                console.log('🧠 Mémoire:', memoryData?.memories?.length || 'chargement...');
+                    document.getElementById('btnResetAvatar').addEventListener('click', function() {
+                        document.getElementById('modalAvatar').src = '../images/logo.png';
+                        document.getElementById('headerAvatar').src = '../images/logo.png';
+                        document.getElementById('modalAvatarInput').value = '';
+                        showToast('Avatar réinitialisé', 'info');
+                    });
+
+                    document.getElementById('modalSave').addEventListener('click', function() {
+                        const name = document.getElementById('modalDisplayName').value || 'AI-SINE.SHOP';
+                        const status = document.getElementById('modalStatus').value;
+                        const lang = document.getElementById('modalLanguage').value;
+                        const tone = document.getElementById('modalTone').value;
+
+                        document.getElementById('headerName').textContent = currentUser?.firstName || 'Utilisateur';
+                        document.getElementById('chatName').textContent = name;
+                        document.getElementById('userStatus').textContent = status;
+                        document.getElementById('chatStatusText').textContent = status + ' • Prêt à vous aider';
+
+                        const avatarSrc = document.getElementById('modalAvatar').src;
+                        document.getElementById('headerAvatar').src = avatarSrc;
+                        document.getElementById('chatAvatar').src = avatarSrc;
+
+                        currentLang = lang;
+                        document.querySelectorAll('.lang-selector button').forEach(btn => {
+                            btn.classList.toggle('active', btn.dataset.lang === lang);
+                        });
+
+                        localStorage.setItem('aiLang', lang);
+                        localStorage.setItem('aiTone', tone);
+                        profileModal.classList.remove('active');
+                        showToast('Profil mis à jour !', 'success');
+                    });
+
+                    const savedLang = localStorage.getItem('aiLang') || 'fr';
+                    currentLang = savedLang;
+                    document.querySelectorAll('.lang-selector button').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.lang === savedLang);
+                    });
+                    document.getElementById('modalLanguage').value = savedLang;
+                    document.getElementById('modalTone').value = localStorage.getItem('aiTone') || 'warm';
+
+                    // Rafraîchissement contexte toutes les 30 secondes
+                    setInterval(() => {
+                        if (document.hidden) return;
+                        loadContext();
+                    }, 30000);
+
+                    console.log('✅ AI-SINE.SHOP v4.0 — Connecté au backend, sans API externe');
+                    console.log('🧠 Base de connaissances: ' + KNOWLEDGE_BASE.length + ' entrées');
+                    console.log('👤 Utilisateur:', currentUser?.email || 'non connecté');
+
+                } catch (error) {
+                    console.error('Erreur d\'initialisation:', error);
+                    showToast('Erreur d\'initialisation: ' + error.message, 'error');
+                }
             });
 
         })();

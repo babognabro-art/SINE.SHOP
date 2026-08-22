@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
 
 import {
@@ -29,6 +29,7 @@ import {
   getRedirectResult
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
+// Configuration Firebase - identique pour toutes les plateformes
 const firebaseConfig = {
   apiKey: "AIzaSyCWwRhR5aKOFfB9fpzKECXHOL-1p3E2c08",
   authDomain: "auth.sineshophome.com",
@@ -39,7 +40,15 @@ const firebaseConfig = {
   measurementId: "G-2K3K8VXS5S"
 };
 
-export const app = initializeApp(firebaseConfig);
+// ✅ CORRECTIF : Vérifier si Firebase est déjà initialisé
+function getFirebaseApp() {
+  if (getApps().length === 0) {
+    return initializeApp(firebaseConfig);
+  }
+  return getApp();
+}
+
+export const app = getFirebaseApp();
 export const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);

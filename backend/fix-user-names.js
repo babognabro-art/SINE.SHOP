@@ -1,11 +1,24 @@
 // fix-user-names.js
 // ⚠️ À exécuter une seule fois pour corriger les noms des utilisateurs Firebase
 
-const mongoose = require('mongoose');
-const User = require('./models/User'); // ← Adapter le chemin selon ta structure
+// Charge les variables d'environnement depuis .env
+require('dotenv').config();
 
-// ⚠️ Mets ta vraie chaîne de connexion MongoDB
-const MONGODB_URI = 'mongodb://localhost:27017/sineshop'; // ← À MODIFIER
+const mongoose = require('mongoose');
+
+// 🔐 Utilise la variable d'environnement (NE PAS METTRE LE CODE EN DUR ICI)
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/sineshop';
+
+// Définition du schéma User (au cas où le chemin d'importation pose problème)
+const userSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String,
+    email: String,
+    firebaseUid: String,
+    // Ajoutez d'autres champs selon votre modèle User
+}, { collection: 'users' }); // Spécifie le nom de la collection
+
+const User = mongoose.model('User', userSchema);
 
 async function fixUserNames() {
     try {
@@ -24,6 +37,11 @@ async function fixUserNames() {
         });
 
         console.log(`📊 ${users.length} utilisateurs à corriger...`);
+
+        if (users.length === 0) {
+            console.log('ℹ️ Aucun utilisateur à corriger.');
+            process.exit(0);
+        }
 
         let count = 0;
         for (const user of users) {

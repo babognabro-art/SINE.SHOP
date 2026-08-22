@@ -2273,6 +2273,77 @@
     <script src="../js/chat-messaging.js"></script>
     
     <script>
+        // ========== FALLBACKS ==========
+// 1. mediaSelections (utilisé pour les images/vidéos)
+if (typeof window.mediaSelections === 'undefined') {
+    window.mediaSelections = {
+        productImages: [],
+        productVideos: [],
+        kycDocumentFront: [],
+        kycDocumentBack: [],
+        kycSelfie: []
+    };
+    window.resetMediaSelections = function() {
+        window.mediaSelections.productImages = [];
+        window.mediaSelections.productVideos = [];
+        window.mediaSelections.kycDocumentFront = [];
+        window.mediaSelections.kycDocumentBack = [];
+        window.mediaSelections.kycSelfie = [];
+    };
+}
+
+// 2. loadCategories (pour le select "Catégorie" du profil)
+if (typeof window.loadCategories !== 'function') {
+    window.loadCategories = function() {
+        console.warn('loadCategories fallback');
+        const sel = document.getElementById('shopCategory');
+        if (sel) {
+            const opts = [
+                ['', 'Choisir'],
+                ['vetements', '👕 Vêtements'],
+                ['chaussures', '👟 Chaussures'],
+                ['electronique', '📱 Électronique'],
+                ['montres', '⌚ Montres'],
+                ['maison', '🏠 Maison'],
+                ['sport', '⚽ Sport'],
+                ['beaute', '💄 Beauté'],
+                ['alimentation', '🍎 Alimentation'],
+                ['auto', '🚗 Automobile'],
+                ['livres', '📚 Livres'],
+                ['jeux', '🎮 Jeux'],
+                ['service', '🛠️ Service'],
+                ['autre', '📦 Autre']
+            ];
+            sel.innerHTML = opts.map(o => `<option value="${o[0]}">${o[1]}</option>`).join('');
+        }
+    };
+}
+
+// 3. initSineChat (si chat-messaging.js est absent)
+if (typeof window.initSineChat !== 'function') {
+    window.initSineChat = function(config) {
+        console.warn('initSineChat fallback');
+        return {
+            renderConversationList: function() {},
+            sendMessage: function() {}
+        };
+    };
+}
+
+// 4. navigateTo (pour la navigation des boutons) - redondant mais sécurisé
+if (typeof window.navigateTo !== 'function') {
+    window.navigateTo = function(sectionId) {
+        const target = document.getElementById(sectionId);
+        if (!target) return;
+        document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+        target.style.display = 'block';
+        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.menu-link[data-section="${sectionId}"]`);
+        if (link) link.classList.add('active');
+        document.querySelector('.seller-container')?.classList.add('section-open');
+    };
+}
+// ========== FIN FALLBACKS ==========
         (function() {
             'use strict';
 

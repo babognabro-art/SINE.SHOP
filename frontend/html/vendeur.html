@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/shared-header.css">
     
+    <!-- Scripts externes – s'ils sont manquants, les fallbacks les remplaceront -->
     <script src="../js/config.js"></script>
     <script src="../js/api.js"></script>
     <script src="../js/category-fields.js"></script>
@@ -21,7 +22,7 @@
     
     <style>
         /* =========================================================
-           RESET & BASE
+           RESET & BASE (copie intégrale du style original)
            ========================================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -1371,7 +1372,7 @@
         <main>
 
             <!-- ACCUEIL -->
-            <section id="accueil" class="card" style="display:none;">
+            <section id="accueil" class="card" style="display:block;">
                 <h2>📊 <span data-translate="section.dashboard">Tableau de bord</span></h2>
                 <p data-translate="seller.dashboardWelcome">Bienvenue dans votre espace vendeur SINE.SHOP.</p>
                 <div class="stats-grid">
@@ -2265,6 +2266,98 @@
     <!-- ========================================================= -->
     <!-- SCRIPTS -->
     <!-- ========================================================= -->
+    <script>
+        // ========== FALLBACKS POUR ÉVITER LES ERREURS ==========
+        // On les place ici pour qu'ils soient exécutés avant le script principal
+
+        // 1. mediaSelections (utilisé pour les images/vidéos)
+        if (typeof window.mediaSelections === 'undefined') {
+            window.mediaSelections = {
+                productImages: [],
+                productVideos: [],
+                kycDocumentFront: [],
+                kycDocumentBack: [],
+                kycSelfie: []
+            };
+            window.resetMediaSelections = function() {
+                window.mediaSelections.productImages = [];
+                window.mediaSelections.productVideos = [];
+                window.mediaSelections.kycDocumentFront = [];
+                window.mediaSelections.kycDocumentBack = [];
+                window.mediaSelections.kycSelfie = [];
+            };
+        }
+
+        // 2. loadCategories (pour le select "Catégorie" du profil)
+        if (typeof window.loadCategories !== 'function') {
+            window.loadCategories = function() {
+                console.warn('loadCategories fallback');
+                const sel = document.getElementById('shopCategory');
+                if (sel) {
+                    const opts = [
+                        ['', 'Choisir'],
+                        ['vetements', '👕 Vêtements'],
+                        ['chaussures', '👟 Chaussures'],
+                        ['electronique', '📱 Électronique'],
+                        ['montres', '⌚ Montres'],
+                        ['maison', '🏠 Maison'],
+                        ['sport', '⚽ Sport'],
+                        ['beaute', '💄 Beauté'],
+                        ['alimentation', '🍎 Alimentation'],
+                        ['auto', '🚗 Automobile'],
+                        ['livres', '📚 Livres'],
+                        ['jeux', '🎮 Jeux'],
+                        ['service', '🛠️ Service'],
+                        ['autre', '📦 Autre']
+                    ];
+                    sel.innerHTML = opts.map(o => `<option value="${o[0]}">${o[1]}</option>`).join('');
+                }
+            };
+        }
+
+        // 3. initSineChat (si chat-messaging.js est absent)
+        if (typeof window.initSineChat !== 'function') {
+            window.initSineChat = function(config) {
+                console.warn('initSineChat fallback');
+                return {
+                    renderConversationList: function() {},
+                    sendMessage: function() {}
+                };
+            };
+        }
+
+        // 4. navigateTo (pour la navigation des boutons) - redondant mais sécurisé
+        if (typeof window.navigateTo !== 'function') {
+            window.navigateTo = function(sectionId) {
+                const target = document.getElementById(sectionId);
+                if (!target) return;
+                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+                target.style.display = 'block';
+                document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+                const link = document.querySelector(`.menu-link[data-section="${sectionId}"]`);
+                if (link) link.classList.add('active');
+                document.querySelector('.seller-container')?.classList.add('section-open');
+            };
+        }
+
+        // 5. S'assurer que window.SineAPI existe (sinon, alerter)
+        if (typeof window.SineAPI === 'undefined') {
+            alert('❌ Fichier js/api.js introuvable. Veuillez vérifier le chemin.');
+            throw new Error('SineAPI manquant');
+        }
+
+        // 6. S'assurer que window.SineSocket existe (sinon, le simuler)
+        if (typeof window.SineSocket === 'undefined') {
+            window.SineSocket = {
+                connect: function() {},
+                on: function() {},
+                emit: function() {}
+            };
+        }
+
+        // ========== FIN DES FALLBACKS ==========
+    </script>
+
     <script src="../js/config.js"></script>
     <script src="../js/api.js"></script>
     <script src="../js/category-fields.js"></script>
@@ -2273,77 +2366,6 @@
     <script src="../js/chat-messaging.js"></script>
     
     <script>
-        // ========== FALLBACKS ==========
-// 1. mediaSelections (utilisé pour les images/vidéos)
-if (typeof window.mediaSelections === 'undefined') {
-    window.mediaSelections = {
-        productImages: [],
-        productVideos: [],
-        kycDocumentFront: [],
-        kycDocumentBack: [],
-        kycSelfie: []
-    };
-    window.resetMediaSelections = function() {
-        window.mediaSelections.productImages = [];
-        window.mediaSelections.productVideos = [];
-        window.mediaSelections.kycDocumentFront = [];
-        window.mediaSelections.kycDocumentBack = [];
-        window.mediaSelections.kycSelfie = [];
-    };
-}
-
-// 2. loadCategories (pour le select "Catégorie" du profil)
-if (typeof window.loadCategories !== 'function') {
-    window.loadCategories = function() {
-        console.warn('loadCategories fallback');
-        const sel = document.getElementById('shopCategory');
-        if (sel) {
-            const opts = [
-                ['', 'Choisir'],
-                ['vetements', '👕 Vêtements'],
-                ['chaussures', '👟 Chaussures'],
-                ['electronique', '📱 Électronique'],
-                ['montres', '⌚ Montres'],
-                ['maison', '🏠 Maison'],
-                ['sport', '⚽ Sport'],
-                ['beaute', '💄 Beauté'],
-                ['alimentation', '🍎 Alimentation'],
-                ['auto', '🚗 Automobile'],
-                ['livres', '📚 Livres'],
-                ['jeux', '🎮 Jeux'],
-                ['service', '🛠️ Service'],
-                ['autre', '📦 Autre']
-            ];
-            sel.innerHTML = opts.map(o => `<option value="${o[0]}">${o[1]}</option>`).join('');
-        }
-    };
-}
-
-// 3. initSineChat (si chat-messaging.js est absent)
-if (typeof window.initSineChat !== 'function') {
-    window.initSineChat = function(config) {
-        console.warn('initSineChat fallback');
-        return {
-            renderConversationList: function() {},
-            sendMessage: function() {}
-        };
-    };
-}
-
-// 4. navigateTo (pour la navigation des boutons) - redondant mais sécurisé
-if (typeof window.navigateTo !== 'function') {
-    window.navigateTo = function(sectionId) {
-        const target = document.getElementById(sectionId);
-        if (!target) return;
-        document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-        target.style.display = 'block';
-        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
-        const link = document.querySelector(`.menu-link[data-section="${sectionId}"]`);
-        if (link) link.classList.add('active');
-        document.querySelector('.seller-container')?.classList.add('section-open');
-    };
-}
-// ========== FIN FALLBACKS ==========
         (function() {
             'use strict';
 
@@ -3995,130 +4017,6 @@ if (typeof window.navigateTo !== 'function') {
 
         })();
     </script>
-
-    <!-- Modals mot de passe/email -->
-    <div id="passwordModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:white;border-radius:24px;padding:1.5rem;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;">
-            <div id="pwStepCurrent">
-                <h3 style="margin-bottom:1rem;">🔑 Modifier le mot de passe</h3>
-                <div class="form-group">
-                    <label>Mot de passe actuel</label>
-                    <input type="password" id="pwCurrent" autocomplete="current-password">
-                </div>
-                <div class="form-group">
-                    <label>Nouveau mot de passe</label>
-                    <input type="password" id="pwNew" autocomplete="new-password" minlength="8">
-                </div>
-                <div class="form-group">
-                    <label>Confirmer le nouveau mot de passe</label>
-                    <input type="password" id="pwConfirm" autocomplete="new-password" minlength="8">
-                </div>
-                <p style="font-size:0.8rem;margin-bottom:0.5rem;">
-                    <a href="#" id="linkForgotPasswordFromSettings">Mot de passe actuel oublié ?</a>
-                </p>
-                <div class="actions-group">
-                    <button id="btnAnnulerPw" type="button">Annuler</button>
-                    <button id="btnConfirmerPw" class="btn-primary" type="button">Confirmer</button>
-                </div>
-            </div>
-            <div id="pwStepForgot" style="display:none;">
-                <h3 style="margin-bottom:1rem;">📧 Mot de passe oublié</h3>
-                <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Un code vous sera envoyé par email pour définir un nouveau mot de passe.</p>
-                <div class="actions-group" style="margin-bottom:1rem;">
-                    <button id="btnEnvoyerCodeOubli" class="btn-primary" type="button">Envoyer le code</button>
-                    <button id="btnRenvoyerCodeOubli" type="button" disabled>Renvoyer (<span id="pwResendCountdown">60</span>s)</button>
-                </div>
-                <div class="form-group">
-                    <label>Code reçu par email</label>
-                    <input type="text" id="pwForgotCode" inputmode="numeric" maxlength="6">
-                </div>
-                <div class="form-group">
-                    <label>Nouveau mot de passe</label>
-                    <input type="password" id="pwForgotNew" minlength="8">
-                </div>
-                <div class="form-group">
-                    <label>Confirmer le nouveau mot de passe</label>
-                    <input type="password" id="pwForgotConfirm" minlength="8">
-                </div>
-                <div class="actions-group">
-                    <button id="btnAnnulerPwForgot" type="button">Annuler</button>
-                    <button id="btnConfirmerPwForgot" class="btn-primary" type="button">Réinitialiser</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="emailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:white;border-radius:24px;padding:1.5rem;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;">
-            <div id="emailStep1">
-                <h3 style="margin-bottom:1rem;">✉️ Modifier mon email</h3>
-                <div class="form-group">
-                    <label>Email actuel</label>
-                    <input type="email" id="emailCurrent" disabled>
-                </div>
-                <div class="form-group">
-                    <label>Nouvel email</label>
-                    <input type="email" id="emailNew" autocomplete="email">
-                </div>
-                <div class="actions-group">
-                    <button id="btnAnnulerEmail" type="button">Annuler</button>
-                    <button id="btnEnvoyerCodeEmail" class="btn-primary" type="button">Envoyer le code</button>
-                </div>
-            </div>
-            <div id="emailStep2" style="display:none;">
-                <h3 style="margin-bottom:1rem;">📧 Confirmez votre nouvel email</h3>
-                <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Un code a été envoyé à votre nouvelle adresse. Saisissez-le ci-dessous.</p>
-                <div class="form-group">
-                    <label>Code reçu</label>
-                    <input type="text" id="emailCode" inputmode="numeric" maxlength="6">
-                </div>
-                <div class="actions-group">
-                    <button id="btnAnnulerEmailCode" type="button">Annuler</button>
-                    <button id="btnConfirmerEmailCode" class="btn-primary" type="button">Confirmer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formulaire de contact -->
-    <div id="contactModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999999;align-items:center;justify-content:center;padding:20px;">
-        <div style="background:white;border-radius:24px;padding:1.5rem;max-width:480px;width:100%;max-height:85vh;overflow-y:auto;">
-            <h3 style="margin-bottom:4px;">✉️ Contacter le service vendeur</h3>
-            <p style="font-size:0.8rem;color:#94a3b8;margin-bottom:1rem;">Nous répondons généralement sous 24 à 48h.</p>
-            <div class="form-group">
-                <label>Objet</label>
-                <input type="text" id="contactSubject" placeholder="Résumez votre demande en quelques mots" required>
-            </div>
-            <div class="form-group">
-                <label>Motif</label>
-                <select id="contactMotif">
-                    <option value="probleme_commande">Problème de commande</option>
-                    <option value="probleme_paiement">Problème de paiement</option>
-                    <option value="probleme_livraison">Problème de livraison</option>
-                    <option value="probleme_compte">Problème de compte</option>
-                    <option value="probleme_produit">Problème de produit</option>
-                    <option value="signalement_abus">Signalement d'abus</option>
-                    <option value="question_generale" selected>Question générale</option>
-                    <option value="suggestion">Suggestion</option>
-                    <option value="autre">Autre</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Message</label>
-                <textarea id="contactMessage" rows="4" placeholder="Détaillez votre demande..." required></textarea>
-            </div>
-            <div class="form-group">
-                <label>Pièces jointes (photo, vidéo ou fichier — 3 maximum)</label>
-                <input type="file" id="contactFile1" accept="image/*,video/*,.pdf,.doc,.docx">
-                <input type="file" id="contactFile2" accept="image/*,video/*,.pdf,.doc,.docx" style="margin-top:0.4rem;">
-                <input type="file" id="contactFile3" accept="image/*,video/*,.pdf,.doc,.docx" style="margin-top:0.4rem;">
-            </div>
-            <div class="actions-group" style="margin-top:1rem;">
-                <button id="btnAnnulerContact" type="button">Annuler</button>
-                <button id="btnEnvoyerContact" class="btn-primary" type="button">Envoyer</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         (function() {

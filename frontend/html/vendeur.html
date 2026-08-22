@@ -71,15 +71,6 @@
             background: #263447 !important;
             color: #e2e8f0 !important;
         }
-        [data-theme="dark"] .chat-thread-header,
-        [data-theme="dark"] .modal-profil,
-        [data-theme="dark"] .chat-modal,
-        [data-theme="dark"] .variantes-overlay .variantes-modal {
-            background: #1a2436;
-            color: #e2e8f0;
-        }
-        [data-theme="dark"] .empty-state { color: #64748b; }
-        [data-theme="dark"] .chat-modal-info-row { color: #94a3b8; border-bottom-color: rgba(255,255,255,0.06); }
 
         /* =========================================================
            HEADER - SANS DECONNEXION ET SANS DEVISE
@@ -421,7 +412,7 @@
         .empty-state .icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
 
         /* =========================================================
-           FORMULAIRES - AMÉLIORÉ
+           FORMULAIRES
            ========================================================= */
         .form-grid {
             display: grid;
@@ -511,32 +502,6 @@
             background: #0f172a;
             border-color: #334155;
             color: #e2e8f0;
-        }
-        #dynamicAttributesContainer .multi-check-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.3rem;
-        }
-        #dynamicAttributesContainer .multi-check-group label {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            font-weight: 400;
-            font-size: 0.8rem;
-            background: white;
-            padding: 0.2rem 0.7rem;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-        }
-        [data-theme="dark"] #dynamicAttributesContainer .multi-check-group label {
-            background: #0f172a;
-            border-color: #334155;
-        }
-        #dynamicAttributesContainer .multi-check-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
         }
 
         /* =========================================================
@@ -673,6 +638,893 @@
         }
 
         /* =========================================================
+           MESSAGES - CSS COMPLET ET AMÉLIORÉ
+           ========================================================= */
+        .chat-layout {
+            display: flex;
+            gap: 1.5rem;
+            min-height: 500px;
+            height: 70vh;
+            max-height: 700px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #eef2f6;
+            background: #f8fafc;
+        }
+        [data-theme="dark"] .chat-layout {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+
+        /* Liste des conversations */
+        .chat-conv-list {
+            width: 320px;
+            min-width: 280px;
+            background: white;
+            border-right: 1px solid #eef2f6;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        [data-theme="dark"] .chat-conv-list {
+            background: #1a2436;
+            border-right-color: #263447;
+        }
+
+        .chat-conv-list #chatConvListItems {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .chat-conv-list #chatConvListItems::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-conv-list #chatConvListItems::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .chat-conv-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 2px;
+        }
+        .chat-conv-item:hover {
+            background: #f1f5f9;
+        }
+        [data-theme="dark"] .chat-conv-item:hover {
+            background: #263447;
+        }
+        .chat-conv-item.active {
+            background: #e9edf2;
+        }
+        [data-theme="dark"] .chat-conv-item.active {
+            background: #2a3a5a;
+        }
+        .chat-conv-item img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e2e8f0;
+            flex-shrink: 0;
+        }
+        .chat-conv-item .conv-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .chat-conv-item .conv-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .chat-conv-item .conv-preview {
+            font-size: 0.78rem;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        [data-theme="dark"] .chat-conv-item .conv-preview {
+            color: #94a3b8;
+        }
+        .chat-conv-item .conv-badge {
+            background: #2d73ff;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0 8px;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Fil de discussion */
+        .chat-thread {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+            min-width: 0;
+        }
+        [data-theme="dark"] .chat-thread {
+            background: #0f172a;
+        }
+
+        .chat-thread-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #eef2f6;
+            background: white;
+            flex-shrink: 0;
+        }
+        [data-theme="dark"] .chat-thread-header {
+            background: #1a2436;
+            border-bottom-color: #263447;
+        }
+        .chat-thread-header .btn-back-thread {
+            display: none;
+            font-size: 1.1rem;
+            padding: 4px 8px;
+        }
+        .chat-thread-header img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e2e8f0;
+        }
+        .chat-thread-header .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .chat-thread-header .status {
+            font-size: 0.7rem;
+            color: #22c55e;
+        }
+        .chat-thread-header .call-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 6px;
+        }
+        .chat-thread-header .call-actions button {
+            padding: 6px 10px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            font-size: 1rem;
+            transition: 0.2s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        [data-theme="dark"] .chat-thread-header .call-actions button {
+            background: #263447;
+            color: #e2e8f0;
+        }
+        .chat-thread-header .call-actions button:hover {
+            background: #e2e8f0;
+        }
+        [data-theme="dark"] .chat-thread-header .call-actions button:hover {
+            background: #334155;
+        }
+
+        /* Dropdown du thread */
+        .chat-thread-dropdown {
+            display: none;
+            position: absolute;
+            right: 16px;
+            top: 60px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 6px 0;
+            min-width: 200px;
+            z-index: 100;
+            border: 1px solid #eef2f6;
+        }
+        [data-theme="dark"] .chat-thread-dropdown {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        .chat-thread-dropdown.open {
+            display: block;
+        }
+        .chat-thread-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            width: 100%;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1a2a3a;
+            transition: 0.15s;
+            text-align: left;
+        }
+        [data-theme="dark"] .chat-thread-dropdown button {
+            color: #e2e8f0;
+        }
+        .chat-thread-dropdown button:hover {
+            background: #f1f5f9;
+        }
+        [data-theme="dark"] .chat-thread-dropdown button:hover {
+            background: #263447;
+        }
+        .chat-thread-dropdown button.danger {
+            color: #ef4444;
+        }
+        [data-theme="dark"] .chat-thread-dropdown button.danger {
+            color: #f87171;
+        }
+
+        /* Messages */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background-image: url('../images/chat-bg-default.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        /* Messages individuels */
+        .chat-msg {
+            max-width: 75%;
+            padding: 8px 14px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+            animation: msgAppear 0.2s ease;
+        }
+        @keyframes msgAppear {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-msg.sent {
+            align-self: flex-end;
+            background: #2d73ff;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-msg.received {
+            align-self: flex-start;
+            background: white;
+            color: #1a2a3a;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        [data-theme="dark"] .chat-msg.received {
+            background: #1a2436;
+            color: #e2e8f0;
+        }
+        .chat-msg .msg-time {
+            font-size: 0.6rem;
+            opacity: 0.6;
+            margin-left: 8px;
+            display: inline-block;
+        }
+        .chat-msg .msg-status {
+            font-size: 0.6rem;
+            margin-left: 4px;
+        }
+        .chat-msg .msg-media {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-top: 4px;
+            display: block;
+        }
+        .chat-msg .msg-location {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.78rem;
+            color: #2d73ff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Typing indicator */
+        .chat-typing {
+            padding: 4px 16px;
+            font-size: 0.8rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .chat-typing .dots {
+            display: flex;
+            gap: 3px;
+        }
+        .chat-typing .dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #94a3b8;
+            animation: dotBounce 1.2s infinite;
+        }
+        .chat-typing .dots span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing .dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dotBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+
+        /* Recording indicator */
+        .chat-recording-indicator {
+            display: none;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: #ef4444;
+            align-items: center;
+            gap: 10px;
+            background: rgba(239,68,68,0.05);
+        }
+        .chat-recording-indicator .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .chat-recording-indicator button {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            background: #f1f5f9;
+        }
+
+        /* Edit bar */
+        .chat-edit-bar {
+            display: none;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            color: #64748b;
+            background: #f1f5f9;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px solid #eef2f6;
+        }
+        [data-theme="dark"] .chat-edit-bar {
+            background: #1a2436;
+            border-top-color: #263447;
+        }
+        .chat-edit-bar button {
+            padding: 2px 12px;
+            border-radius: 20px;
+            background: #e2e8f0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        /* Compose area */
+        .chat-compose {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            padding: 10px 16px;
+            border-top: 1px solid #eef2f6;
+            background: white;
+            flex-shrink: 0;
+        }
+        [data-theme="dark"] .chat-compose {
+            background: #1a2436;
+            border-top-color: #263447;
+        }
+        .chat-compose button {
+            padding: 6px 8px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            color: #64748b;
+            transition: 0.2s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .chat-compose button:hover {
+            background: #f1f5f9;
+            color: #1a2a3a;
+        }
+        [data-theme="dark"] .chat-compose button:hover {
+            background: #263447;
+            color: #e2e8f0;
+        }
+        .chat-compose .btn-send {
+            background: #2d73ff;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+        .chat-compose .btn-send:hover {
+            background: #1a5fd9;
+            transform: scale(1.05);
+        }
+        .chat-compose textarea {
+            flex: 1;
+            padding: 8px 14px;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: none;
+            outline: none;
+            min-height: 40px;
+            max-height: 120px;
+            background: #f8fafc;
+            transition: 0.2s;
+        }
+        [data-theme="dark"] .chat-compose textarea {
+            background: #0f172a;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+        .chat-compose textarea:focus {
+            border-color: #2d73ff;
+            box-shadow: 0 0 0 3px rgba(45,115,255,0.1);
+        }
+
+        /* Attach menu */
+        .chat-attach-menu {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            left: 10px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 6px 0;
+            min-width: 180px;
+            z-index: 50;
+            border: 1px solid #eef2f6;
+        }
+        [data-theme="dark"] .chat-attach-menu {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        .chat-attach-menu.open {
+            display: block;
+        }
+        .chat-attach-menu button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            width: 100%;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1a2a3a;
+            transition: 0.15s;
+            text-align: left;
+            border-radius: 0;
+        }
+        [data-theme="dark"] .chat-attach-menu button {
+            color: #e2e8f0;
+        }
+        .chat-attach-menu button:hover {
+            background: #f1f5f9;
+        }
+        [data-theme="dark"] .chat-attach-menu button:hover {
+            background: #263447;
+        }
+
+        /* Emoji picker */
+        .chat-emoji-picker {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            right: 10px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 10px;
+            max-width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 50;
+            border: 1px solid #eef2f6;
+            display: none;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        [data-theme="dark"] .chat-emoji-picker {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        .chat-emoji-picker.open {
+            display: flex;
+        }
+        .chat-emoji-picker span {
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 6px;
+            transition: 0.15s;
+        }
+        .chat-emoji-picker span:hover {
+            background: #f1f5f9;
+        }
+        [data-theme="dark"] .chat-emoji-picker span:hover {
+            background: #263447;
+        }
+
+        /* Chat modals */
+        .chat-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .chat-modal-overlay.open {
+            display: flex;
+        }
+        .chat-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        [data-theme="dark"] .chat-modal {
+            background: #1a2436;
+            color: #e2e8f0;
+        }
+        .chat-modal .chat-modal-close {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 12px;
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+        [data-theme="dark"] .chat-modal .chat-modal-close {
+            background: #263447;
+            color: #e2e8f0;
+        }
+        .chat-modal-info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #eef2f6;
+        }
+        [data-theme="dark"] .chat-modal-info-row {
+            border-bottom-color: #263447;
+        }
+        .chat-modal-info-row i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Background presets */
+        .bg-presets-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .bg-preset-swatch {
+            border-radius: 12px;
+            padding: 12px 8px;
+            border: 2px solid transparent;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .bg-preset-swatch:hover {
+            transform: scale(1.03);
+        }
+        .bg-preset-swatch.active {
+            border-color: #2d73ff;
+        }
+        .btn-upload-bg {
+            width: 100%;
+            padding: 10px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        [data-theme="dark"] .btn-upload-bg {
+            background: #263447;
+            color: #e2e8f0;
+        }
+
+        /* =========================================================
+           CALL OVERLAY - AMÉLIORÉ
+           ========================================================= */
+        .call-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 10000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .call-overlay.open {
+            display: flex;
+        }
+
+        .call-header-band {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+        }
+        .call-header-stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .call-header-stars span {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        .call-duration {
+            position: relative;
+            z-index: 1;
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .call-sound-rings {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+        .call-sound-rings span {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(45,115,255,0.3);
+            animation: ringPulse 2s infinite;
+        }
+        .call-sound-rings span:nth-child(2) { animation-delay: 0.5s; }
+        .call-sound-rings span:nth-child(3) { animation-delay: 1s; }
+        @keyframes ringPulse {
+            0% { transform: scale(0.8); opacity: 0.6; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .call-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.2);
+            margin-bottom: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+        }
+        .call-name {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .call-status {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        /* Vidéos dans l'appel */
+        .call-videos {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 16/9;
+            background: #0a0a0a;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .call-videos.active {
+            display: block;
+        }
+        .call-videos #remoteVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #0a0a0a;
+        }
+        .call-videos #localVideo {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: #0a0a0a;
+        }
+        .btn-resize-video {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Incoming call actions */
+        .call-incoming-actions {
+            display: none;
+            gap: 30px;
+            margin-top: 10px;
+        }
+        .call-incoming-actions button {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .call-incoming-actions .btn-reject {
+            background: #ef4444;
+            color: white;
+            transform: rotate(135deg);
+        }
+        .call-incoming-actions .btn-reject:hover {
+            transform: rotate(135deg) scale(1.05);
+        }
+        .call-incoming-actions .btn-accept {
+            background: #22c55e;
+            color: white;
+        }
+        .call-incoming-actions .btn-accept:hover {
+            transform: scale(1.05);
+        }
+
+        /* Call controls */
+        .call-controls {
+            display: none;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        .call-controls button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .call-controls button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .call-controls button.active {
+            background: #2d73ff;
+        }
+        .call-controls .btn-hangup {
+            background: #ef4444;
+            color: white;
+            transform: rotate(135deg);
+        }
+        .call-controls .btn-hangup:hover {
+            background: #dc2626;
+            transform: rotate(135deg) scale(1.05);
+        }
+
+        /* =========================================================
+           MODAL COMMANDE - SANS ASSIGNATION LIVREUR
+           ========================================================= */
+        .modal-order-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-order-overlay.open {
+            display: flex;
+        }
+        .modal-order {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 480px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        [data-theme="dark"] .modal-order {
+            background: #1a2436;
+            color: #e2e8f0;
+        }
+        .modal-order h3 { margin-bottom: 0.8rem; }
+        .modal-order-info { margin-bottom: 0.8rem; font-size: 0.9rem; }
+        .modal-order-info div { margin-bottom: 4px; }
+
+        /* =========================================================
            RESPONSIVE
            ========================================================= */
         @media (max-width: 900px) {
@@ -698,6 +1550,71 @@
             .store-branding { aspect-ratio: 16/6; min-height: 80px; }
             .store-branding .store-logo-wrapper img { width: 56px; height: 56px; }
             .store-branding .change-logo-btn { left: 70px; font-size: 0.6rem; padding: 3px 10px; }
+
+            /* Chat responsive */
+            .chat-layout {
+                flex-direction: column;
+                height: auto;
+                max-height: none;
+                min-height: 400px;
+            }
+            .chat-conv-list {
+                width: 100%;
+                min-width: unset;
+                max-height: 200px;
+                border-right: none;
+                border-bottom: 1px solid #eef2f6;
+            }
+            [data-theme="dark"] .chat-conv-list {
+                border-bottom-color: #263447;
+            }
+            .chat-thread {
+                min-height: 300px;
+            }
+            .chat-thread-header .btn-back-thread {
+                display: block;
+            }
+            .chat-thread-header .btn-back-thread.hidden {
+                display: none;
+            }
+            .chat-messages {
+                padding: 12px 14px;
+            }
+            .chat-msg {
+                max-width: 85%;
+            }
+            .chat-compose {
+                padding: 8px 12px;
+                flex-wrap: wrap;
+            }
+            .chat-compose textarea {
+                min-height: 36px;
+                font-size: 0.85rem;
+            }
+            .chat-compose button {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .chat-compose .btn-send {
+                width: 36px;
+                height: 36px;
+            }
+            .chat-attach-menu {
+                bottom: 60px;
+                left: 5px;
+                min-width: 150px;
+            }
+            .chat-emoji-picker {
+                bottom: 60px;
+                right: 5px;
+                max-width: 200px;
+                max-height: 150px;
+            }
+            .call-videos #localVideo {
+                width: 80px;
+                height: 110px;
+            }
         }
         @media (max-width: 600px) {
             header { flex-direction: column; align-items: stretch; text-align: center; gap: 0.5rem; }
@@ -710,6 +1627,18 @@
             .store-branding .change-logo-btn { left: 58px; bottom: -14px; font-size: 0.55rem; padding: 2px 8px; }
             .store-branding .branding-actions button { font-size: 0.6rem; padding: 4px 10px; }
             #dynamicAttributesContainer { padding: 0.8rem; }
+
+            .chat-conv-list { max-height: 150px; }
+            .chat-thread { min-height: 250px; }
+            .chat-msg { max-width: 90%; font-size: 0.85rem; }
+            .call-avatar { width: 80px; height: 80px; }
+            .call-name { font-size: 1.2rem; }
+            .call-incoming-actions button { width: 60px; height: 60px; font-size: 1.4rem; }
+            .call-controls button { width: 48px; height: 48px; font-size: 1.1rem; }
+            .call-videos #localVideo {
+                width: 60px;
+                height: 80px;
+            }
         }
         @media (max-width: 400px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -718,6 +1647,14 @@
             .card { padding: 1rem; border-radius: 16px; }
             aside { padding: 1rem; }
             .store-branding { aspect-ratio: 16/8; min-height: 50px; }
+            .chat-conv-list { max-height: 120px; }
+            .chat-thread { min-height: 200px; }
+            .chat-messages { padding: 8px 10px; }
+            .chat-msg { max-width: 95%; font-size: 0.8rem; padding: 6px 10px; }
+            .chat-compose { padding: 6px 8px; gap: 4px; }
+            .chat-compose textarea { font-size: 0.8rem; padding: 6px 10px; min-height: 32px; }
+            .chat-compose button { width: 28px; height: 28px; font-size: 0.8rem; }
+            .chat-compose .btn-send { width: 32px; height: 32px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -778,7 +1715,7 @@
     <!-- NOTIFICATION -->
     <div id="notification"></div>
 
-    <!-- DÉTAIL COMMANDE + ASSIGNATION LIVREUR -->
+    <!-- DÉTAIL COMMANDE - SANS ASSIGNATION LIVREUR -->
     <div class="modal-order-overlay" id="modalOrderOverlay">
         <div class="modal-order">
             <h3>📋 Commande <span id="orderModalNumber">—</span></h3>
@@ -788,19 +1725,11 @@
                 <div><strong>Total :</strong> <span id="orderModalTotal">—</span></div>
             </div>
             <div id="orderModalItems"></div>
-
-            <div id="orderModalAssignSection">
-                <hr>
-                <h4>🚚 Assigner un livreur</h4>
-                <select id="orderModalLivreurSelect"><option value="">Chargement...</option></select>
-                <button id="btnAssignerLivreur" class="btn-primary">Assigner</button>
-            </div>
-
             <button id="btnFermerModalOrder" style="width:100%;margin-top:1rem;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Fermer</button>
         </div>
     </div>
 
-    <!-- HEADER - SANS DECONNEXION ET SANS DEVISE -->
+    <!-- HEADER -->
     <header class="sine-header-bg">
         <div class="sine-header-stars">
             <span style="top:15%;left:10%;"></span>
@@ -866,7 +1795,7 @@
         <main>
 
             <!-- ACCUEIL -->
-            <section id="accueil" class="card" style="display:none;">
+            <section id="accueil" class="card" style="display:block;">
                 <h2>📊 <span data-translate="section.dashboard">Tableau de bord</span></h2>
                 <p data-translate="seller.dashboardWelcome">Bienvenue dans votre espace vendeur SINE.SHOP.</p>
                 <div class="stats-grid">
@@ -892,25 +1821,21 @@
                 <div id="favorisRecusVendeur"><div class="empty-state"><span class="icon">❤️</span>Aucun favori pour l'instant</div></div>
             </section>
 
-            <!-- PUBLIER - FORMULAIRE DYNAMIQUE AMÉLIORÉ -->
+            <!-- PUBLIER -->
             <section id="publier" class="card" style="display:none;">
                 <h2>📦 <span data-translate="section.publishProduct">Publier un produit</span></h2>
                 <p data-translate="seller.publishSubtitle">Ajoutez un nouveau produit à votre boutique. Les champs s'adaptent automatiquement à la catégorie sélectionnée.</p>
                 <form id="publishForm" enctype="multipart/form-data">
                     <div class="form-grid">
-                        <!-- Nom du produit -->
                         <div class="form-group full">
                             <label data-translate="product.name">Nom du produit *</label>
                             <input type="text" id="productName" placeholder="Nom du produit" required>
                         </div>
-
-                        <!-- CATÉGORIE AVEC GESTION INTELLIGENTE -->
                         <div class="form-group">
                             <label data-translate="product.category">Catégorie *</label>
                             <div style="display:flex;gap:0.5rem;">
                                 <select id="productCategory" style="flex:1;" required>
                                     <option value="">Choisir</option>
-                                    <!-- Catégories système -->
                                     <optgroup label="📦 Catégories SINE.SHOP">
                                         <option value="slug:vetements">👕 Vêtements</option>
                                         <option value="slug:chaussures">👟 Chaussures</option>
@@ -926,7 +1851,6 @@
                                         <option value="slug:service">🛠️ Service</option>
                                         <option value="slug:autre">📦 Autre</option>
                                     </optgroup>
-                                    <!-- Catégories alimentaires spécifiques -->
                                     <optgroup label="🍽️ Alimentation & Boissons">
                                         <option value="slug:panini">🥪 Panini</option>
                                         <option value="slug:burger">🍔 Burger</option>
@@ -938,7 +1862,6 @@
                                         <option value="slug:patisserie">🎂 Pâtisserie</option>
                                         <option value="slug:boisson">🥤 Boisson</option>
                                     </optgroup>
-                                    <!-- Catégories électroniques spécifiques -->
                                     <optgroup label="📱 Électronique & Accessoires">
                                         <option value="slug:smartphone">📱 Smartphone</option>
                                         <option value="slug:tablette">📱 Tablette</option>
@@ -951,30 +1874,22 @@
                             </div>
                             <p class="form-hint" data-translate="product.categoryHint">Pas la bonne catégorie ? Créez la vôtre avec ➕.</p>
                         </div>
-
-                        <!-- SOUS-CATÉGORIE / PUBLIC CIBLE -->
                         <div class="form-group">
                             <label id="productSubCategoryLabel" data-translate="product.subcategory">Sous-catégorie / public cible</label>
                             <select id="productSubCategory">
                                 <option value="" data-translate="product.chooseSubcategory">Choisir une sous-catégorie</option>
                             </select>
                         </div>
-
-                        <!-- Marque -->
                         <div class="form-group">
                             <label data-translate="product.brand">Marque <span style="font-weight:400;color:#94a3b8;">(optionnel)</span></label>
                             <input type="text" id="productBrand" placeholder="Ex: Nike, Apple, Samsung...">
                             <p class="form-hint" data-translate="product.brandHint">💡 Exemples : Nike, Apple, Samsung, Adidas, Chanel...</p>
                         </div>
-
-                        <!-- Modèle -->
                         <div class="form-group">
                             <label data-translate="product.model">Modèle <span style="font-weight:400;color:#94a3b8;">(optionnel)</span></label>
                             <input type="text" id="productModel" placeholder="Ex: Air Max, iPhone 15...">
                             <p class="form-hint" data-translate="product.modelHint">💡 Exemples : Air Max, iPhone 15, Galaxy S24...</p>
                         </div>
-
-                        <!-- État -->
                         <div class="form-group">
                             <label data-translate="product.condition">État *</label>
                             <select id="productCondition">
@@ -983,46 +1898,32 @@
                                 <option value="refurbished" data-translate="product.conditionRefurbished">🔄 Reconditionné</option>
                             </select>
                         </div>
-
-                        <!-- Description -->
                         <div class="form-group full">
                             <label data-translate="product.description">Description *</label>
                             <textarea id="productDescription" rows="4" placeholder="Décrivez votre produit..." required></textarea>
                         </div>
-
-                        <!-- Prix -->
                         <div class="form-group">
                             <label data-translate="product.price">Prix (FCFA) *</label>
                             <input type="number" id="productPrice" placeholder="0" required min="0" step="1">
                         </div>
-
-                        <!-- Ancien prix -->
                         <div class="form-group">
                             <label data-translate="product.oldPrice">Ancien prix <span id="discountBadge" style="display:none;color:#16a34a;font-weight:700;"></span></label>
                             <input type="number" id="productOldPrice" placeholder="0" min="0" step="1">
                             <p class="form-hint" data-translate="product.oldPriceHint">Optionnel — renseignez-le pour afficher une réduction en % sur la carte produit.</p>
                         </div>
-
-                        <!-- Stock -->
                         <div class="form-group">
                             <label data-translate="product.stock">Stock *</label>
                             <input type="number" id="productStock" placeholder="0" required min="0" step="1">
                         </div>
-
-                        <!-- Poids -->
                         <div class="form-group">
                             <label data-translate="product.weight">Poids (kg) <span style="font-weight:400;color:#94a3b8;">(estimation auto)</span></label>
                             <input type="number" step="0.01" id="productWeight" placeholder="0.00">
                             <p class="form-hint" id="weightHint" data-translate="product.weightHint">📏 Le poids sera estimé automatiquement d'après le nom et la catégorie. Vous pouvez le modifier.</p>
                         </div>
-
-                        <!-- CHAMPS DYNAMIQUES SPÉCIFIQUES PAR CATÉGORIE -->
                         <div class="form-group full" id="dynamicAttributesContainer" style="display:none;">
                             <label id="dynamicAttributesLabel" data-translate="product.specificDetails">Détails spécifiques à cette catégorie</label>
                             <div id="dynamicAttributesFields" style="margin-top:0.4rem;"></div>
                         </div>
-
-                        <!-- Images -->
                         <div class="form-group full">
                             <label data-translate="product.images">Images</label>
                             <div class="upload-area" id="imagesUpload">
@@ -1032,8 +1933,6 @@
                                 <div class="upload-preview" id="imagesPreview"></div>
                             </div>
                         </div>
-
-                        <!-- Vidéos -->
                         <div class="form-group full">
                             <label data-translate="product.videos">Vidéos</label>
                             <div class="upload-area" id="videosUpload">
@@ -1044,7 +1943,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="actions-group">
                         <button type="button" class="btn-success" id="btnPublishProduct"><i class="fa-solid fa-paper-plane"></i> <span data-translate="product.publishBtn">Publier</span></button>
                         <button type="button" id="btnSaveDraft"><i class="fa-solid fa-floppy-disk"></i> <span data-translate="product.saveDraft">Sauvegarder brouillon</span></button>
@@ -1052,37 +1950,6 @@
                     </div>
                 </form>
             </section>
-
-            <!-- MODAL PRÉVISUALISATION PRODUIT -->
-            <div id="previewProductModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:20px;">
-                <div style="background:var(--bg-card,#fff);border-radius:20px;padding:24px;max-width:360px;width:100%;max-height:90vh;overflow-y:auto;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-                        <h3 style="font-size:1rem;">👁 Aperçu — tel qu'affiché aux acheteurs</h3>
-                        <span style="cursor:pointer;font-size:1.2rem;" onclick="document.getElementById('previewProductModal').style.display='none';">✕</span>
-                    </div>
-                    <div id="previewProductContent"></div>
-                </div>
-            </div>
-
-            <!-- MODAL NOUVELLE CATÉGORIE -->
-            <div id="newCategoryModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999999;align-items:center;justify-content:center;padding:20px;">
-                <div style="background:white;border-radius:20px;padding:1.5rem;max-width:400px;width:100%;">
-                    <h3 style="margin-bottom:0.5rem;">➕ Créer ma catégorie</h3>
-                    <p style="font-size:0.82rem;color:#94a3b8;margin-bottom:1rem;" data-translate="category.createHint">Utile si aucune catégorie existante ne correspond à votre produit. Elle sera immédiatement disponible pour vos prochaines publications.</p>
-                    <div class="form-group" style="margin-bottom:0.8rem;">
-                        <label style="font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.3rem;" data-translate="category.name">Nom de la catégorie</label>
-                        <input type="text" id="newCategoryName" placeholder="Ex: Articles pour bébé" style="width:100%;padding:0.6rem 0.9rem;border-radius:12px;border:1px solid #e2e8f0;">
-                    </div>
-                    <div class="form-group" style="margin-bottom:1rem;">
-                        <label style="font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.3rem;" data-translate="category.description">Description (optionnel)</label>
-                        <textarea id="newCategoryDescription" rows="2" style="width:100%;padding:0.6rem 0.9rem;border-radius:12px;border:1px solid #e2e8f0;resize:vertical;"></textarea>
-                    </div>
-                    <div style="display:flex;gap:0.6rem;">
-                        <button onclick="document.getElementById('newCategoryModal').style.display='none';" style="flex:1;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;" data-translate="common.cancel">Annuler</button>
-                        <button id="btnConfirmNewCategory" class="btn-primary" style="flex:1;padding:0.6rem;border-radius:12px;" data-translate="category.createBtn">Créer</button>
-                    </div>
-                </div>
-            </div>
 
             <!-- PRODUITS -->
             <section id="produits" class="card" style="display:none;">
@@ -1112,14 +1979,12 @@
             <section id="paiements" class="card" style="display:none;">
                 <h2>💰 <span data-translate="nav.payments">Paiements</span></h2>
                 <p data-translate="seller.paymentsSubtitle">Consultez votre solde disponible et retirez vos gains.</p>
-
                 <div class="stats-grid">
                     <div class="stat-box"><h3 id="balanceGross">0 FCFA</h3><p>📊 <span data-translate="seller.grossEarnings">Ventes brutes</span></p></div>
                     <div class="stat-box"><h3 id="balanceCommission">0 FCFA</h3><p>➖ <span data-translate="seller.commissionDeducted">Commission SINE.SHOP</span></p></div>
                     <div class="stat-box"><h3 id="balanceAvailable">0 FCFA</h3><p>💰 <span data-translate="affiliate.availableBalance">Solde disponible</span></p></div>
                 </div>
                 <p style="font-size:0.78rem;color:#94a3b8;" data-translate="seller.commissionNote">La commission SINE.SHOP est calculée uniquement sur les commandes livrées et payées (voir CGV).</p>
-
                 <hr>
                 <h3>🏦 <span data-translate="affiliate.withdrawMethod">Moyen de retrait</span></h3>
                 <div class="form-grid">
@@ -1147,7 +2012,6 @@
                     </div>
                 </div>
                 <p id="sellerWithdrawMinNote" style="font-size:0.78rem;color:#94a3b8;margin-top:0.4rem;"></p>
-
                 <hr>
                 <h3>📋 <span data-translate="seller.withdrawHistory">Historique des retraits</span></h3>
                 <div id="listeSellerWithdrawals"><div class="empty-state"><span class="icon">📋</span><span data-translate="seller.noWithdrawals">Aucun retrait effectué</span></div></div>
@@ -1219,7 +2083,7 @@
                             <i class="fa-solid fa-pen"></i> Modification du message
                             <button id="btnCancelEdit">Annuler</button>
                         </div>
-                        <div class="chat-compose">
+                        <div class="chat-compose" style="position:relative;">
                             <button id="btnAttach"><i class="fa-solid fa-paperclip"></i></button>
                             <div class="chat-attach-menu" id="chatAttachMenu">
                                 <button id="btnAttachPhoto"><i class="fa-regular fa-image"></i> Photo</button>
@@ -1250,7 +2114,7 @@
                 </div>
             </section>
 
-            <!-- OVERLAY APPEL -->
+            <!-- OVERLAY APPEL - AMÉLIORÉ -->
             <div class="call-overlay" id="callOverlay">
                 <div class="call-header-band" id="callHeaderBand">
                     <div class="call-header-stars">
@@ -1277,12 +2141,12 @@
                     <button class="btn-resize-video" id="btnResizeVideo" title="Agrandir/Réduire"><i class="fa-solid fa-expand"></i></button>
                 </div>
 
-                <div class="call-incoming-actions" id="callIncomingActions" style="display:none;">
+                <div class="call-incoming-actions" id="callIncomingActions">
                     <button class="btn-reject" id="btnRejectCall"><i class="fa-solid fa-phone-slash"></i></button>
                     <button class="btn-accept" id="btnAcceptCall"><i class="fa-solid fa-phone"></i></button>
                 </div>
 
-                <div class="call-controls" id="callControls" style="display:none;">
+                <div class="call-controls" id="callControls">
                     <button id="btnToggleMic"><i class="fa-solid fa-microphone"></i></button>
                     <button id="btnToggleCam"><i class="fa-solid fa-video"></i></button>
                     <button class="btn-hangup" id="btnHangup"><i class="fa-solid fa-phone-slash"></i></button>
@@ -1359,25 +2223,21 @@
             <section id="verification" class="card" style="display:none;">
                 <h2>🪪 <span data-translate="section.identityVerification">Vérification d'identité</span></h2>
                 <p data-translate="kyc.subtitle">Confirmez votre identité pour obtenir le badge "✔️ Vérifié", gagner la confiance des acheteurs et débloquer certaines fonctionnalités.</p>
-
                 <div id="kycStatusApproved" style="display:none;background:#dcfce7;border-radius:14px;padding:1.2rem;text-align:center;">
                     <div style="font-size:2rem;">✅</div>
                     <p style="font-weight:700;color:#16a34a;margin-top:0.5rem;" data-translate="kyc.approved">Votre identité est vérifiée</p>
                 </div>
-
                 <div id="kycStatusPending" style="display:none;background:#fef9c3;border-radius:14px;padding:1.2rem;text-align:center;">
                     <div style="font-size:2rem;">⏳</div>
                     <p style="font-weight:700;color:#a16207;margin-top:0.5rem;" data-translate="kyc.pending">Votre vérification est en cours d'examen</p>
                     <p style="font-size:0.85rem;color:#854d0e;" data-translate="kyc.pendingNote">Vous recevrez une réponse sous peu.</p>
                 </div>
-
                 <div id="kycStatusRejected" style="display:none;background:#fee2e2;border-radius:14px;padding:1.2rem;margin-bottom:1rem;">
                     <div style="font-size:2rem;text-align:center;">❌</div>
                     <p style="font-weight:700;color:#dc2626;margin-top:0.5rem;text-align:center;" data-translate="kyc.rejected">Votre demande a été rejetée</p>
                     <p id="kycRejectReason" style="font-size:0.85rem;color:#991b1b;text-align:center;"></p>
                     <p style="font-size:0.85rem;color:#991b1b;text-align:center;" data-translate="kyc.rejectedNote">Vous pouvez soumettre une nouvelle demande ci-dessous.</p>
                 </div>
-
                 <div id="kycForm">
                     <hr>
                     <div class="form-grid">
@@ -1419,9 +2279,6 @@
                             <div style="display:flex;gap:0.6rem;margin-top:0.5rem;">
                                 <button type="button" id="btnTakeSelfie" style="padding:0.6rem 1.2rem;border-radius:12px;background:#0f172a;color:white;font-weight:600;">
                                     <i class="fa-solid fa-camera"></i> Prendre un selfie
-                                    <p data-translate="kyc.dropSelfie">Prenez un selfie avec votre appareil photo</p>
-                                <input type="file" id="kycSelfie" accept="image/*" capture="user" class="file-input">
-                                <div class="upload-preview" id="kycSelfiePreview"></div>
                                 </button>
                             </div>
                             <p style="font-size:0.78rem;color:#94a3b8;margin-top:0.4rem;">
@@ -1441,8 +2298,6 @@
             <section id="profil" class="card" style="display:none;">
                 <h2>👤 <span data-translate="section.sellerProfile">Mon profil vendeur</span></h2>
                 <p data-translate="seller.profileSubtitle">Gérez votre identité de vendeur. Le nom et le téléphone deviennent définitifs une fois enregistrés. Le pays et la ville restent modifiables à tout moment.</p>
-
-                <!-- BANNIÈRE + LOGO (séparés) -->
                 <div class="store-branding">
                     <img id="storeBannerPreview" src="" alt="Bannière de la boutique" style="width:100%;height:100%;object-fit:cover;">
                     <div class="branding-overlay"></div>
@@ -1456,7 +2311,6 @@
                         <input type="file" id="inputStoreLogo" accept="image/*" style="display:none;">
                     </div>
                 </div>
-
                 <div style="margin-top:20px;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem;">
                     <img id="photoProfil" src="" alt="Photo" style="width:90px;height:90px;border-radius:50%;object-fit:cover;background:#e2e8f0;border:3px solid #f1f5f9;">
                     <div>
@@ -1466,8 +2320,6 @@
                         <input type="file" id="inputPhotoProfil" accept="image/*" style="display:none;">
                     </div>
                 </div>
-
-                <!-- Progression du profil -->
                 <div style="background:#f8fafc;border-radius:14px;padding:1rem;margin-bottom:1rem;">
                     <div style="display:flex;justify-content:space-between;font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;">
                         <span data-translate="seller.profileCompletion">📈 Progression du profil</span>
@@ -1478,7 +2330,6 @@
                     </div>
                     <p style="font-size:0.78rem;color:#64748b;margin-top:0.5rem;" data-translate="seller.profileCompletionNote">Un profil complet (photo, description, adresse, téléphone) inspire davantage confiance aux acheteurs et est mis en avant sur votre boutique publique.</p>
                 </div>
-
                 <hr>
                 <div class="form-grid">
                     <div class="form-group"><label data-translate="seller.shopName">Nom de la boutique</label><input type="text" id="shopName"></div>
@@ -1545,7 +2396,6 @@
                     <div class="form-group"><label><span data-translate="seller.pseudo">Pseudo</span> <span style="font-weight:400;font-size:0.78rem;color:#94a3b8;" data-translate="seller.pseudoNote">(définitif une fois choisi)</span></label><input type="text" id="pseudoVendeur" placeholder="ex: aicha_boutique"></div>
                     <div class="form-group full"><label data-translate="seller.personalBio">Bio personnelle</label><textarea id="bioVendeur" rows="2" placeholder="Une courte présentation de vous, en plus de votre boutique"></textarea></div>
                 </div>
-
                 <hr>
                 <h3 style="font-size:0.9rem;color:#64748b;">🔗 <span data-translate="seller.socialLinks">Réseaux sociaux</span> <span style="font-weight:400;" data-translate="seller.socialLinksNote">(affichés sur votre boutique publique)</span></h3>
                 <div class="form-grid">
@@ -1555,7 +2405,6 @@
                     <div class="form-group"><label><i class="fa-brands fa-whatsapp"></i> WhatsApp</label><input type="text" id="waVendeur" placeholder="+225 07 00 00 00"></div>
                     <div class="form-group full"><label><i class="fa-solid fa-globe"></i> <span data-translate="seller.website">Site web</span></label><input type="text" id="webVendeur" placeholder="https://..."></div>
                 </div>
-
                 <hr>
                 <h3 style="font-size:0.9rem;color:#64748b;">👁️ Informations visibles par les acheteurs</h3>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.75rem;font-size:0.85rem;">
@@ -1564,7 +2413,6 @@
                     <div style="background:#f8fafc;border-radius:12px;padding:0.7rem 1rem;"><strong>📞 Téléphone</strong><br><span id="phoneDisplay">—</span></div>
                     <div style="background:#f8fafc;border-radius:12px;padding:0.7rem 1rem;"><strong>📍 Localisation</strong><br><span id="locationDisplay">—</span></div>
                 </div>
-
                 <hr>
                 <h3 style="font-size:0.9rem;color:#64748b;">🔒 Visibilité de mon profil</h3>
                 <p style="font-size:0.78rem;color:#94a3b8;margin-bottom:0.6rem;">Le nom de la boutique, la localisation, l'adresse et l'email restent toujours visibles publiquement (nécessaire pour vendre). Ces réglages ne concernent que les champs optionnels ci-dessous.</p>
@@ -1573,7 +2421,6 @@
                     <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;"><input type="checkbox" id="visShowBio" style="width:18px;height:18px;"> Afficher ma bio personnelle</label>
                     <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;"><input type="checkbox" id="visShowSocialLinks" style="width:18px;height:18px;"> Afficher mes réseaux sociaux</label>
                 </div>
-
                 <hr>
                 <div class="actions-group">
                     <button id="btnEnregistrerProfil" class="btn-primary">💾 Enregistrer</button>
@@ -1584,8 +2431,6 @@
             <section id="parametres" class="card" style="display:none;">
                 <h2>⚙️ <span data-translate="nav.settings">Paramètres</span></h2>
                 <p data-translate="seller.settingsSubtitle">Personnalisez votre compte vendeur.</p>
-
-                <!-- ÂGE - INTERDIT AUX -18 ANS -->
                 <hr>
                 <h3>🔞 <span data-translate="seller.ageVerification">Vérification de l'âge</span></h3>
                 <p style="font-size:0.85rem;color:#64748b;margin-bottom:0.8rem;" data-translate="seller.ageWarning">⚠️ Vous devez avoir au moins 18 ans pour vendre sur SINE.SHOP.</p>
@@ -1596,7 +2441,6 @@
                         <p class="form-hint" data-translate="seller.ageHint">💡 La vente sur SINE.SHOP est réservée aux personnes majeures (+18 ans).</p>
                     </div>
                 </div>
-
                 <hr>
                 <h3>🎨 <span data-translate="settings.appearance">Apparence</span></h3>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
@@ -1604,7 +2448,6 @@
                     <div><label style="font-weight:600;display:block;font-size:0.85rem;" data-translate="settings.language">Langue</label><select id="langueSeller"><option value="fr">Français</option><option value="en">English</option><option value="es">Español</option><option value="ar">العربية</option></select></div>
                     <div><label style="font-weight:600;display:block;font-size:0.85rem;"><span data-translate="settings.currency">Devise</span></label><select id="deviseSeller"><option value="XOF">FCFA</option><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="CAD">CAD</option><option value="MAD">MAD</option><option value="NGN">NGN</option></select></div>
                 </div>
-
                 <hr>
                 <h3>🔐 <span data-translate="settings.security">Sécurité</span></h3>
                 <div class="actions-group">
@@ -1613,13 +2456,11 @@
                     <button id="btnDeconnecterTous" class="btn-danger">🚪 <span data-translate="seller.logoutAllShort">Déconnecter tous</span></button>
                     <button id="btnLogoutSettings" class="btn-danger">🚪 <span data-translate="settings.logout">Déconnexion</span></button>
                 </div>
-
                 <hr>
                 <h3>🧭 <span data-translate="seller.myRoles">Mes rôles</span></h3>
                 <p style="font-size:0.85rem;color:#64748b;margin-bottom:0.75rem;" data-translate="seller.myRolesNote">Un même compte peut aussi opérer comme livreur et/ou partenaire d'affiliation, sans créer de second compte. Jamais de bascule possible vers un espace administrateur.</p>
                 <div id="rolesActifs" class="actions-group" style="margin-bottom:0.5rem;"></div>
                 <div id="rolesAjoutables" class="actions-group"></div>
-
                 <hr>
                 <h3>💬 <span data-translate="settings.helpCenter">Centre d'aide</span></h3>
                 <div id="faqAccordion" style="display:flex;flex-direction:column;gap:0.5rem;">
@@ -1660,7 +2501,6 @@
                     <button id="btnOuvrirContact">✉️ Contacter le service vendeur</button>
                     <button onclick="window.open('https://wa.me/2250546248319','_blank')">💬 WhatsApp</button>
                 </div>
-
                 <hr>
                 <h3>📜 <span data-translate="legal.sectionTitle">Informations légales</span></h3>
                 <div class="actions-group">
@@ -1669,7 +2509,6 @@
                     <button onclick="window.location.href='../html/cgv.html'">📄 CGV</button>
                     <button onclick="window.location.href='../html/privacy.html'">🔒 <span data-translate="legal.privacy">Confidentialité</span></button>
                 </div>
-
                 <hr>
                 <h3>🗑️ <span data-translate="account.management">Gestion du compte</span></h3>
                 <div class="actions-group">
@@ -1678,7 +2517,6 @@
                     <button id="btnSupprimerCompte" class="btn-danger">🗑️ <span data-translate="account.deletePermanently">Supprimer définitivement</span></button>
                 </div>
                 <p style="font-size:0.8rem;color:#94a3b8;margin-top:0.5rem;"><i class="fa-solid fa-info-circle"></i> <span data-translate="account.managementNote">Une demande sera envoyée à notre équipe pour validation — rien n'est appliqué immédiatement, sauf la suppression définitive qui met fin à votre session sur-le-champ (le compte reste néanmoins actif tant que la demande n'est pas traitée).</span></p>
-
                 <hr>
                 <div class="actions-group">
                     <button id="btnSauvegarderParametres" class="btn-primary">💾 <span data-translate="settings.save">Sauvegarder</span></button>
@@ -1821,7 +2659,6 @@
         // CONFIGURATION DES CATÉGORIES ET SOUS-CATÉGORIES
         // =========================================================
         const CATEGORY_CONFIG = {
-            // Catégories système avec leurs sous-catégories
             'slug:vetements': {
                 label: '👕 Vêtements',
                 subcategories: {
@@ -2292,7 +3129,6 @@
             const fieldsContainer = document.getElementById('dynamicAttributesFields');
             const label = document.getElementById('dynamicAttributesLabel');
 
-            // Réinitialiser
             fieldsContainer.innerHTML = '';
             container.style.display = 'none';
 
@@ -2340,7 +3176,6 @@
                         input.appendChild(option);
                     });
 
-                    // Traductions pour les options
                     const translations = {
                         'Taille': 'size',
                         'Couleur': 'color',
@@ -2389,7 +3224,6 @@
                 input.style.fontSize = '0.85rem';
                 input.style.background = 'white';
 
-                // Appliquer le thème sombre
                 if (document.documentElement.getAttribute('data-theme') === 'dark') {
                     input.style.background = '#0f172a';
                     input.style.borderColor = '#334155';
@@ -2408,7 +3242,6 @@
             const categorySlug = document.getElementById('productCategory').value;
             const subSelect = document.getElementById('productSubCategory');
 
-            // Réinitialiser
             subSelect.innerHTML = '<option value="">Choisir une sous-catégorie</option>';
 
             if (!categorySlug || !CATEGORY_CONFIG[categorySlug]) {
@@ -2435,7 +3268,6 @@
             const weightInput = document.getElementById('productWeight');
             const hint = document.getElementById('weightHint');
 
-            // Si l'utilisateur a déjà modifié manuellement, on ne touche pas
             if (weightInput.dataset.userEdited === 'true') {
                 hint.textContent = '📏 Poids personnalisé conservé.';
                 return;
@@ -2443,7 +3275,6 @@
 
             let poidsEstime = 0;
 
-            // Estimation basée sur la catégorie
             const estimations = {
                 'slug:vetements': 0.5,
                 'slug:chaussures': 0.8,
@@ -2476,7 +3307,6 @@
 
             poidsEstime = estimations[categorie] || 0.2;
 
-            // Affinage basé sur le nom
             if (nom.includes('grand') || nom.includes('large') || nom.includes('xl')) poidsEstime *= 1.2;
             if (nom.includes('petit') || nom.includes('mini') || nom.includes('xs')) poidsEstime *= 0.7;
             if (nom.includes('pack') || nom.includes('lot') || nom.includes('ensemble')) poidsEstime *= 2;
@@ -2497,19 +3327,16 @@
         // ÉVÉNEMENTS DU FORMULAIRE
         // =========================================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Catégorie change -> mettre à jour sous-catégories et champs dynamiques
             document.getElementById('productCategory').addEventListener('change', function() {
                 updateSubcategories();
                 updateDynamicFields();
                 estimerPoids();
             });
 
-            // Nom change -> ré-estimer le poids
             document.getElementById('productName').addEventListener('input', function() {
                 estimerPoids();
             });
 
-            // Poids manuel -> marquer comme édité par l'utilisateur
             document.getElementById('productWeight').addEventListener('input', function() {
                 if (this.value !== '') {
                     this.dataset.userEdited = 'true';
@@ -2518,14 +3345,12 @@
                 }
             });
 
-            // Bouton pour créer une nouvelle catégorie
             document.getElementById('btnNewCategory').addEventListener('click', function() {
                 document.getElementById('newCategoryModal').style.display = 'flex';
                 document.getElementById('newCategoryName').value = '';
                 document.getElementById('newCategoryDescription').value = '';
             });
 
-            // Confirmation de nouvelle catégorie
             document.getElementById('btnConfirmNewCategory').addEventListener('click', async function() {
                 const name = document.getElementById('newCategoryName').value.trim();
                 if (!name) {
@@ -2535,7 +3360,6 @@
 
                 this.disabled = true;
                 try {
-                    // Créer la catégorie via l'API
                     const formData = new FormData();
                     formData.append('name', name);
                     formData.append('description', document.getElementById('newCategoryDescription').value.trim());
@@ -2556,7 +3380,6 @@
                     const data = await response.json();
                     const slug = data.data.slug;
 
-                    // Ajouter la nouvelle catégorie dans le sélecteur
                     const select = document.getElementById('productCategory');
                     const option = document.createElement('option');
                     option.value = 'slug:' + slug;
@@ -2564,7 +3387,6 @@
                     select.appendChild(option);
                     select.value = 'slug:' + slug;
 
-                    // Ajouter dans la configuration
                     CATEGORY_CONFIG['slug:' + slug] = {
                         label: '📦 ' + name,
                         subcategories: {
@@ -2578,7 +3400,6 @@
                     document.getElementById('newCategoryModal').style.display = 'none';
                     showNotification('✅ Catégorie créée avec succès !', 'success');
 
-                    // Mettre à jour le formulaire
                     updateSubcategories();
                     updateDynamicFields();
 
@@ -2589,11 +3410,9 @@
                 }
             });
 
-            // Initialisation
             updateSubcategories();
             updateDynamicFields();
 
-            // Écouteur pour le thème sombre
             const observer = new MutationObserver(function() {
                 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
                 document.querySelectorAll('#dynamicAttributesFields input, #dynamicAttributesFields select').forEach(el => {
@@ -2612,7 +3431,7 @@
         });
 
         // =========================================================
-        // TOUS LES ÉMOJIS - liste complète pour le picker
+        // TOUS LES ÉMOJIS
         // =========================================================
         const ALL_EMOJIS = [
             '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎',
@@ -2723,7 +3542,6 @@
             document.querySelector('.seller-container')?.classList.add('section-open');
         });
 
-        // Attacher les événements de navigation sur les liens du menu
         document.querySelectorAll('.menu-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -2789,18 +3607,6 @@
         }
 
         // =========================================================
-        // FORMAT PRIX
-        // =========================================================
-        function formatPrice(amount) {
-            if (!amount || isNaN(amount)) amount = 0;
-            const currency = currentUser?.preferredCurrency || 'XOF';
-            if (window.SINE) return window.SINE.formatCurrency(amount);
-            const symbol = { XOF: 'FCFA', EUR: '€', USD: '$', GBP: '£', CAD: 'CA$', MAD: 'MAD', NGN: '₦' } [currency] || currency;
-            return `${symbol} ${amount.toLocaleString('fr-FR')}`;
-        }
-        window.formatPrice = formatPrice;
-
-        // =========================================================
         // DRAPEAU
         // =========================================================
         function flagEmoji(countryCode) {
@@ -2839,7 +3645,6 @@
             document.getElementById('sellerCurrency').disabled = !!currentUser.preferredCurrency;
             document.getElementById('shopDescription').value = currentUser.storeDescription || '';
 
-            // Bannière et logo
             const bannerImg = document.getElementById('storeBannerPreview');
             if (currentUser.storeBanner) {
                 bannerImg.src = currentUser.storeBanner;
@@ -2858,7 +3663,6 @@
             document.getElementById('waVendeur').value = currentUser.socialLinks?.whatsapp || '';
             document.getElementById('webVendeur').value = currentUser.socialLinks?.website || '';
 
-            // Date de naissance
             document.getElementById('sellerDateOfBirth').value = currentUser.dateOfBirth || '';
             if (currentUser.dateOfBirth) {
                 document.getElementById('sellerDateOfBirth').disabled = true;
@@ -3176,7 +3980,6 @@
                 showNotification('❌ Commande introuvable.', 'error');
                 return;
             }
-            currentOrderIdInModal = order._id;
 
             document.getElementById('orderModalNumber').textContent = '#' + (order.orderNumber || order._id);
             document.getElementById('orderModalClient').textContent = order.user?.firstName
@@ -3190,47 +3993,8 @@
                     </div>
                 `).join('') || '<p style="color:#94a3b8;font-size:0.85rem;">Aucun article détaillé.</p>';
 
-            const assignSection = document.getElementById('orderModalAssignSection');
-            if (order.livreur || !['pending', 'confirmed'].includes(order.status)) {
-                assignSection.style.display = 'none';
-            } else {
-                assignSection.style.display = 'block';
-                chargerLivreursDisponibles();
-            }
-
             document.getElementById('modalOrderOverlay').classList.add('open');
         };
-
-        let currentOrderIdInModal = null;
-
-        async function chargerLivreursDisponibles() {
-            const select = document.getElementById('orderModalLivreurSelect');
-            select.innerHTML = '<option value="">Chargement...</option>';
-            try {
-                const livreurs = await window.SineAPI.getAvailableLivreurs();
-                select.innerHTML = livreurs.length
-                    ? livreurs.map(l => `<option value="${l._id}">${l.firstName} ${l.lastName || ''} — ${l.vehicleType || 'véhicule non précisé'}</option>`).join('')
-                    : '<option value="">Aucun livreur disponible pour le moment</option>';
-            } catch (e) {
-                select.innerHTML = '<option value="">Erreur de chargement</option>';
-            }
-        }
-
-        document.getElementById('btnAssignerLivreur').addEventListener('click', async function() {
-            const livreurId = document.getElementById('orderModalLivreurSelect').value;
-            if (!livreurId || !currentOrderIdInModal) {
-                showNotification('Choisissez un livreur.', 'warning');
-                return;
-            }
-            try {
-                await window.SineAPI.assignLivreurToOrder(currentOrderIdInModal, livreurId);
-                showNotification('✅ Livreur assigné à la commande', 'success');
-                document.getElementById('modalOrderOverlay').classList.remove('open');
-                loadData();
-            } catch (e) {
-                showNotification(e.message || 'Erreur lors de l\'assignation.', 'error');
-            }
-        });
 
         document.getElementById('btnFermerModalOrder').addEventListener('click', function() {
             document.getElementById('modalOrderOverlay').classList.remove('open');
@@ -3278,7 +4042,6 @@
                 return;
             }
 
-            // Récupérer les champs dynamiques
             const attributes = {};
             document.querySelectorAll('#dynamicAttributesFields [data-attr-key]').forEach(el => {
                 if (el.value && el.value.trim()) {
@@ -3286,7 +4049,6 @@
                 }
             });
 
-            // Récupérer les sous-catégories
             const subcategory = document.getElementById('productSubCategory').value;
 
             const btn = this;
@@ -3317,7 +4079,6 @@
                     formData.append('price', price);
                 }
 
-                // Envoyer les attributs en JSON
                 if (Object.keys(attributes).length > 0) {
                     formData.append('attributes', JSON.stringify(attributes));
                 }
@@ -3423,7 +4184,6 @@
                 formData.append('stock', stock);
                 formData.append('isAvailable', 'false');
 
-                // Récupérer les champs dynamiques
                 const attributes = {};
                 document.querySelectorAll('#dynamicAttributesFields [data-attr-key]').forEach(el => {
                     if (el.value && el.value.trim()) {
@@ -3467,12 +4227,11 @@
             }
         }
 
-        // Écouteurs sur les champs prix
         document.getElementById('productPrice')?.addEventListener('input', mettreAJourBadgeReduction);
         document.getElementById('productOldPrice')?.addEventListener('input', mettreAJourBadgeReduction);
 
         // =========================================================
-        // GESTIONNAIRES D'UPLOAD POUR LES IMAGES ET VIDÉOS
+        // GESTIONNAIRES D'UPLOAD
         // =========================================================
         window.mediaSelections = window.mediaSelections || {
             productImages: [],
@@ -3590,7 +4349,6 @@
             });
         }
 
-        // Initialisation des uploads
         document.addEventListener('DOMContentLoaded', function() {
             setupUploadArea('imagesUpload', 'productImages', 'imagesPreview', 'image', 'productImages');
             setupUploadArea('videosUpload', 'productVideos', 'videosPreview', 'video', 'productVideos');
@@ -3967,7 +4725,7 @@
         });
 
         // =========================================================
-        // VALIDATION DU NUMÉRO PAR SMS - CORRIGÉ
+        // VALIDATION DU NUMÉRO PAR SMS
         // =========================================================
         document.getElementById('btnValiderTelephone').addEventListener('click', async function() {
             if (!currentUser) {
@@ -4267,9 +5025,6 @@
             }
         });
 
-        // =========================================================
-        // DÉCONNEXION DEPUIS PARAMÈTRES
-        // =========================================================
         document.getElementById('btnLogoutSettings').addEventListener('click', function() {
             if (confirm('Se déconnecter ?')) {
                 window.SineAPI.logout();
@@ -4320,7 +5075,6 @@
                 return;
             }
 
-            // Trier par date du dernier message
             const sorted = [...allConversations].sort((a, b) => {
                 const dateA = a.lastMessageAt ? new Date(a.lastMessageAt) : new Date(a.updatedAt || 0);
                 const dateB = b.lastMessageAt ? new Date(b.lastMessageAt) : new Date(b.updatedAt || 0);
@@ -4345,7 +5099,6 @@
                 `;
             }).join('');
 
-            // Événements
             container.querySelectorAll('.chat-conv-item').forEach(el => {
                 el.addEventListener('click', function() {
                     const id = this.dataset.id;

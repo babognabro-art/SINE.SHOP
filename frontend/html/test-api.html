@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test API</title></head>
+<body>
+    <h1>Test API SINE.SHOP</h1>
+    <button onclick="testAPI()">Tester</button>
+    <pre id="result"></pre>
+
+    <script>
+    async function testAPI() {
+        const result = document.getElementById('result');
+        try {
+            const response = await fetch('http://localhost:5000/health');
+            const data = await response.json();
+            result.textContent = '✅ Succès: ' + JSON.stringify(data, null, 2);
+        } catch (error) {
+            result.textContent = '❌ Erreur: ' + error.message;
+        }
+    }
+    </script>
+</body>
+</html>

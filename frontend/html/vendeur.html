@@ -2468,6 +2468,14 @@
                 });
                 document.querySelector('.seller-container')?.classList.add('section-open');
             });
+            // Attacher les événements de navigation sur les liens du menu
+document.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault(); // éviter le changement d'URL
+        const section = this.dataset.section;
+        if (section) navigateTo(section);
+    });
+});
 
             // =========================================================
             // NOTIFICATION

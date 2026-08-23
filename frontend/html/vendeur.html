@@ -660,7 +660,7 @@
            ========================================================= */
         .chat-layout {
             display: flex;
-            gap: 1.5rem;
+            gap: 0;
             height: 600px;
             border-radius: 20px;
             overflow: hidden;
@@ -764,69 +764,45 @@
             background: white;
             min-width: 0;
             position: relative;
+            overflow: hidden;
         }
         [data-theme="dark"] .chat-thread { background: #1a2436; }
 
-        .chat-thread-header {
-            padding: 0.8rem 1.2rem;
-            border-bottom: 1px solid #eef2f6;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: white;
-            flex-shrink: 0;
+        /* Fond de discussion fixe */
+        .chat-thread .chat-messages-wrapper {
+            flex: 1;
             position: relative;
+            overflow: hidden;
         }
-        [data-theme="dark"] .chat-thread-header {
-            background: #1a2436;
-            border-bottom-color: #263447;
+        .chat-thread .chat-messages-wrapper .chat-bg-image {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            z-index: 0;
+            transition: opacity 0.3s ease, filter 0.3s ease;
+            pointer-events: none;
         }
-
-        .chat-thread-header img {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
+        .chat-thread .chat-messages-wrapper .chat-bg-image.bright {
+            opacity: 0.05;
         }
-        .chat-thread-header .name { font-weight: 600; font-size: 0.95rem; }
-        .chat-thread-header .status { font-size: 0.7rem; color: #16a34a; }
-        .chat-thread-header .call-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-left: auto;
+        .chat-thread .chat-messages-wrapper .chat-bg-image.dark {
+            opacity: 0.15;
+            filter: brightness(0.6);
         }
-        .chat-thread-header .call-actions button {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-        .chat-thread-header .call-actions button:hover { background: #e2e8f0; }
-        [data-theme="dark"] .chat-thread-header .call-actions button {
-            background: #263447;
-            color: #e2e8f0;
-        }
-        [data-theme="dark"] .chat-thread-header .call-actions button:hover { background: #1e293b; }
 
         .chat-messages {
-            flex: 1;
+            position: relative;
+            z-index: 1;
             padding: 1rem 1.2rem;
+            height: 100%;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
-            background: #f8fafc;
-            background-image: radial-gradient(circle at 20px 20px, rgba(0,0,0,0.02) 1px, transparent 0);
-            background-size: 40px 40px;
-        }
-        [data-theme="dark"] .chat-messages {
-            background: #0f172a;
-            background-image: radial-gradient(circle at 20px 20px, rgba(255,255,255,0.02) 1px, transparent 0);
+            background: transparent;
         }
 
         .chat-message {
@@ -839,10 +815,29 @@
             position: relative;
             animation: messageIn 0.25s ease;
             overflow: hidden;
+            max-width: 85%;
         }
         @keyframes messageIn {
             from { opacity: 0; transform: translateY(10px) scale(0.97); }
             to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.15); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+        .chat-message .heart-emoji {
+            display: inline-block;
+            color: #e74c3c;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            font-size: 1.1em;
+        }
+        .chat-message .heart-emoji-small {
+            display: inline-block;
+            color: #e74c3c;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            font-size: 0.9em;
         }
         .chat-message.sent {
             align-self: flex-end;
@@ -871,49 +866,38 @@
         .chat-message.sent .time { color: rgba(255,255,255,0.6); }
         .chat-message.received .time { color: #94a3b8; }
 
-        /* Medias dans les messages */
-        .chat-message .media-preview {
-            max-width: 100%;
-            max-height: 280px;
-            width: auto;
-            height: auto;
-            border-radius: 12px;
-            margin: 0.2rem 0;
-            display: block;
-            object-fit: cover;
-            cursor: pointer;
-            overflow: hidden;
-        }
-        .chat-message .media-preview img {
-            width: 100%;
-            height: auto;
-            max-height: 280px;
-            object-fit: contain;
-            border-radius: 12px;
-            display: block;
-            background: rgba(0,0,0,0.02);
-        }
-        .chat-message .media-preview.video-preview {
-            background: #000;
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            max-width: 100%;
-        }
-        .chat-message .media-preview.video-preview video {
-            width: 100%;
-            max-height: 280px;
-            border-radius: 12px;
-            display: block;
-            background: #000;
-            object-fit: contain;
-        }
+        /* Medias dans les messages - CORRECTION DEBORDEMENT */
         .chat-message .media-wrapper {
             max-width: 100%;
             overflow: hidden;
             border-radius: 12px;
             margin: 0.2rem 0;
             background: rgba(0,0,0,0.03);
+        }
+        .chat-message .media-wrapper img,
+        .chat-message .media-wrapper video {
+            max-width: 100%;
+            max-height: 280px;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+            object-fit: contain;
+            background: rgba(0,0,0,0.02);
+        }
+        .chat-message .media-wrapper.video-wrapper {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .chat-message .media-wrapper.video-wrapper video {
+            width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            display: block;
+            background: #000;
+            object-fit: contain;
         }
         .chat-message .file-attachment {
             background: rgba(0,0,0,0.05);
@@ -984,6 +968,53 @@
             margin: 0.2rem 0;
             display: block;
         }
+
+        .chat-thread-header {
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid #eef2f6;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: white;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+        [data-theme="dark"] .chat-thread-header {
+            background: #1a2436;
+            border-bottom-color: #263447;
+        }
+
+        .chat-thread-header img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .chat-thread-header .name { font-weight: 600; font-size: 0.95rem; }
+        .chat-thread-header .status { font-size: 0.7rem; color: #16a34a; }
+        .chat-thread-header .call-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+        .chat-thread-header .call-actions button {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .chat-thread-header .call-actions button:hover { background: #e2e8f0; }
+        [data-theme="dark"] .chat-thread-header .call-actions button {
+            background: #263447;
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .chat-thread-header .call-actions button:hover { background: #1e293b; }
 
         /* CHAT DROPDOWN - MENU OPTIONS */
         .chat-thread-dropdown {
@@ -1083,7 +1114,7 @@
             background: rgba(255,255,255,0.05);
         }
 
-        /* EMOJI PICKER */
+        /* EMOJI PICKER - CORRECTION DEBORDEMENT */
         .chat-emoji-picker {
             display: none;
             position: absolute;
@@ -1093,7 +1124,7 @@
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             padding: 0.8rem;
-            width: 300px;
+            width: 320px;
             max-height: 280px;
             overflow-y: auto;
             z-index: 40;
@@ -1105,19 +1136,27 @@
         .chat-emoji-picker .emoji-grid {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            gap: 4px;
+            gap: 2px;
         }
         .chat-emoji-picker .emoji-grid button {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             padding: 4px 0;
-            border-radius: 8px;
+            border-radius: 6px;
             background: transparent;
             border: none;
             cursor: pointer;
             transition: 0.15s;
+            text-align: center;
         }
         .chat-emoji-picker .emoji-grid button:hover {
             background: rgba(0,0,0,0.06);
+            transform: scale(1.1);
+        }
+        .chat-emoji-picker .emoji-grid button .heart-emoji-picker {
+            display: inline-block;
+            color: #e74c3c;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            font-size: 1.2rem;
         }
         [data-theme="dark"] .chat-emoji-picker {
             background: #1a2436;
@@ -1316,6 +1355,53 @@
         [data-theme="dark"] .bg-preset-swatch span {
             color: #e2e8f0;
         }
+
+        /* Contrôle de luminosité pour le fond */
+        .bg-brightness-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            margin-top: 0.5rem;
+        }
+        .bg-brightness-control label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-primary, #1a2a3a);
+            min-width: 80px;
+        }
+        .bg-brightness-control input[type="range"] {
+            flex: 1;
+            accent-color: #3b82f6;
+            height: 4px;
+            border-radius: 2px;
+            background: #e2e8f0;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .bg-brightness-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+        .bg-brightness-control .brightness-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a2a3a);
+            min-width: 40px;
+            text-align: center;
+        }
+        [data-theme="dark"] .bg-brightness-control label {
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .bg-brightness-control input[type="range"] {
+            background: #334155;
+        }
+
         .btn-upload-bg {
             display: flex;
             align-items: center;
@@ -1355,6 +1441,7 @@
             background: white;
             flex-shrink: 0;
             position: relative;
+            z-index: 2;
         }
         [data-theme="dark"] .chat-compose {
             background: #1a2436;
@@ -1639,6 +1726,21 @@
         .call-notification .actions .btn-reject:hover { background: #dc2626; }
 
         /* =========================================================
+           MODAL COMMANDE
+           ========================================================= */
+        .modal-order-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-order-overlay.open { display: flex; }
+
+        /* =========================================================
            RESPONSIVE
            ========================================================= */
         @media (max-width: 900px) {
@@ -1660,7 +1762,7 @@
             .call-videos #localVideo { width: 100px; height: 75px; }
             .chat-thread-dropdown { top: 55px; right: 5px; min-width: 180px; }
             .chat-attach-menu { bottom: 65px; left: 5px; min-width: 170px; }
-            .chat-emoji-picker { left: 5px; width: 260px; }
+            .chat-emoji-picker { left: 5px; width: 280px; }
             .chat-modal { padding: 1.2rem; margin: 10px; }
             .bg-presets-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
         }
@@ -1680,9 +1782,8 @@
             #dynamicAttributesContainer { padding: 0.8rem; }
             .chat-thread { height: 400px; }
             .chat-message { max-width: 90%; }
-            .chat-message .media-preview { max-height: 200px; }
-            .chat-message .media-preview img { max-height: 200px; }
-            .chat-message .media-preview.video-preview video { max-height: 200px; }
+            .chat-emoji-picker { width: 260px; max-height: 200px; left: 0; }
+            .chat-emoji-picker .emoji-grid { grid-template-columns: repeat(7, 1fr); }
             .call-avatar { width: 80px; height: 80px; }
             .call-name { font-size: 1.3rem; }
             .call-controls button { width: 48px; height: 48px; font-size: 1.2rem; }
@@ -1696,9 +1797,8 @@
             aside { padding: 1rem; }
             .store-branding { aspect-ratio: 16/8; min-height: 50px; }
             .chat-message { max-width: 95%; font-size: 0.82rem; padding: 0.4rem 0.6rem; }
-            .chat-message .media-preview { max-height: 160px; }
-            .chat-message .media-preview img { max-height: 160px; }
-            .chat-message .media-preview.video-preview video { max-height: 160px; }
+            .chat-emoji-picker { width: 220px; left: 0; }
+            .chat-emoji-picker .emoji-grid { grid-template-columns: repeat(6, 1fr); }
         }
     </style>
 </head>
@@ -1760,7 +1860,7 @@
     <div id="notification"></div>
 
     <!-- DETAIL COMMANDE -->
-    <div class="modal-order-overlay" id="modalOrderOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+    <div class="modal-order-overlay" id="modalOrderOverlay">
         <div style="background:white;border-radius:24px;padding:1.5rem;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;">
             <h3 style="margin-bottom:0.5rem;">📋 Commande <span id="orderModalNumber">—</span></h3>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
@@ -1833,7 +1933,7 @@
         <main>
 
             <!-- ACCUEIL -->
-            <section id="accueil" class="card" style="display:none;">
+            <section id="accueil" class="card">
                 <h2>📊 <span data-translate="section.dashboard">Tableau de bord</span></h2>
                 <p data-translate="seller.dashboardWelcome">Bienvenue dans votre espace vendeur SINE.SHOP.</p>
                 <div class="stats-grid">
@@ -2161,7 +2261,13 @@
                             <button id="menuDeleteConv"><i class="fa-solid fa-trash-can"></i> Supprimer la discussion</button>
                             <button id="menuBlock" class="danger"><i class="fa-solid fa-ban"></i> Bloquer</button>
                         </div>
-                        <div class="chat-messages" id="chatMessages"></div>
+
+                        <!-- Zone des messages avec fond fixe -->
+                        <div class="chat-messages-wrapper">
+                            <div class="chat-bg-image" id="chatBgImage"></div>
+                            <div class="chat-messages" id="chatMessages"></div>
+                        </div>
+
                         <div class="chat-typing" id="chatTyping" style="display:none;"></div>
                         <div class="chat-recording-indicator" id="chatRecordingIndicator">
                             <span class="dot"></span> Enregistrement en cours...
@@ -2186,7 +2292,9 @@
                             <input type="file" id="chatFileVideo" accept="video/*" style="display:none;">
                             <input type="file" id="chatFileDoc" style="display:none;">
                             <button id="btnEmoji" title="Emoji">😊</button>
-                            <div class="chat-emoji-picker" id="chatEmojiPicker"></div>
+                            <div class="chat-emoji-picker" id="chatEmojiPicker">
+                                <div class="emoji-grid" id="emojiGrid"></div>
+                            </div>
                             <textarea id="chatInput" rows="1" placeholder="Écrire un message..."></textarea>
                             <button id="btnRecordVoice" title="Message vocal"><i class="fa-solid fa-microphone"></i></button>
                             <button class="btn-send" id="btnSendMessage"><i class="fa-solid fa-paper-plane"></i></button>
@@ -2291,14 +2399,26 @@
             <!-- CHANGER LE FOND DE LA DISCUSSION -->
             <div id="bgConvModal" class="chat-modal-overlay">
                 <div class="chat-modal">
-                    <h3 style="margin-bottom:1rem;">🖼️ Fond de la discussion</h3>
+                    <h3 style="margin-bottom:0.5rem;">🖼️ Fond de la discussion</h3>
+                    <p style="font-size:0.78rem;color:#94a3b8;margin-bottom:1rem;">Choisissez un fond ou importez votre propre image. Le fond reste fixe lors du défilement.</p>
                     <div class="bg-presets-grid">
                         <button class="bg-preset-swatch" data-bg="default" style="background:#eef4fb;"><span>Défaut</span></button>
                         <button class="bg-preset-swatch" data-bg="ocean" style="background:linear-gradient(160deg,#dceefc,#eef8ff);"><span>Océan</span></button>
                         <button class="bg-preset-swatch" data-bg="sunset" style="background:linear-gradient(160deg,#ffe4d6,#fff1ec);"><span>Coucher de soleil</span></button>
                         <button class="bg-preset-swatch" data-bg="mint" style="background:linear-gradient(160deg,#d9f7e8,#eefdf5);"><span>Menthe</span></button>
                         <button class="bg-preset-swatch" data-bg="night" style="background:linear-gradient(160deg,#0a1626,#10243b);color:white;"><span>Nuit</span></button>
+                        <button class="bg-preset-swatch" data-bg="wood" style="background:linear-gradient(160deg,#d4a373,#e9c9a9);"><span>Bois</span></button>
+                        <button class="bg-preset-swatch" data-bg="lilac" style="background:linear-gradient(160deg,#e8d5f5,#f5e8ff);"><span>Lilas</span></button>
+                        <button class="bg-preset-swatch" data-bg="rose" style="background:linear-gradient(160deg,#fce4ec,#fff0f3);"><span>Rose</span></button>
                     </div>
+
+                    <!-- Contrôle de luminosité -->
+                    <div class="bg-brightness-control">
+                        <label>☀️ Luminosité</label>
+                        <input type="range" id="bgBrightnessSlider" min="5" max="30" value="8">
+                        <span class="brightness-value" id="bgBrightnessValue">8%</span>
+                    </div>
+
                     <button class="btn-upload-bg" id="btnUploadCustomBg"><i class="fa-solid fa-camera"></i> Choisir une photo depuis mon téléphone</button>
                     <input type="file" id="chatBgFileInput" accept="image/*" style="display:none;">
                     <button class="chat-modal-close" onclick="document.getElementById('bgConvModal').classList.remove('open');">Fermer</button>
@@ -2575,34 +2695,50 @@
                 <div id="faqAccordion" style="display:flex;flex-direction:column;gap:0.5rem;">
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
                         <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Comment publier un nouveau produit ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            <span>📦 Comment publier un nouveau produit ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Depuis la section "Publier", renseignez le nom, la catégorie, le prix et les photos/vidéos de votre article, puis validez.</p>
+                            <p style="padding:0.8rem 0;">Depuis la section "Publier", renseignez le nom, la catégorie, le prix et les photos/vidéos de votre article, puis validez. Vous pouvez également sauvegarder un brouillon pour le publier plus tard.</p>
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
                         <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Quelle commission SINE.SHOP prélève-t-elle ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            <span>💰 Quelle commission SINE.SHOP prélève-t-elle ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Une commission de 5% est prélevée sur chaque vente, déjà déduite automatiquement de votre solde disponible.</p>
+                            <p style="padding:0.8rem 0;">Une commission de 5% est prélevée sur chaque vente, déjà déduite automatiquement de votre solde disponible. Vous retrouvez le détail dans la section "Paiements".</p>
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
                         <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Comment retirer mon argent ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            <span>🏦 Comment retirer mon argent ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Depuis "Retraits", indiquez le montant et votre moyen de paiement — un administrateur traite votre demande sous quelques jours.</p>
+                            <p style="padding:0.8rem 0;">Depuis la section "Paiements", indiquez le montant souhaité et votre numéro Wave. L'équipe SINE.SHOP traite votre demande sous 24 à 72 heures ouvrées.</p>
                         </div>
                     </div>
                     <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
                         <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
-                            <span>Comment contacter le service vendeur ?</span> <i class="fa-solid fa-chevron-down"></i>
+                            <span>🆘 Comment contacter le service vendeur ?</span> <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Par email à <a href="mailto:servicevendeur@sineshophome.com">servicevendeur@sineshophome.com</a>, ou via le formulaire de contact ci-dessous.</p>
+                            <p style="padding:0.8rem 0;">Par email à <a href="mailto:servicevendeur@sineshophome.com">servicevendeur@sineshophome.com</a>, ou via le formulaire de contact ci-dessous. Vous pouvez aussi nous joindre par WhatsApp au +225 05 46 24 83 19.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                            <span>✅ Comment obtenir le badge "Vérifié" ?</span> <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
+                            <p style="padding:0.8rem 0;">Rendez-vous dans la section "Vérification" et soumettez les documents demandés (pièce d'identité, selfie). Notre équipe examine votre dossier sous 48h.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
+                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;">
+                            <span>🛒 Comment gérer une commande ?</span> <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
+                            <p style="padding:0.8rem 0;">Dans la section "Commandes", vous pouvez visualiser chaque commande, modifier son statut (confirmée, expédiée, livrée) et contacter le client via la messagerie.</p>
                         </div>
                     </div>
                 </div>
@@ -2767,6 +2903,40 @@
     <!-- SCRIPTS -->
     <!-- ========================================================= -->
     <script>
+        // =========================================================
+        // TOUS LES EMOJIS (inclus ♡)
+        // =========================================================
+        const ALL_EMOJIS = [
+            '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎',
+            '😍', '🥰', '😘', '😗', '😙', '😚', '😳', '😁', '😬', '😓', '😔', '😞',
+            '😟', '😤', '😢', '😭', '😦', '😧', '😨', '😩', '😰', '😥', '😪', '😫',
+            '😱', '😲', '😵', '😡', '😠', '🤬', '😷', '🤒', '🤕', '🤢', '🤮', '🤧',
+            '🥶', '🥵', '🤠', '🤡', '🤥', '🤫', '🤭', '🧐', '🤓', '😈', '👿', '👹',
+            '💀', '☠️', '👻', '👽', '🤖', '🎃', '😺', '😸', '😻', '🙀', '😽', '😼',
+            '🙈', '🙉', '🙊', '🐵', '🐒', '🐶', '🐕', '🐩', '🐺', '🦊', '🐱', '🐈',
+            '🦁', '🐯', '🐅', '🐆', '🐴', '🐎', '🦄', '🦓', '🦌', '🐮', '🐂', '🐃',
+            '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙', '🦒',
+            '🐘', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿️', '🦔', '🦇',
+            '🐻', '🐨', '🐼', '🦘', '🦡', '🐾', '🦃', '🐔', '🐓', '🐣', '🐤', '🐥',
+            '🐦', '🐧', '🕊️', '🦅', '🦆', '🦢', '🦉', '🦩', '🦚', '🦜', '🐸', '🐊',
+            '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🐟', '🐠',
+            '🐡', '🦈', '🐙', '🐚', '🐌', '🦋', '🐛', '🐜', '🐝', '🐞', '🦗', '🦟',
+            '🪲', '🪳', '🪴', '🌵', '🎄', '🌲', '🌳', '🌴', '🌱', '🌿', '☘️', '🍀',
+            '🎍', '🎋', '🍃', '🍂', '🍁', '🍄', '🌾', '💐', '🌸', '🌷', '🌹', '🥀',
+            '🌺', '🌻', '🌼', '🌽', '🌶️', '🥑', '🍆', '🍅', '🥝', '🍌', '🍍', '🥭',
+            '🍎', '🍏', '🍐', '🍊', '🍋', '🍒', '🍇', '🍉', '🍓', '🍈', '🍑', '🍒',
+            '🍑', '🍒', '🫐', '🥥', '🥦', '🧅', '🧄', '🍄', '🥜', '🌰', '🍞', '🥐',
+            '🥖', '🥨', '🥯', '🥞', '🧇', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟',
+            '🍕', '🌭', '🥪', '🌮', '🌯', '🫔', '🥙', '🧆', '🥚', '🍳', '🥘', '🍲',
+            '🫕', '🥣', '🥗', '🍿', '🧈', '🧂', '🥫', '🍱', '🍘', '🍙', '🍚', '🍛',
+            '🍜', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🥮', '🍡', '🥟', '🥠', '🥡',
+            '🦐', '🦞', '🦀', '🦑', '🐚', '🍦', '🍧', '🍨', '🍩', '🍪', '🎂', '🧁',
+            '🍰', '🍫', '🍬', '🍭', '🍮', '🍯', '🍼', '🥛', '☕', '🫖', '🍵', '🍶',
+            '🍾', '🍷', '🍸', '🍹', '🍺', '🍻', '🥂', '🥃', '🥤', '🧃', '🧉', '🧊',
+            '❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❤️‍🔥', '❤️‍🩹',
+            '♡' // Le cœur SINE.SHOP
+        ];
+
         // =========================================================
         // TRADUCTIONS POUR LA SECTION PARAMÈTRES
         // =========================================================
@@ -3603,38 +3773,6 @@
         });
 
         // =========================================================
-        // TOUS LES EMOJIS
-        // =========================================================
-        const ALL_EMOJIS = [
-            '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎',
-            '😍', '🥰', '😘', '😗', '😙', '😚', '😳', '😁', '😬', '😓', '😔', '😞',
-            '😟', '😤', '😢', '😭', '😦', '😧', '😨', '😩', '😰', '😥', '😪', '😫',
-            '😱', '😲', '😵', '😡', '😠', '🤬', '😷', '🤒', '🤕', '🤢', '🤮', '🤧',
-            '🥶', '🥵', '🤠', '🤡', '🤥', '🤫', '🤭', '🧐', '🤓', '😈', '👿', '👹',
-            '💀', '☠️', '👻', '👽', '🤖', '🎃', '😺', '😸', '😻', '🙀', '😽', '😼',
-            '🙈', '🙉', '🙊', '🐵', '🐒', '🐶', '🐕', '🐩', '🐺', '🦊', '🐱', '🐈',
-            '🦁', '🐯', '🐅', '🐆', '🐴', '🐎', '🦄', '🦓', '🦌', '🐮', '🐂', '🐃',
-            '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙', '🦒',
-            '🐘', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿️', '🦔', '🦇',
-            '🐻', '🐨', '🐼', '🦘', '🦡', '🐾', '🦃', '🐔', '🐓', '🐣', '🐤', '🐥',
-            '🐦', '🐧', '🕊️', '🦅', '🦆', '🦢', '🦉', '🦩', '🦚', '🦜', '🐸', '🐊',
-            '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🐟', '🐠',
-            '🐡', '🦈', '🐙', '🐚', '🐌', '🦋', '🐛', '🐜', '🐝', '🐞', '🦗', '🦟',
-            '🪲', '🪳', '🪴', '🌵', '🎄', '🌲', '🌳', '🌴', '🌱', '🌿', '☘️', '🍀',
-            '🎍', '🎋', '🍃', '🍂', '🍁', '🍄', '🌾', '💐', '🌸', '🌷', '🌹', '🥀',
-            '🌺', '🌻', '🌼', '🌽', '🌶️', '🥑', '🍆', '🍅', '🥝', '🍌', '🍍', '🥭',
-            '🍎', '🍏', '🍐', '🍊', '🍋', '🍒', '🍇', '🍉', '🍓', '🍈', '🍑', '🍒',
-            '🍑', '🍒', '🫐', '🥥', '🥦', '🧅', '🧄', '🍄', '🥜', '🌰', '🍞', '🥐',
-            '🥖', '🥨', '🥯', '🥞', '🧇', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟',
-            '🍕', '🌭', '🥪', '🌮', '🌯', '🫔', '🥙', '🧆', '🥚', '🍳', '🥘', '🍲',
-            '🫕', '🥣', '🥗', '🍿', '🧈', '🧂', '🥫', '🍱', '🍘', '🍙', '🍚', '🍛',
-            '🍜', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🥮', '🍡', '🥟', '🥠', '🥡',
-            '🦐', '🦞', '🦀', '🦑', '🐚', '🍦', '🍧', '🍨', '🍩', '🍪', '🎂', '🧁',
-            '🍰', '🍫', '🍬', '🍭', '🍮', '🍯', '🍼', '🥛', '☕', '🫖', '🍵', '🍶',
-            '🍾', '🍷', '🍸', '🍹', '🍺', '🍻', '🥂', '🥃', '🥤', '🧃', '🧉', '🧊'
-        ];
-
-        // =========================================================
         // NOTIFICATION
         // =========================================================
         function showNotification(message, type) {
@@ -4162,11 +4300,11 @@
                     </div>
                 `).join('') || '<p style="color:#94a3b8;font-size:0.85rem;">Aucun article détaillé.</p>';
 
-            document.getElementById('modalOrderOverlay').style.display = 'flex';
+            document.getElementById('modalOrderOverlay').classList.add('open');
         };
 
         document.getElementById('btnFermerModalOrder').addEventListener('click', function() {
-            document.getElementById('modalOrderOverlay').style.display = 'none';
+            document.getElementById('modalOrderOverlay').classList.remove('open');
         });
 
         window.confirmReservation = async function(id) {
@@ -5010,6 +5148,7 @@
                     preferredLanguage: lang,
                 });
                 applyLanguage(lang);
+                applyTranslations(lang);
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('sineTheme', theme);
                 updateUI();
@@ -5296,7 +5435,7 @@
         }
 
         // =========================================================
-        // CHAT MESSAGING
+        // CHAT MESSAGING - AFFICHAGE AVEC COEUR ANIME
         // =========================================================
         function displayChatMessage(message, isOwn) {
             const container = document.getElementById('chatMessages');
@@ -5308,17 +5447,21 @@
             let contentHtml = '';
 
             if (message.text) {
-                contentHtml += `<div>${message.text}</div>`;
+                // Remplacer le cœur simple par le cœur animé SINE.SHOP
+                let textContent = message.text;
+                // Remplacer ♡ par le cœur animé
+                textContent = textContent.replace(/♡/g, '<span class="heart-emoji">♡</span>');
+                // Remplacer ❤️ par le cœur animé
+                textContent = textContent.replace(/❤️/g, '<span class="heart-emoji">♡</span>');
+                contentHtml += `<div>${textContent}</div>`;
             }
 
             if (message.media && message.media.url) {
                 const isImage = message.media.url.match(/\.(jpeg|jpg|gif|png|webp)$/i);
                 if (isImage) {
-                    contentHtml += `<img src="${message.media.url}" class="media-preview" onclick="window.open('${message.media.url}','_blank')">`;
+                    contentHtml += `<div class="media-wrapper"><img src="${message.media.url}" onclick="window.open('${message.media.url}','_blank')"></div>`;
                 } else {
-                    contentHtml += `<div class="media-preview video-preview">
-                        <video src="${message.media.url}" controls style="width:100%;border-radius:12px;"></video>
-                    </div>`;
+                    contentHtml += `<div class="media-wrapper video-wrapper"><video src="${message.media.url}" controls></video></div>`;
                 }
             }
 
@@ -5360,6 +5503,71 @@
             msgDiv.innerHTML = contentHtml;
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
+        }
+
+        // =========================================================
+        // EMOJI PICKER - CONSTRUCTION
+        // =========================================================
+        function buildEmojiPicker() {
+            const grid = document.getElementById('emojiGrid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            ALL_EMOJIS.forEach(emoji => {
+                const btn = document.createElement('button');
+                if (emoji === '♡') {
+                    btn.innerHTML = '<span class="heart-emoji-picker">♡</span>';
+                } else {
+                    btn.textContent = emoji;
+                }
+                btn.dataset.emoji = emoji;
+                btn.addEventListener('click', function() {
+                    const input = document.getElementById('chatInput');
+                    if (input) {
+                        const emojiChar = this.dataset.emoji;
+                        const cursorPos = input.selectionStart;
+                        const text = input.value;
+                        input.value = text.substring(0, cursorPos) + emojiChar + text.substring(cursorPos);
+                        input.focus();
+                        input.selectionStart = input.selectionEnd = cursorPos + emojiChar.length;
+                        input.dispatchEvent(new Event('input'));
+                    }
+                    document.getElementById('chatEmojiPicker').classList.remove('open');
+                });
+                grid.appendChild(btn);
+            });
+        }
+
+        // =========================================================
+        // CHAT BACKGROUND - GESTION
+        // =========================================================
+        let chatBgImage = document.getElementById('chatBgImage');
+        let chatBgBrightness = 8;
+
+        function applyChatBg(url, brightness) {
+            if (!chatBgImage) return;
+            if (!url || url === 'default') {
+                chatBgImage.style.backgroundImage = '';
+                chatBgImage.className = 'chat-bg-image';
+                return;
+            }
+            chatBgImage.style.backgroundImage = `url(${url})`;
+            chatBgImage.className = 'chat-bg-image';
+            if (brightness !== undefined) {
+                chatBgBrightness = brightness;
+                const opacity = brightness / 100;
+                chatBgImage.style.opacity = opacity;
+            }
+        }
+
+        function setChatBgBrightness(value) {
+            chatBgBrightness = value;
+            if (chatBgImage) {
+                const opacity = value / 100;
+                chatBgImage.style.opacity = opacity;
+            }
+            document.getElementById('bgBrightnessValue').textContent = value + '%';
+            localStorage.setItem('chatBgBrightness', value);
         }
 
         // =========================================================
@@ -5686,12 +5894,130 @@
 
             if (currentUser.preferredLanguage) {
                 applyLanguage(currentUser.preferredLanguage);
+                applyTranslations(currentUser.preferredLanguage);
             }
             if (currentUser.preferredCurrency) {
                 applyCurrency(currentUser.preferredCurrency);
             }
 
             window.SineSocket.connect();
+
+            // Construire le sélecteur d'émojis
+            buildEmojiPicker();
+
+            // Restaurer le fond de discussion
+            const savedBg = localStorage.getItem('chatBgUrl') || '';
+            const savedBrightness = parseInt(localStorage.getItem('chatBgBrightness')) || 8;
+            if (savedBg) {
+                applyChatBg(savedBg, savedBrightness);
+            }
+            document.getElementById('bgBrightnessSlider').value = savedBrightness;
+            document.getElementById('bgBrightnessValue').textContent = savedBrightness + '%';
+
+            // Gestion du fond de discussion
+            document.querySelectorAll('.bg-preset-swatch').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const bgKey = this.dataset.bg;
+                    const bgUrls = {
+                        default: '',
+                        ocean: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23dceefc"/%3E%3Ccircle cx="100" cy="200" r="60" fill="%23b5d9f5" opacity="0.3"/%3E%3Ccircle cx="300" cy="150" r="80" fill="%23a8d0e8" opacity="0.2"/%3E%3Ccircle cx="200" cy="300" r="100" fill="%2390c0d8" opacity="0.15"/%3E%3C/svg%3E',
+                        sunset: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23ffe4d6"/%3E%3Ccircle cx="200" cy="300" r="150" fill="%23ffb088" opacity="0.2"/%3E%3Ccircle cx="100" cy="200" r="80" fill="%23ffd4b0" opacity="0.25"/%3E%3Ccircle cx="300" cy="250" r="100" fill="%23ffc8a0" opacity="0.15"/%3E%3C/svg%3E',
+                        mint: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23d9f7e8"/%3E%3Ccircle cx="150" cy="150" r="80" fill="%23b5ebd0" opacity="0.25"/%3E%3Ccircle cx="300" cy="250" r="100" fill="%2398dbb8" opacity="0.15"/%3E%3C/svg%3E',
+                        night: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%230a1626"/%3E%3Ccircle cx="80" cy="80" r="20" fill="%23ffffff" opacity="0.3"/%3E%3Ccircle cx="200" cy="50" r="15" fill="%23ffffff" opacity="0.2"/%3E%3Ccircle cx="320" cy="100" r="25" fill="%23ffffff" opacity="0.15"/%3E%3Ccircle cx="50" cy="250" r="12" fill="%23ffffff" opacity="0.1"/%3E%3Ccircle cx="350" cy="300" r="18" fill="%23ffffff" opacity="0.08"/%3E%3C/svg%3E',
+                        wood: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23d4a373"/%3E%3Crect x="0" y="20" width="400" height="2" fill="%23c4956a" opacity="0.3"/%3E%3Crect x="0" y="50" width="400" height="1.5" fill="%23c4956a" opacity="0.2"/%3E%3Crect x="0" y="80" width="400" height="2" fill="%23c4956a" opacity="0.25"/%3E%3Crect x="0" y="120" width="400" height="1" fill="%23c4956a" opacity="0.15"/%3E%3Crect x="0" y="160" width="400" height="2" fill="%23c4956a" opacity="0.2"/%3E%3C/svg%3E',
+                        lilac: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23e8d5f5"/%3E%3Ccircle cx="120" cy="180" r="90" fill="%23d4b8e8" opacity="0.2"/%3E%3Ccircle cx="280" cy="220" r="70" fill="%23c8a8e0" opacity="0.15"/%3E%3C/svg%3E',
+                        rose: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23fce4ec"/%3E%3Ccircle cx="180" cy="180" r="100" fill="%23f8c8d0" opacity="0.15"/%3E%3Ccircle cx="280" cy="260" r="70" fill="%23f5b8c4" opacity="0.1"/%3E%3C/svg%3E'
+                    };
+                    const url = bgUrls[bgKey] || '';
+                    applyChatBg(url, chatBgBrightness);
+                    localStorage.setItem('chatBgUrl', url);
+                    document.querySelectorAll('.bg-preset-swatch').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('bgConvModal').classList.remove('open');
+                });
+            });
+
+            // Contrôle de luminosité
+            document.getElementById('bgBrightnessSlider').addEventListener('input', function() {
+                const val = parseInt(this.value);
+                setChatBgBrightness(val);
+                const url = localStorage.getItem('chatBgUrl') || '';
+                if (url) {
+                    applyChatBg(url, val);
+                }
+            });
+
+            // Upload fond personnalisé
+            document.getElementById('btnUploadCustomBg').addEventListener('click', function() {
+                document.getElementById('chatBgFileInput').click();
+            });
+            document.getElementById('chatBgFileInput').addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const res = await window.SineAPI.uploadFile(file, 'chat-backgrounds');
+                    applyChatBg(res.url, chatBgBrightness);
+                    localStorage.setItem('chatBgUrl', res.url);
+                    document.getElementById('bgConvModal').classList.remove('open');
+                    showNotification('✅ Fond personnalisé ajouté', 'success');
+                } catch (err) {
+                    showNotification(err.message || 'Erreur lors de l\'upload du fond.', 'error');
+                }
+            });
+
+            // Gestion des menus déroulants du chat
+            document.getElementById('btnThreadMenu').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('chatThreadDropdown').classList.toggle('open');
+            });
+
+            document.getElementById('btnAttach').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('chatAttachMenu').classList.toggle('open');
+            });
+
+            document.getElementById('btnEmoji').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('chatEmojiPicker').classList.toggle('open');
+                document.getElementById('chatAttachMenu').classList.remove('open');
+            });
+
+            // Fermer les menus en cliquant ailleurs
+            document.addEventListener('click', function() {
+                document.getElementById('chatThreadDropdown').classList.remove('open');
+                document.getElementById('chatAttachMenu').classList.remove('open');
+                document.getElementById('chatEmojiPicker').classList.remove('open');
+            });
+
+            // Actions du menu de discussion
+            document.getElementById('menuAbout').addEventListener('click', function() {
+                document.getElementById('chatThreadDropdown').classList.remove('open');
+                document.getElementById('aboutConvModal').classList.add('open');
+            });
+
+            document.getElementById('menuChangeBg').addEventListener('click', function() {
+                document.getElementById('chatThreadDropdown').classList.remove('open');
+                document.getElementById('bgConvModal').classList.add('open');
+            });
+
+            document.getElementById('menuArchive').addEventListener('click', function() {
+                document.getElementById('chatThreadDropdown').classList.remove('open');
+                showNotification('📦 Conversation archivée', 'info');
+            });
+
+            document.getElementById('menuDeleteConv').addEventListener('click', function() {
+                document.getElementById('chatThreadDropdown').classList.remove('open');
+                if (confirm('Supprimer définitivement cette conversation ?')) {
+                    showNotification('🗑️ Conversation supprimée', 'warning');
+                }
+            });
+
+            document.getElementById('menuBlock').addEventListener('click', function() {
+                document.getElementById('chatThreadDropdown').classList.remove('open');
+                if (confirm('Bloquer cet utilisateur ?')) {
+                    showNotification('🚫 Utilisateur bloqué', 'error');
+                }
+            });
 
             window.sineChat = window.initSineChat({
                 getCurrentUser: () => currentUser,
@@ -5701,6 +6027,86 @@
                 getMyProducts: () => allProducts,
                 onUnreadCountChange: (count) => { document.getElementById('messagesBadge').textContent = count; },
                 displayMessage: displayChatMessage
+            });
+
+            // Enregistrement vocal
+            let mediaRecorder = null;
+            let audioChunks = [];
+            let isRecording = false;
+
+            document.getElementById('btnRecordVoice').addEventListener('click', function() {
+                if (isRecording) {
+                    stopRecording();
+                    return;
+                }
+                startRecording();
+            });
+
+            document.getElementById('btnStopRecording').addEventListener('click', function() {
+                stopRecording();
+            });
+
+            document.getElementById('btnCancelRecording').addEventListener('click', function() {
+                if (mediaRecorder && isRecording) {
+                    mediaRecorder.stop();
+                    mediaRecorder = null;
+                    audioChunks = [];
+                    isRecording = false;
+                    document.getElementById('chatRecordingIndicator').classList.remove('active');
+                    showNotification('⏹️ Enregistrement annulé', 'warning');
+                }
+            });
+
+            function startRecording() {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        mediaRecorder = new MediaRecorder(stream);
+                        audioChunks = [];
+                        isRecording = true;
+                        document.getElementById('chatRecordingIndicator').classList.add('active');
+                        showNotification('🎙️ Enregistrement en cours...', 'info');
+
+                        mediaRecorder.ondataavailable = event => {
+                            audioChunks.push(event.data);
+                        };
+
+                        mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                            if (audioBlob.size > 0) {
+                                const reader = new FileReader();
+                                reader.onload = function() {
+                                    // Envoyer le message vocal
+                                    if (window.sineChat) {
+                                        window.sineChat.sendVoiceMessage(audioBlob);
+                                    }
+                                    showNotification('✅ Message vocal envoyé', 'success');
+                                };
+                                reader.readAsDataURL(audioBlob);
+                            }
+                            document.getElementById('chatRecordingIndicator').classList.remove('active');
+                            isRecording = false;
+                            stream.getTracks().forEach(t => t.stop());
+                        };
+
+                        mediaRecorder.start();
+                    })
+                    .catch(err => {
+                        showNotification('❌ Impossible d\'accéder au microphone.', 'error');
+                    });
+            }
+
+            function stopRecording() {
+                if (mediaRecorder && isRecording) {
+                    mediaRecorder.stop();
+                }
+            }
+
+            // Barre d'édition
+            document.getElementById('btnCancelEdit').addEventListener('click', function() {
+                document.getElementById('chatEditBar').classList.remove('active');
+                if (window.sineChat) {
+                    window.sineChat.cancelEditMessage();
+                }
             });
 
             setInterval(() => { if (!document.hidden) loadData(); }, 30000);
@@ -5725,6 +6131,9 @@
                     localStorage.setItem(key, '1');
                 } catch (e) { /* silencieux */ }
             })();
+
+            // Appliquer les traductions pour la section paramètres
+            applyTranslations(document.getElementById('langueSeller').value || 'fr');
 
             console.log('✅ Espace vendeur SINE.SHOP chargé');
         }
@@ -6005,415 +6414,9 @@
             // Appliquer les traductions initiales
             applyTranslations(document.getElementById('langueSeller').value || 'fr');
         });
-        // =========================================================
-// CORRECTION - AJOUTER CE CODE À LA FIN DU SCRIPT
-// =========================================================
 
-// =========================================================
-// FIX : Réinitialiser tous les événements après chargement
-// =========================================================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🔧 Re-attachement des événements...');
-
-    // =========================================================
-    // 1. FIX NAVIGATION - Réattacher tous les liens du menu
-    // =========================================================
-    document.querySelectorAll('.menu-link').forEach(link => {
-        // Supprimer les anciens écouteurs en clonant
-        const newLink = link.cloneNode(true);
-        link.parentNode.replaceChild(newLink, link);
-        
-        newLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const section = this.dataset.section;
-            console.log('📂 Navigation vers:', section);
-            if (section) {
-                navigateTo(section);
-            }
-        });
-    });
-
-    // =========================================================
-    // 2. FIX BOUTON "Publier" sur la page d'accueil
-    // =========================================================
-    document.querySelectorAll('[onclick="navigateTo(\'publier\')"]').forEach(btn => {
-        btn.removeAttribute('onclick');
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('📦 Bouton Publier cliqué');
-            navigateTo('publier');
-        });
-    });
-
-    document.querySelectorAll('[onclick="navigateTo(\'commandes\')"]').forEach(btn => {
-        btn.removeAttribute('onclick');
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('📋 Bouton Commandes cliqué');
-            navigateTo('commandes');
-        });
-    });
-
-    // =========================================================
-    // 3. FIX BOUTON "Voir ma boutique"
-    // =========================================================
-    document.querySelectorAll('[onclick*="vendeur-profil.html"]').forEach(btn => {
-        btn.removeAttribute('onclick');
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const id = currentUser?.id || currentUser?._id || '';
-            window.location.href = '../html/vendeur-profil.html?id=' + id;
-        });
-    });
-
-    // =========================================================
-    // 4. FIX BOUTON "Assistant IA"
-    // =========================================================
-    document.querySelectorAll('.btn-assistant').forEach(btn => {
-        btn.removeAttribute('onclick');
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('../html/assistant-ai.html', '_blank');
-        });
-    });
-
-    // =========================================================
-    // 5. FIX BOUTON D'ACTUALISATION
-    // =========================================================
-    document.querySelectorAll('[onclick="loadData()"]').forEach(btn => {
-        btn.removeAttribute('onclick');
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('🔄 Actualisation demandée');
-            loadData();
-        });
-    });
-
-    // =========================================================
-    // 6. FIX BOUTONS DES PARAMÈTRES
-    // =========================================================
-    // Sauvegarder les paramètres
-    const btnSaveParams = document.getElementById('btnSauvegarderParametres');
-    if (btnSaveParams) {
-        btnSaveParams.removeEventListener('click', btnSaveParams._listener);
-        btnSaveParams._listener = async function() {
-            try {
-                const lang = document.getElementById('langueSeller').value;
-                const theme = document.getElementById('themeSeller').value;
-                
-                if (currentUser) {
-                    currentUser = await window.SineAPI.updateProfile({
-                        preferredLanguage: lang,
-                    });
-                }
-                
-                applyLanguage(lang);
-                applyTranslations(lang);
-                
-                document.documentElement.setAttribute('data-theme', theme);
-                localStorage.setItem('sineTheme', theme);
-                
-                updateUI();
-                showNotification('✅ Paramètres sauvegardés', 'success');
-            } catch (e) {
-                showNotification(e.message || 'Erreur lors de la sauvegarde.', 'error');
-            }
-        };
-        btnSaveParams.addEventListener('click', btnSaveParams._listener);
-    }
-
-    // Modifier le mot de passe
-    const btnPassword = document.getElementById('btnModifierMotPasse');
-    if (btnPassword) {
-        btnPassword.removeEventListener('click', btnPassword._listener);
-        btnPassword._listener = function() {
-            const modal = document.getElementById('passwordModal');
-            if (modal) {
-                document.getElementById('pwStepCurrent').style.display = 'block';
-                document.getElementById('pwStepForgot').style.display = 'none';
-                document.getElementById('pwCurrent').value = '';
-                document.getElementById('pwNew').value = '';
-                document.getElementById('pwConfirm').value = '';
-                modal.style.display = 'flex';
-            }
-        };
-        btnPassword.addEventListener('click', btnPassword._listener);
-    }
-
-    // Modifier l'email
-    const btnEmail = document.getElementById('btnModifierEmail');
-    if (btnEmail) {
-        btnEmail.removeEventListener('click', btnEmail._listener);
-        btnEmail._listener = function() {
-            const modal = document.getElementById('emailModal');
-            if (modal) {
-                document.getElementById('emailStep1').style.display = 'block';
-                document.getElementById('emailStep2').style.display = 'none';
-                document.getElementById('emailCurrent').value = currentUser?.email || '';
-                document.getElementById('emailNew').value = '';
-                modal.style.display = 'flex';
-            }
-        };
-        btnEmail.addEventListener('click', btnEmail._listener);
-    }
-
-    // Déconnecter tous
-    const btnLogoutAll = document.getElementById('btnDeconnecterTous');
-    if (btnLogoutAll) {
-        btnLogoutAll.removeEventListener('click', btnLogoutAll._listener);
-        btnLogoutAll._listener = function() {
-            if (confirm('Déconnecter tous les appareils ?')) {
-                window.SineAPI.logout();
-            }
-        };
-        btnLogoutAll.addEventListener('click', btnLogoutAll._listener);
-    }
-
-    // Déconnexion
-    const btnLogout = document.getElementById('btnLogoutSettings');
-    if (btnLogout) {
-        btnLogout.removeEventListener('click', btnLogout._listener);
-        btnLogout._listener = function() {
-            if (confirm('Se déconnecter ?')) {
-                window.SineAPI.logout();
-            }
-        };
-        btnLogout.addEventListener('click', btnLogout._listener);
-    }
-
-    // =========================================================
-    // 7. FIX BOUTONS DE CONTACT
-    // =========================================================
-    const btnContact = document.getElementById('btnOuvrirContact');
-    if (btnContact) {
-        btnContact.removeEventListener('click', btnContact._listener);
-        btnContact._listener = function() {
-            document.getElementById('contactModal').style.display = 'flex';
-        };
-        btnContact.addEventListener('click', btnContact._listener);
-    }
-
-    const btnAnnulerContact = document.getElementById('btnAnnulerContact');
-    if (btnAnnulerContact) {
-        btnAnnulerContact.removeEventListener('click', btnAnnulerContact._listener);
-        btnAnnulerContact._listener = function() {
-            document.getElementById('contactModal').style.display = 'none';
-        };
-        btnAnnulerContact.addEventListener('click', btnAnnulerContact._listener);
-    }
-
-    const btnEnvoyerContact = document.getElementById('btnEnvoyerContact');
-    if (btnEnvoyerContact) {
-        btnEnvoyerContact.removeEventListener('click', btnEnvoyerContact._listener);
-        btnEnvoyerContact._listener = async function() {
-            const subject = document.getElementById('contactSubject').value.trim();
-            const motif = document.getElementById('contactMotif').value;
-            const message = document.getElementById('contactMessage').value.trim();
-
-            if (!subject || !message) {
-                showNotification('Veuillez remplir l\'objet et le message.', 'warning');
-                return;
-            }
-
-            const btn = this;
-            btn.disabled = true;
-
-            try {
-                const formData = new FormData();
-                formData.append('subject', subject);
-                formData.append('motif', motif);
-                formData.append('message', message);
-                ['contactFile1', 'contactFile2', 'contactFile3'].forEach(id => {
-                    const input = document.getElementById(id);
-                    if (input && input.files[0]) formData.append('attachments', input.files[0]);
-                });
-
-                await window.SineAPI.submitContactForm(formData);
-                showNotification('✅ Message envoyé au service vendeur.', 'success');
-                document.getElementById('contactModal').style.display = 'none';
-                document.getElementById('contactSubject').value = '';
-                document.getElementById('contactMessage').value = '';
-                ['contactFile1', 'contactFile2', 'contactFile3'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.value = '';
-                });
-            } catch (e) {
-                showNotification(e.message || 'Erreur lors de l\'envoi du message.', 'error');
-            } finally {
-                btn.disabled = false;
-            }
-        };
-        btnEnvoyerContact.addEventListener('click', btnEnvoyerContact._listener);
-    }
-
-    // =========================================================
-    // 8. FIX BOUTON "Changer la langue" - paramètres
-    // =========================================================
-    const langueSeller = document.getElementById('langueSeller');
-    if (langueSeller) {
-        langueSeller.removeEventListener('change', langueSeller._listener);
-        langueSeller._listener = function() {
-            applyLanguage(this.value);
-            applyTranslations(this.value);
-            if (currentUser) {
-                window.SineAPI.updateProfile({ preferredLanguage: this.value }).catch(() => {});
-            }
-        };
-        langueSeller.addEventListener('change', langueSeller._listener);
-    }
-
-    // =========================================================
-    // 9. FIX BOUTON "Changer le thème"
-    // =========================================================
-    const themeSeller = document.getElementById('themeSeller');
-    if (themeSeller) {
-        themeSeller.removeEventListener('change', themeSeller._listener);
-        themeSeller._listener = function() {
-            const theme = this.value;
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('sineTheme', theme);
-            const isDark = theme === 'dark';
-            document.querySelectorAll('#dynamicAttributesFields input, #dynamicAttributesFields select').forEach(el => {
-                if (isDark) {
-                    el.style.background = '#0f172a';
-                    el.style.borderColor = '#334155';
-                    el.style.color = '#e2e8f0';
-                } else {
-                    el.style.background = 'white';
-                    el.style.borderColor = '#e2e8f0';
-                    el.style.color = '#1a2a3a';
-                }
-            });
-        };
-        themeSeller.addEventListener('change', themeSeller._listener);
-    }
-
-    // =========================================================
-    // 10. FIX MODAL EMAIL - Annuler & Fermer
-    // =========================================================
-    document.querySelectorAll('#btnAnnulerEmail, #btnAnnulerEmailCode').forEach(btn => {
-        btn.removeEventListener('click', btn._listener);
-        btn._listener = function() {
-            document.getElementById('emailModal').style.display = 'none';
-        };
-        btn.addEventListener('click', btn._listener);
-    });
-
-    document.getElementById('emailModal')?.addEventListener('click', function(e) {
-        if (e.target === this) this.style.display = 'none';
-    });
-
-    // =========================================================
-    // 11. FIX MODAL PASSWORD - Annuler & Fermer
-    // =========================================================
-    document.querySelectorAll('#btnAnnulerPw, #btnAnnulerPwForgot').forEach(btn => {
-        btn.removeEventListener('click', btn._listener);
-        btn._listener = function() {
-            document.getElementById('passwordModal').style.display = 'none';
-        };
-        btn.addEventListener('click', btn._listener);
-    });
-
-    document.getElementById('passwordModal')?.addEventListener('click', function(e) {
-        if (e.target === this) this.style.display = 'none';
-    });
-
-    // =========================================================
-    // 12. FIX MODAL COMMANDE
-    // =========================================================
-    document.getElementById('btnFermerModalOrder')?.addEventListener('click', function() {
-        document.getElementById('modalOrderOverlay').style.display = 'none';
-    });
-
-    document.getElementById('modalOrderOverlay')?.addEventListener('click', function(e) {
-        if (e.target === this) this.style.display = 'none';
-    });
-
-    // =========================================================
-    // 13. FIX MODAL PREVIEW PRODUIT
-    // =========================================================
-    document.querySelector('#previewProductModal [onclick*="previewProductModal"]')?.addEventListener('click', function() {
-        document.getElementById('previewProductModal').style.display = 'none';
-    });
-
-    document.getElementById('previewProductModal')?.addEventListener('click', function(e) {
-        if (e.target === this) this.style.display = 'none';
-    });
-
-    // =========================================================
-    // 14. FIX MODAL NOUVELLE CATEGORIE
-    // =========================================================
-    document.querySelector('#newCategoryModal button:first-child')?.addEventListener('click', function() {
-        document.getElementById('newCategoryModal').style.display = 'none';
-    });
-
-    document.getElementById('newCategoryModal')?.addEventListener('click', function(e) {
-        if (e.target === this) this.style.display = 'none';
-    });
-
-    // =========================================================
-    // 15. FIX APPELS - BOUTONS ACCEPTER/REJETER
-    // =========================================================
-    document.getElementById('notifAcceptCall')?.addEventListener('click', function() {
-        acceptCall();
-    });
-
-    document.getElementById('notifRejectCall')?.addEventListener('click', function() {
-        rejectCall();
-    });
-
-    document.getElementById('btnAcceptCall')?.addEventListener('click', function() {
-        acceptCall();
-    });
-
-    document.getElementById('btnRejectCall')?.addEventListener('click', function() {
-        rejectCall();
-    });
-
-    // =========================================================
-    // 16. FIX FAQ ACCORDION
-    // =========================================================
-    document.querySelectorAll('.faq-question').forEach(function(btn) {
-        btn.removeEventListener('click', btn._listener);
-        btn._listener = function() {
-            const answer = this.nextElementSibling;
-            const icon = this.querySelector('i');
-            const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
-
-            document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '0px');
-            document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
-
-            if (!isOpen) {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-                if (icon) icon.style.transform = 'rotate(180deg)';
-            }
-        };
-        btn.addEventListener('click', btn._listener);
-    });
-
-    // =========================================================
-    // 17. FIX - Initialiser la navigation vers l'accueil
-    // =========================================================
-    setTimeout(function() {
-        // S'assurer que l'accueil est affiché
-        const accueil = document.getElementById('accueil');
-        if (accueil) {
-            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-            accueil.style.display = 'block';
-            document.querySelector('.seller-container')?.classList.add('section-open');
-        }
-        
-        // Activer le lien Accueil
-        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
-        const homeLink = document.querySelector('.menu-link[data-section="accueil"]');
-        if (homeLink) homeLink.classList.add('active');
-        
-        console.log('✅ Tous les événements ont été réattachés');
-    }, 100);
-
-    console.log('✅ Fix des événements appliqué');
-});
+        // Rendre displayChatMessage accessible globalement
+        window.displayChatMessage = displayChatMessage;
     </script>
 
 </body>

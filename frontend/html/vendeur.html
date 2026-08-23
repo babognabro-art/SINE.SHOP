@@ -6005,6 +6005,415 @@
             // Appliquer les traductions initiales
             applyTranslations(document.getElementById('langueSeller').value || 'fr');
         });
+        // =========================================================
+// CORRECTION - AJOUTER CE CODE À LA FIN DU SCRIPT
+// =========================================================
+
+// =========================================================
+// FIX : Réinitialiser tous les événements après chargement
+// =========================================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔧 Re-attachement des événements...');
+
+    // =========================================================
+    // 1. FIX NAVIGATION - Réattacher tous les liens du menu
+    // =========================================================
+    document.querySelectorAll('.menu-link').forEach(link => {
+        // Supprimer les anciens écouteurs en clonant
+        const newLink = link.cloneNode(true);
+        link.parentNode.replaceChild(newLink, link);
+        
+        newLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const section = this.dataset.section;
+            console.log('📂 Navigation vers:', section);
+            if (section) {
+                navigateTo(section);
+            }
+        });
+    });
+
+    // =========================================================
+    // 2. FIX BOUTON "Publier" sur la page d'accueil
+    // =========================================================
+    document.querySelectorAll('[onclick="navigateTo(\'publier\')"]').forEach(btn => {
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('📦 Bouton Publier cliqué');
+            navigateTo('publier');
+        });
+    });
+
+    document.querySelectorAll('[onclick="navigateTo(\'commandes\')"]').forEach(btn => {
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('📋 Bouton Commandes cliqué');
+            navigateTo('commandes');
+        });
+    });
+
+    // =========================================================
+    // 3. FIX BOUTON "Voir ma boutique"
+    // =========================================================
+    document.querySelectorAll('[onclick*="vendeur-profil.html"]').forEach(btn => {
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = currentUser?.id || currentUser?._id || '';
+            window.location.href = '../html/vendeur-profil.html?id=' + id;
+        });
+    });
+
+    // =========================================================
+    // 4. FIX BOUTON "Assistant IA"
+    // =========================================================
+    document.querySelectorAll('.btn-assistant').forEach(btn => {
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('../html/assistant-ai.html', '_blank');
+        });
+    });
+
+    // =========================================================
+    // 5. FIX BOUTON D'ACTUALISATION
+    // =========================================================
+    document.querySelectorAll('[onclick="loadData()"]').forEach(btn => {
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('🔄 Actualisation demandée');
+            loadData();
+        });
+    });
+
+    // =========================================================
+    // 6. FIX BOUTONS DES PARAMÈTRES
+    // =========================================================
+    // Sauvegarder les paramètres
+    const btnSaveParams = document.getElementById('btnSauvegarderParametres');
+    if (btnSaveParams) {
+        btnSaveParams.removeEventListener('click', btnSaveParams._listener);
+        btnSaveParams._listener = async function() {
+            try {
+                const lang = document.getElementById('langueSeller').value;
+                const theme = document.getElementById('themeSeller').value;
+                
+                if (currentUser) {
+                    currentUser = await window.SineAPI.updateProfile({
+                        preferredLanguage: lang,
+                    });
+                }
+                
+                applyLanguage(lang);
+                applyTranslations(lang);
+                
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('sineTheme', theme);
+                
+                updateUI();
+                showNotification('✅ Paramètres sauvegardés', 'success');
+            } catch (e) {
+                showNotification(e.message || 'Erreur lors de la sauvegarde.', 'error');
+            }
+        };
+        btnSaveParams.addEventListener('click', btnSaveParams._listener);
+    }
+
+    // Modifier le mot de passe
+    const btnPassword = document.getElementById('btnModifierMotPasse');
+    if (btnPassword) {
+        btnPassword.removeEventListener('click', btnPassword._listener);
+        btnPassword._listener = function() {
+            const modal = document.getElementById('passwordModal');
+            if (modal) {
+                document.getElementById('pwStepCurrent').style.display = 'block';
+                document.getElementById('pwStepForgot').style.display = 'none';
+                document.getElementById('pwCurrent').value = '';
+                document.getElementById('pwNew').value = '';
+                document.getElementById('pwConfirm').value = '';
+                modal.style.display = 'flex';
+            }
+        };
+        btnPassword.addEventListener('click', btnPassword._listener);
+    }
+
+    // Modifier l'email
+    const btnEmail = document.getElementById('btnModifierEmail');
+    if (btnEmail) {
+        btnEmail.removeEventListener('click', btnEmail._listener);
+        btnEmail._listener = function() {
+            const modal = document.getElementById('emailModal');
+            if (modal) {
+                document.getElementById('emailStep1').style.display = 'block';
+                document.getElementById('emailStep2').style.display = 'none';
+                document.getElementById('emailCurrent').value = currentUser?.email || '';
+                document.getElementById('emailNew').value = '';
+                modal.style.display = 'flex';
+            }
+        };
+        btnEmail.addEventListener('click', btnEmail._listener);
+    }
+
+    // Déconnecter tous
+    const btnLogoutAll = document.getElementById('btnDeconnecterTous');
+    if (btnLogoutAll) {
+        btnLogoutAll.removeEventListener('click', btnLogoutAll._listener);
+        btnLogoutAll._listener = function() {
+            if (confirm('Déconnecter tous les appareils ?')) {
+                window.SineAPI.logout();
+            }
+        };
+        btnLogoutAll.addEventListener('click', btnLogoutAll._listener);
+    }
+
+    // Déconnexion
+    const btnLogout = document.getElementById('btnLogoutSettings');
+    if (btnLogout) {
+        btnLogout.removeEventListener('click', btnLogout._listener);
+        btnLogout._listener = function() {
+            if (confirm('Se déconnecter ?')) {
+                window.SineAPI.logout();
+            }
+        };
+        btnLogout.addEventListener('click', btnLogout._listener);
+    }
+
+    // =========================================================
+    // 7. FIX BOUTONS DE CONTACT
+    // =========================================================
+    const btnContact = document.getElementById('btnOuvrirContact');
+    if (btnContact) {
+        btnContact.removeEventListener('click', btnContact._listener);
+        btnContact._listener = function() {
+            document.getElementById('contactModal').style.display = 'flex';
+        };
+        btnContact.addEventListener('click', btnContact._listener);
+    }
+
+    const btnAnnulerContact = document.getElementById('btnAnnulerContact');
+    if (btnAnnulerContact) {
+        btnAnnulerContact.removeEventListener('click', btnAnnulerContact._listener);
+        btnAnnulerContact._listener = function() {
+            document.getElementById('contactModal').style.display = 'none';
+        };
+        btnAnnulerContact.addEventListener('click', btnAnnulerContact._listener);
+    }
+
+    const btnEnvoyerContact = document.getElementById('btnEnvoyerContact');
+    if (btnEnvoyerContact) {
+        btnEnvoyerContact.removeEventListener('click', btnEnvoyerContact._listener);
+        btnEnvoyerContact._listener = async function() {
+            const subject = document.getElementById('contactSubject').value.trim();
+            const motif = document.getElementById('contactMotif').value;
+            const message = document.getElementById('contactMessage').value.trim();
+
+            if (!subject || !message) {
+                showNotification('Veuillez remplir l\'objet et le message.', 'warning');
+                return;
+            }
+
+            const btn = this;
+            btn.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('subject', subject);
+                formData.append('motif', motif);
+                formData.append('message', message);
+                ['contactFile1', 'contactFile2', 'contactFile3'].forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input && input.files[0]) formData.append('attachments', input.files[0]);
+                });
+
+                await window.SineAPI.submitContactForm(formData);
+                showNotification('✅ Message envoyé au service vendeur.', 'success');
+                document.getElementById('contactModal').style.display = 'none';
+                document.getElementById('contactSubject').value = '';
+                document.getElementById('contactMessage').value = '';
+                ['contactFile1', 'contactFile2', 'contactFile3'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                });
+            } catch (e) {
+                showNotification(e.message || 'Erreur lors de l\'envoi du message.', 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        };
+        btnEnvoyerContact.addEventListener('click', btnEnvoyerContact._listener);
+    }
+
+    // =========================================================
+    // 8. FIX BOUTON "Changer la langue" - paramètres
+    // =========================================================
+    const langueSeller = document.getElementById('langueSeller');
+    if (langueSeller) {
+        langueSeller.removeEventListener('change', langueSeller._listener);
+        langueSeller._listener = function() {
+            applyLanguage(this.value);
+            applyTranslations(this.value);
+            if (currentUser) {
+                window.SineAPI.updateProfile({ preferredLanguage: this.value }).catch(() => {});
+            }
+        };
+        langueSeller.addEventListener('change', langueSeller._listener);
+    }
+
+    // =========================================================
+    // 9. FIX BOUTON "Changer le thème"
+    // =========================================================
+    const themeSeller = document.getElementById('themeSeller');
+    if (themeSeller) {
+        themeSeller.removeEventListener('change', themeSeller._listener);
+        themeSeller._listener = function() {
+            const theme = this.value;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('sineTheme', theme);
+            const isDark = theme === 'dark';
+            document.querySelectorAll('#dynamicAttributesFields input, #dynamicAttributesFields select').forEach(el => {
+                if (isDark) {
+                    el.style.background = '#0f172a';
+                    el.style.borderColor = '#334155';
+                    el.style.color = '#e2e8f0';
+                } else {
+                    el.style.background = 'white';
+                    el.style.borderColor = '#e2e8f0';
+                    el.style.color = '#1a2a3a';
+                }
+            });
+        };
+        themeSeller.addEventListener('change', themeSeller._listener);
+    }
+
+    // =========================================================
+    // 10. FIX MODAL EMAIL - Annuler & Fermer
+    // =========================================================
+    document.querySelectorAll('#btnAnnulerEmail, #btnAnnulerEmailCode').forEach(btn => {
+        btn.removeEventListener('click', btn._listener);
+        btn._listener = function() {
+            document.getElementById('emailModal').style.display = 'none';
+        };
+        btn.addEventListener('click', btn._listener);
+    });
+
+    document.getElementById('emailModal')?.addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+    });
+
+    // =========================================================
+    // 11. FIX MODAL PASSWORD - Annuler & Fermer
+    // =========================================================
+    document.querySelectorAll('#btnAnnulerPw, #btnAnnulerPwForgot').forEach(btn => {
+        btn.removeEventListener('click', btn._listener);
+        btn._listener = function() {
+            document.getElementById('passwordModal').style.display = 'none';
+        };
+        btn.addEventListener('click', btn._listener);
+    });
+
+    document.getElementById('passwordModal')?.addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+    });
+
+    // =========================================================
+    // 12. FIX MODAL COMMANDE
+    // =========================================================
+    document.getElementById('btnFermerModalOrder')?.addEventListener('click', function() {
+        document.getElementById('modalOrderOverlay').style.display = 'none';
+    });
+
+    document.getElementById('modalOrderOverlay')?.addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+    });
+
+    // =========================================================
+    // 13. FIX MODAL PREVIEW PRODUIT
+    // =========================================================
+    document.querySelector('#previewProductModal [onclick*="previewProductModal"]')?.addEventListener('click', function() {
+        document.getElementById('previewProductModal').style.display = 'none';
+    });
+
+    document.getElementById('previewProductModal')?.addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+    });
+
+    // =========================================================
+    // 14. FIX MODAL NOUVELLE CATEGORIE
+    // =========================================================
+    document.querySelector('#newCategoryModal button:first-child')?.addEventListener('click', function() {
+        document.getElementById('newCategoryModal').style.display = 'none';
+    });
+
+    document.getElementById('newCategoryModal')?.addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+    });
+
+    // =========================================================
+    // 15. FIX APPELS - BOUTONS ACCEPTER/REJETER
+    // =========================================================
+    document.getElementById('notifAcceptCall')?.addEventListener('click', function() {
+        acceptCall();
+    });
+
+    document.getElementById('notifRejectCall')?.addEventListener('click', function() {
+        rejectCall();
+    });
+
+    document.getElementById('btnAcceptCall')?.addEventListener('click', function() {
+        acceptCall();
+    });
+
+    document.getElementById('btnRejectCall')?.addEventListener('click', function() {
+        rejectCall();
+    });
+
+    // =========================================================
+    // 16. FIX FAQ ACCORDION
+    // =========================================================
+    document.querySelectorAll('.faq-question').forEach(function(btn) {
+        btn.removeEventListener('click', btn._listener);
+        btn._listener = function() {
+            const answer = this.nextElementSibling;
+            const icon = this.querySelector('i');
+            const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+            document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '0px');
+            document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+            if (!isOpen) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        };
+        btn.addEventListener('click', btn._listener);
+    });
+
+    // =========================================================
+    // 17. FIX - Initialiser la navigation vers l'accueil
+    // =========================================================
+    setTimeout(function() {
+        // S'assurer que l'accueil est affiché
+        const accueil = document.getElementById('accueil');
+        if (accueil) {
+            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+            accueil.style.display = 'block';
+            document.querySelector('.seller-container')?.classList.add('section-open');
+        }
+        
+        // Activer le lien Accueil
+        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+        const homeLink = document.querySelector('.menu-link[data-section="accueil"]');
+        if (homeLink) homeLink.classList.add('active');
+        
+        console.log('✅ Tous les événements ont été réattachés');
+    }, 100);
+
+    console.log('✅ Fix des événements appliqué');
+});
     </script>
 
 </body>

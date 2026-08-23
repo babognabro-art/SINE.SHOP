@@ -79,7 +79,7 @@
         [data-theme="dark"] .card-item .price,
         [data-theme="dark"] .chat-thread-header .name,
         [data-theme="dark"] .chat-conv-item .conv-name,
-        [data-theme="dark"] .chat-bubble-row:not(.mine) .chat-bubble {
+        [data-theme="dark"] .chat-bubble:not(.mine) {
             color: var(--text-inverse);
         }
         [data-theme="dark"] .card > p,
@@ -386,63 +386,7 @@
         }
 
         /* =========================================================
-           BANNIÈRES PARAMÈTRES — fonds de carte corrigés pour le mode sombre
-           ========================================================= */
-        [data-theme="dark"] .card {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
-        [data-theme="dark"] .card .form-group label {
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .profil-grid label {
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .profil-grid input,
-        [data-theme="dark"] .profil-grid textarea,
-        [data-theme="dark"] .profil-grid select {
-            background: var(--bg-input);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] .profil-grid input:disabled {
-            opacity: 0.6;
-        }
-        [data-theme="dark"] .profil-grid input:focus,
-        [data-theme="dark"] .profil-grid textarea:focus,
-        [data-theme="dark"] .profil-grid select:focus {
-            border-color: #2d73ff;
-            box-shadow: 0 0 0 3px rgba(45,115,255,0.15);
-        }
-        [data-theme="dark"] #btnChangerPhoto {
-            background: var(--bg-hover);
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] #btnChangerPhoto:hover {
-            background: #334155;
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] #photoProfil {
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] .faq-item {
-            border-color: var(--border-color);
-        }
-        [data-theme="dark"] .faq-question {
-            background: var(--bg-hover);
-            color: var(--text-inverse);
-        }
-        [data-theme="dark"] .faq-answer {
-            color: var(--text-secondary);
-        }
-        [data-theme="dark"] .faq-answer a {
-            color: #60a5fa;
-        }
-        [data-theme="dark"] .faq-answer a:hover {
-            color: #93c5fd;
-        }
-
-        /* =========================================================
-           HEADER MODIFIÉ — sans devise ni déconnexion
+           HEADER MODIFIÉ
            ========================================================= */
         header {
             background: #0f172a;
@@ -856,7 +800,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* =========================================================
-           MESSAGERIE ENRICHIE — DISPOSITION AMÉLIORÉE
+           MESSAGERIE ENRICHIE
            ========================================================= */
         .chat-layout {
             display: grid;
@@ -1022,7 +966,7 @@
         .btn-upload-bg:hover { background: #dbeafe; }
 
         /* =========================================================
-           CHAT MESSAGES — DISPOSITION AMÉLIORÉE (comme Alibaba/SINE)
+           CHAT MESSAGES — DISPOSITION AMÉLIORÉE
            ========================================================= */
         .chat-messages {
             flex: 1;
@@ -1074,7 +1018,7 @@
         }
         .chat-messages[data-bg="custom"] .chat-bubble-wrap { position: relative; z-index: 1; }
 
-        /* BULLES DE MESSAGE — STYLE SINE.SHOP */
+        /* BULLES DE MESSAGE */
         .chat-bubble-row {
             display: flex;
             position: relative;
@@ -1092,6 +1036,7 @@
             position: relative;
             display: inline-block;
             max-width: 72%;
+            min-width: 40px;
         }
 
         .chat-bubble {
@@ -1101,6 +1046,7 @@
             line-height: 1.4;
             word-break: break-word;
             position: relative;
+            overflow: hidden;
         }
         .chat-bubble:not(.mine) {
             background: #f1f5f9;
@@ -1123,19 +1069,23 @@
         .chat-bubble.mine .chat-time { color: rgba(255,255,255,0.7); }
         .chat-bubble:not(.mine) .chat-time { color: #94a3b8; }
 
+        /* IMAGES ET VIDÉOS - CORRECTION DU DÉBORDEMENT */
         .chat-bubble img.chat-media,
         .chat-bubble video.chat-media {
-            max-width: 220px;
+            max-width: 100% !important;
+            max-height: 300px;
             border-radius: 12px;
             margin-bottom: 4px;
             display: block;
             cursor: pointer;
+            object-fit: contain;
         }
         .chat-bubble .chat-file-link {
             display: flex;
             align-items: center;
             gap: 0.4rem;
             text-decoration: underline;
+            word-break: break-all;
         }
         .chat-bubble .chat-location {
             display: flex;
@@ -1151,6 +1101,7 @@
             align-items: center;
             gap: 0.6rem;
             cursor: pointer;
+            max-width: 100%;
         }
         .chat-bubble-row:not(.mine) .chat-share-card {
             background: #e2e8f0;
@@ -1161,6 +1112,7 @@
             border-radius: 8px;
             object-fit: cover;
             background: #cbd5e1;
+            flex-shrink: 0;
         }
         .chat-share-card .share-title { font-weight: 700; font-size: 0.82rem; }
         .chat-share-card .share-sub { font-size: 0.72rem; opacity: 0.7; }
@@ -1188,7 +1140,6 @@
             gap: 4px;
         }
 
-        /* ACTIONS SUR LES MESSAGES (hover) */
         .chat-msg-actions {
             display: none;
             position: absolute;
@@ -1211,7 +1162,6 @@
             display: flex;
         }
 
-        /* RÉACTIONS */
         .chat-reactions {
             display: flex;
             gap: 4px;
@@ -1281,8 +1231,9 @@
             align-items: center;
             gap: 0.5rem;
             min-width: 160px;
+            max-width: 100%;
         }
-        .chat-voice-note audio { height: 32px; max-width: 180px; }
+        .chat-voice-note audio { height: 32px; max-width: 180px; width: 100%; }
         .chat-recording-indicator {
             display: none;
             align-items: center;
@@ -1303,7 +1254,7 @@
 
         .chat-typing { font-size: 0.78rem; color: #94a3b8; padding: 0 1rem 0.4rem; font-style: italic; }
 
-        /* COMPOSITION DU MESSAGE */
+        /* COMPOSITION DU MESSAGE - BOUTON ENVOYER CORRIGÉ */
         .chat-compose {
             display: flex;
             align-items: flex-end;
@@ -1311,6 +1262,7 @@
             padding: 0.7rem 1rem;
             border-top: 1px solid #eef2f6;
             position: relative;
+            background: inherit;
         }
         .chat-compose textarea {
             flex: 1;
@@ -1323,6 +1275,7 @@
             max-height: 100px;
             outline: none;
             background: white;
+            min-height: 40px;
         }
         .chat-compose textarea:focus { border-color: #0f172a; }
         .chat-compose button {
@@ -1334,9 +1287,16 @@
             font-size: 1rem;
             border: none;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #334155;
         }
         .chat-compose button:hover { background: #e2e8f0; }
-        .chat-compose .btn-send { background: #0f172a; color: white; }
+        .chat-compose .btn-send {
+            background: #0f172a;
+            color: white;
+        }
         .chat-compose .btn-send:hover { background: #1e293b; }
 
         .chat-attach-menu {
@@ -1364,6 +1324,7 @@
             font-weight: 500;
             border: none;
             cursor: pointer;
+            color: #334155;
         }
         .chat-attach-menu button:hover { background: #f1f5f9; }
 
@@ -1392,7 +1353,6 @@
         }
         .chat-emoji-picker button:hover { background: #f1f5f9; }
 
-        /* EMOJI SPÉCIAL ♡ QUI BAT */
         .emoji-heart-beat {
             display: inline-block;
             font-size: 1.3rem;
@@ -1569,7 +1529,6 @@
         .call-overlay .btn-reject { background: #ef4444; }
         .call-overlay .btn-reject:hover { background: #dc2626; }
 
-        /* NOTIFICATION D'APPEL ENTRANT (toast) */
         .call-notification-toast {
             position: fixed;
             bottom: 30px;
@@ -1623,9 +1582,6 @@
         }
         .call-notification-toast .call-actions .btn-decline:hover { background: #dc2626; }
 
-        /* =========================================================
-           RESTE DU STYLE (inchangé)
-           ========================================================= */
         [data-theme="dark"] .call-notification-toast {
             background: #1a2436;
             border-left-color: #22c55e;
@@ -1635,6 +1591,71 @@
         }
         [data-theme="dark"] .call-notification-toast .call-info .call-type {
             color: var(--text-secondary);
+        }
+
+        /* =========================================================
+           FAQ - CORRIGÉ
+           ========================================================= */
+        .faq-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            color: #1e293b;
+        }
+        .faq-question:hover {
+            background: #f1f5f9;
+        }
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1rem;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        .faq-answer p {
+            padding: 0.8rem 0;
+            margin: 0;
+        }
+        .faq-answer a {
+            color: #2d73ff;
+            text-decoration: underline;
+        }
+        .faq-answer a:hover {
+            color: #1f5fe0;
+        }
+        [data-theme="dark"] .faq-question {
+            background: var(--bg-hover);
+            color: var(--text-inverse);
+        }
+        [data-theme="dark"] .faq-question:hover {
+            background: #334155;
+        }
+        [data-theme="dark"] .faq-answer {
+            color: var(--text-secondary);
+        }
+        [data-theme="dark"] .faq-answer a {
+            color: #60a5fa;
+        }
+        [data-theme="dark"] .faq-answer a:hover {
+            color: #93c5fd;
         }
     </style>
 </head>
@@ -2172,44 +2193,49 @@
                 <hr>
                 <h3>💬 <span data-translate="settings.helpCenter">Centre d'aide</span></h3>
                 <div id="faqAccordion" style="display:flex;flex-direction:column;gap:0.5rem;">
-                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
-                            <span data-translate="faq.q1">Qu'est-ce que SINE.SHOP ?</span> <i class="fa-solid fa-chevron-down"></i>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span data-translate="faq.q1">Qu'est-ce que SINE.SHOP ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
-                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;" data-translate="faq.a1">SINE.SHOP est une plateforme qui réunit achat de produits, réservations et messagerie avec les vendeurs et livreurs, en un seul endroit.</p>
+                        <div class="faq-answer">
+                            <p data-translate="faq.a1">SINE.SHOP est une plateforme qui réunit achat de produits, réservations et messagerie avec les vendeurs et livreurs, en un seul endroit.</p>
                         </div>
                     </div>
-                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
-                            <span data-translate="faq.q2">Comment consulter mon panier ?</span> <i class="fa-solid fa-chevron-down"></i>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span data-translate="faq.q2">Comment consulter mon panier ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
-                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;" data-translate="faq.a2">Cliquez sur "Panier" dans le menu à gauche — vous y verrez tous les articles ajoutés, avec la possibilité de modifier les quantités ou de passer commande.</p>
+                        <div class="faq-answer">
+                            <p data-translate="faq.a2">Cliquez sur "Panier" dans le menu à gauche — vous y verrez tous les articles ajoutés, avec la possibilité de modifier les quantités ou de passer commande.</p>
                         </div>
                     </div>
-                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
-                            <span data-translate="faq.q3">Comment consulter une commande ?</span> <i class="fa-solid fa-chevron-down"></i>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span data-translate="faq.q3">Comment consulter une commande ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
-                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;" data-translate="faq.a3">Rendez-vous dans "Commandes" pour voir l'historique complet, le statut et le détail de chaque commande passée.</p>
+                        <div class="faq-answer">
+                            <p data-translate="faq.a3">Rendez-vous dans "Commandes" pour voir l'historique complet, le statut et le détail de chaque commande passée.</p>
                         </div>
                     </div>
-                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
-                            <span data-translate="faq.q4">Comment suivre ma livraison ?</span> <i class="fa-solid fa-chevron-down"></i>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span data-translate="faq.q4">Comment suivre ma livraison ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
-                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;" data-translate="faq.a4">Utilisez "Suivi" dans le menu à gauche pour voir la position et le statut en temps réel de votre livreur.</p>
+                        <div class="faq-answer">
+                            <p data-translate="faq.a4">Utilisez "Suivi" dans le menu à gauche pour voir la position et le statut en temps réel de votre livreur.</p>
                         </div>
                     </div>
-                    <div class="faq-item" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;">
-                        <button class="faq-question" style="width:100%;text-align:left;padding:0.8rem 1rem;font-weight:600;font-size:0.9rem;background:#f8fafc;display:flex;justify-content:space-between;align-items:center;border:none;cursor:pointer;">
-                            <span data-translate="faq.q5">Comment contacter le support ?</span> <i class="fa-solid fa-chevron-down"></i>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span data-translate="faq.q5">Comment contacter le support ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </button>
-                        <div class="faq-answer" style="max-height:0;overflow:hidden;transition:0.3s;padding:0 1rem;font-size:0.85rem;color:#475569;">
-                            <p style="padding:0.8rem 0;">Par email à <a href="mailto:serviceclient@sineshophome.com">serviceclient@sineshophome.com</a>, ou via le formulaire de contact ci-dessous.</p>
+                        <div class="faq-answer">
+                            <p>Par email à <a href="mailto:serviceclient@sineshophome.com">serviceclient@sineshophome.com</a>, ou via le formulaire de contact ci-dessous.</p>
                         </div>
                     </div>
                 </div>
@@ -2458,6 +2484,25 @@
             initTheme();
 
             // =========================================================
+            // FAQ - TOGGLE
+            // =========================================================
+            window.toggleFaq = function(btn) {
+                const item = btn.closest('.faq-item');
+                const answer = item.querySelector('.faq-answer');
+                const icon = btn.querySelector('i');
+                const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+                // Fermer tous les autres
+                document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '0px');
+                document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                if (!isOpen) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            };
+
+            // =========================================================
             // NAVIGATION
             // =========================================================
             function navigateTo(sectionId) {
@@ -2581,7 +2626,6 @@
                     document.getElementById('btnValiderTelephone').style.display = '';
                 }
 
-                // Date de naissance : désactiver si déjà remplie
                 if (currentUser.dateOfBirth) {
                     document.getElementById('naissanceClient').disabled = true;
                 } else {
@@ -2812,24 +2856,8 @@
             }
 
             // =========================================================
-            // CENTRE D'AIDE — ACCORDÉON FAQ
+            // FORMULAIRE DE CONTACT
             // =========================================================
-            document.querySelectorAll('.faq-question').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    const answer = this.nextElementSibling;
-                    const icon = this.querySelector('i');
-                    const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
-
-                    document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '0px');
-                    document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
-
-                    if (!isOpen) {
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
-
             document.getElementById('btnOuvrirContact')?.addEventListener('click', function() {
                 document.getElementById('contactModal').style.display = 'flex';
             });
@@ -3587,7 +3615,7 @@
             document.querySelector('.client-container')?.classList.add('section-open');
 
             // =========================================================
-            // MESSAGERIE ENRICHIE
+            // MESSAGERIE ENRICHIE (suite du code...)
             // =========================================================
             let activeConversation = null;
             let chatMessages = [];
@@ -3976,7 +4004,7 @@
             });
 
             // =========================================================
-            // RENDU DES MESSAGES — DISPOSITION AMÉLIORÉE
+            // RENDU DES MESSAGES
             // =========================================================
             function renderBubble(msg) {
                 const myId = currentUser?.id || currentUser?._id;
@@ -4056,9 +4084,7 @@
                         `<span class="chat-reaction-pill" onclick="window.sendReactionClient('${msg._id}','${emoji}')">${emoji} ${count > 1 ? count : ''}</span>`
                     ).join('')}</div>`;
                 }
-                // Emojis de réaction incluant le ♡ spécial
                 const REACTION_EMOJIS_CLIENT = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
-                // Ajout du ♡ spécial dans les réactions disponibles
                 const reactionPicker = `<div class="chat-reaction-picker" id="reactionPicker-${msg._id}">
                     ${REACTION_EMOJIS_CLIENT.map(e => `<button onclick="window.sendReactionClient('${msg._id}','${e}')">${e}</button>`).join('')}
                     <button onclick="window.sendReactionClient('${msg._id}','♡')" style="font-size:1.4rem;color:#ef4444;" title="Cœur battant"><span class="emoji-heart-beat" style="font-size:0.9rem;display:inline-block;">♡</span></button>
@@ -4217,14 +4243,13 @@
             document.getElementById('btnAttachFile').addEventListener('click', () => document.getElementById('chatFileDoc')
                 .click());
 
-            // EMOJI PICKER avec ♡ spécial
+            // EMOJI PICKER
             const EMOJI_LIST = ['😀', '😂', '😍', '😘', '🥰', '😎', '🤔', '😢', '😭', '😡', '👍', '👎', '🙏', '👏', '💪', '🔥', '❤️',
                 '💯', '🎉', '✅', '❌', '⭐', '😅', '😉', '🙌', '👋', '🤝', '😴', '🥳', '😱'
             ];
             const emojiPicker = document.getElementById('chatEmojiPicker');
             const btnEmoji = document.getElementById('btnEmoji');
             if (emojiPicker && btnEmoji) {
-                // Ajout du ♡ spécial avec bordure rouge et animation
                 emojiPicker.innerHTML = EMOJI_LIST.map(e => `<button type="button">${e}</button>`).join('') +
                     `<button type="button" class="emoji-heart-beat" style="font-size:1.1rem;border:2px solid #ef4444;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;color:#ef4444;animation:heartBeat 1s ease-in-out infinite;">♡</button>`;
                 btnEmoji.addEventListener('click', function(e) {
@@ -4733,7 +4758,6 @@
                     'flex' : 'none';
                 const labels = { calling: 'Appel en cours...', incoming: 'Appel entrant...', connecting: 'Connexion...' };
                 document.getElementById('callStatus').textContent = labels[state] || '';
-                // Cacher la notification toast quand l'overlay s'ouvre
                 document.getElementById('callNotificationToast').classList.remove('show');
                 if (callToastTimeout) { clearTimeout(callToastTimeout);
                     callToastTimeout = null; }
@@ -4794,23 +4818,19 @@
                 window.SineSocket.emit('webrtc-offer', { targetUserId: currentCallPartner.id, offer });
             }
 
-            // AFFICHER LA NOTIFICATION TOAST D'APPEL ENTRANT
             function showCallNotification(callerName, callType, callerId) {
                 const toast = document.getElementById('callNotificationToast');
                 document.getElementById('callToastName').textContent = callerName || 'Appel entrant';
                 document.getElementById('callToastType').textContent = callType === 'video' ? '📹 Appel vidéo' : '📞 Appel vocal';
                 toast.classList.add('show');
-                // Auto-fermeture après 30s
                 if (callToastTimeout) clearTimeout(callToastTimeout);
                 callToastTimeout = setTimeout(() => {
                     toast.classList.remove('show');
-                    // Rejeter automatiquement l'appel si non répondue
                     if (currentCallId) {
                         window.SineSocket.emit('call-reject', { callId: currentCallId });
                         endCallLocal();
                     }
                 }, 30000);
-                // Sonnerie
                 playRingtone(callType === 'video' ? 'incoming-video' : 'incoming-voice');
             }
 
@@ -4853,19 +4873,15 @@
                             `${caller.firstName || ''} ${caller.lastName || ''}`.trim(), avatar: caller
                             .profilePicture || '../images/profil.png' } :
                     { id: data.callerId, name: data.callerName || 'Appel entrant', avatar: '../images/profil.png' };
-                // Afficher la notification toast
                 showCallNotification(currentCallPartner.name, currentCallType, data.callerId);
-                // Afficher aussi l'overlay
                 showCallOverlay('incoming');
             });
 
-            // Gérer les boutons de la notification toast
             document.getElementById('callToastAnswer').addEventListener('click', async function() {
                 const toast = document.getElementById('callNotificationToast');
                 toast.classList.remove('show');
                 if (callToastTimeout) { clearTimeout(callToastTimeout);
                     callToastTimeout = null; }
-                // Accepter l'appel
                 try {
                     localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
                 } catch (e) {
@@ -4894,7 +4910,6 @@
 
             document.getElementById('btnAcceptCall').addEventListener('click', async function() {
                 stopRingtone();
-                // Cacher la notification
                 document.getElementById('callNotificationToast').classList.remove('show');
                 if (callToastTimeout) { clearTimeout(callToastTimeout);
                     callToastTimeout = null; }

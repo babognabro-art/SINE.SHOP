@@ -948,6 +948,378 @@
         [data-theme="dark"] .chat-compose .btn-send:hover { background: #1a5fc7; }
 
         /* =========================================================
+           CHAT DROPDOWN - MENU OPTIONS
+           ========================================================= */
+        .chat-thread-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background: var(--bg-card, white);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 0.5rem 0;
+            min-width: 220px;
+            z-index: 50;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .chat-thread-dropdown.open {
+            display: block;
+        }
+        .chat-thread-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1.2rem;
+            width: 100%;
+            color: var(--text-primary, #1a2a3a);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.15s;
+            text-align: left;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .chat-thread-dropdown button:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        .chat-thread-dropdown button.danger {
+            color: #ef4444;
+        }
+        .chat-thread-dropdown button.danger:hover {
+            background: rgba(239,68,68,0.08);
+        }
+        [data-theme="dark"] .chat-thread-dropdown {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        [data-theme="dark"] .chat-thread-dropdown button {
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .chat-thread-dropdown button:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* =========================================================
+           ATTACH MENU
+           ========================================================= */
+        .chat-attach-menu {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            left: 10px;
+            background: var(--bg-card, white);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 0.5rem 0;
+            min-width: 200px;
+            z-index: 40;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .chat-attach-menu.open {
+            display: block;
+        }
+        .chat-attach-menu button {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 1.2rem;
+            width: 100%;
+            color: var(--text-primary, #1a2a3a);
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: 0.15s;
+            text-align: left;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .chat-attach-menu button:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        [data-theme="dark"] .chat-attach-menu {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        [data-theme="dark"] .chat-attach-menu button {
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .chat-attach-menu button:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* =========================================================
+           EMOJI PICKER
+           ========================================================= */
+        .chat-emoji-picker {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            left: 50px;
+            background: var(--bg-card, white);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 0.8rem;
+            width: 300px;
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 40;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .chat-emoji-picker.open {
+            display: block;
+        }
+        .chat-emoji-picker .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+        }
+        .chat-emoji-picker .emoji-grid button {
+            font-size: 1.4rem;
+            padding: 4px 0;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .chat-emoji-picker .emoji-grid button:hover {
+            background: rgba(0,0,0,0.06);
+        }
+        [data-theme="dark"] .chat-emoji-picker {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        [data-theme="dark"] .chat-emoji-picker .emoji-grid button:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* =========================================================
+           RECORDING INDICATOR
+           ========================================================= */
+        .chat-recording-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(239,68,68,0.08);
+            border-top: 1px solid rgba(239,68,68,0.15);
+            font-size: 0.85rem;
+            color: #ef4444;
+            flex-shrink: 0;
+        }
+        .chat-recording-indicator.active {
+            display: flex;
+        }
+        .chat-recording-indicator .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse-dot 1s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+        .chat-recording-indicator button {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            padding: 4px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .chat-recording-indicator button:hover {
+            background: rgba(0,0,0,0.06);
+        }
+        .chat-recording-indicator button#btnStopRecording {
+            color: #16a34a;
+        }
+        [data-theme="dark"] .chat-recording-indicator {
+            background: rgba(239,68,68,0.12);
+        }
+
+        /* =========================================================
+           EDIT BAR
+           ========================================================= */
+        .chat-edit-bar {
+            display: none;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.4rem 1.2rem;
+            background: rgba(59,130,246,0.08);
+            border-top: 1px solid rgba(59,130,246,0.15);
+            font-size: 0.82rem;
+            color: #2563eb;
+            flex-shrink: 0;
+        }
+        .chat-edit-bar.active {
+            display: flex;
+        }
+        .chat-edit-bar button {
+            background: transparent;
+            border: none;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.15s;
+            color: #64748b;
+        }
+        .chat-edit-bar button:hover {
+            background: rgba(0,0,0,0.06);
+        }
+        [data-theme="dark"] .chat-edit-bar {
+            background: rgba(59,130,246,0.12);
+        }
+
+        /* =========================================================
+           CHAT MODAL OVERLAY - Forwards, About, Change BG
+           ========================================================= */
+        .chat-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .chat-modal-overlay.open {
+            display: flex;
+        }
+        .chat-modal {
+            background: var(--bg-card, white);
+            border-radius: 24px;
+            padding: 1.8rem;
+            max-width: 420px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .chat-modal h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a2a3a);
+        }
+        .chat-modal .chat-modal-info-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .chat-modal .chat-modal-close {
+            margin-top: 1.2rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            background: rgba(0,0,0,0.05);
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .chat-modal .chat-modal-close:hover {
+            background: rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] .chat-modal {
+            background: #1a2436;
+            border-color: #263447;
+        }
+        [data-theme="dark"] .chat-modal h3 {
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .chat-modal .chat-modal-info-row {
+            color: #94a3b8;
+            border-bottom-color: rgba(255,255,255,0.06);
+        }
+        [data-theme="dark"] .chat-modal .chat-modal-close {
+            background: rgba(255,255,255,0.06);
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .chat-modal .chat-modal-close:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* =========================================================
+           CHANGE BACKGROUND - PRESETS GRID
+           ========================================================= */
+        .bg-presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin: 1rem 0;
+        }
+        .bg-preset-swatch {
+            padding: 0.6rem 0.4rem;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card, #f8fafc);
+        }
+        .bg-preset-swatch:hover {
+            transform: scale(1.02);
+            border-color: #3b82f6;
+        }
+        .bg-preset-swatch.active {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+        .bg-preset-swatch span {
+            color: var(--text-primary, #1a2a3a);
+        }
+        [data-theme="dark"] .bg-preset-swatch span {
+            color: #e2e8f0;
+        }
+        .btn-upload-bg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            background: rgba(0,0,0,0.05);
+            font-weight: 600;
+            font-size: 0.82rem;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s;
+            color: var(--text-primary, #1a2a3a);
+        }
+        .btn-upload-bg:hover {
+            background: rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] .btn-upload-bg {
+            background: rgba(255,255,255,0.06);
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .btn-upload-bg:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* =========================================================
            OVERLAY APPEL - REFONTE COMPLÈTE
            ========================================================= */
         .call-overlay {
@@ -1128,6 +1500,9 @@
         }
         .call-incoming-actions .btn-reject:hover { background: #dc2626; }
 
+        /* =========================================================
+           CALL NOTIFICATION
+           ========================================================= */
         .call-notification {
             position: fixed;
             bottom: 30px;
@@ -1146,15 +1521,23 @@
             transform: translateX(120%);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .call-notification.show { transform: translateX(0); }
+        .call-notification.show {
+            transform: translateX(0);
+        }
         .call-notification img {
             width: 48px;
             height: 48px;
             border-radius: 50%;
             object-fit: cover;
         }
-        .call-notification .info .name { font-weight: 600; font-size: 0.95rem; }
-        .call-notification .info .status { font-size: 0.8rem; color: #94a3b8; }
+        .call-notification .info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .call-notification .info .status {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
         .call-notification .actions {
             display: flex;
             gap: 0.5rem;
@@ -1169,10 +1552,20 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .call-notification .actions .btn-accept { background: #22c55e; color: white; }
-        .call-notification .actions .btn-accept:hover { background: #16a34a; }
-        .call-notification .actions .btn-reject { background: #ef4444; color: white; }
-        .call-notification .actions .btn-reject:hover { background: #dc2626; }
+        .call-notification .actions .btn-accept {
+            background: #22c55e;
+            color: white;
+        }
+        .call-notification .actions .btn-accept:hover {
+            background: #16a34a;
+        }
+        .call-notification .actions .btn-reject {
+            background: #ef4444;
+            color: white;
+        }
+        .call-notification .actions .btn-reject:hover {
+            background: #dc2626;
+        }
 
         /* =========================================================
            RESPONSIVE
@@ -1213,6 +1606,11 @@
             .call-controls button { width: 48px; height: 48px; font-size: 1.2rem; }
             .call-videos #localVideo { width: 80px; height: 60px; }
             .call-notification { bottom: 16px; right: 16px; left: 16px; max-width: none; padding: 0.8rem 1rem; }
+            .chat-thread-dropdown { top: 55px; right: 5px; min-width: 180px; }
+            .chat-attach-menu { bottom: 65px; left: 5px; min-width: 170px; }
+            .chat-emoji-picker { left: 5px; width: 260px; }
+            .chat-modal { padding: 1.2rem; margin: 10px; }
+            .bg-presets-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
         }
         @media (max-width: 400px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -1222,743 +1620,6 @@
             aside { padding: 1rem; }
             .store-branding { aspect-ratio: 16/8; min-height: 50px; }
         }
-
-        /* =========================================================
-   CHAT DROPDOWN - MENU OPTIONS
-   ========================================================= */
-.chat-thread-dropdown {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    background: var(--bg-card, white);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-    padding: 0.5rem 0;
-    min-width: 220px;
-    z-index: 50;
-    border: 1px solid rgba(0,0,0,0.06);
-}
-.chat-thread-dropdown.open {
-    display: block;
-}
-.chat-thread-dropdown button {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.6rem 1.2rem;
-    width: 100%;
-    color: var(--text-primary, #1a2a3a);
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: 0.15s;
-    text-align: left;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-.chat-thread-dropdown button:hover {
-    background: rgba(0,0,0,0.05);
-}
-.chat-thread-dropdown button.danger {
-    color: #ef4444;
-}
-.chat-thread-dropdown button.danger:hover {
-    background: rgba(239,68,68,0.08);
-}
-[data-theme="dark"] .chat-thread-dropdown {
-    background: #1a2436;
-    border-color: #263447;
-}
-[data-theme="dark"] .chat-thread-dropdown button {
-    color: #e2e8f0;
-}
-[data-theme="dark"] .chat-thread-dropdown button:hover {
-    background: rgba(255,255,255,0.05);
-}
-
-/* =========================================================
-   ATTACH MENU
-   ========================================================= */
-.chat-attach-menu {
-    display: none;
-    position: absolute;
-    bottom: 70px;
-    left: 10px;
-    background: var(--bg-card, white);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-    padding: 0.5rem 0;
-    min-width: 200px;
-    z-index: 40;
-    border: 1px solid rgba(0,0,0,0.06);
-}
-.chat-attach-menu.open {
-    display: block;
-}
-.chat-attach-menu button {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.5rem 1.2rem;
-    width: 100%;
-    color: var(--text-primary, #1a2a3a);
-    font-size: 0.82rem;
-    font-weight: 500;
-    transition: 0.15s;
-    text-align: left;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-.chat-attach-menu button:hover {
-    background: rgba(0,0,0,0.05);
-}
-[data-theme="dark"] .chat-attach-menu {
-    background: #1a2436;
-    border-color: #263447;
-}
-[data-theme="dark"] .chat-attach-menu button {
-    color: #e2e8f0;
-}
-[data-theme="dark"] .chat-attach-menu button:hover {
-    background: rgba(255,255,255,0.05);
-}
-
-/* =========================================================
-   EMOJI PICKER
-   ========================================================= */
-.chat-emoji-picker {
-    display: none;
-    position: absolute;
-    bottom: 70px;
-    left: 50px;
-    background: var(--bg-card, white);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-    padding: 0.8rem;
-    width: 300px;
-    max-height: 280px;
-    overflow-y: auto;
-    z-index: 40;
-    border: 1px solid rgba(0,0,0,0.06);
-}
-.chat-emoji-picker.open {
-    display: block;
-}
-.chat-emoji-picker .emoji-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 4px;
-}
-.chat-emoji-picker .emoji-grid button {
-    font-size: 1.4rem;
-    padding: 4px 0;
-    border-radius: 8px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: 0.15s;
-}
-.chat-emoji-picker .emoji-grid button:hover {
-    background: rgba(0,0,0,0.06);
-}
-[data-theme="dark"] .chat-emoji-picker {
-    background: #1a2436;
-    border-color: #263447;
-}
-[data-theme="dark"] .chat-emoji-picker .emoji-grid button:hover {
-    background: rgba(255,255,255,0.06);
-}
-
-/* =========================================================
-   RECORDING INDICATOR
-   ========================================================= */
-.chat-recording-indicator {
-    display: none;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.5rem 1.2rem;
-    background: rgba(239,68,68,0.08);
-    border-top: 1px solid rgba(239,68,68,0.15);
-    font-size: 0.85rem;
-    color: #ef4444;
-    flex-shrink: 0;
-}
-.chat-recording-indicator.active {
-    display: flex;
-}
-.chat-recording-indicator .dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: #ef4444;
-    border-radius: 50%;
-    animation: pulse-dot 1s infinite;
-}
-@keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-}
-.chat-recording-indicator button {
-    background: transparent;
-    border: none;
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.15s;
-}
-.chat-recording-indicator button:hover {
-    background: rgba(0,0,0,0.06);
-}
-.chat-recording-indicator button#btnStopRecording {
-    color: #16a34a;
-}
-[data-theme="dark"] .chat-recording-indicator {
-    background: rgba(239,68,68,0.12);
-}
-
-/* =========================================================
-   EDIT BAR
-   ========================================================= */
-.chat-edit-bar {
-    display: none;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.4rem 1.2rem;
-    background: rgba(59,130,246,0.08);
-    border-top: 1px solid rgba(59,130,246,0.15);
-    font-size: 0.82rem;
-    color: #2563eb;
-    flex-shrink: 0;
-}
-.chat-edit-bar.active {
-    display: flex;
-}
-.chat-edit-bar button {
-    background: transparent;
-    border: none;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.15s;
-    color: #64748b;
-}
-.chat-edit-bar button:hover {
-    background: rgba(0,0,0,0.06);
-}
-[data-theme="dark"] .chat-edit-bar {
-    background: rgba(59,130,246,0.12);
-}
-
-/* =========================================================
-   CHAT MODAL OVERLAY - Forwards, About, Change BG
-   ========================================================= */
-.chat-modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(4px);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.chat-modal-overlay.open {
-    display: flex;
-}
-.chat-modal {
-    background: var(--bg-card, white);
-    border-radius: 24px;
-    padding: 1.8rem;
-    max-width: 420px;
-    width: 100%;
-    max-height: 85vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    border: 1px solid rgba(0,0,0,0.06);
-}
-.chat-modal h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary, #1a2a3a);
-}
-.chat-modal .chat-modal-info-row {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    font-size: 0.9rem;
-    color: #475569;
-}
-.chat-modal .chat-modal-close {
-    margin-top: 1.2rem;
-    padding: 0.6rem 1.5rem;
-    border-radius: 30px;
-    background: rgba(0,0,0,0.05);
-    font-weight: 600;
-    font-size: 0.85rem;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    transition: 0.15s;
-}
-.chat-modal .chat-modal-close:hover {
-    background: rgba(0,0,0,0.1);
-}
-[data-theme="dark"] .chat-modal {
-    background: #1a2436;
-    border-color: #263447;
-}
-[data-theme="dark"] .chat-modal h3 {
-    color: #e2e8f0;
-}
-[data-theme="dark"] .chat-modal .chat-modal-info-row {
-    color: #94a3b8;
-    border-bottom-color: rgba(255,255,255,0.06);
-}
-[data-theme="dark"] .chat-modal .chat-modal-close {
-    background: rgba(255,255,255,0.06);
-    color: #e2e8f0;
-}
-[data-theme="dark"] .chat-modal .chat-modal-close:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-/* =========================================================
-   CHANGE BACKGROUND - PRESETS GRID
-   ========================================================= */
-.bg-presets-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 10px;
-    margin: 1rem 0;
-}
-.bg-preset-swatch {
-    padding: 0.6rem 0.4rem;
-    border-radius: 12px;
-    border: 2px solid transparent;
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-    min-height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-card, #f8fafc);
-}
-.bg-preset-swatch:hover {
-    transform: scale(1.02);
-    border-color: #3b82f6;
-}
-.bg-preset-swatch.active {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-}
-.bg-preset-swatch span {
-    color: var(--text-primary, #1a2a3a);
-}
-[data-theme="dark"] .bg-preset-swatch span {
-    color: #e2e8f0;
-}
-.btn-upload-bg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    padding: 0.6rem 1rem;
-    border-radius: 30px;
-    background: rgba(0,0,0,0.05);
-    font-weight: 600;
-    font-size: 0.82rem;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    transition: 0.15s;
-    color: var(--text-primary, #1a2a3a);
-}
-.btn-upload-bg:hover {
-    background: rgba(0,0,0,0.1);
-}
-[data-theme="dark"] .btn-upload-bg {
-    background: rgba(255,255,255,0.06);
-    color: #e2e8f0;
-}
-[data-theme="dark"] .btn-upload-bg:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-/* =========================================================
-   CALL NOTIFICATION
-   ========================================================= */
-.call-notification {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(12px);
-    padding: 1rem 1.5rem;
-    border-radius: 20px;
-    color: white;
-    z-index: 99998;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-    max-width: 380px;
-    transform: translateX(120%);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.call-notification.show {
-    transform: translateX(0);
-}
-.call-notification img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.call-notification .info .name {
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-.call-notification .info .status {
-    font-size: 0.8rem;
-    color: #94a3b8;
-}
-.call-notification .actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-left: auto;
-}
-.call-notification .actions button {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.call-notification .actions .btn-accept {
-    background: #22c55e;
-    color: white;
-}
-.call-notification .actions .btn-accept:hover {
-    background: #16a34a;
-}
-.call-notification .actions .btn-reject {
-    background: #ef4444;
-    color: white;
-}
-.call-notification .actions .btn-reject:hover {
-    background: #dc2626;
-}
-
-/* =========================================================
-   RESPONSIVE ADJUSTMENTS
-   ========================================================= */
-@media (max-width: 768px) {
-    .chat-thread-dropdown {
-        top: 55px;
-        right: 5px;
-        min-width: 180px;
-    }
-    .chat-attach-menu {
-        bottom: 65px;
-        left: 5px;
-        min-width: 170px;
-    }
-    .chat-emoji-picker {
-        left: 5px;
-        width: 260px;
-    }
-    .chat-modal {
-        padding: 1.2rem;
-        margin: 10px;
-    }
-    .call-notification {
-        bottom: 16px;
-        right: 16px;
-        left: 16px;
-        max-width: none;
-        padding: 0.8rem 1rem;
-    }
-    .bg-presets-grid {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    }
-}
-
-/* =========================================================
-   CHAT MESSAGES - CORRECTION POUR LES MÉDIAS
-   ========================================================= */
-.chat-messages {
-    flex: 1;
-    padding: 1rem 1.2rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    background: #f8fafc;
-    background-image: radial-gradient(circle at 20px 20px, rgba(0,0,0,0.02) 1px, transparent 0);
-    background-size: 40px 40px;
-}
-[data-theme="dark"] .chat-messages {
-    background: #0f172a;
-    background-image: radial-gradient(circle at 20px 20px, rgba(255,255,255,0.02) 1px, transparent 0);
-}
-
-/* =========================================================
-   MESSAGE BUBBLE - AVEC CONTRAINTES POUR LES MÉDIAS
-   ========================================================= */
-.chat-message {
-    max-width: 80%;
-    padding: 0.6rem 1rem;
-    border-radius: 18px;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    word-wrap: break-word;
-    position: relative;
-    animation: messageIn 0.25s ease;
-    overflow: hidden; /* Empêche le débordement */
-}
-@keyframes messageIn {
-    from { opacity: 0; transform: translateY(10px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Messages envoyés (par l'utilisateur) */
-.chat-message.sent {
-    align-self: flex-end;
-    background: #0f172a;
-    color: white;
-    border-bottom-right-radius: 4px;
-}
-
-/* Messages reçus (par l'autre) */
-.chat-message.received {
-    align-self: flex-start;
-    background: white;
-    color: #1a2a3a;
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-[data-theme="dark"] .chat-message.received {
-    background: #1e293b;
-    color: #e2e8f0;
-}
-
-/* Heure du message */
-.chat-message .time {
-    font-size: 0.6rem;
-    opacity: 0.6;
-    margin-top: 0.2rem;
-    display: block;
-    text-align: right;
-}
-.chat-message.sent .time { color: rgba(255,255,255,0.6); }
-.chat-message.received .time { color: #94a3b8; }
-
-/* =========================================================
-   MÉDIAS DANS LES MESSAGES - CORRECTION IMPORTANTE
-   ========================================================= */
-.chat-message .media-preview {
-    max-width: 100%; /* S'adapte à la largeur de la bulle */
-    max-height: 280px; /* Hauteur maximale */
-    width: auto;
-    height: auto;
-    border-radius: 12px;
-    margin: 0.2rem 0;
-    display: block;
-    object-fit: cover;
-    cursor: pointer;
-    /* Empêche le débordement */
-    overflow: hidden;
-}
-
-/* Version "clic pour agrandir" */
-.chat-message .media-preview.zoomed {
-    max-height: 400px;
-    max-width: 100%;
-}
-
-/* Conteneur pour les médias - s'assure que ça reste dans la bulle */
-.chat-message .media-wrapper {
-    max-width: 100%;
-    overflow: hidden;
-    border-radius: 12px;
-    margin: 0.2rem 0;
-    background: rgba(0,0,0,0.03);
-}
-
-/* Images dans les messages */
-.chat-message .media-preview img {
-    width: 100%;
-    height: auto;
-    max-height: 280px;
-    object-fit: contain;
-    border-radius: 12px;
-    display: block;
-    background: rgba(0,0,0,0.02);
-}
-
-/* Vidéos dans les messages */
-.chat-message .media-preview.video-preview {
-    background: #000;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    max-width: 100%;
-}
-.chat-message .media-preview.video-preview video {
-    width: 100%;
-    max-height: 280px;
-    border-radius: 12px;
-    display: block;
-    background: #000;
-    object-fit: contain;
-}
-
-/* Fichiers dans les messages */
-.chat-message .file-attachment {
-    background: rgba(0,0,0,0.05);
-    padding: 0.5rem 0.8rem;
-    border-radius: 8px;
-    margin: 0.2rem 0;
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    max-width: 100%;
-    word-break: break-all;
-}
-[data-theme="dark"] .chat-message .file-attachment {
-    background: rgba(255,255,255,0.06);
-}
-.chat-message .file-attachment a {
-    color: #2d73ff;
-    margin-left: auto;
-    flex-shrink: 0;
-}
-[data-theme="dark"] .chat-message .file-attachment a {
-    color: #60a5fa;
-}
-
-/* Localisation dans les messages */
-.chat-message .location-attachment {
-    background: rgba(0,0,0,0.05);
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
-    margin: 0.2rem 0;
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    max-width: 100%;
-}
-[data-theme="dark"] .chat-message .location-attachment {
-    background: rgba(255,255,255,0.06);
-}
-.chat-message .location-attachment a {
-    color: #2d73ff;
-    margin-left: auto;
-    flex-shrink: 0;
-}
-
-/* Produits proposés dans les messages */
-.chat-message .products-attachment {
-    background: rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 0.4rem 0.8rem;
-    margin: 0.2rem 0;
-    max-width: 100%;
-}
-[data-theme="dark"] .chat-message .products-attachment {
-    background: rgba(255,255,255,0.06);
-}
-.chat-message .products-attachment .product-item {
-    font-size: 0.8rem;
-    padding: 0.1rem 0;
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-}
-.chat-message .products-attachment .product-item .product-price {
-    font-weight: 600;
-    color: #2d73ff;
-}
-
-/* Livreur suggéré dans les messages */
-.chat-message .livreur-attachment {
-    background: rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 0.4rem 0.8rem;
-    margin: 0.2rem 0;
-    font-size: 0.8rem;
-    max-width: 100%;
-}
-[data-theme="dark"] .chat-message .livreur-attachment {
-    background: rgba(255,255,255,0.06);
-}
-
-/* Audio dans les messages */
-.chat-message audio {
-    width: 100%;
-    max-width: 220px;
-    border-radius: 8px;
-    margin: 0.2rem 0;
-    display: block;
-}
-
-/* =========================================================
-   RESPONSIVE - Ajustements pour mobile
-   ========================================================= */
-@media (max-width: 600px) {
-    .chat-message {
-        max-width: 90%;
-        font-size: 0.85rem;
-        padding: 0.5rem 0.8rem;
-    }
-    .chat-message .media-preview {
-        max-height: 200px;
-    }
-    .chat-message .media-preview img {
-        max-height: 200px;
-    }
-    .chat-message .media-preview.video-preview video {
-        max-height: 200px;
-    }
-    .chat-message .media-preview.zoomed {
-        max-height: 300px;
-    }
-}
-
-@media (max-width: 400px) {
-    .chat-message {
-        max-width: 95%;
-        font-size: 0.82rem;
-        padding: 0.4rem 0.6rem;
-    }
-    .chat-message .media-preview {
-        max-height: 160px;
-    }
-    .chat-message .media-preview img {
-        max-height: 160px;
-    }
-    .chat-message .media-preview.video-preview video {
-        max-height: 160px;
-    }
-    .chat-message .media-preview.zoomed {
-        max-height: 240px;
-    }
-}
     </style>
 </head>
 <body>
@@ -2018,7 +1679,7 @@
     <!-- NOTIFICATION -->
     <div id="notification"></div>
 
-    <!-- DÉTAIL COMMANDE - Supprimé l'assignation livreur qui était hors place -->
+    <!-- DÉTAIL COMMANDE -->
     <div class="modal-order-overlay" id="modalOrderOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
         <div style="background:white;border-radius:24px;padding:1.5rem;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;">
             <h3 style="margin-bottom:0.5rem;">📋 Commande <span id="orderModalNumber">—</span></h3>
@@ -2032,7 +1693,7 @@
         </div>
     </div>
 
-    <!-- HEADER - SANS DECONNEXION, SANS DEVISE, SANS LANGUE -->
+    <!-- HEADER -->
     <header class="sine-header-bg">
         <div class="sine-header-stars">
             <span style="top:15%;left:10%;"></span>
@@ -2118,7 +1779,7 @@
                 <div id="favorisRecusVendeur"><div class="empty-state"><span class="icon">❤️</span>Aucun favori pour l'instant</div></div>
             </section>
 
-            <!-- PUBLIER - FORMULAIRE DYNAMIQUE -->
+            <!-- PUBLIER -->
             <section id="publier" class="card" style="display:none;">
                 <h2>📦 <span data-translate="section.publishProduct">Publier un produit</span></h2>
                 <p data-translate="seller.publishSubtitle">Ajoutez un nouveau produit à votre boutique. Les champs s'adaptent automatiquement à la catégorie sélectionnée.</p>
@@ -2383,7 +2044,7 @@
                 <div id="listeClients"><div class="empty-state"><span class="icon">👥</span><span data-translate="seller.noClients">Aucun client</span></div></div>
             </section>
 
-            <!-- MESSAGES - SECTION AVEC CSS ET STRUCTURE VISUELLE CORRIGÉES -->
+            <!-- MESSAGES -->
             <section id="messages" class="card" style="display:none;">
                 <h2>💬 <span data-translate="nav.messages">Messages</span></h2>
                 <p data-translate="seller.messagesSubtitle">Discutez avec vos clients — texte, photos, vidéos, fichiers, localisation, appels.</p>
@@ -2399,7 +2060,7 @@
                         </div>
                     </div>
 
-                    <div class="chat-thread" id="chatThread">
+                    <div class="chat-thread" id="chatThread" style="position:relative;">
                         <div class="chat-thread-header">
                             <button class="btn-back-thread" id="btnBackThread" style="display:none;"><i class="fa-solid fa-arrow-left"></i></button>
                             <img id="chatOtherAvatar" src="" alt="">
@@ -2431,7 +2092,7 @@
                             <i class="fa-solid fa-pen"></i> Modification du message
                             <button id="btnCancelEdit">Annuler</button>
                         </div>
-                        <div class="chat-compose">
+                        <div class="chat-compose" style="position:relative;">
                             <button id="btnAttach"><i class="fa-solid fa-paperclip"></i></button>
                             <div class="chat-attach-menu" id="chatAttachMenu">
                                 <button id="btnAttachPhoto"><i class="fa-regular fa-image"></i> Photo</button>
@@ -2793,7 +2454,7 @@
                 </div>
             </section>
 
-            <!-- PARAMÈTRES - Avec boutons et FAQ corrigés -->
+            <!-- PARAMÈTRES -->
             <section id="parametres" class="card" style="display:none;">
                 <h2>⚙️ <span data-translate="nav.settings">Paramètres</span></h2>
                 <p data-translate="seller.settingsSubtitle">Personnalisez votre compte vendeur.</p>
@@ -3030,538 +2691,243 @@
     <!-- ========================================================= -->
     <script>
         // =========================================================
-        // CONFIGURATION DES CATÉGORIES ET SOUS-CATÉGORIES
+        // CONFIGURATION
+        // =========================================================
+        let currentUser = null;
+        let allProducts = [];
+        let allOrders = [];
+        let allReservations = [];
+        let allNotifications = [];
+        let allConversations = [];
+        let currentKyc = null;
+        let sellerBalance = null;
+        let sellerWithdrawals = [];
+        let sellerDisputes = [];
+
+        // =========================================================
+        // TRADUCTIONS
+        // =========================================================
+        const TRANSLATIONS = {
+            fr: {
+                'seller.settingsSubtitle': 'Personnalisez votre compte vendeur.',
+                'seller.ageVerification': 'Vérification de l\'âge',
+                'seller.ageWarning': '⚠️ Vous devez avoir au moins 18 ans pour vendre sur SINE.SHOP.',
+                'seller.dateOfBirth': 'Date de naissance',
+                'seller.ageHint': '💡 La vente sur SINE.SHOP est réservée aux personnes majeures (+18 ans).',
+                'settings.appearance': 'Apparence',
+                'settings.theme': 'Thème',
+                'settings.language': 'Langue',
+                'settings.security': 'Sécurité',
+                'settings.changePassword': 'Modifier le mot de passe',
+                'settings.changeEmail': 'Modifier mon email',
+                'seller.logoutAllShort': 'Déconnecter tous',
+                'settings.logout': 'Déconnexion',
+                'seller.myRoles': 'Mes rôles',
+                'seller.myRolesNote': 'Un même compte peut aussi opérer comme livreur et/ou partenaire d\'affiliation, sans créer de second compte. Jamais de bascule possible vers un espace administrateur.',
+                'settings.helpCenter': 'Centre d\'aide',
+                'legal.sectionTitle': 'Informations légales',
+                'legalSeller.title': 'Conditions applicables aux vendeurs',
+                'legal.privacy': 'Confidentialité',
+                'account.management': 'Gestion du compte',
+                'account.hideTemporarily': 'Masquer temporairement',
+                'account.close': 'Fermer le compte',
+                'account.deletePermanently': 'Supprimer définitivement',
+                'account.managementNote': 'Une demande sera envoyée à notre équipe pour validation — rien n\'est appliqué immédiatement, sauf la suppression définitive qui met fin à votre session sur-le-champ (le compte reste néanmoins actif tant que la demande n\'est pas traitée).',
+                'settings.save': 'Sauvegarder',
+                'settings.email': 'Email',
+            },
+            en: {
+                'seller.settingsSubtitle': 'Customize your seller account.',
+                'seller.ageVerification': 'Age verification',
+                'seller.ageWarning': '⚠️ You must be at least 18 years old to sell on SINE.SHOP.',
+                'seller.dateOfBirth': 'Date of birth',
+                'seller.ageHint': '💡 Selling on SINE.SHOP is for adults (+18 years).',
+                'settings.appearance': 'Appearance',
+                'settings.theme': 'Theme',
+                'settings.language': 'Language',
+                'settings.security': 'Security',
+                'settings.changePassword': 'Change password',
+                'settings.changeEmail': 'Change email',
+                'seller.logoutAllShort': 'Logout all',
+                'settings.logout': 'Logout',
+                'seller.myRoles': 'My roles',
+                'seller.myRolesNote': 'Same account can also operate as delivery and/or affiliate partner, without creating a second account. Never possible to switch to admin space.',
+                'settings.helpCenter': 'Help center',
+                'legal.sectionTitle': 'Legal information',
+                'legalSeller.title': 'Conditions for sellers',
+                'legal.privacy': 'Privacy',
+                'account.management': 'Account management',
+                'account.hideTemporarily': 'Hide temporarily',
+                'account.close': 'Close account',
+                'account.deletePermanently': 'Delete permanently',
+                'account.managementNote': 'A request will be sent to our team for validation — nothing is applied immediately, except permanent deletion which ends your session immediately (the account remains active until the request is processed).',
+                'settings.save': 'Save',
+                'settings.email': 'Email',
+            }
+        };
+
+        function applyTranslations(lang) {
+            const t = TRANSLATIONS[lang] || TRANSLATIONS.fr;
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        if (el.placeholder) el.placeholder = t[key];
+                        else el.value = t[key];
+                    } else {
+                        const emoji = el.textContent.match(/^([^\w\s])/);
+                        el.textContent = emoji ? emoji[0] + ' ' + t[key] : t[key];
+                    }
+                }
+            });
+        }
+
+        // =========================================================
+        // CONFIGURATION DES CATÉGORIES
         // =========================================================
         const CATEGORY_CONFIG = {
             'slug:vetements': {
                 label: '👕 Vêtements',
-                subcategories: {
-                    'homme': '👔 Homme',
-                    'femme': '👗 Femme',
-                    'enfant': '🧒 Enfant',
-                    'bebe': '👶 Bébé',
-                    'sport': '🏃 Sport',
-                    'soiree': '🌙 Soirée',
-                    'travail': '💼 Travail',
-                    'streetwear': '🛹 Streetwear',
-                    'chic': '✨ Chic',
-                    'occasion': '🎉 Occasion'
-                },
+                subcategories: { 'homme': '👔 Homme', 'femme': '👗 Femme', 'enfant': '🧒 Enfant', 'bebe': '👶 Bébé' },
                 fields: [
-                    { id: 'taille', label: 'Taille', type: 'select', options: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL'] },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Blanc', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Rose', 'Orange', 'Violet', 'Gris', 'Marron', 'Beige', 'Kaki', 'Bordeaux', 'Turquoise'] },
-                    { id: 'matiere', label: 'Matière', type: 'select', options: ['Coton', 'Polyester', 'Laine', 'Soie', 'Lin', 'Denim', 'Cuir', 'Synthétique', 'Cachemire', 'Viscose'] },
-                    { id: 'genre', label: 'Genre', type: 'select', options: ['Homme', 'Femme', 'Unisexe', 'Enfant', 'Bébé'] }
+                    { id: 'taille', label: 'Taille', type: 'select', options: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] },
+                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Blanc', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Rose', 'Orange', 'Violet', 'Gris', 'Marron', 'Beige'] },
+                    { id: 'matiere', label: 'Matière', type: 'select', options: ['Coton', 'Polyester', 'Laine', 'Soie', 'Lin', 'Denim', 'Cuir', 'Synthétique'] }
                 ]
             },
             'slug:chaussures': {
                 label: '👟 Chaussures',
-                subcategories: {
-                    'sneakers': '👟 Sneakers',
-                    'baskets': '🏀 Baskets',
-                    'sandales': '🩴 Sandales',
-                    'bottes': '👢 Bottes',
-                    'escarpins': '👠 Escarpins',
-                    'mocassins': '👞 Mocassins',
-                    'chaussons': '🧦 Chaussons',
-                    'sport': '🏃 Sport',
-                    'marche': '🚶 Marche'
-                },
+                subcategories: { 'sneakers': '👟 Sneakers', 'baskets': '🏀 Baskets', 'sandales': '🩴 Sandales', 'bottes': '👢 Bottes' },
                 fields: [
                     { id: 'pointure', label: 'Pointure', type: 'select', options: ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47'] },
                     { id: 'couleur', label: 'Couleur', type: 'select', options: ['Blanc', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Rose', 'Orange', 'Violet', 'Gris', 'Marron', 'Beige'] },
-                    { id: 'matiere', label: 'Matière', type: 'select', options: ['Cuir', 'Synthétique', 'Toile', 'Daime', 'Caoutchouc', 'Textile'] },
-                    { id: 'genre', label: 'Genre', type: 'select', options: ['Homme', 'Femme', 'Unisexe', 'Enfant', 'Bébé'] }
+                    { id: 'matiere', label: 'Matière', type: 'select', options: ['Cuir', 'Synthétique', 'Toile', 'Daime', 'Caoutchouc', 'Textile'] }
                 ]
             },
             'slug:electronique': {
                 label: '📱 Électronique',
-                subcategories: {
-                    'smartphones': '📱 Smartphones',
-                    'tablettes': '📱 Tablettes',
-                    'ordinateurs': '💻 Ordinateurs',
-                    'accessoires': '🔌 Accessoires',
-                    'audio': '🎧 Audio',
-                    'gaming': '🎮 Gaming',
-                    'tv': '📺 Téléviseurs',
-                    'photo': '📷 Photo & Vidéo'
-                },
+                subcategories: { 'smartphones': '📱 Smartphones', 'tablettes': '📱 Tablettes', 'ordinateurs': '💻 Ordinateurs', 'accessoires': '🔌 Accessoires' },
                 fields: [
-                    { id: 'stockage', label: 'Stockage (GB)', type: 'select', options: ['16', '32', '64', '128', '256', '512', '1024', '2048'] },
-                    { id: 'ram', label: 'RAM (GB)', type: 'select', options: ['2', '4', '6', '8', '12', '16', '32', '64'] },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Noir', 'Blanc', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Gris', 'Or', 'Rose', 'Violet'] },
-                    { id: 'taille_ecran', label: 'Taille écran (pouces)', type: 'text', placeholder: 'Ex: 6.5' },
-                    { id: 'batterie', label: 'Batterie (mAh)', type: 'text', placeholder: 'Ex: 4000' },
-                    { id: 'etat', label: 'État', type: 'select', options: ['Neuf', 'Très bon', 'Bon', 'Correct', 'À réparer'] }
+                    { id: 'stockage', label: 'Stockage (GB)', type: 'select', options: ['16', '32', '64', '128', '256', '512', '1024'] },
+                    { id: 'ram', label: 'RAM (GB)', type: 'select', options: ['2', '4', '6', '8', '12', '16', '32'] },
+                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Noir', 'Blanc', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Gris', 'Or', 'Rose', 'Violet'] }
                 ]
             },
             'slug:montres': {
                 label: '⌚ Montres',
-                subcategories: {
-                    'luxe': '💎 Luxe',
-                    'sport': '🏃 Sport',
-                    'connectee': '⌚ Connectée',
-                    'classique': '🕰️ Classique',
-                    'automatique': '⚙️ Automatique'
-                },
+                subcategories: { 'luxe': '💎 Luxe', 'sport': '🏃 Sport', 'connectee': '⌚ Connectée', 'classique': '🕰️ Classique' },
                 fields: [
                     { id: 'couleur', label: 'Couleur', type: 'select', options: ['Or', 'Argent', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Gris', 'Rose'] },
                     { id: 'matiere', label: 'Matière', type: 'select', options: ['Acier', 'Or', 'Titane', 'Plastique', 'Céramique', 'Cuir', 'Silicone'] },
-                    { id: 'genre', label: 'Genre', type: 'select', options: ['Homme', 'Femme', 'Unisexe'] },
                     { id: 'mouvement', label: 'Mouvement', type: 'select', options: ['Quartz', 'Automatique', 'Mécanique', 'Connectée'] }
                 ]
             },
             'slug:maison': {
                 label: '🏠 Maison',
-                subcategories: {
-                    'decoration': '🖼️ Décoration',
-                    'mobilier': '🪑 Mobilier',
-                    'cuisine': '🍳 Cuisine',
-                    'linge': '🧺 Linge de maison',
-                    'jardin': '🌱 Jardin',
-                    'bricolage': '🔧 Bricolage',
-                    'luminaires': '💡 Luminaires'
-                },
+                subcategories: { 'decoration': '🖼️ Décoration', 'mobilier': '🪑 Mobilier', 'cuisine': '🍳 Cuisine', 'linge': '🧺 Linge' },
                 fields: [
                     { id: 'matiere', label: 'Matière', type: 'select', options: ['Bois', 'Métal', 'Verre', 'Plastique', 'Textile', 'Céramique', 'Pierre'] },
                     { id: 'couleur', label: 'Couleur', type: 'select', options: ['Blanc', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Gris', 'Beige', 'Marron'] },
                     { id: 'dimensions', label: 'Dimensions (cm)', type: 'text', placeholder: 'Ex: L50 x l40 x H30' }
                 ]
             },
-            'slug:sport': {
-                label: '⚽ Sport',
-                subcategories: {
-                    'football': '⚽ Football',
-                    'basketball': '🏀 Basketball',
-                    'tennis': '🎾 Tennis',
-                    'running': '🏃 Running',
-                    'fitness': '💪 Fitness',
-                    'velo': '🚴 Vélo',
-                    'natation': '🏊 Natation',
-                    'yoga': '🧘 Yoga'
-                },
-                fields: [
-                    { id: 'taille', label: 'Taille', type: 'select', options: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Blanc', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Jaune', 'Rose', 'Orange'] },
-                    { id: 'matiere', label: 'Matière', type: 'select', options: ['Coton', 'Polyester', 'Nylon', 'Caoutchouc', 'Synthétique'] }
-                ]
-            },
-            'slug:beaute': {
-                label: '💄 Beauté',
-                subcategories: {
-                    'soins': '🧴 Soins',
-                    'maquillage': '💄 Maquillage',
-                    'parfum': '🌹 Parfum',
-                    'ongles': '💅 Ongles',
-                    'cheveux': '💇 Cheveux',
-                    'corps': '🧖 Corps'
-                },
-                fields: [
-                    { id: 'type_peau', label: 'Type de peau', type: 'select', options: ['Normale', 'Sèche', 'Grasse', 'Mixte', 'Sensible'] },
-                    { id: 'ingredients', label: 'Ingrédients', type: 'text', placeholder: 'Ex: Aloe vera, Vitamine C' },
-                    { id: 'volume', label: 'Volume (ml)', type: 'text', placeholder: 'Ex: 50' }
-                ]
-            },
             'slug:alimentation': {
                 label: '🍎 Alimentation',
-                subcategories: {
-                    'fruits': '🍎 Fruits',
-                    'legumes': '🥬 Légumes',
-                    'viande': '🥩 Viande',
-                    'poisson': '🐟 Poisson',
-                    'produits_laitiers': '🥛 Produits laitiers',
-                    'epicerie': '🛒 Épicerie',
-                    'boissons': '🥤 Boissons',
-                    'patisserie': '🎂 Pâtisserie'
-                },
+                subcategories: { 'fruits': '🍎 Fruits', 'legumes': '🥬 Légumes', 'viande': '🥩 Viande', 'poisson': '🐟 Poisson' },
                 fields: [
                     { id: 'poids_net', label: 'Poids net (g)', type: 'text', placeholder: 'Ex: 500' },
                     { id: 'ingredients', label: 'Ingrédients', type: 'text', placeholder: 'Ex: Farine, sucre, œufs' },
                     { id: 'allergenes', label: 'Allergènes', type: 'text', placeholder: 'Ex: Gluten, lactose' },
-                    { id: 'date_limite', label: 'Date limite de consommation', type: 'date' }
-                ]
-            },
-            'slug:panini': {
-                label: '🥪 Panini',
-                subcategories: {
-                    'jambon': '🥪 Jambon',
-                    'poulet': '🍗 Poulet',
-                    'thon': '🐟 Thon',
-                    'vegetarien': '🌿 Végétarien',
-                    'italien': '🇮🇹 Italien',
-                    'fromage': '🧀 Fromage'
-                },
-                fields: [
-                    { id: 'pain', label: 'Type de pain', type: 'select', options: ['Blanc', 'Complet', 'Seigle', 'Sans gluten'] },
-                    { id: 'garniture', label: 'Garniture principale', type: 'text', placeholder: 'Ex: Jambon, poulet' },
-                    { id: 'sauce', label: 'Sauce', type: 'select', options: ['Mayonnaise', 'Ketchup', 'Moutarde', 'Samouraï', 'Algérienne', 'Blanche'] },
-                    { id: 'fromage', label: 'Fromage', type: 'select', options: ['Emmental', 'Cheddar', 'Mozzarella', 'Gouda', 'Sans fromage'] },
-                    { id: 'legumes', label: 'Légumes ajoutés', type: 'text', placeholder: 'Ex: Salade, tomates, oignons' }
-                ]
-            },
-            'slug:burger': {
-                label: '🍔 Burger',
-                subcategories: {
-                    'boeuf': '🥩 Bœuf',
-                    'poulet': '🍗 Poulet',
-                    'poisson': '🐟 Poisson',
-                    'vegetarien': '🌿 Végétarien',
-                    'double': '🍔 Double',
-                    'fromage': '🧀 Fromage'
-                },
-                fields: [
-                    { id: 'viande', label: 'Type de viande', type: 'select', options: ['Bœuf', 'Poulet', 'Poisson', 'Végétarien'] },
-                    { id: 'pain', label: 'Type de pain', type: 'select', options: ['Brioche', 'Sésame', 'Complet', 'Sans gluten'] },
-                    { id: 'sauce', label: 'Sauce', type: 'select', options: ['Mayonnaise', 'Ketchup', 'Moutarde', 'Barbecue', 'Samouraï', 'Algérienne'] },
-                    { id: 'fromage', label: 'Fromage', type: 'select', options: ['Cheddar', 'Emmental', 'Mozzarella', 'Gouda', 'Sans fromage'] },
-                    { id: 'supplements', label: 'Suppléments', type: 'text', placeholder: 'Ex: Bacon, oeuf, onion rings' }
-                ]
-            },
-            'slug:pizza': {
-                label: '🍕 Pizza',
-                subcategories: {
-                    'italienne': '🇮🇹 Italienne',
-                    'pepperoni': '🍕 Pepperoni',
-                    'vegetarienne': '🌿 Végétarienne',
-                    'calzone': '🥟 Calzone',
-                    'fromage': '🧀 Fromage',
-                    'fruit_mer': '🐙 Fruits de mer'
-                },
-                fields: [
-                    { id: 'taille', label: 'Taille (cm)', type: 'select', options: ['30', '33', '40', '50'] },
-                    { id: 'pate', label: 'Type de pâte', type: 'select', options: ['Fine', 'Épaisse', 'Panée'] },
-                    { id: 'sauce', label: 'Sauce', type: 'select', options: ['Tomate', 'Crème', 'Pesto', 'Barbecue'] },
-                    { id: 'fromage', label: 'Fromage', type: 'text', placeholder: 'Ex: Mozzarella, Parmesan' },
-                    { id: 'garnitures', label: 'Garnitures', type: 'text', placeholder: 'Ex: Pepperoni, champignons' }
-                ]
-            },
-            'slug:glace': {
-                label: '🍦 Glace',
-                subcategories: {
-                    'pot': '🍦 Pot',
-                    'cornet': '🍦 Cornet',
-                    'barre': '🍫 Barre',
-                    'glace_sorbet': '🍧 Sorbet',
-                    'glace_yogourt': '🥛 Yogourt',
-                    'glace_vegan': '🌿 Vegan'
-                },
-                fields: [
-                    { id: 'parfum', label: 'Parfum', type: 'text', placeholder: 'Ex: Vanille, Chocolat' },
-                    { id: 'contenance', label: 'Contenance (ml)', type: 'text', placeholder: 'Ex: 500' },
-                    { id: 'composition', label: 'Composition', type: 'text', placeholder: 'Ex: Lait, crème, sucre' },
-                    { id: 'allergenes', label: 'Allergènes', type: 'text', placeholder: 'Ex: Lactose, gluten' }
-                ]
-            },
-            'slug:fastfood': {
-                label: '🍟 Fast Food',
-                subcategories: {
-                    'frites': '🍟 Frites',
-                    'nuggets': '🍗 Nuggets',
-                    'tenders': '🍗 Tenders',
-                    'sandwich': '🥪 Sandwich',
-                    'wrap': '🌯 Wrap',
-                    'menu': '📦 Menu'
-                },
-                fields: [
-                    { id: 'type', label: 'Type de plat', type: 'text', placeholder: 'Ex: Frites, nuggets' },
-                    { id: 'portion', label: 'Portion', type: 'select', options: ['Petite', 'Moyenne', 'Grande', 'XL'] },
-                    { id: 'accompagnement', label: 'Accompagnement', type: 'text', placeholder: 'Ex: Sauce, salade' }
-                ]
-            },
-            'slug:sushi': {
-                label: '🍣 Sushi',
-                subcategories: {
-                    'maki': '🍣 Maki',
-                    'sashimi': '🍣 Sashimi',
-                    'nigiri': '🍣 Nigiri',
-                    'temaki': '🍣 Temaki',
-                    'californien': '🦀 Californien'
-                },
-                fields: [
-                    { id: 'type', label: 'Type de sushi', type: 'text', placeholder: 'Ex: Maki, Sashimi' },
-                    { id: 'nombre', label: 'Nombre de pièces', type: 'text', placeholder: 'Ex: 8' },
-                    { id: 'ingredients', label: 'Ingrédients', type: 'text', placeholder: 'Ex: Saumon, avocat' }
-                ]
-            },
-            'slug:boulangerie': {
-                label: '🥖 Boulangerie',
-                subcategories: {
-                    'pain': '🥖 Pain',
-                    'baguette': '🥖 Baguette',
-                    'viennoiserie': '🥐 Viennoiserie',
-                    'sandwich': '🥪 Sandwich',
-                    'quiche': '🥧 Quiche',
-                    'pizza': '🍕 Pizza'
-                },
-                fields: [
-                    { id: 'type', label: 'Type de produit', type: 'text', placeholder: 'Ex: Pain, baguette' },
-                    { id: 'poids', label: 'Poids (g)', type: 'text', placeholder: 'Ex: 250' },
-                    { id: 'ingredients', label: 'Ingrédients', type: 'text', placeholder: 'Ex: Farine, eau, levure' }
-                ]
-            },
-            'slug:patisserie': {
-                label: '🎂 Pâtisserie',
-                subcategories: {
-                    'gateau': '🎂 Gâteau',
-                    'tarte': '🥧 Tarte',
-                    'macaron': '🍭 Macaron',
-                    'eclair': '🍩 Éclair',
-                    'mousse': '🍮 Mousse',
-                    'entremet': '🎂 Entremet'
-                },
-                fields: [
-                    { id: 'type', label: 'Type de pâtisserie', type: 'text', placeholder: 'Ex: Gâteau, tarte' },
-                    { id: 'nombre_parts', label: 'Nombre de parts', type: 'text', placeholder: 'Ex: 6' },
-                    { id: 'ingredients', label: 'Ingrédients', type: 'text', placeholder: 'Ex: Chocolat, vanille' },
-                    { id: 'allergenes', label: 'Allergènes', type: 'text', placeholder: 'Ex: Gluten, lactose, oeufs' }
-                ]
-            },
-            'slug:boisson': {
-                label: '🥤 Boisson',
-                subcategories: {
-                    'jus': '🧃 Jus',
-                    'soda': '🥤 Soda',
-                    'eau': '💧 Eau',
-                    'alcool': '🍷 Alcool',
-                    'cafe': '☕ Café',
-                    'the': '🍵 Thé'
-                },
-                fields: [
-                    { id: 'type', label: 'Type de boisson', type: 'text', placeholder: 'Ex: Jus, soda' },
-                    { id: 'volume', label: 'Volume (ml)', type: 'text', placeholder: 'Ex: 330' },
-                    { id: 'marque', label: 'Marque', type: 'text', placeholder: 'Ex: Coca-Cola' }
+                    { id: 'date_limite', label: 'Date limite', type: 'date' }
                 ]
             },
             'slug:smartphone': {
                 label: '📱 Smartphone',
-                subcategories: {
-                    'android': '🤖 Android',
-                    'ios': '🍎 iOS',
-                    'windows': '💻 Windows',
-                    'pliable': '📱 Pliable',
-                    'compact': '📱 Compact'
-                },
+                subcategories: { 'android': '🤖 Android', 'ios': '🍎 iOS', 'windows': '💻 Windows' },
                 fields: [
-                    { id: 'marque', label: 'Marque', type: 'select', options: ['Apple', 'Samsung', 'Xiaomi', 'Huawei', 'OnePlus', 'Google', 'Sony', 'LG', 'Motorola', 'Nokia'] },
+                    { id: 'marque', label: 'Marque', type: 'select', options: ['Apple', 'Samsung', 'Xiaomi', 'Huawei', 'OnePlus', 'Google', 'Sony'] },
                     { id: 'modele', label: 'Modèle', type: 'text', placeholder: 'Ex: iPhone 15 Pro' },
                     { id: 'stockage', label: 'Stockage (GB)', type: 'select', options: ['16', '32', '64', '128', '256', '512', '1024'] },
                     { id: 'ram', label: 'RAM (GB)', type: 'select', options: ['2', '4', '6', '8', '12', '16'] },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Noir', 'Blanc', 'Bleu', 'Rouge', 'Vert', 'Gris', 'Or', 'Rose', 'Violet'] },
-                    { id: 'etat', label: 'État', type: 'select', options: ['Neuf', 'Comme neuf', 'Très bon', 'Bon', 'Correct', 'À réparer'] },
-                    { id: 'garantie', label: 'Garantie (mois)', type: 'text', placeholder: 'Ex: 12' }
-                ]
-            },
-            'slug:tablette': {
-                label: '📱 Tablette',
-                subcategories: {
-                    'android': '🤖 Android',
-                    'ios': '🍎 iOS',
-                    'windows': '💻 Windows',
-                    'graphique': '✏️ Graphique'
-                },
-                fields: [
-                    { id: 'marque', label: 'Marque', type: 'select', options: ['Apple', 'Samsung', 'Xiaomi', 'Huawei', 'Lenovo', 'Sony'] },
-                    { id: 'modele', label: 'Modèle', type: 'text', placeholder: 'Ex: iPad Pro' },
-                    { id: 'taille_ecran', label: 'Taille écran (pouces)', type: 'select', options: ['7', '8', '9', '10', '11', '12', '13'] },
-                    { id: 'stockage', label: 'Stockage (GB)', type: 'select', options: ['16', '32', '64', '128', '256', '512'] },
-                    { id: 'ram', label: 'RAM (GB)', type: 'select', options: ['2', '4', '6', '8', '16'] }
+                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Noir', 'Blanc', 'Bleu', 'Rouge', 'Vert', 'Gris', 'Or', 'Rose', 'Violet'] }
                 ]
             },
             'slug:ordinateur': {
                 label: '💻 Ordinateur',
-                subcategories: {
-                    'pc_portable': '💻 PC Portable',
-                    'pc_fixe': '🖥️ PC Fixe',
-                    'mac': '🍎 Mac',
-                    'workstation': '⚡ Workstation',
-                    'mini_pc': '📦 Mini PC'
-                },
+                subcategories: { 'pc_portable': '💻 PC Portable', 'pc_fixe': '🖥️ PC Fixe', 'mac': '🍎 Mac' },
                 fields: [
-                    { id: 'marque', label: 'Marque', type: 'select', options: ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'MSI', 'Samsung', 'Sony'] },
+                    { id: 'marque', label: 'Marque', type: 'select', options: ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'MSI'] },
                     { id: 'modele', label: 'Modèle', type: 'text', placeholder: 'Ex: MacBook Pro' },
-                    { id: 'processeur', label: 'Processeur', type: 'select', options: ['Intel Core i3', 'Intel Core i5', 'Intel Core i7', 'Intel Core i9', 'AMD Ryzen 3', 'AMD Ryzen 5', 'AMD Ryzen 7', 'AMD Ryzen 9', 'Apple M1', 'Apple M2', 'Apple M3'] },
-                    { id: 'ram', label: 'RAM (GB)', type: 'select', options: ['4', '8', '16', '32', '64', '128'] },
-                    { id: 'stockage', label: 'Stockage (GB)', type: 'select', options: ['128', '256', '512', '1024', '2048', '4096'] },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Noir', 'Blanc', 'Gris', 'Argent', 'Or', 'Bleu'] },
-                    { id: 'etat', label: 'État', type: 'select', options: ['Neuf', 'Comme neuf', 'Très bon', 'Bon', 'Correct', 'À réparer'] }
-                ]
-            },
-            'slug:accessoire': {
-                label: '🔌 Accessoire',
-                subcategories: {
-                    'audio': '🎧 Audio',
-                    'coque': '📱 Coque',
-                    'chargeur': '🔌 Chargeur',
-                    'cable': '🔌 Câble',
-                    'support': '📱 Support',
-                    'protection': '🛡️ Protection'
-                },
-                fields: [
-                    { id: 'type', label: 'Type d\'accessoire', type: 'text', placeholder: 'Ex: Coque, chargeur' },
-                    { id: 'compatibilite', label: 'Compatibilité', type: 'text', placeholder: 'Ex: iPhone 15, Samsung Galaxy S24' },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Blanc', 'Noir', 'Bleu', 'Rouge', 'Vert', 'Gris', 'Rose', 'Transparent'] }
-                ]
-            },
-            'slug:audio': {
-                label: '🎧 Audio',
-                subcategories: {
-                    'casque': '🎧 Casque',
-                    'ecouteurs': '🎧 Écouteurs',
-                    'enceinte': '🔊 Enceinte',
-                    'micro': '🎤 Micro',
-                    'ampli': '🔊 Ampli'
-                },
-                fields: [
-                    { id: 'type', label: 'Type', type: 'select', options: ['Casque', 'Écouteurs', 'Enceinte', 'Micro'] },
-                    { id: 'marque', label: 'Marque', type: 'select', options: ['Apple', 'Sony', 'Bose', 'JBL', 'Samsung', 'Senheiser', 'Beats'] },
-                    { id: 'modele', label: 'Modèle', type: 'text', placeholder: 'Ex: AirPods Pro' },
-                    { id: 'couleur', label: 'Couleur', type: 'select', options: ['Noir', 'Blanc', 'Bleu', 'Rouge', 'Gris', 'Rose'] },
-                    { id: 'connexion', label: 'Connexion', type: 'select', options: ['Bluetooth', 'Filire', 'USB', 'Jack'] }
-                ]
-            },
-            'slug:automobile': {
-                label: '🚗 Automobile',
-                subcategories: {
-                    'voiture': '🚗 Voiture',
-                    'moto': '🏍️ Moto',
-                    'pieces': '🔧 Pièces',
-                    'accessoires': '🛠️ Accessoires',
-                    'pneus': '🏁 Pneus'
-                },
-                fields: [
-                    { id: 'marque', label: 'Marque', type: 'select', options: ['Toyota', 'Honda', 'Nissan', 'BMW', 'Mercedes', 'Audi', 'Volkswagen', 'Ford', 'Peugeot', 'Renault', 'Ferrari', 'Lamborghini', 'Porsche', 'Tesla'] },
-                    { id: 'modele', label: 'Modèle', type: 'text', placeholder: 'Ex: Corolla, Golf' },
-                    { id: 'annee', label: 'Année', type: 'select', options: ['2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016'] },
-                    { id: 'kilometrage', label: 'Kilométrage (km)', type: 'text', placeholder: 'Ex: 45000' },
-                    { id: 'carburant', label: 'Carburant', type: 'select', options: ['Essence', 'Diesel', 'Hybride', 'Électrique', 'GPL'] },
-                    { id: 'transmission', label: 'Transmission', type: 'select', options: ['Manuelle', 'Automatique', 'Semi-automatique'] }
+                    { id: 'processeur', label: 'Processeur', type: 'select', options: ['Intel Core i5', 'Intel Core i7', 'Intel Core i9', 'AMD Ryzen 5', 'AMD Ryzen 7', 'Apple M1', 'Apple M2'] },
+                    { id: 'ram', label: 'RAM (GB)', type: 'select', options: ['4', '8', '16', '32', '64'] },
+                    { id: 'stockage', label: 'Stockage (GB)', type: 'select', options: ['128', '256', '512', '1024', '2048'] }
                 ]
             },
             'slug:livres': {
                 label: '📚 Livres',
-                subcategories: {
-                    'roman': '📖 Roman',
-                    'science': '🔬 Science',
-                    'scolaire': '📚 Scolaire',
-                    'bd': '📚 BD',
-                    'manga': '📚 Manga',
-                    'art': '🎨 Art'
-                },
+                subcategories: { 'roman': '📖 Roman', 'science': '🔬 Science', 'scolaire': '📚 Scolaire', 'bd': '📚 BD' },
                 fields: [
                     { id: 'auteur', label: 'Auteur', type: 'text', placeholder: 'Ex: Victor Hugo' },
-                    { id: 'pages', label: 'Nombre de pages', type: 'text', placeholder: 'Ex: 350' },
+                    { id: 'pages', label: 'Pages', type: 'text', placeholder: 'Ex: 350' },
                     { id: 'langue', label: 'Langue', type: 'select', options: ['Français', 'Anglais', 'Arabe', 'Espagnol', 'Italien', 'Allemand'] },
                     { id: 'format', label: 'Format', type: 'select', options: ['Broché', 'Relié', 'E-book', 'Audio'] }
                 ]
             },
-            'slug:jeux': {
-                label: '🎮 Jeux',
-                subcategories: {
-                    'video': '🎮 Vidéo',
-                    'console': '🕹️ Console',
-                    'accessoire': '🎮 Accessoire',
-                    'jeux_table': '🎲 Jeux de table'
-                },
-                fields: [
-                    { id: 'plateforme', label: 'Plateforme', type: 'select', options: ['PlayStation 5', 'Xbox Series X', 'Nintendo Switch', 'PC', 'Mac', 'Mobile'] },
-                    { id: 'genre', label: 'Genre', type: 'select', options: ['Action', 'Aventure', 'RPG', 'Sport', 'Simulation', 'Stratégie', 'Indie'] },
-                    { id: 'multijoueur', label: 'Multijoueur', type: 'select', options: ['Oui', 'Non'] }
-                ]
-            },
-            'slug:service': {
-                label: '🛠️ Service',
-                subcategories: {
-                    'formation': '📚 Formation',
-                    'coaching': '👨‍🏫 Coaching',
-                    'consulting': '💼 Consulting',
-                    'freelance': '💻 Freelance',
-                    'artisanat': '🔧 Artisanat'
-                },
-                fields: [
-                    { id: 'duree', label: 'Durée estimée', type: 'text', placeholder: 'Ex: 2 heures' },
-                    { id: 'lieu', label: 'Lieu', type: 'select', options: ['À domicile', 'En ligne', 'En boutique'] },
-                    { id: 'inclus', label: 'Ce qui est inclus', type: 'text', placeholder: 'Ex: Matériel fourni' }
-                ]
-            },
             'slug:autre': {
                 label: '📦 Autre',
-                subcategories: {
-                    'divers': '📦 Divers',
-                    'art': '🎨 Art',
-                    'musique': '🎵 Musique'
-                },
+                subcategories: { 'divers': '📦 Divers', 'art': '🎨 Art' },
                 fields: []
             }
         };
 
-        // =========================================================
-        // FONCTION POUR METTRE À JOUR LE FORMULAIRE DYNAMIQUE
-        // =========================================================
         function updateDynamicFields() {
             const categorySlug = document.getElementById('productCategory').value;
             const container = document.getElementById('dynamicAttributesContainer');
             const fieldsContainer = document.getElementById('dynamicAttributesFields');
-            const label = document.getElementById('dynamicAttributesLabel');
 
             fieldsContainer.innerHTML = '';
             container.style.display = 'none';
 
-            if (!categorySlug || !CATEGORY_CONFIG[categorySlug]) {
-                return;
-            }
+            if (!categorySlug || !CATEGORY_CONFIG[categorySlug]) return;
 
             const config = CATEGORY_CONFIG[categorySlug];
             const fields = config.fields || [];
 
-            if (fields.length === 0) {
-                return;
-            }
+            if (fields.length === 0) return;
 
             container.style.display = 'block';
 
-            fields.forEach((field, index) => {
+            fields.forEach((field) => {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'dynamic-field-group';
-                if (index > 0) wrapper.style.marginTop = '0.8rem';
 
-                const fieldLabel = document.createElement('label');
-                fieldLabel.textContent = field.label + (field.options ? ' *' : '');
-                fieldLabel.style.fontWeight = '600';
-                fieldLabel.style.fontSize = '0.82rem';
-                fieldLabel.style.display = 'block';
-                fieldLabel.style.marginBottom = '3px';
-                wrapper.appendChild(fieldLabel);
+                const label = document.createElement('label');
+                label.textContent = field.label + (field.options ? ' *' : '');
+                wrapper.appendChild(label);
 
                 let input;
-
                 if (field.type === 'select' && field.options) {
                     input = document.createElement('select');
                     input.dataset.attrKey = field.id;
-
-                    const emptyOption = document.createElement('option');
-                    emptyOption.value = '';
-                    emptyOption.textContent = 'Choisir...';
-                    input.appendChild(emptyOption);
-
+                    const emptyOpt = document.createElement('option');
+                    emptyOpt.value = '';
+                    emptyOpt.textContent = 'Choisir...';
+                    input.appendChild(emptyOpt);
                     field.options.forEach(opt => {
                         const option = document.createElement('option');
                         option.value = opt;
                         option.textContent = opt;
                         input.appendChild(option);
                     });
-
                 } else if (field.type === 'date') {
                     input = document.createElement('input');
                     input.type = 'date';
                     input.dataset.attrKey = field.id;
-
                 } else {
                     input = document.createElement('input');
                     input.type = 'text';
                     input.dataset.attrKey = field.id;
-                    if (field.placeholder) {
-                        input.placeholder = field.placeholder;
-                    }
+                    if (field.placeholder) input.placeholder = field.placeholder;
                 }
 
                 input.style.width = '100%';
@@ -3582,22 +2948,15 @@
             });
         }
 
-        // =========================================================
-        // FONCTION POUR METTRE À JOUR LES SOUS-CATÉGORIES
-        // =========================================================
         function updateSubcategories() {
             const categorySlug = document.getElementById('productCategory').value;
             const subSelect = document.getElementById('productSubCategory');
 
             subSelect.innerHTML = '<option value="">Choisir une sous-catégorie</option>';
 
-            if (!categorySlug || !CATEGORY_CONFIG[categorySlug]) {
-                return;
-            }
+            if (!categorySlug || !CATEGORY_CONFIG[categorySlug]) return;
 
-            const config = CATEGORY_CONFIG[categorySlug];
-            const subcategories = config.subcategories || {};
-
+            const subcategories = CATEGORY_CONFIG[categorySlug].subcategories || {};
             Object.keys(subcategories).forEach(key => {
                 const option = document.createElement('option');
                 option.value = key;
@@ -3606,9 +2965,6 @@
             });
         }
 
-        // =========================================================
-        // FONCTION POUR ESTIMER LE POIDS
-        // =========================================================
         function estimerPoids() {
             const nom = document.getElementById('productName').value.toLowerCase();
             const categorie = document.getElementById('productCategory').value;
@@ -3620,194 +2976,31 @@
                 return;
             }
 
-            let poidsEstime = 0;
-
             const estimations = {
-                'slug:vetements': 0.5,
-                'slug:chaussures': 0.8,
-                'slug:electronique': 0.3,
-                'slug:montres': 0.2,
-                'slug:maison': 2.0,
-                'slug:sport': 0.6,
-                'slug:beaute': 0.2,
-                'slug:alimentation': 0.5,
-                'slug:automobile': 800,
-                'slug:livres': 0.4,
-                'slug:jeux': 0.2,
-                'slug:service': 0,
-                'slug:panini': 0.3,
-                'slug:burger': 0.4,
-                'slug:pizza': 0.5,
-                'slug:glace': 0.5,
-                'slug:fastfood': 0.3,
-                'slug:sushi': 0.3,
-                'slug:boulangerie': 0.3,
-                'slug:patisserie': 0.4,
-                'slug:boisson': 0.5,
-                'slug:smartphone': 0.2,
-                'slug:tablette': 0.4,
-                'slug:ordinateur': 1.5,
-                'slug:accessoire': 0.1,
-                'slug:audio': 0.3,
-                'slug:autre': 0.2
+                'slug:vetements': 0.5, 'slug:chaussures': 0.8, 'slug:electronique': 0.3,
+                'slug:montres': 0.2, 'slug:maison': 2.0, 'slug:sport': 0.6,
+                'slug:beaute': 0.2, 'slug:alimentation': 0.5, 'slug:automobile': 800,
+                'slug:livres': 0.4, 'slug:jeux': 0.2, 'slug:service': 0,
+                'slug:panini': 0.3, 'slug:burger': 0.4, 'slug:pizza': 0.5,
+                'slug:glace': 0.5, 'slug:fastfood': 0.3, 'slug:sushi': 0.3,
+                'slug:boulangerie': 0.3, 'slug:patisserie': 0.4, 'slug:boisson': 0.5,
+                'slug:smartphone': 0.2, 'slug:tablette': 0.4, 'slug:ordinateur': 1.5,
+                'slug:accessoire': 0.1, 'slug:audio': 0.3, 'slug:autre': 0.2
             };
 
-            poidsEstime = estimations[categorie] || 0.2;
+            let poids = estimations[categorie] || 0.2;
 
-            if (nom.includes('grand') || nom.includes('large') || nom.includes('xl')) poidsEstime *= 1.2;
-            if (nom.includes('petit') || nom.includes('mini') || nom.includes('xs')) poidsEstime *= 0.7;
-            if (nom.includes('pack') || nom.includes('lot') || nom.includes('ensemble')) poidsEstime *= 2;
-            if (nom.includes('kg') || nom.includes('gramme')) {
-                const match = nom.match(/(\d+)\s*(?:kg|kg|kilogramme)/);
-                if (match) poidsEstime = parseFloat(match[1]);
-            }
+            if (nom.includes('grand') || nom.includes('large') || nom.includes('xl')) poids *= 1.2;
+            if (nom.includes('petit') || nom.includes('mini') || nom.includes('xs')) poids *= 0.7;
+            if (nom.includes('pack') || nom.includes('lot')) poids *= 2;
 
-            if (poidsEstime > 0) {
-                weightInput.value = poidsEstime.toFixed(2);
-                hint.textContent = `📏 Poids estimé automatiquement à ${poidsEstime.toFixed(2)} kg (modifiable).`;
+            if (poids > 0) {
+                weightInput.value = poids.toFixed(2);
+                hint.textContent = `📏 Poids estimé à ${poids.toFixed(2)} kg (modifiable).`;
             } else {
-                hint.textContent = '📏 Poids non estimé — saisissez-le manuellement si nécessaire.';
+                hint.textContent = '📏 Poids non estimé — saisissez-le manuellement.';
             }
         }
-
-        // =========================================================
-        // ÉVÉNEMENTS DU FORMULAIRE
-        // =========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('productCategory').addEventListener('change', function() {
-                updateSubcategories();
-                updateDynamicFields();
-                estimerPoids();
-            });
-
-            document.getElementById('productName').addEventListener('input', function() {
-                estimerPoids();
-            });
-
-            document.getElementById('productWeight').addEventListener('input', function() {
-                if (this.value !== '') {
-                    this.dataset.userEdited = 'true';
-                } else {
-                    delete this.dataset.userEdited;
-                }
-            });
-
-            document.getElementById('btnNewCategory').addEventListener('click', function() {
-                document.getElementById('newCategoryModal').style.display = 'flex';
-                document.getElementById('newCategoryName').value = '';
-                document.getElementById('newCategoryDescription').value = '';
-            });
-
-            document.getElementById('btnConfirmNewCategory').addEventListener('click', async function() {
-                const name = document.getElementById('newCategoryName').value.trim();
-                if (!name) {
-                    showNotification('Veuillez saisir un nom de catégorie.', 'warning');
-                    return;
-                }
-
-                this.disabled = true;
-                try {
-                    const formData = new FormData();
-                    formData.append('name', name);
-                    formData.append('description', document.getElementById('newCategoryDescription').value.trim());
-
-                    const response = await fetch('/api/categories', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        },
-                        body: formData
-                    });
-
-                    if (!response.ok) {
-                        const error = await response.json();
-                        throw new Error(error.message || 'Erreur lors de la création');
-                    }
-
-                    const data = await response.json();
-                    const slug = data.data.slug;
-
-                    const select = document.getElementById('productCategory');
-                    const option = document.createElement('option');
-                    option.value = 'slug:' + slug;
-                    option.textContent = '📦 ' + name;
-                    select.appendChild(option);
-                    select.value = 'slug:' + slug;
-
-                    CATEGORY_CONFIG['slug:' + slug] = {
-                        label: '📦 ' + name,
-                        subcategories: {
-                            'divers': '📦 Divers'
-                        },
-                        fields: [
-                            { id: 'description', label: 'Description', type: 'text', placeholder: 'Décrivez votre produit...' }
-                        ]
-                    };
-
-                    document.getElementById('newCategoryModal').style.display = 'none';
-                    showNotification('✅ Catégorie créée avec succès !', 'success');
-
-                    updateSubcategories();
-                    updateDynamicFields();
-
-                } catch (error) {
-                    showNotification('❌ ' + error.message, 'error');
-                } finally {
-                    this.disabled = false;
-                }
-            });
-
-            updateSubcategories();
-            updateDynamicFields();
-
-            const observer = new MutationObserver(function() {
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                document.querySelectorAll('#dynamicAttributesFields input, #dynamicAttributesFields select').forEach(el => {
-                    if (isDark) {
-                        el.style.background = '#0f172a';
-                        el.style.borderColor = '#334155';
-                        el.style.color = '#e2e8f0';
-                    } else {
-                        el.style.background = 'white';
-                        el.style.borderColor = '#e2e8f0';
-                        el.style.color = '#1a2a3a';
-                    }
-                });
-            });
-            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-        });
-
-        // =========================================================
-        // TOUS LES ÉMOJIS
-        // =========================================================
-        const ALL_EMOJIS = [
-            '😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎',
-            '😍', '🥰', '😘', '😗', '😙', '😚', '😳', '😁', '😬', '😓', '😔', '😞',
-            '😟', '😤', '😢', '😭', '😦', '😧', '😨', '😩', '😰', '😥', '😪', '😫',
-            '😱', '😲', '😵', '😡', '😠', '🤬', '😷', '🤒', '🤕', '🤢', '🤮', '🤧',
-            '🥶', '🥵', '🤠', '🤡', '🤥', '🤫', '🤭', '🧐', '🤓', '😈', '👿', '👹',
-            '💀', '☠️', '👻', '👽', '🤖', '🎃', '😺', '😸', '😻', '🙀', '😽', '😼',
-            '🙈', '🙉', '🙊', '🐵', '🐒', '🐶', '🐕', '🐩', '🐺', '🦊', '🐱', '🐈',
-            '🦁', '🐯', '🐅', '🐆', '🐴', '🐎', '🦄', '🦓', '🦌', '🐮', '🐂', '🐃',
-            '🐄', '🐷', '🐖', '🐗', '🐽', '🐏', '🐑', '🐐', '🐪', '🐫', '🦙', '🦒',
-            '🐘', '🦏', '🦛', '🐭', '🐁', '🐀', '🐹', '🐰', '🐇', '🐿️', '🦔', '🦇',
-            '🐻', '🐨', '🐼', '🦘', '🦡', '🐾', '🦃', '🐔', '🐓', '🐣', '🐤', '🐥',
-            '🐦', '🐧', '🕊️', '🦅', '🦆', '🦢', '🦉', '🦩', '🦚', '🦜', '🐸', '🐊',
-            '🐢', '🦎', '🐍', '🐲', '🐉', '🦕', '🦖', '🐳', '🐋', '🐬', '🐟', '🐠',
-            '🐡', '🦈', '🐙', '🐚', '🐌', '🦋', '🐛', '🐜', '🐝', '🐞', '🦗', '🦟',
-            '🪲', '🪳', '🪴', '🌵', '🎄', '🌲', '🌳', '🌴', '🌱', '🌿', '☘️', '🍀',
-            '🎍', '🎋', '🍃', '🍂', '🍁', '🍄', '🌾', '💐', '🌸', '🌷', '🌹', '🥀',
-            '🌺', '🌻', '🌼', '🌽', '🌶️', '🥑', '🍆', '🍅', '🥝', '🍌', '🍍', '🥭',
-            '🍎', '🍏', '🍐', '🍊', '🍋', '🍒', '🍇', '🍉', '🍓', '🍈', '🍑', '🍒',
-            '🍑', '🍒', '🫐', '🥥', '🥦', '🧅', '🧄', '🍄', '🥜', '🌰', '🍞', '🥐',
-            '🥖', '🥨', '🥯', '🥞', '🧇', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟',
-            '🍕', '🌭', '🥪', '🌮', '🌯', '🫔', '🥙', '🧆', '🥚', '🍳', '🥘', '🍲',
-            '🫕', '🥣', '🥗', '🍿', '🧈', '🧂', '🥫', '🍱', '🍘', '🍙', '🍚', '🍛',
-            '🍜', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🥮', '🍡', '🥟', '🥠', '🥡',
-            '🦐', '🦞', '🦀', '🦑', '🐚', '🍦', '🍧', '🍨', '🍩', '🍪', '🎂', '🧁',
-            '🍰', '🍫', '🍬', '🍭', '🍮', '🍯', '🍼', '🥛', '☕', '🫖', '🍵', '🍶',
-            '🍾', '🍷', '🍸', '🍹', '🍺', '🍻', '🥂', '🥃', '🥤', '🧃', '🧉', '🧊'
-        ];
 
         // =========================================================
         // NOTIFICATION
@@ -3829,7 +3022,6 @@
         function formatPrice(amount) {
             if (!amount || isNaN(amount)) amount = 0;
             const currency = currentUser?.preferredCurrency || 'XOF';
-            if (window.SINE) return window.SINE.formatCurrency(amount);
             const symbol = { XOF: 'FCFA', EUR: '€', USD: '$', GBP: '£', CAD: 'CA$', MAD: 'MAD', NGN: '₦' } [currency] || currency;
             return `${symbol} ${amount.toLocaleString('fr-FR')}`;
         }
@@ -3934,7 +3126,6 @@
             renderRolesPanel();
             renderConversationList();
 
-            // Mettre à jour le badge des messages non lus
             const unreadMessages = allConversations.reduce((sum, c) => sum + (c.unreadCount || 0), 0);
             document.getElementById('messagesBadge').textContent = unreadMessages || 0;
         }
@@ -4002,7 +3193,6 @@
             }
             document.getElementById('storeLogoPreview').src = currentUser.storeLogo || photo;
             document.getElementById('pseudoVendeur').value = currentUser.pseudo || '';
-            document.getElementById('pseudoVendeur').disabled = false;
             document.getElementById('bioVendeur').value = currentUser.bio || '';
             document.getElementById('instaVendeur').value = currentUser.socialLinks?.instagram || '';
             document.getElementById('fbVendeur').value = currentUser.socialLinks?.facebook || '';
@@ -4066,7 +3256,7 @@
             document.getElementById('progressionPercent').textContent = percent + '%';
             document.getElementById('progressionBar').style.width = percent + '%';
 
-            document.getElementById('langueSeller').value = currentUser.preferredLanguage || (window.SINE ? window.SINE.detectLanguage() : 'fr');
+            document.getElementById('langueSeller').value = currentUser.preferredLanguage || 'fr';
             document.getElementById('deviseSeller').value = currentUser.preferredCurrency || 'XOF';
             document.getElementById('deviseSeller').disabled = !!currentUser.preferredCurrency;
 
@@ -4102,13 +3292,13 @@
                 container.innerHTML = '<div class="empty-state"><span class="icon">📦</span>Aucune commande</div>';
             } else {
                 container.innerHTML = recentOrders.map(o => `
-                        <div class="card-item">
-                            <span class="title">#${o.orderNumber || o._id}</span>
-                            <span class="subtitle">${o.items?.length || 0} article(s)</span>
-                            <span class="status status-${o.status || 'pending'}">${o.status || 'En attente'}</span>
-                            <span class="price">${formatPrice(o.total || 0)}</span>
-                        </div>
-                    `).join('');
+                    <div class="card-item">
+                        <span class="title">#${o.orderNumber || o._id}</span>
+                        <span class="subtitle">${o.items?.length || 0} article(s)</span>
+                        <span class="status status-${o.status || 'pending'}">${o.status || 'En attente'}</span>
+                        <span class="price">${formatPrice(o.total || 0)}</span>
+                    </div>
+                `).join('');
             }
 
             (async function() {
@@ -4119,12 +3309,12 @@
                         favContainer.innerHTML = '<div class="empty-state"><span class="icon">❤️</span>Aucun favori pour l\'instant</div>';
                     } else {
                         favContainer.innerHTML = favStats.map(f => `
-                                <div class="card-item">
-                                    <img src="${f.image || '../images/produit.png'}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" onerror="this.src='../images/produit.png'">
-                                    <span class="title">${f.productName}</span>
-                                    <span class="price">❤️ ${f.favoriteCount}</span>
-                                </div>
-                            `).join('');
+                            <div class="card-item">
+                                <img src="${f.image || '../images/produit.png'}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" onerror="this.src='../images/produit.png'">
+                                <span class="title">${f.productName}</span>
+                                <span class="price">❤️ ${f.favoriteCount}</span>
+                            </div>
+                        `).join('');
                     }
                 } catch (e) {
                     console.error('Erreur chargement favoris vendeur:', e);
@@ -4133,6 +3323,7 @@
 
             applyLanguage(document.getElementById('langueSeller').value);
             applyCurrency(document.getElementById('deviseSeller').value);
+            applyTranslations(document.getElementById('langueSeller').value);
         }
 
         // =========================================================
@@ -4162,15 +3353,15 @@
                 const sold = salesCountByProduct[p._id] || 0;
                 const prixFinal = (p.discountedPrice && p.discountedPrice < p.price) ? p.discountedPrice : (p.price || 0);
                 return `
-                        <div class="card-item">
-                            <span class="title">${p.name || 'Produit'}</span>
-                            <span class="subtitle">Stock: ${stock} · 🛒 ${sold} vendu${sold > 1 ? 's' : ''}</span>
-                            <span class="status status-${statusClass}">${statusLabel}</span>
-                            <span class="price">${formatPrice(prixFinal)}</span>
-                            <button class="btn-detail" onclick="editProduct('${p._id}')">✏️</button>
-                            <button onclick="deleteProduct('${p._id}')" style="color:#ef4444;">🗑️</button>
-                        </div>
-                    `;
+                    <div class="card-item">
+                        <span class="title">${p.name || 'Produit'}</span>
+                        <span class="subtitle">Stock: ${stock} · 🛒 ${sold} vendu${sold > 1 ? 's' : ''}</span>
+                        <span class="status status-${statusClass}">${statusLabel}</span>
+                        <span class="price">${formatPrice(prixFinal)}</span>
+                        <button class="btn-detail" onclick="editProduct('${p._id}')">✏️</button>
+                        <button onclick="deleteProduct('${p._id}')" style="color:#ef4444;">🗑️</button>
+                    </div>
+                `;
             }).join('');
         }
 
@@ -4184,14 +3375,14 @@
                 return;
             }
             container.innerHTML = orders.map(o => `
-                    <div class="card-item">
-                        <span class="title">#${o.orderNumber || o._id}</span>
-                        <span class="subtitle">${o.user?.firstName ? `${o.user.firstName} ${o.user.lastName}` : 'Client'}</span>
-                        <span class="status status-${o.status || 'pending'}">${o.status || 'En attente'}</span>
-                        <span class="price">${formatPrice(o.total || 0)}</span>
-                        <button class="btn-detail" onclick="viewOrder('${o._id}')">📋</button>
-                    </div>
-                `).join('');
+                <div class="card-item">
+                    <span class="title">#${o.orderNumber || o._id}</span>
+                    <span class="subtitle">${o.user?.firstName ? `${o.user.firstName} ${o.user.lastName}` : 'Client'}</span>
+                    <span class="status status-${o.status || 'pending'}">${o.status || 'En attente'}</span>
+                    <span class="price">${formatPrice(o.total || 0)}</span>
+                    <button class="btn-detail" onclick="viewOrder('${o._id}')">📋</button>
+                </div>
+            `).join('');
         }
 
         // =========================================================
@@ -4204,14 +3395,14 @@
                 return;
             }
             container.innerHTML = reservations.map(r => `
-                    <div class="card-item">
-                        <span class="title">${r.product?.name || 'Réservation'}</span>
-                        <span class="subtitle">${r.user?.firstName ? `${r.user.firstName} ${r.user.lastName}` : 'Client'}</span>
-                        <span class="status status-${r.status || 'pending'}">${r.status || 'En attente'}</span>
-                        <span class="price">${formatPrice(r.totalPrice || 0)}</span>
-                        <button class="btn-detail" onclick="confirmReservation('${r._id}')">✅</button>
-                    </div>
-                `).join('');
+                <div class="card-item">
+                    <span class="title">${r.product?.name || 'Réservation'}</span>
+                    <span class="subtitle">${r.user?.firstName ? `${r.user.firstName} ${r.user.lastName}` : 'Client'}</span>
+                    <span class="status status-${r.status || 'pending'}">${r.status || 'En attente'}</span>
+                    <span class="price">${formatPrice(r.totalPrice || 0)}</span>
+                    <button class="btn-detail" onclick="confirmReservation('${r._id}')">✅</button>
+                </div>
+            `).join('');
         }
 
         // =========================================================
@@ -4224,13 +3415,13 @@
                 return;
             }
             container.innerHTML = notifs.slice(0, 10).map(n => `
-                    <div class="card-item" style="${n.isRead ? 'opacity:0.6;' : ''}">
-                        <span class="title">${n.title || 'Notification'}</span>
-                        <span class="subtitle">${n.message || ''}</span>
-                        <span style="font-size:0.7rem;color:#94a3b8;">${n.createdAt ? new Date(n.createdAt).toLocaleDateString() : ''}</span>
-                        ${!n.isRead ? `<button onclick="markNotifRead('${n._id}')" style="color:#2563eb;font-size:0.75rem;">Marquer lu</button>` : ''}
-                    </div>
-                `).join('');
+                <div class="card-item" style="${n.isRead ? 'opacity:0.6;' : ''}">
+                    <span class="title">${n.title || 'Notification'}</span>
+                    <span class="subtitle">${n.message || ''}</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;">${n.createdAt ? new Date(n.createdAt).toLocaleDateString() : ''}</span>
+                    ${!n.isRead ? `<button onclick="markNotifRead('${n._id}')" style="color:#2563eb;font-size:0.75rem;">Marquer lu</button>` : ''}
+                </div>
+            `).join('');
         }
 
         // =========================================================
@@ -4253,12 +3444,12 @@
                 return;
             }
             container.innerHTML = clients.map(c => `
-                    <div class="card-item">
-                        <span class="title">${c.name}</span>
-                        <span class="subtitle">${c.email}</span>
-                        <button class="btn-detail" onclick="messageClient('${c.id}')">💬</button>
-                    </div>
-                `).join('');
+                <div class="card-item">
+                    <span class="title">${c.name}</span>
+                    <span class="subtitle">${c.email}</span>
+                    <button class="btn-detail" onclick="messageClient('${c.id}')">💬</button>
+                </div>
+            `).join('');
         }
 
         // =========================================================
@@ -4291,13 +3482,6 @@
                         const el = document.querySelector(`#dynamicAttributesFields [data-attr-key="${key}"]`);
                         if (!el) return;
                         el.value = attrs[key];
-                        const group = document.querySelector(`#dynamicAttributesFields .multi-check-group[data-multi-for="${key}"]`);
-                        if (group) {
-                            const valeurs = String(attrs[key] || '').split(',').map(v => v.trim());
-                            group.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                                cb.checked = valeurs.includes(cb.value);
-                            });
-                        }
                     });
                 }
 
@@ -4332,11 +3516,11 @@
             document.getElementById('orderModalStatus').textContent = order.status || 'en attente';
             document.getElementById('orderModalTotal').textContent = formatPrice(order.total || 0);
             document.getElementById('orderModalItems').innerHTML = (order.items || []).map(it => `
-                    <div class="card-item">
-                        <span class="title">${it.product?.name || 'Article'}</span>
-                        <span class="subtitle">Qté: ${it.quantity || 1}</span>
-                    </div>
-                `).join('') || '<p style="color:#94a3b8;font-size:0.85rem;">Aucun article détaillé.</p>';
+                <div class="card-item">
+                    <span class="title">${it.product?.name || 'Article'}</span>
+                    <span class="subtitle">Qté: ${it.quantity || 1}</span>
+                </div>
+            `).join('') || '<p style="color:#94a3b8;font-size:0.85rem;">Aucun article détaillé.</p>';
 
             document.getElementById('modalOrderOverlay').style.display = 'flex';
         };
@@ -4395,7 +3579,6 @@
             });
 
             const subcategory = document.getElementById('productSubCategory').value;
-
             const btn = this;
             btn.disabled = true;
 
@@ -4482,23 +3665,23 @@
                     : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;">📷 Aucune image</div>`);
 
             document.getElementById('previewProductContent').innerHTML = `
-                    <div style="border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
-                        <div style="position:relative;width:100%;aspect-ratio:1/1;background:#f8fafc;overflow:hidden;">
-                            ${mediaHtml}
-                            ${enPromo ? `<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;font-size:0.62rem;font-weight:700;padding:2px 10px;border-radius:20px;">-${pourcentage}%</span>` : ''}
-                            ${stock <= 0 ? `<span style="position:absolute;top:8px;right:8px;background:#f59e0b;color:#fff;font-size:0.62rem;font-weight:700;padding:2px 10px;border-radius:20px;">Rupture</span>` : ''}
-                        </div>
-                        <div style="padding:12px;">
-                            <div style="font-weight:600;font-size:0.95rem;margin-bottom:6px;">${name}</div>
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                <span style="font-weight:700;color:#0f172a;">${price.toLocaleString('fr-FR')} FCFA</span>
-                                ${enPromo ? `<span style="text-decoration:line-through;color:#94a3b8;font-size:0.8rem;">${oldPrice.toLocaleString('fr-FR')} FCFA</span>` : ''}
-                            </div>
-                            <div style="font-size:0.78rem;color:${stock > 0 ? '#16a34a' : '#dc2626'};">${stock > 0 ? '✅ En stock' : '❌ Rupture de stock'}</div>
-                        </div>
+                <div style="border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+                    <div style="position:relative;width:100%;aspect-ratio:1/1;background:#f8fafc;overflow:hidden;">
+                        ${mediaHtml}
+                        ${enPromo ? `<span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;font-size:0.62rem;font-weight:700;padding:2px 10px;border-radius:20px;">-${pourcentage}%</span>` : ''}
+                        ${stock <= 0 ? `<span style="position:absolute;top:8px;right:8px;background:#f59e0b;color:#fff;font-size:0.62rem;font-weight:700;padding:2px 10px;border-radius:20px;">Rupture</span>` : ''}
                     </div>
-                    <p style="font-size:0.75rem;color:#94a3b8;margin-top:10px;text-align:center;">Aperçu approximatif — les photos/vidéos reçoivent un traitement automatique "vitrine" à la publication.</p>
-                `;
+                    <div style="padding:12px;">
+                        <div style="font-weight:600;font-size:0.95rem;margin-bottom:6px;">${name}</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                            <span style="font-weight:700;color:#0f172a;">${price.toLocaleString('fr-FR')} FCFA</span>
+                            ${enPromo ? `<span style="text-decoration:line-through;color:#94a3b8;font-size:0.8rem;">${oldPrice.toLocaleString('fr-FR')} FCFA</span>` : ''}
+                        </div>
+                        <div style="font-size:0.78rem;color:${stock > 0 ? '#16a34a' : '#dc2626'};">${stock > 0 ? '✅ En stock' : '❌ Rupture de stock'}</div>
+                    </div>
+                </div>
+                <p style="font-size:0.75rem;color:#94a3b8;margin-top:10px;text-align:center;">Aperçu approximatif — les photos/vidéos reçoivent un traitement automatique "vitrine" à la publication.</p>
+            `;
             document.getElementById('previewProductModal').style.display = 'flex';
         });
 
@@ -4700,6 +3883,107 @@
             setupUploadArea('kycFrontUpload', 'kycDocumentFront', 'kycFrontPreview', 'image', 'kycDocumentFront');
             setupUploadArea('kycBackUpload', 'kycDocumentBack', 'kycBackPreview', 'image', 'kycDocumentBack');
             setupUploadArea('kycSelfieUpload', 'kycSelfie', 'kycSelfiePreview', 'image', 'kycSelfie');
+
+            // Événements du formulaire
+            document.getElementById('productCategory').addEventListener('change', function() {
+                updateSubcategories();
+                updateDynamicFields();
+                estimerPoids();
+            });
+
+            document.getElementById('productName').addEventListener('input', function() {
+                estimerPoids();
+            });
+
+            document.getElementById('productWeight').addEventListener('input', function() {
+                if (this.value !== '') {
+                    this.dataset.userEdited = 'true';
+                } else {
+                    delete this.dataset.userEdited;
+                }
+            });
+
+            document.getElementById('btnNewCategory').addEventListener('click', function() {
+                document.getElementById('newCategoryModal').style.display = 'flex';
+                document.getElementById('newCategoryName').value = '';
+                document.getElementById('newCategoryDescription').value = '';
+            });
+
+            document.getElementById('btnConfirmNewCategory').addEventListener('click', async function() {
+                const name = document.getElementById('newCategoryName').value.trim();
+                if (!name) {
+                    showNotification('Veuillez saisir un nom de catégorie.', 'warning');
+                    return;
+                }
+
+                this.disabled = true;
+                try {
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('description', document.getElementById('newCategoryDescription').value.trim());
+
+                    const response = await fetch('/api/categories', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || 'Erreur lors de la création');
+                    }
+
+                    const data = await response.json();
+                    const slug = data.data.slug;
+
+                    const select = document.getElementById('productCategory');
+                    const option = document.createElement('option');
+                    option.value = 'slug:' + slug;
+                    option.textContent = '📦 ' + name;
+                    select.appendChild(option);
+                    select.value = 'slug:' + slug;
+
+                    CATEGORY_CONFIG['slug:' + slug] = {
+                        label: '📦 ' + name,
+                        subcategories: { 'divers': '📦 Divers' },
+                        fields: [
+                            { id: 'description', label: 'Description', type: 'text', placeholder: 'Décrivez votre produit...' }
+                        ]
+                    };
+
+                    document.getElementById('newCategoryModal').style.display = 'none';
+                    showNotification('✅ Catégorie créée avec succès !', 'success');
+
+                    updateSubcategories();
+                    updateDynamicFields();
+
+                } catch (error) {
+                    showNotification('❌ ' + error.message, 'error');
+                } finally {
+                    this.disabled = false;
+                }
+            });
+
+            updateSubcategories();
+            updateDynamicFields();
+
+            const observer = new MutationObserver(function() {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                document.querySelectorAll('#dynamicAttributesFields input, #dynamicAttributesFields select').forEach(el => {
+                    if (isDark) {
+                        el.style.background = '#0f172a';
+                        el.style.borderColor = '#334155';
+                        el.style.color = '#e2e8f0';
+                    } else {
+                        el.style.background = 'white';
+                        el.style.borderColor = '#e2e8f0';
+                        el.style.color = '#1a2a3a';
+                    }
+                });
+            });
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
         });
 
         // =========================================================
@@ -4804,12 +4088,12 @@
                 return;
             }
             container.innerHTML = sellerWithdrawals.map(w => `
-                    <div class="card-item">
-                        <span class="title">${formatPrice(w.amount)} — ${w.method}</span>
-                        <span class="subtitle">${WITHDRAW_STATUS_LABELS[w.status] || w.status}${w.rejectionReason ? ' · ' + w.rejectionReason : ''}</span>
-                        <span style="font-size:0.7rem;color:#94a3b8;">${w.createdAt ? new Date(w.createdAt).toLocaleDateString() : ''}</span>
-                    </div>
-                `).join('');
+                <div class="card-item">
+                    <span class="title">${formatPrice(w.amount)} — ${w.method}</span>
+                    <span class="subtitle">${WITHDRAW_STATUS_LABELS[w.status] || w.status}${w.rejectionReason ? ' · ' + w.rejectionReason : ''}</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;">${w.createdAt ? new Date(w.createdAt).toLocaleDateString() : ''}</span>
+                </div>
+            `).join('');
         }
 
         document.getElementById('btnSellerWithdraw').addEventListener('click', async function() {
@@ -4862,13 +4146,13 @@
                 return;
             }
             container.innerHTML = sellerDisputes.map(d => `
-                    <div class="card-item">
-                        <span class="title">${DISPUTE_REASON_LABELS_SELLER[d.reason] || d.reason} — Commande #${(d.order?._id || d.order || '').toString().slice(-6).toUpperCase()}</span>
-                        <span class="subtitle">${d.description || ''}</span>
-                        <span class="status">${DISPUTE_STATUS_LABELS[d.status] || d.status}${d.resolution ? ' · ' + d.resolution : ''}</span>
-                        <span style="font-size:0.7rem;color:#94a3b8;">${d.createdAt ? new Date(d.createdAt).toLocaleDateString() : ''}</span>
-                    </div>
-                `).join('');
+                <div class="card-item">
+                    <span class="title">${DISPUTE_REASON_LABELS_SELLER[d.reason] || d.reason} — Commande #${(d.order?._id || d.order || '').toString().slice(-6).toUpperCase()}</span>
+                    <span class="subtitle">${d.description || ''}</span>
+                    <span class="status">${DISPUTE_STATUS_LABELS[d.status] || d.status}${d.resolution ? ' · ' + d.resolution : ''}</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;">${d.createdAt ? new Date(d.createdAt).toLocaleDateString() : ''}</span>
+                </div>
+            `).join('');
         }
 
         // =========================================================
@@ -4955,7 +4239,9 @@
             if (currentUser) {
                 window.SineAPI.updateProfile({ preferredLanguage: this.value }).catch(() => {});
             }
+            applyTranslations(this.value);
         });
+
         document.getElementById('deviseSeller').addEventListener('change', function() {
             applyCurrency(this.value);
             if (currentUser) {
@@ -5123,6 +4409,7 @@
             document.getElementById('emailChangeNewValue').value = '';
             document.getElementById('emailChangeModal').style.display = 'flex';
         });
+
         document.getElementById('btnRequestEmailChange').addEventListener('click', async function() {
             const newEmail = document.getElementById('emailChangeNewValue').value.trim();
             if (!newEmail) return;
@@ -5135,6 +4422,7 @@
                 showNotification(e.message || 'Erreur lors de la demande.', 'error');
             }
         });
+
         document.getElementById('btnConfirmEmailChange').addEventListener('click', async function() {
             const code = document.getElementById('emailChangeCode').value.trim();
             if (!code) return;
@@ -5148,6 +4436,7 @@
                 showNotification(e.message || 'Code incorrect.', 'error');
             }
         });
+
         document.querySelectorAll('#phoneVerifyModal, #emailChangeModal').forEach(function(modal) {
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) modal.style.display = 'none';
@@ -5228,6 +4517,7 @@
             document.getElementById('pwConfirm').value = '';
             passwordModal.style.display = 'flex';
         });
+
         document.getElementById('btnAnnulerPw').addEventListener('click', () => { passwordModal.style.display = 'none'; });
         passwordModal.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
 
@@ -5266,6 +4556,7 @@
             document.getElementById('pwStepForgot').style.display = 'block';
             document.getElementById('btnRenvoyerCodeOubli').disabled = true;
         });
+
         document.getElementById('btnAnnulerPwForgot').addEventListener('click', () => { passwordModal.style.display = 'none'; });
 
         let pwResendTimer = null;
@@ -5294,6 +4585,7 @@
                 showNotification(e.message || 'Erreur lors de l\'envoi du code.', 'error');
             }
         }
+
         document.getElementById('btnEnvoyerCodeOubli').addEventListener('click', sendForgotPasswordCode);
         document.getElementById('btnRenvoyerCodeOubli').addEventListener('click', sendForgotPasswordCode);
 
@@ -5334,6 +4626,7 @@
             document.getElementById('emailNew').value = '';
             emailModal.style.display = 'flex';
         });
+
         document.getElementById('btnAnnulerEmail').addEventListener('click', () => { emailModal.style.display = 'none'; });
         document.getElementById('btnAnnulerEmailCode').addEventListener('click', () => { emailModal.style.display = 'none'; });
         emailModal.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
@@ -5384,9 +4677,6 @@
             }
         });
 
-        // =========================================================
-        // DÉCONNEXION DEPUIS PARAMÈTRES
-        // =========================================================
         document.getElementById('btnLogoutSettings').addEventListener('click', function() {
             if (confirm('Se déconnecter ?')) {
                 window.SineAPI.logout();
@@ -5426,7 +4716,7 @@
         });
 
         // =========================================================
-        // RENDU CONVERSATION (chat) - AMÉLIORÉ
+        // RENDU CONVERSATION (chat)
         // =========================================================
         function renderConversationList() {
             const container = document.getElementById('chatConvListItems');
@@ -5472,9 +4762,8 @@
         }
 
         // =========================================================
-        // CHAT MESSAGING - AMÉLIORÉ
+        // CHAT MESSAGING
         // =========================================================
-        // Fonction pour afficher un message dans le chat
         function displayChatMessage(message, isOwn) {
             const container = document.getElementById('chatMessages');
             if (!container) return;
@@ -5482,15 +4771,12 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-message ${isOwn ? 'sent' : 'received'}`;
 
-            // Contenu du message
             let contentHtml = '';
 
-            // Texte
             if (message.text) {
                 contentHtml += `<div>${message.text}</div>`;
             }
 
-            // Média (image)
             if (message.media && message.media.url) {
                 const isImage = message.media.url.match(/\.(jpeg|jpg|gif|png|webp)$/i);
                 if (isImage) {
@@ -5502,44 +4788,38 @@
                 }
             }
 
-            // Fichier
             if (message.file && message.file.name) {
-                contentHtml += `<div style="background:rgba(0,0,0,0.05);padding:0.4rem 0.8rem;border-radius:8px;margin:0.2rem 0;font-size:0.8rem;">
+                contentHtml += `<div class="file-attachment">
                     <i class="fa-regular fa-file"></i> ${message.file.name}
                     <a href="${message.file.url}" target="_blank" style="color:#2d73ff;margin-left:0.5rem;">📥</a>
                 </div>`;
             }
 
-            // Localisation
             if (message.location && message.location.lat && message.location.lng) {
-                contentHtml += `<div style="background:rgba(0,0,0,0.05);padding:0.4rem 0.8rem;border-radius:8px;margin:0.2rem 0;font-size:0.8rem;">
+                contentHtml += `<div class="location-attachment">
                     <i class="fa-solid fa-location-dot"></i> Localisation
                     <a href="https://www.google.com/maps?q=${message.location.lat},${message.location.lng}" target="_blank" style="color:#2d73ff;margin-left:0.5rem;">📍 Voir</a>
                 </div>`;
             }
 
-            // Produits proposés
             if (message.products && message.products.length) {
-                contentHtml += `<div style="background:rgba(0,0,0,0.05);border-radius:8px;padding:0.4rem 0.8rem;margin:0.2rem 0;">
+                contentHtml += `<div class="products-attachment">
                     <div style="font-size:0.7rem;color:#94a3b8;">🛒 Produits proposés</div>
-                    ${message.products.map(p => `<div style="font-size:0.8rem;">• ${p.name} - ${formatPrice(p.price)}</div>`).join('')}
+                    ${message.products.map(p => `<div class="product-item">• ${p.name} <span class="product-price">${formatPrice(p.price)}</span></div>`).join('')}
                 </div>`;
             }
 
-            // Livreur suggéré
             if (message.livreur && message.livreur.name) {
-                contentHtml += `<div style="background:rgba(0,0,0,0.05);border-radius:8px;padding:0.4rem 0.8rem;margin:0.2rem 0;font-size:0.8rem;">
+                contentHtml += `<div class="livreur-attachment">
                     <i class="fa-solid fa-motorcycle"></i> Livreur suggéré : ${message.livreur.name}
                     ${message.livreur.phone ? `📞 ${message.livreur.phone}` : ''}
                 </div>`;
             }
 
-            // Vocal
             if (message.voice && message.voice.url) {
-                contentHtml += `<audio controls style="width:100%;max-width:180px;border-radius:8px;margin:0.2rem 0;" src="${message.voice.url}"></audio>`;
+                contentHtml += `<audio controls src="${message.voice.url}"></audio>`;
             }
 
-            // Heure
             const time = message.createdAt ? new Date(message.createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '';
             contentHtml += `<span class="time">${time}</span>`;
 
@@ -5563,7 +4843,6 @@
             timer: null,
         };
 
-        // Afficher la notification d'appel entrant
         function showCallNotification(caller, isVideo) {
             const notif = document.getElementById('callNotification');
             document.getElementById('notifCallAvatar').src = caller.profilePicture || '../images/profil.png';
@@ -5575,25 +4854,10 @@
             callState.isVideo = isVideo;
         }
 
-        // Accepter l'appel depuis la notification
-        document.getElementById('notifAcceptCall').addEventListener('click', function() {
-            acceptCall();
-        });
-
-        // Rejeter l'appel depuis la notification
-        document.getElementById('notifRejectCall').addEventListener('click', function() {
-            rejectCall();
-        });
-
-        // Accepter l'appel depuis l'overlay
-        document.getElementById('btnAcceptCall').addEventListener('click', function() {
-            acceptCall();
-        });
-
-        // Rejeter l'appel depuis l'overlay
-        document.getElementById('btnRejectCall').addEventListener('click', function() {
-            rejectCall();
-        });
+        document.getElementById('notifAcceptCall').addEventListener('click', function() { acceptCall(); });
+        document.getElementById('notifRejectCall').addEventListener('click', function() { rejectCall(); });
+        document.getElementById('btnAcceptCall').addEventListener('click', function() { acceptCall(); });
+        document.getElementById('btnRejectCall').addEventListener('click', function() { rejectCall(); });
 
         function acceptCall() {
             const notif = document.getElementById('callNotification');
@@ -5612,10 +4876,7 @@
                 document.getElementById('callVideos').classList.add('active');
             }
 
-            // Démarrer le timer
             startCallTimer();
-
-            // Ici, on connecte le WebRTC
             startWebRTC(callState.isVideo);
         }
 
@@ -5638,9 +4899,7 @@
             }, 1000);
         }
 
-        // LANCER UN APPEL (audio ou vidéo)
         function startCall(userId, isVideo) {
-            // Trouver l'utilisateur dans les conversations
             const conv = allConversations.find(c => c.otherUser?._id === userId || c._id === userId);
             if (!conv) {
                 showNotification('Utilisateur introuvable', 'error');
@@ -5664,24 +4923,18 @@
 
             callState.isVideo = isVideo;
             callState.isActive = true;
-
-            // Ici, on initie l'appel via WebRTC
             initiateCall(userId, isVideo);
         }
 
-        // WebRTC - Simulation (à connecter avec le backend)
         function initiateCall(userId, isVideo) {
-            // Dans une vraie implémentation, on utiliserait WebRTC avec un serveur de signalisation
             showNotification(`📞 Appel ${isVideo ? 'vidéo' : 'audio'} initié...`, 'success');
 
-            // Simuler la connexion
             setTimeout(() => {
                 document.getElementById('callSoundRings').style.display = 'none';
                 document.getElementById('callStatus').textContent = 'En ligne...';
                 startCallTimer();
                 if (isVideo) {
                     document.getElementById('callVideos').classList.add('active');
-                    // Simuler un flux vidéo local
                     const localVideo = document.getElementById('localVideo');
                     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                         .then(stream => {
@@ -5692,7 +4945,6 @@
                             console.warn('Caméra non disponible:', err);
                         });
                 } else {
-                    // Audio uniquement
                     navigator.mediaDevices.getUserMedia({ audio: true })
                         .then(stream => {
                             callState.localStream = stream;
@@ -5711,10 +4963,8 @@
                     .then(stream => {
                         localVideo.srcObject = stream;
                         callState.localStream = stream;
-                        // Simuler un flux distant
                         setTimeout(() => {
                             const remoteVideo = document.getElementById('remoteVideo');
-                            // Simuler un flux distant (dans la vraie vie, on recevrait via WebRTC)
                             navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                                 .then(stream => {
                                     remoteVideo.srcObject = stream;
@@ -5725,7 +4975,6 @@
                     })
                     .catch(err => {
                         console.warn('Caméra non disponible:', err);
-                        // Continuer en audio uniquement
                         navigator.mediaDevices.getUserMedia({ audio: true })
                             .then(stream => {
                                 callState.localStream = stream;
@@ -5733,7 +4982,6 @@
                             .catch(() => {});
                     });
             } else {
-                // Audio seulement
                 navigator.mediaDevices.getUserMedia({ audio: true })
                     .then(stream => {
                         callState.localStream = stream;
@@ -5742,16 +4990,12 @@
             }
         }
 
-        // Raccrocher
-        document.getElementById('btnHangup').addEventListener('click', function() {
-            hangupCall();
-        });
+        document.getElementById('btnHangup').addEventListener('click', function() { hangupCall(); });
 
         function hangupCall() {
             clearInterval(callState.timer);
             callState.isActive = false;
 
-            // Arrêter les flux
             if (callState.localStream) {
                 callState.localStream.getTracks().forEach(t => t.stop());
                 callState.localStream = null;
@@ -5766,14 +5010,12 @@
             document.getElementById('callControls').style.display = 'none';
             document.getElementById('callSoundRings').style.display = 'block';
 
-            // Réinitialiser les vidéos
             document.getElementById('localVideo').srcObject = null;
             document.getElementById('remoteVideo').srcObject = null;
 
             showNotification('📞 Appel terminé', 'info');
         }
 
-        // Basculer micro
         document.getElementById('btnToggleMic').addEventListener('click', function() {
             if (callState.localStream) {
                 const audioTracks = callState.localStream.getAudioTracks();
@@ -5786,7 +5028,6 @@
             }
         });
 
-        // Basculer caméra
         document.getElementById('btnToggleCam').addEventListener('click', function() {
             if (callState.localStream) {
                 const videoTracks = callState.localStream.getVideoTracks();
@@ -5799,7 +5040,6 @@
             }
         });
 
-        // Bouton d'appel audio dans le chat
         document.getElementById('btnCallAudio').addEventListener('click', function() {
             const convId = window._activeConversationId;
             if (!convId) {
@@ -5814,7 +5054,6 @@
             startCall(conv.otherUser._id || convId, false);
         });
 
-        // Bouton d'appel vidéo dans le chat
         document.getElementById('btnCallVideo').addEventListener('click', function() {
             const convId = window._activeConversationId;
             if (!convId) {
@@ -5829,7 +5068,6 @@
             startCall(conv.otherUser._id || convId, true);
         });
 
-        // Redimensionner la vidéo (plein écran / mini)
         let videoFullscreen = false;
         document.getElementById('btnResizeVideo').addEventListener('click', function() {
             const videos = document.getElementById('callVideos');
@@ -5892,25 +5130,22 @@
                 currentUser = userData;
             }
 
-            // Appliquer le thème sauvegardé
             const savedTheme = localStorage.getItem('sineTheme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSeller').value = savedTheme;
 
             loadData();
 
-            // Appliquer la langue et la devise
             if (currentUser.preferredLanguage) {
                 applyLanguage(currentUser.preferredLanguage);
+                applyTranslations(currentUser.preferredLanguage);
             }
             if (currentUser.preferredCurrency) {
                 applyCurrency(currentUser.preferredCurrency);
             }
 
-            // Connexion Socket
             window.SineSocket.connect();
 
-            // Initialiser le chat
             window.sineChat = window.initSineChat({
                 getCurrentUser: () => currentUser,
                 getConversations: () => allConversations,
@@ -5921,10 +5156,8 @@
                 displayMessage: displayChatMessage
             });
 
-            // Rafraîchissement périodique
             setInterval(() => { if (!document.hidden) loadData(); }, 30000);
 
-            // Vidéo de bienvenue
             (async function afficherVideoBienvenue() {
                 try {
                     const uid = currentUser?.id || currentUser?._id;
@@ -5976,9 +5209,11 @@
         document.getElementById('btnOuvrirContact').addEventListener('click', function() {
             document.getElementById('contactModal').style.display = 'flex';
         });
+
         document.getElementById('btnAnnulerContact').addEventListener('click', function() {
             document.getElementById('contactModal').style.display = 'none';
         });
+
         document.getElementById('btnEnvoyerContact').addEventListener('click', async function() {
             const subject = document.getElementById('contactSubject').value.trim();
             const motif = document.getElementById('contactMotif').value;

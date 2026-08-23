@@ -656,7 +656,7 @@
         }
 
         /* =========================================================
-           CHAT - NOUVEAU STYLE AMÉLIORÉ
+           CHAT - CSS REFONDU ET STRUCTURE VISUELLE AMÉLIORÉE
            ========================================================= */
         .chat-layout {
             display: flex;
@@ -693,6 +693,7 @@
             justify-content: space-between;
             align-items: center;
             background: white;
+            flex-shrink: 0;
         }
         [data-theme="dark"] .chat-conv-list .chat-conv-list-header {
             background: #1a2436;
@@ -1280,17 +1281,17 @@
     <!-- NOTIFICATION -->
     <div id="notification"></div>
 
-    <!-- DÉTAIL COMMANDE -->
-    <div class="modal-order-overlay" id="modalOrderOverlay">
-        <div class="modal-order">
-            <h3>📋 Commande <span id="orderModalNumber">—</span></h3>
-            <div class="modal-order-info">
+    <!-- DÉTAIL COMMANDE - Supprimé l'assignation livreur qui était hors place -->
+    <div class="modal-order-overlay" id="modalOrderOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:white;border-radius:24px;padding:1.5rem;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;">
+            <h3 style="margin-bottom:0.5rem;">📋 Commande <span id="orderModalNumber">—</span></h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
                 <div><strong>Client :</strong> <span id="orderModalClient">—</span></div>
                 <div><strong>Statut :</strong> <span id="orderModalStatus" class="status">—</span></div>
                 <div><strong>Total :</strong> <span id="orderModalTotal">—</span></div>
             </div>
-            <div id="orderModalItems"></div>
-            <button id="btnFermerModalOrder" style="width:100%;margin-top:1rem;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Fermer</button>
+            <div id="orderModalItems" style="margin-bottom:1rem;"></div>
+            <button id="btnFermerModalOrder" style="width:100%;padding:0.6rem;border-radius:12px;background:#f1f5f9;font-weight:600;">Fermer</button>
         </div>
     </div>
 
@@ -1645,7 +1646,7 @@
                 <div id="listeClients"><div class="empty-state"><span class="icon">👥</span><span data-translate="seller.noClients">Aucun client</span></div></div>
             </section>
 
-            <!-- MESSAGES -->
+            <!-- MESSAGES - SECTION AVEC CSS ET STRUCTURE VISUELLE CORRIGÉES -->
             <section id="messages" class="card" style="display:none;">
                 <h2>💬 <span data-translate="nav.messages">Messages</span></h2>
                 <p data-translate="seller.messagesSubtitle">Discutez avec vos clients — texte, photos, vidéos, fichiers, localisation, appels.</p>
@@ -2055,7 +2056,7 @@
                 </div>
             </section>
 
-            <!-- PARAMÈTRES -->
+            <!-- PARAMÈTRES - Avec boutons et FAQ corrigés -->
             <section id="parametres" class="card" style="display:none;">
                 <h2>⚙️ <span data-translate="nav.settings">Paramètres</span></h2>
                 <p data-translate="seller.settingsSubtitle">Personnalisez votre compte vendeur.</p>
@@ -3600,11 +3601,11 @@
                     </div>
                 `).join('') || '<p style="color:#94a3b8;font-size:0.85rem;">Aucun article détaillé.</p>';
 
-            document.getElementById('modalOrderOverlay').classList.add('open');
+            document.getElementById('modalOrderOverlay').style.display = 'flex';
         };
 
         document.getElementById('btnFermerModalOrder').addEventListener('click', function() {
-            document.getElementById('modalOrderOverlay').classList.remove('open');
+            document.getElementById('modalOrderOverlay').style.display = 'none';
         });
 
         window.confirmReservation = async function(id) {
@@ -4464,7 +4465,6 @@
             const theme = this.value;
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('sineTheme', theme);
-            // Mettre à jour les champs dynamiques
             const isDark = theme === 'dark';
             document.querySelectorAll('#dynamicAttributesFields input, #dynamicAttributesFields select').forEach(el => {
                 if (isDark) {

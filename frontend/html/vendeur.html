@@ -3799,61 +3799,96 @@
         window.formatPrice = formatPrice;
 
         // =========================================================
-        // NAVIGATION
-        // =========================================================
-        function navigateTo(sectionId) {
-            const container = document.querySelector('.seller-container');
-            if (!container) return;
-            const target = document.getElementById(sectionId);
-            if (!target) {
-                showNotification('❌ Section introuvable', 'error');
-                return;
+// NAVIGATION
+// =========================================================
+function navigateTo(sectionId) {
+    const container = document.querySelector('.seller-container');
+    if (!container) return;
+    
+    const target = document.getElementById(sectionId);
+    if (!target) {
+        showNotification('❌ Section introuvable', 'error');
+        return;
+    }
+    
+    // Récupérer l'élément actif
+    const currentActive = document.querySelector('.menu-link.active[data-section]')?.dataset.section;
+    
+    // Si on clique sur la section déjà active, on la ferme (toggle)
+    if (currentActive === sectionId) {
+        document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+        container.classList.remove('section-open');
+        return;
+    }
+
+    // Cacher toutes les sections SAUF l'accueil si on veut un comportement spécifique
+    document.querySelectorAll('.card').forEach(c => {
+        // On cache tout
+        c.style.display = 'none';
+    });
+    
+    // Afficher la section cible
+    target.style.display = 'block';
+
+    // Mettre à jour les liens actifs
+    document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+    const activeLink = document.querySelector(`.menu-link[data-section="${sectionId}"]`);
+    if (activeLink) {
+        activeLink.classList.add('active');
+    }
+
+    container.classList.add('section-open');
+    
+    // Si c'est la section messages, rafraîchir la liste
+    if (sectionId === 'messages' && window.sineChat) {
+        setTimeout(() => {
+            if (typeof window.sineChat.renderConversationList === 'function') {
+                window.sineChat.renderConversationList();
             }
-            const currentActive = document.querySelector('.menu-link.active[data-section]')?.dataset.section;
-            const isOpen = container.classList.contains('section-open');
+        }, 100);
+    }
+}
+window.navigateTo = navigateTo;
 
-            if (isOpen && currentActive === sectionId) {
-                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-                document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
-                container.classList.remove('section-open');
-                return;
-            }
+// =========================================================
+// AFFICHAGE PAR DEFAUT - ACCUEIL
+// =========================================================
+document.addEventListener('DOMContentLoaded', function() {
+    // Cacher toutes les sections d'abord
+    document.querySelectorAll('.card').forEach(function(c) {
+        c.style.display = 'none';
+    });
+    
+    // Afficher uniquement l'accueil
+    const accueil = document.getElementById('accueil');
+    if (accueil) {
+        accueil.style.display = 'block';
+    }
+    
+    // Activer le lien Accueil
+    const homeLink = document.querySelector('.menu-link[data-section="accueil"]');
+    if (homeLink) {
+        homeLink.classList.add('active');
+    }
+    
+    // Ajouter la classe section-open
+    const container = document.querySelector('.seller-container');
+    if (container) {
+        container.classList.add('section-open');
+    }
+});
 
-            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-            target.style.display = 'block';
-
-            document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
-            const activeLink = document.querySelector(`.menu-link[data-section="${sectionId}"]`);
-            if (activeLink) activeLink.classList.add('active');
-
-            container.classList.add('section-open');
-            if (sectionId === 'messages' && window.sineChat) {
-                setTimeout(() => window.sineChat.renderConversationList(), 100);
-            }
+// Gestionnaires de clic sur les menus
+document.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const section = this.dataset.section;
+        if (section) {
+            navigateTo(section);
         }
-        window.navigateTo = navigateTo;
-
-        // =========================================================
-        // AFFICHAGE PAR DEFAUT - ACCUEIL
-        // =========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.card').forEach(function(c) {
-                if (c.id !== 'accueil') {
-                    c.style.display = 'none';
-                } else {
-                    c.style.display = 'block';
-                }
-            });
-            document.querySelector('.seller-container')?.classList.add('section-open');
-        });
-
-        document.querySelectorAll('.menu-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const section = this.dataset.section;
-                if (section) navigateTo(section);
-            });
-        });
+    });
+});
 
         // =========================================================
         // CHARGEMENT DES DONNEES
